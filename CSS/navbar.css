@@ -1,0 +1,54 @@
+.nav {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: white;
+}
+.nav .container .logo-section {
+  align-items: center;
+  gap: 8px;
+}
+.nav .container .logo-section #brand-icon {
+  width: 36px;
+  height: 36px;
+}
+.nav .container .logo-section #title {
+  background-color: transparent;
+}
+.nav .container .menu-section-div .search-div {
+  gap: 2px;
+  border-radius: 6px;
+  background-color: whitesmoke;
+}
+.nav .container .menu-section-div .search-div i {
+  padding-left: 6px;
+}
+.nav .container .menu-section-div .search-div input {
+  font-size: 12px;
+  height: 30px;
+  width: 180px;
+  padding-left: 6px;
+  padding-right: 6px;
+  background-color: transparent;
+  outline: none;
+}
+.nav .container .menu-section-div .cart-div {
+  width: 24px;
+}
+.nav .container .menu-section-div .cart-div .cart-count-div {
+  position: relative;
+  top: -10px;
+  left: -6px;
+}
+.nav .container .menu-section-div .cart-div .cart-count-div #cart-counter {
+  font-size: 13px;
+  color: red;
+}
+.nav .container .form-select {
+  height: 32px;
+  width: 65px;
+  font-size: 12px;
+}/*# sourceMappingURL=navbar.css.map */

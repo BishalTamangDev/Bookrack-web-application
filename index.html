@@ -1,16 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Bookrack </title>
+
+    <!-- title -->
+    <title> Bookrack - Home </title>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="css/bootstrap-css/bootstrap.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
+
 <body>
-    
+    <!-- navbar -->
+    <div class="nav border-bottom">
+        <div class="container d-flex flex-row p-2 justify-content-between align-items-center">
+            <!-- logo section -->
+            <div class="d-flex flex-row logo-section">
+                <img src="Assets/Brand/bookrack-logo-black.png" alt="" id="brand-icon">
+                <p class="f-reset fs-5 fw-bold text-dark" id="title"> bookrack </p>
+            </div>
+
+            <!-- menu section -->
+            <div class="d-flex flex-row menu-section-div align-items-center">
+                <!-- search icon -->
+                <div class="d-flex flex-row align-items-center search-div p-0">
+                    <i class="fa fa-search"> </i>
+                    <input type="text" class="border-0" placeholder="What do you want to read?">
+                </div>
+
+                <!-- theme -->
+                <div class="d-flex flex-row theme-div m-2">
+                    <i class="fa fa-moon"></i>
+                    <p class="d-none"> Dark theme </p>
+                </div>
+
+                <!-- cart -->
+                <div class="d-flex flex-row cart-div m-2">
+                    <i class="fa fa-shopping-cart"></i>
+                    <p class="d-none"> My Cart </p>
+                    <div class="d-flex flex-row cart-count-div align-items-center">
+                        <p class="f-reset m-auto" id="cart-counter"> 9+ </p>
+                    </div>
+                </div>
+
+                <!-- language -->
+                <div class="d-flex flex-row language-div m-2">
+                    <i class="fa fa-globe"> </i>
+                </div>
+
+                <select class="form-select" aria-label="Default select example">
+                    <option value="english" selected> EN </option>
+                    <option value="nepali"> NP </option>
+                </select>
+            </div>
+
+            <!-- hamburger menu -->
+            <div class="hamburger-menu d-none">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- landing section -->
+    <div class="d-flex flex-row container justify-content-between landing-section">
+        <div class="d-flex flex-column detail-section">
+            <p class=" f-reset fs-1 fw-bold">Something title</p>
+            <p class="f-reset fs-5">
+                Lorem ipsum dolor ssadsu uasda asasdbsysgds siwewdsc as asias culpa alias gds siwewdsc as asias culpa al
+                consequatur, voluptas, molestias deserunt explicabo quisquam velit nemo qui ratione! Aut iusto omnis
+                possimus.
+            </p>
+            <button class="btn btn-warning  text-light"> Register Now </button>
+        </div>
+        <!-- image section -->
+        <div class="d-flex flex-row image-section">
+            <div class="d-flex flex-column left">
+                <div class="left-top-container">
+                    <img src="assets/Images/book-3.jpg" alt="" id="landing-left-top-image">
+                </div>
+                <div class="left-bottom-container">
+                    <img src="assets/Images/book-1.jpg" alt="" id="landing-left-bottom-image">
+                </div>
+            </div>
+
+            <div class="d-flex flex-row right">
+                <div class="right-container">
+                    <img src="assets/Images/book-2.jpg" alt="" id="landing-right-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- application features -->
+    <div class="d-flex flex-column container section feature-section">
+        <!-- title -->
+        <p class="f-reset fw-bold fs-4 title"> What do we offer? </p>
+
+        <!-- description -->
+        <p class="f-reset text-muted description"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
+            necessitatibus eligendi architecto atque dicta molestiae voluptas vitae eius magni delectus nesciunt quo,
+            saepe exercitationem modi illo possimus suscipit quos libero. </p>
+
+        <!-- feature cards -->
+        <div class="d-flex flex-row feature-card-container gap-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/Images/book-1.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"> Feature 1 </h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-warning"> Offer Now </a>
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/Images/book-2.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"> Feature 2 </h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-warning"> Rent Now </a>
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/Images/book-3.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"> Feature 3 </h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-outline-warning">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- book genres -->
+    <div class="d-flex flex-column container section genre-section">
+        <!-- title -->
+        <p class="f-reset fw-bold fs-6 title"> Genres </p>
+
+        <!-- description -->
+        <p class="f-reset text-muted description"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
+            necessitatibus eligendi architecto atque dicta molestiae voluptas vitae eius magni delectus nesciunt quo,
+            saepe exercitationem modi illo possimus suscipit quos libero. </p>
+
+        <!-- feature cards -->
+        <div class="d-flex flex-row genre-card-container gap-5">
+            <!-- genre 1 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/mystery.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Mystery </p>
+                </div>
+            </div>
+
+            <!-- genre 2 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/romance.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Romance </p>
+                </div>
+            </div>
+
+            <!-- genre 3 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/fantasy.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Fantasy </p>
+                </div>
+            </div>
+
+            <!-- genre 4 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/sci-fi.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Science </p>
+                </div>
+            </div>
+
+            <!-- genre 5 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/Genre/history.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Historical Fiction </p>
+                </div>
+            </div>
+
+            <!-- genre 6 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/horror.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Horror </p>
+                </div>
+            </div>
+
+            <!-- genre 7 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/Genre/chilren's.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Children's </p>
+                </div>
+            </div>
+
+            <!-- genre 8 -->
+            <div class="genre-card">
+                <div class="top">
+                    <img src="assets/Icons/genre/thriller.png" alt="">
+                </div>
+                <div class="bottom">
+                    <p class="f-reset"> Thriller </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="d-flex flex-column gap-4 container section footer">
+        <!-- physical shop location -->
+        <div class="d-flex flex-row justify-content-between main-footer">
+            <!-- physical location -->
+            <div class="d-flex flex-column physical-location-section">
+                <!-- title -->
+                <p class="f-reset fw-bold"> Our Physical Location </p>
+                <!-- content -->
+                <div class="d-flex flex-row gap-2 content">
+                    <div class="left">
+                        <i class="fa fa-map-pin"></i>
+                    </div>
+
+                    <div class="d-flex flex-column right">
+                        <p class="f-reset shop-name"> Bookrack Book Shop </p>
+                        <p class="f-reset shop-location"> Bansbari, Kathmandu </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- quick links -->
+            <div class="main-footer-content-section">
+                <!-- title -->
+                <p class="f-reset fw-bold"> Quick Links </p>
+
+                <!-- content -->
+                <div class="d-flex flex-row content">
+                    <ul list-style-type="none">
+                        <li><a href=""> Book Offer </a></li>
+                        <li><a href=""> Book request </a></li>
+                        <li><a href=""> New Arrival </a></li>
+                        <li><a href=""> Blogs </a></li>
+                        <li><a href=""> Shipping Rates </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- about -->
+            <div class="main-footer-content-section">
+                <!-- title -->
+                <p class="f-reset fw-bold"> About Us </p>
+                <!-- content -->
+                <div class="d-flex flex-row gap-2 content">
+                    <ul>
+                        <li><a href=""> Company </a></li>
+                        <li><a href=""> Features </a></li>
+                        <li><a href=""> Objectoves </a></li>
+                        <li><a href=""> Contact </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- popular genres -->
+            <div class="main-footer-content-section">
+                <!-- title -->
+                <p class="f-reset fw-bold"> Popular Genres </p>
+                <!-- content -->
+                <div class="d-flex flex-row gap-2 content">
+                    <ul>
+                        <li><a href=""> History </a></li>
+                        <li><a href=""> Art </a></li>
+                        <li><a href=""> Sci-Fi </a></li>
+                        <li><a href=""> Nightmare </a></li>
+                        <li><a href=""> Something </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- mobile application -->
+            <div class="d-flex flex-column mobile-app-section gap-2">
+                <!-- title -->
+                <p class="f-reset fw-bold"> Get Bookrack in <br> Your Pocket </p>
+                <!-- content -->
+                <div class="d-flex flex-column gap-2 content-container">
+                    <!-- android -->
+                    <div class="content">
+                        <div class="left">
+                            <i class="fa-brands fa-google-play"></i>
+                        </div>
+                        <div class="right">
+                            <p class="f-reset"> GET IT ON </p>
+                            <p class="f-reset"> Google Play </p>
+                        </div>
+                    </div>
+                    
+                    <!-- ios -->
+                    <div class="content">
+                        <div class="left">
+                            <i class="fa-brands fa-apple text-light"></i>
+                        </div>
+                        <div class="right">
+                            <p class="f-reset"> GET IT ON </p>
+                            <p class="f-reset"> App Store </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- social media connection -->
+        <div class="d-flex flex-column social-media-section align-items-center gap-2">
+            <div class="top">
+                <p class="f-reset"> Connect us on </p>
+            </div>
+
+            <div class="d-flex flex-row gap-2 bottom">
+                <a href="">
+                    <i class="fa-brands fa-facebook-square fs-3 text-dark"></i>
+                </a>
+
+                <a href="">
+                    <i class="fa-brands fa-instagram-square fs-3 text-dark"></i>
+                </a>
+
+                <a href="">
+                    <i class="fa-brands fa-twitter-square fs-3 text-dark"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- payment options -->
+        <div class="d-flex flex-column payment-partner-section align-items-center gap-2">
+            <!-- payment partner -->
+            <!-- esewa -->
+            <div class="d-flex flex-row payment-partner align-items-center gap-3">
+                <p class="f-reset fs-6"> Our payment partner </p>
+                <div class="partner-container px-2 border border-1 rounded">
+                    <img src="assets/Logos/esewa-logo.webp" alt="">
+                </div>
+            </div>
+        </div>
+
+        <!-- copyright section -->
+        <div class="d-flex flex-column copyright-section align-items-center mb-4">
+            <p class="f-reset"> © Copyright protected by Bookrack, 2024️ </p>
+        </div>
+    </div>
+
     <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- <script src="js/bootstrap-js/bootstrap.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 </body>
+
 </html>

@@ -7,6 +7,8 @@ html {
 }
 
 :root {
+    --brand-color: rgb(240, 134, 36);
+
     // base color
     --base-color: #5454C7;
     --base-light-color: #CCCCFF;
@@ -15,7 +17,6 @@ html {
     // new
     --base-color: rgb(23, 101, 227);
     --base-dark-color: rgb(17, 80, 182);
-
 
     // secondary colors
     --warning-color: #C79D54;
@@ -63,6 +64,10 @@ html {
     box-sizing: border-box;
 }
 
+a{
+    text-decoration: none;
+}
+
 abbr {
     text-decoration: none;
 }
@@ -71,5 +76,18 @@ body {
     margin: 0 auto;
     position: relative;
     box-sizing: inherit;
-    font-family: "Helvetica", sans-serif;
+    font-family: "Poppins", sans-serif;
+}
+
+.input[type="text"]{
+    background-color: red;
+}
+
+.f-reset{
+    padding: 0;
+    margin: 0;
+}
+
+.section{
+    margin-top: 60px;
 }

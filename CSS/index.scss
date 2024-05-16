@@ -1,0 +1,178 @@
+.landing-section {
+    overflow: hidden;
+    gap: 10px;
+    margin-top: 100px;
+
+    .detail-section {
+        width: 50%;
+        row-gap: 1rem;
+        .btn {
+            width: 200px;
+            background-color: var(--brand-color);
+        }
+    }
+
+    .image-section {
+        width: 50%;
+        column-gap: 10px;
+
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .left {
+            row-gap: 10px;
+            width: 20%;
+
+            .left-top-container {
+                // width: 60%;
+                height: 40%;
+
+                img {
+                    float: right;
+                    width: 60%;
+                }
+            }
+
+            .left-bottom-container {
+                height: 60%;
+            }
+        }
+
+        .right {
+            width: 80%;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// feature section
+.feature-section {
+    row-gap: 1rem;
+
+    .description {
+        font-size: 0.9rem;
+    }
+
+    .feature-card-container{
+        .card{
+            z-index: 1;
+        }
+    }
+}
+
+// genre section
+.genre-section {
+    row-gap: 1rem;
+    .genre-card-container {
+        .genre-card {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 80px;
+            row-gap: 10px;
+
+            .top {
+                width: 100%;
+                height: 80px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                border-radius: 100%;
+                background-color: whitesmoke;
+
+                img {
+                    margin: auto;
+                    height: 60%;
+                    width: 60%;
+                    object-fit: cover;
+                }
+            }
+
+            .bottom {
+                p {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+// footer section
+.footer {
+    .main-footer {
+        // physical location
+        .physical-location-section {
+            row-gap: 6px;
+            .content {
+                align-items: center;
+                p {
+                    font-size: 14px;
+                }
+
+                .shop-name {
+                    font-weight: 500;
+                }
+
+                .shop-location {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        // quick links
+        .main-footer-content-section{
+            ul{
+                margin-top: 10px;
+                padding: 0;
+                list-style-type: none;
+                li{
+                    a{
+                        color: black;
+                    }
+                }
+            }
+        }
+
+        // mobile app links
+        .mobile-app-section {
+            .content-container {
+                .content {
+                    padding: 8px;
+                    border-radius: 6px;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 8px;
+                    background-color: black;
+                    align-items: center;
+                    i,
+                    p {
+                        color: white;
+                    }
+
+                    i{
+                        font-size: 20px;
+                    }
+
+                    p:nth-child(odd) {
+                        font-size: 10px;
+                    }
+                    p:nth-child(even) {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    .payment-partner-section{
+        img{
+            width: 90px;
+        }
+    }
+}
