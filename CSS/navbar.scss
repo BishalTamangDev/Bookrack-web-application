@@ -6,10 +6,12 @@
     width: 100%;
     z-index: 100;
     background-color: white;
+
     .container {
         .logo-section {
             align-items: center;
             gap: 8px;
+
             #brand-icon {
                 width: 36px;
                 height: 36px
@@ -25,10 +27,11 @@
                 gap: 2px;
                 border-radius: 6px;
                 background-color: whitesmoke;
-                i{
+
+                i {
                     padding-left: 6px;
                 }
-                
+
                 input {
                     font-size: 12px;
                     height: 30px;
@@ -41,13 +44,15 @@
             }
 
             // cart
-            .cart-div{
+            .cart-div {
                 width: 24px;
-                .cart-count-div{
+
+                .cart-count-div {
                     position: relative;
                     top: -10px;
                     left: -6px;
-                    #cart-counter{
+
+                    #cart-counter {
                         font-size: 13px;
                         color: red;
                     }
@@ -55,10 +60,12 @@
             }
         }
 
-        .form-select {
-            height: 32px;
-            width: 65px;
-            font-size: 12px;
+        .signin-btn {
+            background-color: var(--brand-color);
+            border: none;
+            color: white;
+            font-size: 14px;
+            padding: 6px 12px;
         }
     }
 }

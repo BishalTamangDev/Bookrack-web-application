@@ -47,8 +47,10 @@
   font-size: 13px;
   color: red;
 }
-.nav .container .form-select {
-  height: 32px;
-  width: 65px;
-  font-size: 12px;
+.nav .container .signin-btn {
+  background-color: var(--brand-color);
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 6px 12px;
 }/*# sourceMappingURL=navbar.css.map */
