@@ -1,0 +1,22 @@
+.table-top-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .search-container {
+        display: flex;
+        flex-direction: row;
+
+        .search-icon-div {
+            padding: 2px 16px;
+            background-color: black;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            i{
+                color: white;
+            }
+        }
+    }
+}

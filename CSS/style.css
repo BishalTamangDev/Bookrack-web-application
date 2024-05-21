@@ -1,6 +1,13 @@
+* {
+  font-family: "Helvetica", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
   height: 100%;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
@@ -21,14 +28,7 @@ html {
   --neutral-normal-color: #4B4B4B;
   --neutral-dark-color: #1A1A1A;
   --shadow-color: rgb(230, 230, 230);
-  /* font family */
   /* font size */
-  --fs-small: 0.75rem;
-  --fs-form: 0.95rem;
-  --fs-normal: 1rem;
-  --fs-large: 1.25rem;
-  --fs-larger: 1.75rem;
-  --fs-largest: 2rem;
   --fs-small: 0.75rem;
   --fs-form: 0.95rem;
   --fs-normal: 1rem;
@@ -37,13 +37,6 @@ html {
   --fs-largest: 2rem;
   /* shadow */
   --shadow-style: -2px 2px 4px 0 var(--shadow-color);
-}
-
-* {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 a {
@@ -58,7 +51,6 @@ body {
   margin: 0 auto;
   position: relative;
   box-sizing: inherit;
-  font-family: "Poppins", sans-serif;
 }
 
 .input[type=text] {
@@ -72,8 +64,16 @@ body {
 
 .section {
   margin-top: 60px;
+  margin-top: 30px;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.table {
+  width: 100%;
+}
+.table #table-foot tr td {
+  text-align: center;
 }/*# sourceMappingURL=style.css.map */
