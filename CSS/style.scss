@@ -1,6 +1,14 @@
+* {
+    font-family: "Helvetica", sans-serif;
+    // font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
-    font-size: 16px;
+    font-size: 14px;
     box-sizing: border-box;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
@@ -31,20 +39,7 @@ html {
 
     --shadow-color: rgb(230, 230, 230);
 
-    /* font family */
-    // --web-font: "Helvetica", sans-serif;
-    // --web-font: "Poppins", sans-serif;
-
     /* font size */
-    --fs-small: 0.75rem;
-    --fs-form: 0.95rem;
-    --fs-normal: 1rem;
-    --fs-large: 1.25rem;
-    --fs-larger: 1.75rem;
-    --fs-largest: 2rem;
-
-
-    // try
     --fs-small: 0.75rem;
     --fs-form: 0.95rem;
     --fs-normal: 1rem;
@@ -56,13 +51,6 @@ html {
     --shadow-style: -2px 2px 4px 0 var(--shadow-color);
 }
 
-* {
-    // font-family: "Helvetica", sans-serif;
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 a{
     text-decoration: none;
@@ -76,7 +64,6 @@ body {
     margin: 0 auto;
     position: relative;
     box-sizing: inherit;
-    font-family: "Poppins", sans-serif;
 }
 
 .input[type="text"]{
@@ -90,8 +77,22 @@ body {
 
 .section{
     margin-top: 60px;
+    margin-top: 30px;
 }
 
 .pointer{
     cursor: pointer;
+}
+
+// overriding bootstrap classes
+// table class
+.table{
+    width: 100%;
+    #table-foot{
+        tr{
+            td{
+                text-align: center;
+            }
+        }
+    }
 }

@@ -1,5 +1,21 @@
 body {
-    background-color: whitesmoke;
+    display: flex;
+}
+
+.body-content{
+    .empty-aside{
+        min-width: 220px;
+        max-width: 220px;
+        height: 100vh;
+        background-color: rgb(26, 26, 26);
+    }
+    .main-content{
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        width: 100%;
+        // background-color: wheat;
+    }
 }
 
 .aside-container {
