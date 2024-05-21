@@ -2,6 +2,9 @@ body {
   display: flex;
 }
 
+.body-content {
+  width: 100%;
+}
 .body-content .empty-aside {
   min-width: 220px;
   max-width: 220px;
