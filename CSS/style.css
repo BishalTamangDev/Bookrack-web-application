@@ -74,6 +74,10 @@ body {
 .table {
   width: 100%;
 }
+.table tbody tr td:hover {
+  background-color: whitesmoke;
+}
 .table #table-foot tr td {
+  color: var(--brand-color);
   text-align: center;
 }/*# sourceMappingURL=style.css.map */

@@ -88,9 +88,21 @@ body {
 // table class
 .table{
     width: 100%;
+
+    tbody{
+        tr{
+            td{
+                &:hover{
+                    background-color: whitesmoke;
+                }
+            }
+        }
+    }
+
     #table-foot{
         tr{
             td{
+                color: var(--brand-color);
                 text-align: center;
             }
         }

@@ -52,13 +52,36 @@
 
             <!-- table to section -->
             <div class="section table-top-section">
-                <!-- table title -->
-                <p class="f-reset fw-bold" id="table-title"> All Users </p>
+                <div class="filter-div">
+                    <i class="fa fa-filter" id="filter-icon"></i>
+                
+                    <!-- account state -->
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="0" selected hidden> Account State </option>
+                        <option value="1"> All </option>
+                        <option value="2"> Active </option>
+                        <option value="3"> Inactive </option>
+                    </select>
+                
+                    <!-- contribution -->
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="0" selected hidden> Contribution </option>
+                        <option value="1"> All </option>
+                        <option value="2"> Contributor </option>
+                        <option value="3"> Not-contributor </option>
+                    </select>
+                
+                    <!-- clear filter -->
+                    <div class="clear-filter-div" id="clear-filter">
+                        <p class="f-reset"> Clear </p>
+                        <i class="fa fa-multiply"></i>
+                    </div>
+                </div>
 
                 <!-- search section -->
                 <div class="search-container">
-                    <input type="text">
-                    <div class="search-icon-div" placeholder="search user">
+                    <input type="text" placeholder="search user">
+                    <div class="search-icon-div">
                         <i class="fa fa-search"> </i>         
                     </div>    
                 </div>
@@ -66,6 +89,7 @@
 
             <!-- user table -->
             <table class="table user-table">
+                <!-- table heading -->
                 <thead>
                     <tr>
                         <th scope="col"> S.N. </th>
@@ -79,8 +103,11 @@
                         <th scope="col"> Account State </th>
                     </tr>
                 </thead>
+
+                <!-- table data -->
                 <tbody>
-                    <tr>
+                    <!-- dummy data -->
+                    <tr class="active-user-row contributor-row">
                         <th scope="row"> 1 </th>
                         <td> 124745 </td>
                         <td> Bishal Tamang </td>
@@ -92,7 +119,7 @@
                         <td> Active </td>
                     </tr>
                     
-                    <tr>
+                    <tr class="active-user-row not-contributor-row">
                         <th scope="row"> 2 </th>
                         <td> 456789 </td>
                         <td> Rupak Dangi </td>
@@ -104,7 +131,7 @@
                         <td> Inactive </td>
                     </tr>
 
-                    <tr>
+                    <tr class="inactive-user-row contributor-row">
                         <th scope="row"> 3 </th>
                         <td> 159482 </td>
                         <td> Shristi Pradhan </td>
@@ -117,9 +144,10 @@
                     </tr>
                 </tbody>
 
+                <!-- table footer -->
                 <tfoot id="table-foot">
                     <tr>
-                        <td colspan="9"> Empty! </td>
+                        <td colspan="9"> No users found! </td>
                     </tr>
                 </tfoot>
             </table>
