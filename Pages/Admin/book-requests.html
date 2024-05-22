@@ -58,8 +58,25 @@
 
             <!-- table to section -->
             <div class="section table-top-section">
-                <!-- table title -->
-                <p class="f-reset fw-bold" id="table-title"> All Requests </p>
+                <!-- filter div -->
+                <div class="filter-div">
+                    <!-- filter icon -->
+                    <i class="fa fa-filter" id="filter-icon"></i>
+                
+                    <!-- book status -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Book status </option>
+                        <option value="1"> All </option>
+                        <option value="2"> Accepted </option>
+                        <option value="3"> Rejected </option>
+                    </select>
+                
+                    <!-- clear filter -->
+                    <div class="clear-filter-div" id="clear-filter">
+                        <p class="f-reset"> Clear </p>
+                        <i class="fa fa-multiply"></i>
+                    </div>
+                </div>
 
                 <!-- search section -->
                 <div class="search-container">
@@ -72,6 +89,7 @@
 
             <!-- book table -->
             <table class="table user-table">
+                <!-- heading -->
                 <thead>
                     <tr>
                         <th scope="col"> Book ID </th>
@@ -84,19 +102,21 @@
                         <th scope="col"> Book State </th>
                     </tr>
                 </thead>
+
+                <!-- body -->
                 <tbody>
-                    <tr>
+                    <tr class="request-row accepted-row rejected-row ">
                         <th scope="row"> 124745 </th>
                         <td> Bishal Tamang </td>
                         <td> 978-1-84356-028-9 </td>
                         <td> To Kill a Mockingbird </td>
-                        <td>Fiction, Classic, Historical</td>
-                        <td>Harper Lee</td>
-                        <td>Bishal Tamang</td>
-                        <td>On Rent</td>
+                        <td> Fiction, Classic, Historical </td>
+                        <td> Harper Lee </td>
+                        <td> Bishal Tamang </td>
+                        <td> Accepted </td>
                     </tr>
 
-                    <tr>
+                    <tr class="request-row accepted-row rejected-row ">
                         <th scope="row"> 456789 </th>
                         <td> Rupak Dangi </td>
                         <td> 978-0-596-52068-7 </td>
@@ -104,10 +124,10 @@
                         <td> Dystopian, Science Fiction, Political Fiction </td>
                         <td> George Orwell </td>
                         <td> Rupak Dangi </td>
-                        <td> On rent </td>
+                        <td> Rejected </td>
                     </tr>
 
-                    <tr>
+                    <tr class="request-row accepted-row rejected-row ">
                         <th scope="row"> 159482 </th>
                         <td> Shristi Pradhan </td>
                         <td> 978-3-16-148410-0 </td>
@@ -115,13 +135,14 @@
                         <td> Fiction, Classic, Tragedy </td>
                         <td> F. Scott Fitzgerald </td>
                         <td> Shristi Pradhan </td>
-                        <td> On stock </td>
+                        <td> Accepted </td>
                     </tr>
                 </tbody>
 
+                <!-- footer -->
                 <tfoot id="table-foot">
                     <tr>
-                        <td colspan="9"> Empty! </td>
+                        <td colspan="9"> No book request yet! </td>
                     </tr>
                 </tfoot>
             </table>

@@ -23,7 +23,6 @@
     <link rel="stylesheet" href="../../CSS/Admin/admin.css">
     <link rel="stylesheet" href="../../CSS/Admin/aside.css">
     <link rel="stylesheet" href="../../CSS/Admin/books.css">
-
 </head>
 
 <body>
@@ -53,20 +52,57 @@
 
             <!-- table to section -->
             <div class="section table-top-section">
-                <!-- table title -->
-                <p class="f-reset fw-bold" id="table-title"> All Books </p>
+                <!-- filter -->
+                <div class="filter-div">
+                    <i class="fa fa-filter" id="filter-icon"></i>
+                    
+                    <!-- rent / stock -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Book status </option>
+                        <option value="1"> All </option>
+                        <option value="2"> On Rent </option>
+                        <option value="3"> On Stock </option>
+                    </select>
+
+                    <!-- genre -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Genre </option>
+                        <option value="1"> All </option>
+                        <option value="2"> Genre 1  </option>
+                        <option value="3"> Genre 2 </option>
+                        <option value="4"> Genre 3 </option>
+                        <option value="5"> Genre 4 </option>
+                        <option value="6"> Genre 5 </option>
+                    </select>
+
+                    <!-- language -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Language </option>
+                        <option value="1"> All </option>
+                        <option value="2"> English </option>
+                        <option value="3"> Nepali </option>
+                        <option value="4"> Hindi </option>
+                    </select>
+                
+                    <!-- clear filter -->
+                    <div class="clear-filter-div" id="clear-filter">
+                        <p class="f-reset"> Clear </p>
+                        <i class="fa fa-multiply"></i>
+                    </div>
+                </div>
 
                 <!-- search section -->
                 <div class="search-container">
-                    <input type="text">
+                    <input type="text" placeholder="search book">
                     <div class="search-icon-div">
-                        <i class="fa fa-search"> </i>
-                    </div>
+                        <i class="fa fa-search"> </i>         
+                    </div>    
                 </div>
             </div>
 
             <!-- book table -->
             <table class="table user-table">
+                <!-- header -->
                 <thead>
                     <tr>
                         <th scope="col"> Book ID </th>
@@ -79,8 +115,11 @@
                         <th scope="col"> Book State </th>
                     </tr>
                 </thead>
+
+                <!-- body -->
                 <tbody>
-                    <tr>
+                    <!-- dummy data -->
+                    <tr class="book-row on-rent-row on-stock-row">
                         <th scope="row"> 124745 </th>
                         <td> 978-1-84356-028-9 </td>
                         <td> To Kill a Mockingbird </td>
@@ -91,7 +130,7 @@
                         <td>On Rent</td>
                     </tr>
 
-                    <tr>
+                    <tr class="book-row on-rent-row on-stock-row">
                         <th scope="row"> 456789 </th>
                         <td> 978-0-596-52068-7 </td>
                         <td> 1984 </td>
@@ -102,7 +141,7 @@
                         <td> On rent </td>
                     </tr>
 
-                    <tr>
+                    <tr class="book-row on-rent-row on-stock-row">
                         <th scope="row"> 159482 </th>
                         <td> 978-3-16-148410-0 </td>
                         <td> The Great Gatsby </td>
@@ -114,9 +153,10 @@
                     </tr>
                 </tbody>
 
+                <!-- footer -->
                 <tfoot id="table-foot">
                     <tr>
-                        <td colspan="9"> Empty! </td>
+                        <td colspan="9"> No book found! </td>
                     </tr>
                 </tfoot>
             </table>

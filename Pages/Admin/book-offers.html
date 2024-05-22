@@ -58,20 +58,47 @@
 
             <!-- table to section -->
             <div class="section table-top-section">
-                <!-- table title -->
-                <p class="f-reset fw-bold" id="table-title"> All Offers </p>
+                <!-- filter div -->
+                <div class="filter-div">
+                    <!-- filter icon -->
+                    <i class="fa fa-filter" id="filter-icon"></i>
+                
+                    <!-- book status -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Book status </option>
+                        <option value="1"> All </option>
+                        <option value="2"> Accepted </option>
+                        <option value="3"> Rejected </option>
+                    </select>
+                
+                    <!-- language -->
+                    <select class="form-select" aria-label="select">
+                        <option value="0" selected hidden> Language </option>
+                        <option value="1"> All </option>
+                        <option value="2"> English </option>
+                        <option value="3"> Nepali </option>
+                        <option value="4"> Hindi </option>
+                    </select>
+                
+                    <!-- clear filter -->
+                    <div class="clear-filter-div" id="clear-filter">
+                        <p class="f-reset"> Clear </p>
+                        <i class="fa fa-multiply"></i>
+                    </div>
+                </div>
 
                 <!-- search section -->
                 <div class="search-container">
-                    <input type="text" placeholder="search book">
-                    <div class="search-icon-div">
-                        <i class="fa fa-search"> </i>
-                    </div>
+                    <input type="text">
+                    <div class="search-icon-div" placeholder="search user">
+                        <i class="fa fa-search"> </i>         
+                    </div>    
                 </div>
             </div>
 
             <!-- book table -->
             <table class="table user-table">
+                <!-- heading -->
                 <thead>
                     <tr>
                         <th scope="col"> Book ID </th>
@@ -84,8 +111,11 @@
                         <th scope="col"> Book State </th>
                     </tr>
                 </thead>
+
+                <!-- body -->
                 <tbody>
-                    <tr>
+                    <!-- dummy data -->
+                    <tr class="book-row accepted-row english-row">
                         <th scope="row"> 124745 </th>
                         <td> 978-1-84356-028-9 </td>
                         <td> To Kill a Mockingbird </td>
@@ -96,32 +126,33 @@
                         <td>On Rent</td>
                     </tr>
 
-                    <tr>
+                    <tr class="book-row accepted-row nepali-row">
                         <th scope="row"> 456789 </th>
                         <td> 978-0-596-52068-7 </td>
                         <td> 1984 </td>
                         <td> Dystopian, Science Fiction, Political Fiction </td>
                         <td> George Orwell </td>
-                        <td> English </td>
+                        <td> Nepali </td>
                         <td> Rupak Dangi </td>
                         <td> On rent </td>
                     </tr>
 
-                    <tr>
+                    <tr class="book-row rejected-row hindi-row">
                         <th scope="row"> 159482 </th>
                         <td> 978-3-16-148410-0 </td>
                         <td> The Great Gatsby </td>
                         <td> Fiction, Classic, Tragedy </td>
                         <td> F. Scott Fitzgerald </td>
-                        <td> English </td>
+                        <td> Hindi </td>
                         <td> Shristi Pradhan </td>
                         <td> On stock </td>
                     </tr>
                 </tbody>
 
+                <!-- footer -->
                 <tfoot id="table-foot">
                     <tr>
-                        <td colspan="9"> Empty! </td>
+                        <td colspan="9"> No book offer yet! </td>
                     </tr>
                 </tfoot>
             </table>

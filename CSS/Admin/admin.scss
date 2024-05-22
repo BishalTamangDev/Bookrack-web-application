@@ -1,4 +1,4 @@
-// table top section - table detail & search
+// table top section - filter & search
 .table-top-section {
     display: flex;
     flex-direction: row;
@@ -6,13 +6,60 @@
     align-items: center;
     margin-bottom: 10px;
 
+    // filter
+    .filter-div {
+        display: flex;
+        gap: 6px;
+        flex-direction: row;
+        align-items: center;
+
+        #filter-icon{
+            color: grey;
+            margin-right: 5px;
+        }
+
+        select {
+            line-height: 14px;
+            width: auto;
+        }
+
+        .clear-filter-div {
+            display: flex;
+            flex-direction: row;
+            text-wrap: nowrap;
+            align-items: center;
+            gap: 8px;
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid rgb(211, 211, 211);
+            cursor: pointer;
+
+            i {
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+        }
+
+    }
+
     .search-container {
         display: flex;
         flex-direction: row;
 
+        input{
+            padding: 2px 6px;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            border: 1px solid rgb(233, 233, 233);
+        }
+
         .search-icon-div {
-            padding: 2px 16px;
+            cursor: pointer;
+            display: flex;
+            padding: 0px 16px;
+            align-items: center;
             background-color: black;
+            background-color: var(--brand-color);
             border-top-right-radius: 6px;
             border-bottom-right-radius: 6px;
 
@@ -21,6 +68,7 @@
             }
         }
     }
+
 }
 
 .card-container {
@@ -45,7 +93,7 @@
         margin: 0;
     }
 
-    .card-v1-title{
+    .card-v1-title {
         color: grey;
     }
 
