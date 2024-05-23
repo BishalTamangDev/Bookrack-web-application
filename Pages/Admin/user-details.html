@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- title -->
+    <title> User Detail </title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- local bootstrap -->
+    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        
+    <!-- css files -->
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
+    <link rel="stylesheet" href="../../CSS/Admin/user-detail.css">
+</head>
+
+<body>
+    <div class="d-flex flex-row body-content">
+        <!-- empty aside -->
+        <div class="empty-aside"> </div>
+
+        <!-- main content -->
+        <div class="main-content">
+            <!-- heading -->
+            <h4 class="fw-bold"> User Details </h4>
+
+            <!-- user detail -->
+            <div class="section d-flex flex-row gap-5 user-detail-div">
+                <!-- photo section -->
+                <div class="photo-account-status">
+                    <div class="photo-div">
+                        <img src="../../Assets/Images/user-1.png" alt="profile picture">
+                    </div>
+
+                    <div class="account-status bg-success">
+                        <p class="f-reset small text-light"> Active </p>
+                    </div>
+                </div>
+
+                <!-- details -->
+                <div class="d-flex flex-column pt-2 gap-1 details">
+                    <!-- name -->
+                    <div class="name"> 
+                        <h5 class="fw-bold"> Rupak Dangi </h5>
+                    </div>
+
+                    <!-- all details -->
+                    <div class="d-flex flex-row gap-5 all-details">
+                        <!-- email, gender, dob -->
+                        <div class="d-flex flex-column gap-2 email-gender-dob">
+                            <p class="f-reset"> rupak@gmail.com </p>
+                            <p class="f-reset"> Male </p>
+                            <p class="f-reset"> 0000-00-00 </p>
+                        </div>
+
+                        <!-- contact, address -->
+                        <div class="d-flex flex-column gap-2 contact-address">
+                            <!-- contact -->
+                            <div class="d-flex flex-row contact">
+                                <div class="title">
+                                    <p class="f-reset"> Contact </p>
+                                </div>
+
+                                <div class="data">
+                                    <p class="f-reset"> 9874521459 </p>
+                                </div>
+                            </div>
+
+                            <!-- address -->
+                            <div class="d-flex flex-row address">
+                                <div class="title">
+                                    <p class="f-reset"> Address </p>
+                                </div>
+
+                                <div class="data">
+                                    <p class="f-reset"> Balkot, Bhaktapur </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- rent-contribution -->
+                        <div class="d-flex flex-row gap-3 rent-contribution">
+                            <!-- rent -->
+                            <div class="d-flex flex-column align-items-center border px-4 py-2 rounded rent">
+                                <div class="data">
+                                    <p class="f-reset fw-bold fs-3"> 15 </p>
+                                </div>
+                                <div class="title">
+                                    <p class="f-reset fs-6"> Books Rented </p>
+                                </div>
+                            </div>
+
+                            <!-- contribution -->
+                            <div class="d-flex flex-column align-items-center border px-4 py-2 rounded contribution">
+                                <div class="data">
+                                    <p class="f-reset fw-bold fs-3"> 21 </p>
+                                </div>
+                                <div class="title">
+                                    <p class="f-reset fs-6"> Book Contribution </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h6 class="section fw-bold text-danger"> Contributed Books </h6>
+            
+            <div class="contributed-book-container">
+                <!-- contributed book 1 -->
+                <div class="contributed-book">
+                    <div class="image-div">
+                        <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                    </div>
+
+                    <div class="detail-div">
+                        <p class="title"> The Black Universe </p>
+                        <p class="genre"> Action </p>
+                    </div>
+                </div>
+
+                <!-- contributed book 2 -->
+                <div class="contributed-book">
+                    <div class="image-div">
+                        <img src="../../Assets/Images/cover-2.png" alt="">
+                    </div>
+
+                    <div class="detail-div">
+                        <p class="title"> The Black Universe </p>
+                        <p class="genre"> Action, Thriller </p>
+                    </div>
+                </div>
+
+                <!-- contributed book 3 -->
+                <div class="contributed-book">
+                    <div class="image-div">
+                        <img src="../../Assets/Images/cover-3.jpg" alt="">
+                    </div>
+
+                    <div class="detail-div">
+                        <p class="title"> Intuition </p>
+                        <p class="genre"> Suspense </p>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="section fw-bold text-danger"> Rent History </h6>
+            
+            <!-- book table -->
+            <table class="table user-table">
+                <!-- header -->
+                <thead>
+                    <tr>
+                        <th scope="col"> S.N. </th>
+                        <th scope="col"> ISBN </th>
+                        <th scope="col"> Title </th>
+                        <th scope="col"> Genre </th>
+                        <th scope="col"> Issued Date </th>
+                        <th scope="col"> Returned Date </th>
+                        <th scope="col"> Rent Status </th>
+                    </tr>
+                </thead>
+
+                <!-- body -->
+                <tbody>
+                    <!-- dummy data -->
+                    <tr class="book-row on-rent-row on-stock-row">
+                        <th scope="row"> 1 </th>
+                        <td> 978-1-84356-028-9 </td>
+                        <td> To Kill a Mockingbird </td>
+                        <td> Fiction, Classic, Historical </td>
+                        <td> 0000-00-00 </td>
+                        <td> 0000-00-00 </td>
+                        <td> Completed </td>
+                    </tr>
+
+                    <tr class="book-row on-rent-row on-stock-row">
+                        <th scope="row"> 2 </th>
+                        <td> 978-0-596-52068-7 </td>
+                        <td> 1984 </td>
+                        <td> Dystopian, Science Fiction, Political Fiction </td>
+                        <td> 0000-00-00 </td>
+                        <td> - </td>
+                        <td> On rent </td>
+                    </tr>
+                </tbody>
+
+                <!-- footer -->
+                <tfoot id="table-foot">
+                    <tr>
+                        <td colspan="9"> No book rent history found! </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- jquery -->
+    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+
+    <!-- local bootstrap js -->
+    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
