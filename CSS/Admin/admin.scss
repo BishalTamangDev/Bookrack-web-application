@@ -42,29 +42,50 @@
 
     }
 
-    .search-container {
+    .search-clear{
         display: flex;
         flex-direction: row;
+        gap: 1rem;
 
-        input{
+        .clear-search-div{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
             padding: 2px 6px;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-            border: 1px solid rgb(233, 233, 233);
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid rgb(211, 211, 211);
+            
+            p{
+                font-size: 12px;
+            }
         }
 
-        .search-icon-div {
-            cursor: pointer;
+        .search-container {
             display: flex;
-            padding: 0px 16px;
-            align-items: center;
-            background-color: black;
-            background-color: var(--brand-color);
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
+            flex-direction: row;
 
-            i {
-                color: white;
+            input{
+                padding: 2px 6px;
+                border-top-left-radius: 6px;
+                border-bottom-left-radius: 6px;
+                border: 1px solid rgb(233, 233, 233);
+            }
+
+            .search-icon-div {
+                cursor: pointer;
+                display: flex;
+                padding: 0px 16px;
+                align-items: center;
+                background-color: black;
+                background-color: var(--brand-color);
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+
+                i {
+                    color: white;
+                }
             }
         }
     }
