@@ -21,8 +21,8 @@ html {
   --base-color: rgb(23, 101, 227);
   --base-dark-color: rgb(17, 80, 182);
   --warning-color: #C79D54;
-  --negative-color: #C75454;
-  --positive-color: #54C754;
+  --danger-color: #cc3333;
+  --success-color: #28ad49;
   --neutral-lighest-color: #f8f8f8;
   --neutral-light-color: #666666;
   --neutral-normal-color: #4B4B4B;

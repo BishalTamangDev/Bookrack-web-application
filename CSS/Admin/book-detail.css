@@ -1,0 +1,80 @@
+.heading-rating .rating-count .rating .rating-icon {
+  width: 18px;
+}
+.heading-rating .rating-count .count {
+  padding-top: 2px;
+}
+
+.book-detail-container .book-photo-div .top {
+  width: 300px;
+  height: 400px;
+}
+.book-detail-container .book-photo-div .top img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.book-detail-container .book-photo-div .bottom img {
+  width: 90px;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.book-detail-container .book-detail .book-core-detail .author-div .author-list .author {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgb(199, 199, 199);
+}
+.book-detail-container .book-detail .book-core-detail .genre-div .genre-list .genre {
+  padding: 6px 18px;
+  border-radius: 6px;
+  background-color: rgb(221, 221, 221);
+  background-color: black;
+  color: white;
+}
+.book-detail-container .book-detail .book-surface-detail {
+  min-width: 240px;
+}
+.book-detail-container .book-detail .book-surface-detail .book-availability {
+  background-color: var(--success-color);
+}
+.book-detail-container .book-detail .book-surface-detail .surface-bottom {
+  padding-bottom: 12px;
+  background-color: rgb(245, 245, 245);
+}
+.book-detail-container .book-detail .book-surface-detail .surface-bottom .language .left {
+  width: 100px;
+}
+.book-detail-container .book-detail .book-surface-detail .surface-bottom .price .left {
+  width: 100px;
+}
+.book-detail-container .book-detail .book-surface-detail .surface-bottom .owner .left {
+  width: 100px;
+}
+.book-detail-container .book-detail .book-surface-detail .surface-bottom .owner .right abbr {
+  text-decoration: none;
+}
+.book-detail-container .book-detail .book-surface-detail .book-operation .delete, .book-detail-container .book-detail .book-surface-detail .book-operation .edit {
+  width: 50%;
+  padding: 8px;
+  padding-left: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.book-detail-container .book-detail .book-surface-detail .book-operation .delete {
+  color: var(--danger-color);
+  border: 2px solid var(--danger-color);
+}
+.book-detail-container .book-detail .book-surface-detail .book-operation .delete:hover {
+  color: white;
+  background-color: var(--danger-color);
+}
+.book-detail-container .book-detail .book-surface-detail .book-operation .edit {
+  color: var(--success-color);
+  border: 2px solid var(--success-color);
+}
+.book-detail-container .book-detail .book-surface-detail .book-operation .edit:hover {
+  color: white;
+  background-color: var(--success-color);
+}/*# sourceMappingURL=book-detail.css.map */
