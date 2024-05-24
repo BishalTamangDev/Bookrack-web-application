@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
     <title> Dashboard </title>
 
@@ -20,9 +20,560 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="../../CSS/style.css">
+    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
+    <link rel="stylesheet" href="../../CSS/Admin/dashboard.css">
+    <link rel="stylesheet" href="../../CSS/Admin/user-detail.css">
 </head>
 
 <body>
+    <div class="d-flex flex-row body-content">
+        <!-- empty aside -->
+        <div class="empty-aside"> </div>
+
+        <!-- main content -->
+        <div class="main-content">
+            <!-- heading -->
+            <h4 class="fw-bold"> Dashboard </h4>
+
+            <!-- card & new users -->
+            <div class="d-flex flex-row mt-3 justify-content-between align-items-center count-card-new-users">
+                <div class="count-card">
+                    <!-- cards -->
+                    <div class="card-container">
+                        <!-- number of users -->
+                        <div class="card-v1">
+                            <p class="card-v1-title"> Users </p>
+                            <p class="card-v1-detail"> 1245 </p>
+                        </div>
+
+                        <!-- number of contributors -->
+                        <div class="card-v1">
+                            <p class="card-v1-title"> Providers </p>
+                            <p class="card-v1-detail"> 27 </p>
+                        </div>
+
+                        <!-- number of readers -->
+                        <div class="card-v1">
+                            <p class="card-v1-title"> Readers </p>
+                            <p class="card-v1-detail"> 167 </p>
+                        </div>
+
+                        <!-- number of books -->
+                        <div class="card-v1">
+                            <p class="card-v1-title"> Books </p>
+                            <p class="card-v1-detail"> 5000 </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center p-3 gap-2 rounded new-user-div">
+                    <div class="d-flex flex-row profile-container">
+                        <div class="profile-div">
+                            <img src="../../Assets/Images/user-1.png" alt="">
+                        </div>
+
+                        <div class="profile-div">
+                            <img src="../../Assets/Images/user-2.jpg" alt="">
+                        </div>
+
+                        <div class="profile-div">
+                            <img src="../../Assets/Images/user-3.jpg" alt="">
+                        </div>
+                    </div>
+
+                    <div class="label">
+                        <p class="f-reset"> 3 users joined today. </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- offer and request -->
+            <div class="section d-flex flex-row gap-3 justify-content-between offer-request">
+                <!-- offer -->
+                <div class="offer-container">
+                    <!-- heading -->
+                    <div class="heading">
+                        <p class="f-reset fs-5 fw-bold"> New Offers </p>
+                    </div>
+
+                    <div class="mt-3 offer-div">
+                        <!-- user table -->
+                        <table class="table offer-table">
+                            <!-- table heading -->
+                            <thead>
+                                <tr>
+                                    <th scope="col"> SN </th>
+                                    <th scope="col"> Book </th>
+                                    <th scope="col"> Title </th>
+                                    <th scope="col"> Provider </th>
+                                    <th scope="col"> Price </th>
+                                </tr>
+                            </thead>
+
+                            <!-- table data -->
+                            <tbody>
+                                <!-- dummy data -->
+                                <tr>
+                                    <td> 1 </td>
+                                    <td>
+                                        <div class="offer-book-image-container">
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                                            </div>
+
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-2.png" alt="">
+                                            </div>
+
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-3.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td> Intuition </td>
+                                    <td> Rupak Dangi </td>
+                                    <td> NRs. 140.00 </td>
+                                </tr>
+
+                                <tr>
+                                    <td> 2 </td>
+                                    <td>
+                                        <div class="offer-book-image-container">
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                                            </div>
+
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-2.png" alt="">
+                                            </div>
+
+                                            <div class="offer-book-div">
+                                                <img src="../../Assets/Images/cover-3.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td> Intuition </td>
+                                    <td> Shristi Pradhan </td>
+                                    <td> NRs. 190.00 </td>
+                                </tr>
+                            </tbody>
+
+                            <!-- table footer -->
+                            <tfoot id="table-foot">
+                                <tr>
+                                    <td colspan="9">
+                                        <a href="book-offers.html"> Show all offers </a>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- request -->
+                <div class="request-container">
+                    <!-- heading -->
+                    <div class="heading">
+                        <p class="f-reset fs-5 fw-bold"> New Requests </p>
+                    </div>
+
+                    <div class="mt-3 request-div">
+                        <!-- user table -->
+                        <table class="table request-table">
+                            <!-- table heading -->
+                            <thead>
+                                <tr>
+                                    <th scope="col"> SN </th>
+                                    <th scope="col"> Title </th>
+                                    <th scope="col"> Reader </th>
+                                    <th scope="col"> Rent days </th>
+                                    <th scope="col"> Price </th>
+                                </tr>
+                            </thead>
+
+                            <!-- table data -->
+                            <tbody>
+                                <!-- dummy data -->
+                                <tr>
+                                    <td> 1 </td>
+                                    <td> Intuition </td>
+                                    <td> Rupak Dangi </td>
+                                    <td> 1 week </td>
+                                    <td> NRs. 120.00 </td>
+                                </tr>
+
+                                <tr>
+                                    <td> 2 </td>
+                                    <td> Don't Look Back </td>
+                                    <td> Shristi Pradhan </td>
+                                    <td> 2 month </td>
+                                    <td> NRs. 280.00 </td>
+                                </tr>
+                            </tbody>
+
+                            <!-- table footer -->
+                            <tfoot id="table-foot">
+                                <tr>
+                                    <td colspan="9">
+                                        <a href="book-requests.html"> Show all requests </a>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- recently added books -->
+            <div class="section d-flex flex-column gap-3 recently-arrived-books-container">
+                <div class="heading">
+                    <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
+                </div>
+                <div class="d-flex flex-row gap-3 recently-arrived-books-div">
+                    <!-- book 1 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> The Black Universe </p>
+                            </div>
+                            <div class="genre">
+                                <p> Action </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 2 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-2.png" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> Don't Look Back </p>
+                            </div>
+                            <div class="genre">
+                                <p> Thriller </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 3 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-3.jpg" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> Intuituin </p>
+                            </div>
+                            <div class="genre">
+                                <p> Life Lesson </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 4 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> The Black Universe </p>
+                            </div>
+                            <div class="genre">
+                                <p> Action </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 5 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-2.png" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> Don't Look Back </p>
+                            </div>
+                            <div class="genre">
+                                <p> Thriller </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 6 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-3.jpg" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> Intuituin </p>
+                            </div>
+                            <div class="genre">
+                                <p> Life Lesson </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 7 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> The Black Universe </p>
+                            </div>
+                            <div class="genre">
+                                <p> Action </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- book 8 -->
+                    <div class="recently-arrived-book">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-2.png" alt="">
+                        </div>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> Don't Look Back </p>
+                            </div>
+                            <div class="genre">
+                                <p> Thriller </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row show-all-div">
+                    <button class="btn btn-outline-success m-auto"> Show all </button>
+                </div>
+            </div>
+
+            <!-- rent ending -->
+            <div class="d-flex flex-column section  gap-2 rent-ending-container">
+                <div class="heading">
+                    <p class="f-reset fs-4 fw-bold"> Some books' returning date is arriving soon </p>
+                </div>
+
+                <div class="d-flex flex-row gap-3 rent-ending-div">
+                    <!-- dummy data 1 -->
+                    <div class="rent-ending">
+                        <!-- image -->
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <!-- detail -->
+                        <div class="detail-div">
+                            <!-- days remaining -->
+                            <div class="remaining-days-div">
+                                <p class="remaining-days"> 3 days <span> remaining </span> </p>
+                            </div>
+
+                            <!-- title -->
+                            <div class="title-div">
+                                <p> The Black Universe </p>
+                            </div>
+
+                            <!-- reader -->
+                            <div class="reader-div">
+                                <p> Shristi Pradhan </p>
+                            </div>
+
+                            <!-- contact -->
+                            <div class="contact-div">
+                                <button class="btn btn-success" onclick="window.location.href='user-details.html'">
+                                    Contact Now </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- dummy data 2 -->
+                    <div class="rent-ending">
+                        <!-- image -->
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-2.png" alt="">
+                        </div>
+
+                        <!-- detail -->
+                        <div class="detail-div">
+                            <!-- days remaining -->
+                            <div class="remaining-days-div">
+                                <p class="remaining-days"> 13 days <span> remaining </span> </p>
+                            </div>
+
+                            <!-- title -->
+                            <div class="title-div">
+                                <p> Don't Look Back </p>
+                            </div>
+
+                            <!-- reader -->
+                            <div class="reader-div">
+                                <p> Rupak Dangi </p>
+                            </div>
+
+                            <!-- contact -->
+                            <div class="contact-div">
+                                <button class="btn btn-success" onclick="window.location.href='user-details.html'">
+                                    Contact Now </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- dummy data 3 -->
+                    <div class="rent-ending">
+                        <!-- image -->
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-3.jpg" alt="">
+                        </div>
+
+                        <!-- detail -->
+                        <div class="detail-div">
+                            <!-- days remaining -->
+                            <div class="remaining-days-div">
+                                <p class="remaining-days"> 1 day <span> remaining </span> </p>
+                            </div>
+
+                            <!-- title -->
+                            <div class="title-div">
+                                <p> Intuition </p>
+                            </div>
+
+                            <!-- reader -->
+                            <div class="reader-div">
+                                <p> Bishal Tamang </p>
+                            </div>
+
+                            <!-- contact -->
+                            <div class="contact-div">
+                                <button class="btn btn-success" onclick="window.location.href='user-details.html'">
+                                    Contact Now </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row show-all-div">
+                    <button class="btn btn-outline-success m-auto"> Show all </button>
+                </div>
+            </div>
+
+            <!-- book reviews -->
+            <div class="d-flex flex-column section gap-3 book-review-container">
+                <div class="heading">
+                    <p class="f-reset fs-4 fw-bold"> Book Reviews </p>
+                </div>
+
+                <!-- book reviews -->
+                <div class="book-review-div">
+                    <!-- review 1 -->
+                    <div class="book-review">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <div class="detail-div">
+                            <div class="reader-div">
+                                <p> Shristi Pradhan </p>
+                            </div>
+
+                            <div class="review-div">
+                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum nulla
+                                    architecto laborum ratione deserunt quae obcaecati rem commodi assumenda, error
+                                    fugiat aperiam unde vero doloremque a quas ducimus dicta dignissimos voluptatem
+                                    consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
+                                    excepturi voluptatum deserunt rerum sed rem modi! </p>
+                            </div>
+
+                            <div class="rating-div">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/half-rating.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- review 2 -->
+                    <div class="book-review">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        </div>
+
+                        <div class="detail-div">
+                            <div class="reader-div">
+                                <p> Rupak Dangi </p>
+                            </div>
+
+                            <div class="review-div">
+                                <p> A quas ducimus dicta dignissimos voluptatem
+                                    consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
+                                    excepturi voluptatum deserunt rerum sed rem modi! </p>
+                            </div>
+
+                            <div class="rating-div">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- review 3 -->
+                    <div class="book-review">
+                        <div class="image-div">
+                            <img src="../../Assets/Images/cover-3.jpg" alt="">
+                        </div>
+
+                        <div class="detail-div">
+                            <div class="reader-div">
+                                <p> Bishal Tamang </p>
+                            </div>
+
+                            <div class="review-div">
+                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum nulla
+                                    architecto laborum ratione deserunt quae obcaecati rem commodi assumenda, error
+                                    fugiat aperiam unde vero doloremque a quas ducimus dicta dignissimos voluptatem
+                                    consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
+                                    excepturi voluptatum deserunt rerum sed rem modi! </p>
+                            </div>
+
+                            <div class="rating-div">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/full-rating.png" alt="">
+                                <img src="../../Assets/Icons/half-rating.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row show-all-div">
+                    <button class="btn btn-outline-success m-auto"> Show all </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jquery -->
     <script src="../../Js/jquery-3.7.1.min.js"> </script>
 
