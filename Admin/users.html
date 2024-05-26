@@ -9,23 +9,23 @@
     <title> Users </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
-
-    <!-- bootstrap -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+
     <!-- css files -->
-    <link rel="stylesheet" href="../../CSS/style.css">
-    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
-    <link rel="stylesheet" href="../../CSS/Admin/users.css">
+    <link rel="stylesheet" href="../Assets/CSS/style.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/users.css">
 </head>
 
 <body>
@@ -57,7 +57,7 @@
             <div class="section table-top-section">
                 <div class="filter-div">
                     <i class="fa fa-filter" id="filter-icon"></i>
-                
+
                     <!-- account state -->
                     <select class="form-select" aria-label="Default select example">
                         <option value="0" selected hidden> Account State </option>
@@ -65,7 +65,7 @@
                         <option value="2"> Active </option>
                         <option value="3"> Inactive </option>
                     </select>
-                
+
                     <!-- contribution -->
                     <select class="form-select" aria-label="Default select example">
                         <option value="0" selected hidden> Contribution </option>
@@ -73,7 +73,7 @@
                         <option value="2"> Contributor </option>
                         <option value="3"> Not-contributor </option>
                     </select>
-                
+
                     <!-- clear filter -->
                     <div class="clear-filter-div" id="clear-filter">
                         <p class="f-reset"> Clear </p>
@@ -92,8 +92,8 @@
                     <div class="search-container">
                         <input type="text" placeholder="search user">
                         <div class="search-icon-div">
-                            <i class="fa fa-search"> </i>         
-                        </div>    
+                            <i class="fa fa-search"> </i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                         <td> Kathmandu </td>
                         <td> Active </td>
                     </tr>
-                    
+
                     <tr class="active-user-row not-contributor-row">
                         <th scope="row"> 2 </th>
                         <td> 456789 </td>
@@ -166,15 +166,15 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
-    <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
-
-    <!-- bootstrap js -->
+    <!-- bootstrap js :: cdn-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap js :: local file -->
+    <script src="../Assets/Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
 </body>
 
 </html>

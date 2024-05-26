@@ -4,29 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
     <title> Book Requests </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
-
-    <!-- bootstrap -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-        <!-- css files -->
-    <link rel="stylesheet" href="../../CSS/style.css">
-    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
-    <link rel="stylesheet" href="../../CSS/Admin/book-requests.css">
-    </head>
+
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="../Assets/CSS/style.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/book-requests.css">
+</head>
 
 <body>
     <div class="d-flex flex-row body-content">
@@ -65,7 +65,7 @@
                 <div class="filter-div">
                     <!-- filter icon -->
                     <i class="fa fa-filter" id="filter-icon"></i>
-                
+
                     <!-- book status -->
                     <select class="form-select" aria-label="select">
                         <option value="0" selected hidden> Book status </option>
@@ -73,7 +73,7 @@
                         <option value="2"> Accepted </option>
                         <option value="3"> Rejected </option>
                     </select>
-                
+
                     <!-- clear filter -->
                     <div class="clear-filter-div" id="clear-filter">
                         <p class="f-reset"> Clear </p>
@@ -93,8 +93,8 @@
                     <div class="search-container">
                         <input type="text" placeholder="search book">
                         <div class="search-icon-div">
-                            <i class="fa fa-search"> </i>         
-                        </div>    
+                            <i class="fa fa-search"> </i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -162,15 +162,15 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
-    <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
-
-    <!-- bootstrap js -->
+    <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap local file: backup -->
+    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

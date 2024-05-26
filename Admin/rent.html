@@ -4,57 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
-    <title> Book Offers </title>
+    <title> Rent </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
 
-    <!-- font awesome -->
+    <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
-
-    <!-- bootstrap -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-        <!-- css files -->
-    <link rel="stylesheet" href="../../CSS/style.css">
-    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
-    <link rel="stylesheet" href="../../CSS/Admin/book-offers.css">
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="../Assets/CSS/style.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
 </head>
 
 <body>
     <div class="d-flex flex-row body-content">
-        <!-- empty aside -->
+        <!-- empty nav -->
         <div class="empty-aside"> </div>
 
         <!-- user table -->
         <div class="main-content">
             <!-- heading -->
-            <h4 class="fw-bold"> Book Offers </h4>
+            <h4 class="fw-bold"> Rent History </h4>
 
             <!-- cards -->
             <div class="section card-container">
-                <!-- number of new offers -->
+                <!-- active rent -->
                 <div class="card-v1">
-                    <p class="card-v1-title"> Number of Offers </p>
-                    <p class="card-v1-detail"> 1245 </p>
-                </div>
-
-                <!-- number of contributors -->
-                <div class="card-v1">
-                    <p class="card-v1-title"> Accepted </p>
+                    <p class="card-v1-title"> Active </p>
                     <p class="card-v1-detail"> 207 </p>
                 </div>
 
-                <!-- number of contributors -->
+                <!-- completed rent -->
                 <div class="card-v1">
-                    <p class="card-v1-title"> Rejected </p>
+                    <p class="card-v1-title"> Completed </p>
                     <p class="card-v1-detail"> 79 </p>
                 </div>
             </div>
@@ -65,24 +58,23 @@
                 <div class="filter-div">
                     <!-- filter icon -->
                     <i class="fa fa-filter" id="filter-icon"></i>
-                
+
                     <!-- book status -->
                     <select class="form-select" aria-label="select">
-                        <option value="0" selected hidden> Book status </option>
+                        <option value="0" selected hidden> Rent status </option>
                         <option value="1"> All </option>
-                        <option value="2"> Accepted </option>
-                        <option value="3"> Rejected </option>
+                        <option value="2"> Active </option>
+                        <option value="3"> Completed </option>
                     </select>
-                
-                    <!-- language -->
+
+                    <!-- fine -->
                     <select class="form-select" aria-label="select">
-                        <option value="0" selected hidden> Language </option>
+                        <option value="0" selected hidden> Fine Status </option>
                         <option value="1"> All </option>
-                        <option value="2"> English </option>
-                        <option value="3"> Nepali </option>
-                        <option value="4"> Hindi </option>
+                        <option value="2"> Fine </option>
+                        <option value="3"> No fine </option>
                     </select>
-                
+
                     <!-- clear filter -->
                     <div class="clear-filter-div" id="clear-filter">
                         <p class="f-reset"> Clear </p>
@@ -102,8 +94,8 @@
                     <div class="search-container">
                         <input type="text" placeholder="search user">
                         <div class="search-icon-div">
-                            <i class="fa fa-search"> </i>         
-                        </div>    
+                            <i class="fa fa-search"> </i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,58 +105,58 @@
                 <!-- heading -->
                 <thead>
                     <tr>
-                        <th scope="col"> Book ID </th>
+                        <th scope="col"> S.N. </th>
                         <th scope="col"> ISBN </th>
                         <th scope="col"> Title </th>
-                        <th scope="col"> Genre </th>
-                        <th scope="col"> Author[s] </th>
-                        <th scope="col"> Language </th>
-                        <th scope="col"> Book Owner </th>
-                        <th scope="col"> Book State </th>
+                        <th scope="col"> Rented By </th>
+                        <th scope="col"> Issued Date </th>
+                        <th scope="col"> Returned Date </th>
+                        <th scope="col"> Fine </th>
+                        <th scope="col"> Rent Status </th>
                     </tr>
                 </thead>
 
                 <!-- body -->
                 <tbody>
                     <!-- dummy data -->
-                    <tr class="book-row accepted-row english-row">
-                        <th scope="row"> 124745 </th>
+                    <tr class="rent-row completed-row nofine-row">
+                        <td scope="row"> 1 </th>
                         <td> 978-1-84356-028-9 </td>
                         <td> To Kill a Mockingbird </td>
-                        <td>Fiction, Classic, Historical</td>
-                        <td>Harper Lee</td>
-                        <td>English</td>
-                        <td>Bishal Tamang</td>
-                        <td>On Rent</td>
+                        <td> Bishal Tamang </td>
+                        <td> 0000-00-00 </td>
+                        <td> 1111-11-11 </td>
+                        <td> - </td>
+                        <td> Completed </td>
                     </tr>
 
-                    <tr class="book-row accepted-row nepali-row">
-                        <th scope="row"> 456789 </th>
+                    <tr class="rent-row active-row nofine-row">
+                        <td scope="row"> 2 </th>
                         <td> 978-0-596-52068-7 </td>
                         <td> 1984 </td>
-                        <td> Dystopian, Science Fiction, Political Fiction </td>
-                        <td> George Orwell </td>
-                        <td> Nepali </td>
                         <td> Rupak Dangi </td>
-                        <td> On rent </td>
+                        <td> 2222-22-22 </td>
+                        <td> - </td>
+                        <td> - </td>
+                        <td> Active </td>
                     </tr>
 
-                    <tr class="book-row rejected-row hindi-row">
-                        <th scope="row"> 159482 </th>
+                    <tr class="rent-row  completed-row fine-row">
+                        <td scope="row"> 3 </th>
                         <td> 978-3-16-148410-0 </td>
                         <td> The Great Gatsby </td>
-                        <td> Fiction, Classic, Tragedy </td>
-                        <td> F. Scott Fitzgerald </td>
-                        <td> Hindi </td>
                         <td> Shristi Pradhan </td>
-                        <td> On stock </td>
+                        <td> 3333-33-33 </td>
+                        <td> 4444-44-44 </td>
+                        <td> Nrs. 175.00 </td>
+                        <td> Completed </td>
                     </tr>
                 </tbody>
 
                 <!-- footer -->
                 <tfoot id="table-foot">
                     <tr>
-                        <td colspan="9"> No book offer yet! </td>
+                        <td colspan="9"> No book rent history found! </td>
                     </tr>
                 </tfoot>
             </table>
@@ -172,15 +164,15 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
-    <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
-
-    <!-- bootstrap js -->
+    <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap js : local file -->
+    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

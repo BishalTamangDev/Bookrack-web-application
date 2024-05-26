@@ -4,25 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
-    <title> Bookrack - Admin signin </title>
+    <title> Admin Signin </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
 
-    <!-- font awesome -->
+    <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
-
-    <!-- bootstrap cdn -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+
     <!-- local css -->
-    <link rel="stylesheet" href="../../CSS/Admin/signin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/signin.css">
 </head>
 
 <body>
@@ -54,10 +54,7 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
-
-    <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -71,16 +68,19 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-    <!-- bootstrap js cdn-->
+    <!-- bootstrap js :: cdn-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap js :: local file  -->
+    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- specific script section -->
     <script>
         const signinBtn = document.getElementById("signin-btn");
 
-        signinBtn.addEventListener('click', function(){
+        signinBtn.addEventListener('click', function () {
             console.log("signin button pressed!");
             window.location.href = "dashboard.html";
         });

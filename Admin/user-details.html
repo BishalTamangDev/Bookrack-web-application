@@ -4,28 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
     <title> User Detail </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
 
-    <!-- font awesome -->
+    <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
-
-    <!-- bootstrap -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        
+
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+
     <!-- css files -->
-    <link rel="stylesheet" href="../../CSS/style.css">
-    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
-    <link rel="stylesheet" href="../../CSS/Admin/user-details.css">
+    <link rel="stylesheet" href="../Assets/CSS/style.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/user-details.css">
 </head>
 
 <body>
@@ -43,7 +43,7 @@
                 <!-- photo section -->
                 <div class="photo-account-status">
                     <div class="photo-div">
-                        <img src="../../Assets/Images/user-1.png" alt="profile picture">
+                        <img src="../Assets/Images/user-1.png" alt="profile picture">
                     </div>
 
                     <div class="account-status bg-success">
@@ -54,7 +54,7 @@
                 <!-- details -->
                 <div class="d-flex flex-column pt-2 gap-1 details">
                     <!-- name -->
-                    <div class="name"> 
+                    <div class="name">
                         <h5 class="fw-bold"> Rupak Dangi </h5>
                     </div>
 
@@ -117,14 +117,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <h6 class="section fw-bold text-danger"> Contributed Books </h6>
-            
+
             <div class="contributed-book-container">
                 <!-- contributed book 1 -->
                 <div class="contributed-book">
                     <div class="image-div">
-                        <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="../Assets/Images/cover-1.jpeg" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -136,7 +136,7 @@
                 <!-- contributed book 2 -->
                 <div class="contributed-book">
                     <div class="image-div">
-                        <img src="../../Assets/Images/cover-2.png" alt="">
+                        <img src="../Assets/Images/cover-2.png" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -148,7 +148,7 @@
                 <!-- contributed book 3 -->
                 <div class="contributed-book">
                     <div class="image-div">
-                        <img src="../../Assets/Images/cover-3.jpg" alt="">
+                        <img src="../Assets/Images/cover-3.jpg" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -159,7 +159,7 @@
             </div>
 
             <h6 class="section fw-bold text-danger"> Rent History </h6>
-            
+
             <!-- book table -->
             <table class="table user-table">
                 <!-- header -->
@@ -210,15 +210,16 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
-    <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
-
-    <!-- bootstrap js -->
+    <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap js :: local file -->
+    <script src="../Assets/Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
+
 </body>
 
 </html>

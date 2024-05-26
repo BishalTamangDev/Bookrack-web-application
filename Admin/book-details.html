@@ -4,33 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- title -->
     <title> Book Details </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="../../Assets/Brand/brand-logo.png">
 
-    <!-- font awesome -->
+    <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- local bootstrap -->
-    <link rel="stylesheet" href="../../CSS/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-        <!-- css files -->
-    <link rel="stylesheet" href="../../CSS/style.css">
-    <link rel="stylesheet" href="../../CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../../CSS/Admin/aside.css">
-    <link rel="stylesheet" href="../../CSS/Admin/book-detail.css">
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    
+    <!-- css files -->
+    <link rel="stylesheet" href="../Assets/CSS/style.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="../Assets/CSS/Admin/book-detail.css">
 </head>
 
 <body>
     <div class="d-flex flex-row body-content">
-        <!-- empty aside -->
+        <!-- empty nav -->
         <div class="empty-aside"> </div>
 
         <!-- user table -->
@@ -38,15 +38,15 @@
             <div class="d-flex flex-column heading-rating">
                 <!-- heading -->
                 <h1 class="fw-bold"> The Tales of Two Cities </h1>
-                
+
                 <!-- rating -->
                 <div class="d-flex flex-row align-items-center gap-2 rating-count">
                     <div class="d-flex flex-row align-items-center gap-1 rating">
-                        <img src="../../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
-                        <img src="../../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
-                        <img src="../../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
-                        <img src="../../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
-                        <img src="../../Assets/Icons/half-rating.png" alt="rating-star" class="rating-icon">
+                        <img src="../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
+                        <img src="../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
+                        <img src="../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
+                        <img src="../Assets/Icons/full-rating.png" alt="rating-star" class="rating-icon">
+                        <img src="../Assets/Icons/half-rating.png" alt="rating-star" class="rating-icon">
                     </div>
 
                     <div class="count">
@@ -60,13 +60,13 @@
                 <!-- book photos -->
                 <div class="d-flex flex-column gap-2 book-photo-div">
                     <div class="d-flex flex-row top">
-                        <img src="../../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="../Assets/Images/cover-1.jpeg" alt="">
                     </div>
-                    
+
                     <div class="d-flex flex-row gap-2 bottom">
-                        <img src="../../Assets/Images/cover-2.png" alt="">
-                        <img src="../../Assets/Images/cover-3.jpg" alt="">
-                        <img src="../../Assets/Images/isbn-1.jpg" alt="">
+                        <img src="../Assets/Images/cover-2.png" alt="">
+                        <img src="../Assets/Images/cover-3.jpg" alt="">
+                        <img src="../Assets/Images/isbn-1.jpg" alt="">
                     </div>
                 </div>
 
@@ -78,14 +78,27 @@
                         <div class="d-flex flex-column desciption-div">
                             <p class="f-reset fw-bold fs-5"> Description </p>
                             <p class="f-reset fs-6">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat distinctio veritatis qui voluptatum cumque quo recusandae et sapiente vel laudantium dolorum, asperiores ut illum! Adipisci commodi voluptatum id maiores natus doloremque incidunt est eum, placeat debitis accusantium, sint sapiente. Tempore quidem doloribus iure nihil autem, nulla, laborum excepturi dicta molestias in consequuntur reprehenderit placeat quaerat aut distinctio est voluptatibus necessitatibus numquam voluptate veniam iste. Suscipit fugit voluptatibus similique veritatis ab doloribus nostrum, eligendi magni perspiciatis sunt sit velit? Deleniti in perspiciatis est culpa soluta voluptates dolores quis asperiores cumque, vitae ea tenetur laborum voluptate voluptas, fugiat odit! Illo laudantium est explicabo, velit rerum porro deleniti odio incidunt impedit fugiat, quaerat quidem nam quas ducimus dignissimos cupiditate eveniet. Laboriosam repudiandae commodi harum repellendus facilis dolor corporis saepe vel ducimus neque nisi, ratione nemo sint dolore officiis ipsum nihil optio eaque reprehenderit ipsa beatae explicabo a voluptatum dolorum. Ratione cupiditate culpa temporibus.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat distinctio veritatis qui
+                                voluptatum cumque quo recusandae et sapiente vel laudantium dolorum, asperiores ut
+                                illum! Adipisci commodi voluptatum id maiores natus doloremque incidunt est eum, placeat
+                                debitis accusantium, sint sapiente. Tempore quidem doloribus iure nihil autem, nulla,
+                                laborum excepturi dicta molestias in consequuntur reprehenderit placeat quaerat aut
+                                distinctio est voluptatibus necessitatibus numquam voluptate veniam iste. Suscipit fugit
+                                voluptatibus similique veritatis ab doloribus nostrum, eligendi magni perspiciatis sunt
+                                sit velit? Deleniti in perspiciatis est culpa soluta voluptates dolores quis asperiores
+                                cumque, vitae ea tenetur laborum voluptate voluptas, fugiat odit! Illo laudantium est
+                                explicabo, velit rerum porro deleniti odio incidunt impedit fugiat, quaerat quidem nam
+                                quas ducimus dignissimos cupiditate eveniet. Laboriosam repudiandae commodi harum
+                                repellendus facilis dolor corporis saepe vel ducimus neque nisi, ratione nemo sint
+                                dolore officiis ipsum nihil optio eaque reprehenderit ipsa beatae explicabo a voluptatum
+                                dolorum. Ratione cupiditate culpa temporibus.
                             </p>
                         </div>
 
                         <!-- genre -->
                         <div class="d-flex flex-column gap-2 genre-div">
                             <p class="f-reset fw-bold fs-5"> Genre </p>
-                            
+
                             <div class="d-flex flex-row gap-2 genre-list">
                                 <div class="genre">
                                     <p class="f-reset"> Science-Fiction </p>
@@ -134,7 +147,7 @@
                             <p class="f-reset fs-6"> May 9, 2017 </p>
                         </div>
                     </div>
-                    
+
                     <!-- book surface details -->
                     <div class="d-flex flex-column book-surface-detail">
                         <!-- top section - book availability for rent -->
@@ -145,7 +158,7 @@
                         <div class="d-flex flex-column gap-3 px-3 pt-3 surface-bottom">
                             <!-- book id -->
                             <p class="f-reset fw-bold"> #8457145236 </p>
-                            
+
                             <!-- language -->
                             <div class="d-flex flex-row language">
                                 <div class="left">
@@ -183,7 +196,8 @@
                         </div>
 
                         <!-- operation: edit/ remove -->
-                        <div class="d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
+                        <div
+                            class="d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
                             <!-- delete operation -->
                             <div class="d-flex flex-row gap-2 align-items-center delete">
                                 <i class="fa fa-trash"></i>
@@ -216,7 +230,7 @@
                             <th scope="col"> Rent Status </th>
                         </tr>
                     </thead>
-    
+
                     <!-- body -->
                     <tbody>
                         <!-- dummy data -->
@@ -228,7 +242,7 @@
                             <td> NRs. 120 </td>
                             <td> Completed </td>
                         </tr>
-    
+
                         <tr class="book-row on-rent-row on-stock-row">
                             <td> 2. </td>
                             <td> Shristi Pradhan </td>
@@ -238,7 +252,7 @@
                             <td> Active </td>
                         </tr>
                     </tbody>
-    
+
                     <!-- footer -->
                     <tfoot id="table-foot">
                         <tr>
@@ -251,15 +265,18 @@
     </div>
 
     <!-- jquery -->
-    <script src="../../Js/jquery-3.7.1.min.js"> </script>
+    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
 
     <!-- local bootstrap js -->
-    <script src="../../Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
+    <script src="../Assets/Js/bootstrap-js-5.3.3/bootstrap.js"> </script>
 
-    <!-- bootstrap js -->
+    <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+
+    <!-- bootstrap local file :: backup-->
+    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

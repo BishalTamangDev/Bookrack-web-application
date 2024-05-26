@@ -1,11 +1,7 @@
-body {
-  background-color: whitesmoke;
-}
-
 .login-container {
   min-height: 100vh;
 }
 .login-container .login-div {
   min-width: 600px;
   margin: auto;
-}/*# sourceMappingURL=login.css.map */
+}/*# sourceMappingURL=signin.css.map */
