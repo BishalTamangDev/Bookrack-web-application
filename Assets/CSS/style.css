@@ -37,6 +37,7 @@ html {
   --fs-largest: 2rem;
   /* shadow */
   --shadow-style: -2px 2px 4px 0 var(--shadow-color);
+  --fixed-z-index: 100;
 }
 
 a {
@@ -63,7 +64,6 @@ body {
 }
 
 .section {
-  margin-top: 60px;
   margin-top: 30px;
 }
 

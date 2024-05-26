@@ -1,0 +1,72 @@
+.footer {
+  width: 100%;
+}
+.footer .footer-container {
+  gap: 2rem;
+}
+.footer .footer-container .main-footer {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer .footer-container .main-footer .footer-title {
+  font-size: 1.3rem;
+}
+.footer .footer-container .main-footer .physical-location-section {
+  row-gap: 6px;
+}
+.footer .footer-container .main-footer .physical-location-section .content {
+  align-items: center;
+}
+.footer .footer-container .main-footer .physical-location-section .content .left i {
+  padding-left: 6px;
+  font-size: 20px;
+}
+.footer .footer-container .main-footer .physical-location-section .content p {
+  font-size: 14px;
+}
+.footer .footer-container .main-footer .physical-location-section .content .shop-name {
+  font-weight: 500;
+}
+.footer .footer-container .main-footer .physical-location-section .content .shop-location {
+  font-size: 12px;
+}
+.footer .footer-container .main-footer .main-footer-content-section ul {
+  margin-top: 10px;
+  padding: 0;
+  list-style-type: none;
+}
+.footer .footer-container .main-footer .main-footer-content-section ul li {
+  line-height: 30px;
+}
+.footer .footer-container .main-footer .main-footer-content-section ul li a {
+  font-size: 1.15rem;
+  color: black;
+}
+.footer .footer-container .main-footer .main-footer-content-section ul li a:hover {
+  color: var(--brand-color);
+}
+.footer .footer-container .main-footer .mobile-app-section .content-container .content {
+  padding: 8px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  background-color: black;
+  align-items: center;
+}
+.footer .footer-container .main-footer .mobile-app-section .content-container .content i,
+.footer .footer-container .main-footer .mobile-app-section .content-container .content p {
+  color: white;
+}
+.footer .footer-container .main-footer .mobile-app-section .content-container .content i {
+  font-size: 20px;
+}
+.footer .footer-container .main-footer .mobile-app-section .content-container .content p:nth-child(odd) {
+  font-size: 10px;
+}
+.footer .footer-container .main-footer .mobile-app-section .content-container .content p:nth-child(even) {
+  font-size: 12px;
+}
+.footer .footer-container .payment-partner-section img {
+  width: 90px;
+}/*# sourceMappingURL=footer.css.map */
