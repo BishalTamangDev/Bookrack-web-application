@@ -89,8 +89,8 @@
     display: none;
   }
   .header .header-container .menu-div {
-    display: flex;
-    right: 0;
+    position: initial;
+    right: initial;
     height: initial;
   }
   .header .header-container .menu-div .close-div {
