@@ -4,24 +4,28 @@
 
     .footer-container {
         gap: 2rem;
+        overflow: hidden;
+
         .main-footer {
-            flex-wrap: wrap;
-            gap: 1rem;
+            gap: 2rem;
 
             // footer title: Quick links, about us & popular genre
-            .footer-title{
+            .footer-title {
                 font-size: 1.3rem;
             }
 
             // physical location
             .physical-location-section {
                 row-gap: 6px;
+                margin: 0 auto;
+                // min-width: 376px;
+                // align-items: center;
 
                 .content {
                     align-items: center;
 
-                    .left{
-                        i{
+                    .left {
+                        i {
                             padding-left: 6px;
                             font-size: 20px;
                         }
@@ -43,6 +47,8 @@
 
             // main footer content section
             .main-footer-content-section {
+                // width: 45%;
+
                 ul {
                     margin-top: 10px;
                     padding: 0;
@@ -50,11 +56,12 @@
 
                     li {
                         line-height: 30px;
+
                         a {
                             font-size: 1.15rem;
                             color: black;
 
-                            &:hover{
+                            &:hover {
                                 color: var(--brand-color);
                             }
                         }
@@ -99,6 +106,38 @@
         .payment-partner-section {
             img {
                 width: 90px;
+            }
+        }
+    }
+}
+
+@media (min-width: 352px) {
+    .footer {
+        .footer-container {
+            .main-footer {
+                .physical-location-section {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+// responsive section{
+@media (min-width: 768px) {
+    .footer {
+        .footer-container {
+            .main-footer {
+                justify-content: space-between;
+                // physical location
+                .physical-location-section {
+                    align-items: unset;
+                }
+
+                // main footer content section
+                .main-footer-content-section {
+                    width: fit-content;
+                }
             }
         }
     }

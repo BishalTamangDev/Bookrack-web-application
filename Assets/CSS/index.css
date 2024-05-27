@@ -9,29 +9,26 @@
   overflow: hidden;
   gap: 1rem;
   margin-top: 6rem;
-  padding: 3.5rem 1rem;
 }
 .landing-section .landing-detail {
-  row-gap: 1.5rem;
-  padding: 5rem 5rem;
   align-items: center;
+  row-gap: 1.5rem;
 }
 .landing-section .landing-detail .title {
   text-align: center;
-  font-size: 4.3rem;
+  font-size: 2rem;
   font-weight: bolder;
-  line-height: 70px;
 }
 .landing-section .landing-detail .detail {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 .landing-section .landing-detail .btn {
   width: -moz-fit-content;
   width: fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   padding: 6px 24px;
   background-color: var(--brand-color);
 }
@@ -49,7 +46,7 @@
 }
 .feature-section .feature-card-container .card {
   margin: auto;
-  width: 20rem;
+  width: 100%;
 }
 .feature-section .feature-card-container .card .card-body .card-text {
   font-size: 1.1rem;
@@ -95,4 +92,35 @@
 }
 .genre-section .genre-card-container .genre-card .bottom p {
   font-size: 1.2rem;
+}
+
+@media (min-width: 768px) {
+  .landing-section .landing-detail .title {
+    font-size: 4.3rem;
+    line-height: 70px;
+  }
+  .landing-section .landing-detail .detail {
+    font-size: 1.5rem;
+  }
+  .feature-section .feature-card-container .card {
+    margin: 0;
+    width: 20rem;
+  }
+  .genre-section .genre-card-container .genre-card {
+    margin: 0;
+  }
+}
+@media (min-width: 992px) {
+  .main .landing-section {
+    overflow: hidden;
+    gap: 1rem;
+    margin-top: 6rem;
+    padding: 3.5rem 1rem;
+  }
+  .main .landing-section .landing-detail {
+    padding: 5rem 5rem;
+  }
+  .main .landing-section .landing-detail .btn {
+    font-size: 1.5rem;
+  }
 }/*# sourceMappingURL=index.css.map */
