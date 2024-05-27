@@ -1,111 +1,82 @@
-body {
-    display: flex;
-}
-
-.body-content{
-    width: 100%;
-    .empty-aside{
-        min-width: 220px;
-        max-width: 220px;
-        height: 100vh;
-        background-color: rgb(26, 26, 26);
-    }
-    .main-content{
-        display: flex;
-        flex-direction: column;
-        padding: 24px;
-        width: 100%;
-        // background-color: wheat;
-    }
-}
-
-.aside-container {
-    max-width: 220px;
-    // min-width: 220px;
-    min-height: 100vh;
-    color: white;
-    padding: 60px 0px;
+// aside
+.aside {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(26, 26, 26);
+    height: 100vh;
+    min-width: 48px;
+    overflow: hidden;
+    padding: 1rem 1rem;
+    background-color: var(--neutral-dark-color);
 
-    // profile
-    .aside-profile {
-        width: 100%;
-        align-items: center;
 
-        .aside-profile-photo-container {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            overflow: hidden;
+    // aside containaer
+    .aside-container {
 
-            #admin-profile-photo {
-                width: 100%;
-                height: 100%;
+        // profile
+        .profile-container {
+            width: 100%;
+            align-items: center;
+
+            .profile-photo {
+                width: 70px;
+                height: 70px;
+                overflow: hidden;
             }
-        }
 
-        p {
-            font-size: 13px;
-        }
-
-        .aside-profile-details {
-            #email-address {
-                font-size: 12px;
-                color: rgb(156, 154, 154);
-            }
-        }
-
-    }
-
-    // menu
-    .aside-menu {
-        .aside-menu-ul {
-            list-style-type: none;
-
-            .aside-menu-li {
-                display: flex;
-                flex-direction: row;
-                column-gap: 12px;
-                padding: 10px 30px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: rgb(48, 48, 48);
+            .profile-details {
+                #username {
+                    color: white;
                 }
 
-                .aside-menu-icon-div {
+                #email-address {
+                    font-size: 12px;
+                    color: rgb(156, 154, 154);
+                }
+            }
+        }
+
+        // nav
+        .nav {
+
+            // nav ul
+            ul {
+                margin-top: 3rem;
+                list-style-type: none;
+                gap: 1.25rem;
+
+                // nav li
+                li {
                     display: flex;
                     flex-direction: row;
-                    align-items: center;
-                    text-align: center;
+                    column-gap: 8px;
+                    cursor: pointer;
 
-                    i {
+                    // nav icon
+                    .nav-icon {
                         width: 20px;
+                        font-size: 18px;
+                        color: var(--neutral-lighest-color);
                     }
-                }
-            }
 
-            // notification li
-            #notification-li{
-                display: flex;
-                column-gap: 10px;
-                flex-direction: row;
-                #notification-count-div{
-                    overflow: hidden;
-                    border-radius: 50%;
-                    position: relative;
-                    height: 20px;
-                    width: 20px;
-                    background-color: red;
-                    #notification-count{
-                        margin: auto;
-                        font-size: 12px;
+                    // nav span
+                    span {
+                        // display: none;
+                        color: var(--neutral-lighest-color);
                     }
                 }
             }
         }
+    }
+}
+
+.main {
+    padding: 24px;
+    padding-left: calc(146px + 24px);
+}
+
+@media (max-width: 991px) {
+    .main {
+        padding-left: calc(47px + 24px);
     }
 }

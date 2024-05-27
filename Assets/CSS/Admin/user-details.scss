@@ -12,15 +12,6 @@
                 object-fit: cover;
             }
         }
-
-        .account-status {
-            position: relative;
-            top: -10px;
-            margin: auto;
-            width: 50px;
-            border-radius: 15px;
-            text-align: center;
-        }
     }
 
     .details {
@@ -35,13 +26,17 @@
                     }
                 }
             }
-
+            
             .rent-contribution {
-
+                
                 .rent,
                 .contribution {
                     .data {
                         color: var(--brand-color);
+                    }
+
+                    .title{
+                        text-align: center;
                     }
                 }
             }
@@ -50,10 +45,6 @@
 }
 
 .contributed-book-container {
-    display: flex;
-    flex-direction: row;
-    // display: grid;
-    // grid-template-columns: repeat(7,1fr);
     margin-top: 10px;
     gap: 1rem;
 
