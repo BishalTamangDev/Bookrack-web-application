@@ -14,12 +14,28 @@
        column-gap: 10px;
 }
 .header .header-container .logo-section a img {
-  width: 44px;
-  height: 44px;
+  width: 28px;
+  height: 28px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .header .header-container .logo-section a p {
   font-family: "Romanesco", cursive;
-  font-size: 2.5rem;
+  font-size: 1.6rem;
+}
+.header .header-container .menu-div {
+  position: absolute;
+  right: 10px;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  right: -100%;
+  background-color: white;
+}
+.header .header-container .menu-div .close-div {
+  position: relative;
+  text-align: right;
 }
 .header .header-container .menu-div .search-div {
   gap: 2px;
@@ -60,4 +76,64 @@
   color: white;
   font-size: 14px;
   padding: 6px 12px;
+}
+
+@media (min-width: 768px) {
+  .header .header-container .logo-section a img {
+    width: 44px;
+  }
+  .header .header-container .logo-section a p {
+    font-size: 2.5rem;
+  }
+  .header .header-container .hamburger-menu {
+    display: none;
+  }
+  .header .header-container .menu-div {
+    display: flex;
+    right: 0;
+    height: initial;
+  }
+  .header .header-container .menu-div .close-div {
+    display: none;
+  }
+  .header .header-container .menu-div .search-div {
+    gap: 2px;
+    border-radius: 6px;
+    background-color: rgb(238, 238, 238);
+  }
+  .header .header-container .menu-div .search-div i {
+    padding-left: 12px;
+  }
+  .header .header-container .menu-div .search-div input {
+    font-size: 12px;
+    font-size: 0.9rem;
+    width: 180px;
+    padding: 8px 12px;
+    padding-left: 6px;
+    background-color: transparent;
+    outline: none;
+  }
+  .header .header-container .menu-div .wishlist-div i {
+    font-size: 18px;
+  }
+  .header .header-container .menu-div .wishlist-div .wishlist-count-div {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    transform: translate(8px, -10px);
+    background-color: red;
+  }
+  .header .header-container .menu-div .wishlist-div .wishlist-count-div #wishlist-count {
+    font-size: 12px;
+    color: white;
+  }
+  .header .header-container .menu-div .signin-btn {
+    background-color: var(--brand-color);
+    border: none;
+    color: white;
+    font-size: 14px;
+    padding: 6px 12px;
+  }
 }/*# sourceMappingURL=header.css.map */

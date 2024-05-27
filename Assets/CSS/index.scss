@@ -1,5 +1,5 @@
 // main content
-.main{
+.main {
     display: flex;
     flex-direction: column;
     row-gap: 8rem;
@@ -11,29 +11,27 @@
     overflow: hidden;
     gap: 1rem;
     margin-top: 6rem;
-    padding: 3.5rem 1rem;
 
     .landing-detail {
-        row-gap: 1.5rem;
-        padding:  5rem 5rem;
         align-items: center;
+        row-gap: 1.5rem;
 
-        .title{
+        .title {
             text-align: center;
-            font-size: 4.3rem;
+            font-size: 2rem;
             font-weight: bolder;
-            line-height: 70px;
+
         }
-        
-        .detail{
+
+        .detail {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
         }
 
         .btn {
             width: fit-content;
             height: fit-content;
-            font-size: 1.50rem;
+            font-size: 1.1rem;
             padding: 6px 24px;
             background-color: var(--brand-color);
         }
@@ -41,26 +39,29 @@
 }
 
 // feature section
-.feature-section{
+.feature-section {
     text-align: center;
-    
+
     .description {
         padding: 1rem 0;
         font-size: 1.25rem;
     }
 
-    .feature-card-container{
+    .feature-card-container {
         flex-wrap: wrap;
         margin: auto;
-        .card{
+
+        .card {
             margin: auto;
-            width: 20rem;
-            .card-body{
-                .card-text{
+            // width: 20rem;
+            width: 100%;
+
+            .card-body {
+                .card-text {
                     font-size: 1.1rem;
                 }
 
-                .btn{
+                .btn {
                     font-size: 1.1rem;
                     padding: 6px 18px;
                 }
@@ -74,12 +75,13 @@
     text-align: center;
     row-gap: 2rem;
 
-    .description{
+    .description {
         font-size: 1.25rem;
     }
 
     .genre-card-container {
         flex-wrap: wrap;
+
         .genre-card {
             margin: auto;
             align-items: center;
@@ -108,6 +110,66 @@
             .bottom {
                 p {
                     font-size: 1.2rem;
+                }
+            }
+        }
+    }
+}
+
+// responsive section
+// tablet
+@media (min-width: 768px) {
+
+    // landing section
+    .landing-section {
+        .landing-detail {
+            .title {
+                font-size: 4.3rem;
+                line-height: 70px;
+            }
+
+            .detail {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    // feature section
+    .feature-section {
+        .feature-card-container {
+            .card {
+                margin: 0;
+                width: 20rem;
+            }
+        }
+    }
+
+    // genre section
+    .genre-section {
+        .genre-card-container {
+            .genre-card {
+                margin: 0;
+            }
+        }
+    }
+}
+
+// desktop
+@media (min-width: 992px) {
+    .main {
+
+        // landing section
+        .landing-section {
+            overflow: hidden;
+            gap: 1rem;
+            margin-top: 6rem;
+            padding: 3.5rem 1rem;
+
+            .landing-detail {
+                padding: 5rem 5rem;
+
+                .btn {
+                    font-size: 1.50rem;
                 }
             }
         }

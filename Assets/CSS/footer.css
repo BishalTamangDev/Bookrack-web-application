@@ -3,16 +3,17 @@
 }
 .footer .footer-container {
   gap: 2rem;
+  overflow: hidden;
 }
 .footer .footer-container .main-footer {
-  flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem;
 }
 .footer .footer-container .main-footer .footer-title {
   font-size: 1.3rem;
 }
 .footer .footer-container .main-footer .physical-location-section {
   row-gap: 6px;
+  margin: 0 auto;
 }
 .footer .footer-container .main-footer .physical-location-section .content {
   align-items: center;
@@ -69,4 +70,22 @@
 }
 .footer .footer-container .payment-partner-section img {
   width: 90px;
+}
+
+@media (min-width: 352px) {
+  .footer .footer-container .main-footer .physical-location-section {
+    margin: 0;
+  }
+}
+@media (min-width: 768px) {
+  .footer .footer-container .main-footer {
+    justify-content: space-between;
+  }
+  .footer .footer-container .main-footer .physical-location-section {
+    align-items: unset;
+  }
+  .footer .footer-container .main-footer .main-footer-content-section {
+    width: -moz-fit-content;
+    width: fit-content;
+  }
 }/*# sourceMappingURL=footer.css.map */

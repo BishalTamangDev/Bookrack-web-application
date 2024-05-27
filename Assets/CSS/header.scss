@@ -14,28 +14,45 @@
 
     // header container
     .header-container {
+
         // logo section
         .logo-section {
+
             // home link
             a {
                 column-gap: 10px;
 
                 // brand logo
                 img {
-                    width: 44px;
-                    height: 44px;
+                    width: 28px;
+                    height: 28px;
+                    object-fit: cover;
                 }
 
                 // brand name
                 p {
                     font-family: "Romanesco", cursive;
-                    font-size: 2.5rem;
+                    font-size: 1.6rem;
                 }
             }
         }
 
         // menu
         .menu-div {
+            position: absolute;
+            right: 10px;
+            height: 100vh;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            right: -100%;
+            background-color: white;
+
+            .close-div {
+                position: relative;
+                text-align: right;
+            }
+
             .search-div {
                 gap: 2px;
                 border-radius: 6px;
@@ -58,7 +75,7 @@
 
             // wishlist
             .wishlist-div {
-                i{
+                i {
                     font-size: 18px;
                 }
 
@@ -84,6 +101,90 @@
                 color: white;
                 font-size: 14px;
                 padding: 6px 12px;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .header {
+        .header-container {
+            .logo-section{
+                a{
+                    img{
+                        width: 44px;
+                    }
+
+                    p{
+                        font-size: 2.5rem;
+                    }
+                }
+            }
+
+            // menu bar
+            .hamburger-menu {
+                display: none;
+            }
+
+            // menu
+            .menu-div {
+                display: flex;
+                right: 0;
+                height: initial;
+
+                .close-div{
+                    display: none;
+                }
+
+                .search-div {
+                    gap: 2px;
+                    border-radius: 6px;
+                    background-color: rgb(238, 238, 238);
+
+                    i {
+                        padding-left: 12px;
+                    }
+
+                    input {
+                        font-size: 12px;
+                        font-size: 0.9rem;
+                        width: 180px;
+                        padding: 8px 12px;
+                        padding-left: 6px;
+                        background-color: transparent;
+                        outline: none;
+                    }
+                }
+
+                // wishlist
+                .wishlist-div {
+                    i {
+                        font-size: 18px;
+                    }
+
+                    .wishlist-count-div {
+                        position: absolute;
+                        overflow: hidden;
+                        border-radius: 50%;
+                        width: 22px;
+                        height: 22px;
+                        transform: translate(8px, -10px);
+                        background-color: red;
+
+                        #wishlist-count {
+                            font-size: 12px;
+                            color: white;
+                        }
+                    }
+                }
+
+                .signin-btn {
+                    background-color: var(--brand-color);
+                    border: none;
+                    color: white;
+                    font-size: 14px;
+                    padding: 6px 12px;
+                }
             }
         }
     }

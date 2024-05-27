@@ -43,12 +43,17 @@
             </div>
 
             <!-- hamburger menu -->
-            <div class="hamburger-menu d-none">
-                <i class="fa fa-bars pointer"></i>
+            <div class="hamburger-menu">
+                <i class="fa fa-bars pointer" id="open-menu"></i>
             </div>
 
             <!-- menu -->
-            <div class="d-flex flex-row align-items-center gap-3 menu-div">
+            <div class="d-flex flex-column flex-md-row align-items-centers gap-3 menu-div" id="menu">
+                <!-- hide menu -->
+                <div class="close-div">
+                    <i class="fa fa-multiply" id="close-menu"> </i>
+                </div>
+                
                 <!-- search -->
                 <div class="d-flex flex-row align-items-center search-div p-0">
                     <!-- search icon -->
@@ -57,7 +62,7 @@
                 </div>
     
                 <!-- wishlist -->
-                <div class="d-flex flex-row align-items-center wishlist-div m-2">
+                <div class="d-flex align-items-center wishlist-div m-2">
                     <div class="d-flex flex-row gap-2 align-items-center wishlist">
                         <i class="fa fa-shopping-cart pointer"></i>
                         <p class="f-reset d-none"> Wishlist </p>
@@ -234,7 +239,7 @@
     <footer class="d-flex flex-column gap-4 section footer">
         <div class="d-flex flex-column container footer-container">
             <!-- main footer -->
-            <div class="d-flex flex-row justify-content-between main-footer">
+            <div class="d-flex flex-row justify-content-lg-between flex-wrap main-footer">
                 <!-- physical location -->
                 <div class="d-flex flex-column physical-location-section">
                     <!-- title -->
@@ -474,6 +479,22 @@
 
     <!-- bootstrap js :: local file -->
     <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+
+    <!-- js :: current file -->
+    <script>
+        const openMenu =  document.getElementById("open-menu");
+        const closeMenu =  document.getElementById("close-menu");
+
+        const menu = document.getElementById("menu");
+
+        openMenu.addEventListener('click', function(){
+            menu.style = "right: 0; transition: .4s";    
+        });
+
+        closeMenu.addEventListener('click', function(){
+            menu.style = "right: -100%; transition: .4s";    
+        });
+    </script>
 </body>
 
 </html>
