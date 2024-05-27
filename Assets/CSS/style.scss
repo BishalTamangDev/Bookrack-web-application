@@ -49,6 +49,9 @@ html {
 
     /* shadow */
     --shadow-style: -2px 2px 4px 0 var(--shadow-color);
+
+    // z-index
+    --fixed-z-index: 100;
 }
 
 
@@ -76,12 +79,18 @@ body {
 }
 
 .section{
-    margin-top: 60px;
     margin-top: 30px;
 }
 
 .pointer{
     cursor: pointer;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 // overriding bootstrap classes

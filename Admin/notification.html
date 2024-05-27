@@ -29,102 +29,100 @@
 </head>
 
 <body>
-    <div class="d-flex flex-row body-content">
-        <!-- empty nav -->
-        <div class="empty-aside"> </div>
+    <!-- aside :: nav -->
+    <aside class="aside"></aside>
 
-        <!-- user table -->
-        <div class="main-content">
-            <!-- heading -->
-            <h4 class="fw-bold"> Notifications </h4>
+    <!-- main content -->
+    <main class="main">
+        <!-- heading -->
+        <h4 class="fw-bold"> Notifications </h4>
 
-            <!-- filters -->
-            <div class="d-flex flex-row mt-3 notification-filter">
-                <div class="filter filter-all active">
-                    <p class="f-reset"> All </p>
+        <!-- filters -->
+        <section class="d-flex flex-row mt-3 notification-filter">
+            <div class="filter filter-all active">
+                <p class="f-reset"> All </p>
+            </div>
+
+            <div class="filter filter-seen">
+                <p class="f-reset"> Seen </p>
+            </div>
+
+            <div class="filter filter-unseen">
+                <p class="f-reset"> Unseen </p>
+            </div>
+        </section>
+
+        <!-- notification container -->
+        <section class="d-flex flex-column mt-3 notification-container">
+            <!-- notification 1 -->
+            <div class="notification-div">
+                <!-- notification icon -->
+                <div class="icon-div">
+                    <div class="notification-icon-div">
+                        <img src="../Assets/Icons/Notification/new-user.png" alt="">
+                    </div>
                 </div>
 
-                <div class="filter filter-seen">
-                    <p class="f-reset"> Seen </p>
+                <!-- content -->
+                <div class="content-div">
+                    <!-- detail -->
+                    <div class="detail-div">
+                        <p class="f-reset title"> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Consequatur tempora assumenda reiciendis corporis eaque deleniti repellendus esse!
+                            Cupiditate, soluta nostrum. </p>
+                        <p class="f-reset date"> 0000-00-00 </p>
+                    </div>
+
+                    <!-- operation -->
+                    <div class="operation-div">
+                        <button class="btn btn-primary"> View User Detail </button>
+                    </div>
                 </div>
 
-                <div class="filter filter-unseen">
-                    <p class="f-reset"> Unseen </p>
+                <!-- menu -->
+                <div class="menu-div">
+                    <div class="icon-div">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <!-- <i class="fa fa-home"> </i> -->
+                    </div>
                 </div>
             </div>
 
-            <!-- notification container -->
-            <div class="d-flex flex-column mt-3 notification-container">
-                <!-- notification 1 -->
-                <div class="notification-div">
-                    <!-- notification icon -->
-                    <div class="icon-div">
-                        <div class="notification-icon-div">
-                            <img src="../Assets/Icons/Notification/new-user.png" alt="">
-                        </div>
-                    </div>
-
-                    <!-- content -->
-                    <div class="content-div">
-                        <!-- detail -->
-                        <div class="detail-div">
-                            <p class="f-reset title"> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Consequatur tempora assumenda reiciendis corporis eaque deleniti repellendus esse!
-                                Cupiditate, soluta nostrum. </p>
-                            <p class="f-reset date"> 0000-00-00 </p>
-                        </div>
-
-                        <!-- operation -->
-                        <div class="operation-div">
-                            <button class="btn btn-primary"> View User Detail </button>
-                        </div>
-                    </div>
-
-                    <!-- menu -->
-                    <div class="menu-div">
-                        <div class="icon-div">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <!-- <i class="fa fa-home"> </i> -->
-                        </div>
+            <!-- notification 2 -->
+            <div class="notification-div">
+                <!-- notification icon -->
+                <div class="icon-div">
+                    <div class="notification-icon-div">
+                        <img src="../Assets/Icons/Notification/book-offer.png" alt="">
                     </div>
                 </div>
 
-                <!-- notification 2 -->
-                <div class="notification-div">
-                    <!-- notification icon -->
+                <!-- content -->
+                <div class="content-div">
+                    <!-- detail -->
+                    <div class="detail-div">
+                        <p class="f-reset title"> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Consequatur tempora assumenda reiciendis corporis eaque deleniti repellendus esse!
+                            Cupiditate, soluta nostrum. </p>
+                        <p class="f-reset date"> 0000-00-00 </p>
+                    </div>
+
+                    <!-- operation -->
+                    <div class="operation-div">
+                        <button class="btn btn-primary"> View Book Detail </button>
+                    </div>
+                </div>
+
+                <!-- menu -->
+                <div class="menu-div">
                     <div class="icon-div">
-                        <div class="notification-icon-div">
-                            <img src="../Assets/Icons/Notification/book-offer.png" alt="">
-                        </div>
-                    </div>
-
-                    <!-- content -->
-                    <div class="content-div">
-                        <!-- detail -->
-                        <div class="detail-div">
-                            <p class="f-reset title"> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Consequatur tempora assumenda reiciendis corporis eaque deleniti repellendus esse!
-                                Cupiditate, soluta nostrum. </p>
-                            <p class="f-reset date"> 0000-00-00 </p>
-                        </div>
-
-                        <!-- operation -->
-                        <div class="operation-div">
-                            <button class="btn btn-primary"> View Book Detail </button>
-                        </div>
-                    </div>
-
-                    <!-- menu -->
-                    <div class="menu-div">
-                        <div class="icon-div">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                            <!-- <i class="fa fa-home"> </i> -->
-                        </div>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                        <!-- <i class="fa fa-home"> </i> -->
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <!-- jquery -->
     <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>

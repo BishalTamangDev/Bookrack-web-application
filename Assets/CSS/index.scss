@@ -1,76 +1,87 @@
+// main content
+.main{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8rem;
+    padding-bottom: 7rem;
+}
+
+// landing section
 .landing-section {
     overflow: hidden;
-    gap: 10px;
-    margin-top: 100px;
+    gap: 1rem;
+    margin-top: 6rem;
+    padding: 3.5rem 1rem;
 
-    .detail-section {
-        width: 50%;
-        row-gap: 1rem;
+    .landing-detail {
+        row-gap: 1.5rem;
+        padding:  5rem 5rem;
+        align-items: center;
+
+        .title{
+            text-align: center;
+            font-size: 4.3rem;
+            font-weight: bolder;
+            line-height: 70px;
+        }
+        
+        .detail{
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
         .btn {
-            width: 140px;
+            width: fit-content;
+            height: fit-content;
+            font-size: 1.50rem;
+            padding: 6px 24px;
             background-color: var(--brand-color);
-        }
-    }
-
-    .image-section {
-        width: 50%;
-        column-gap: 10px;
-
-        img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-        }
-
-        .left {
-            row-gap: 10px;
-            width: 20%;
-
-            .left-top-container {
-                // width: 60%;
-                height: 40%;
-
-                img {
-                    float: right;
-                    width: 60%;
-                }
-            }
-
-            .left-bottom-container {
-                height: 60%;
-            }
-        }
-
-        .right {
-            width: 80%;
-
-            img {
-                width: 100%;
-            }
         }
     }
 }
 
 // feature section
-.feature-section {
-    row-gap: 1rem;
-
+.feature-section{
+    text-align: center;
+    
     .description {
-        font-size: 0.9rem;
+        padding: 1rem 0;
+        font-size: 1.25rem;
     }
 
     .feature-card-container{
+        flex-wrap: wrap;
+        margin: auto;
         .card{
-            z-index: 1;
+            margin: auto;
+            width: 20rem;
+            .card-body{
+                .card-text{
+                    font-size: 1.1rem;
+                }
+
+                .btn{
+                    font-size: 1.1rem;
+                    padding: 6px 18px;
+                }
+            }
         }
     }
 }
 
 // genre section
 .genre-section {
-    row-gap: 1rem;
+    text-align: center;
+    row-gap: 2rem;
+
+    .description{
+        font-size: 1.25rem;
+    }
+
     .genre-card-container {
+        flex-wrap: wrap;
         .genre-card {
+            margin: auto;
             align-items: center;
             display: flex;
             flex-direction: column;
@@ -96,83 +107,9 @@
 
             .bottom {
                 p {
-                    font-size: 14px;
+                    font-size: 1.2rem;
                 }
             }
-        }
-    }
-}
-
-// footer section
-.footer {
-    .main-footer {
-        // physical location
-        .physical-location-section {
-            row-gap: 6px;
-            .content {
-                align-items: center;
-                p {
-                    font-size: 14px;
-                }
-
-                .shop-name {
-                    font-weight: 500;
-                }
-
-                .shop-location {
-                    font-size: 12px;
-                }
-            }
-        }
-
-        // quick links
-        .main-footer-content-section{
-            ul{
-                margin-top: 10px;
-                padding: 0;
-                list-style-type: none;
-                li{
-                    a{
-                        color: black;
-                    }
-                }
-            }
-        }
-
-        // mobile app links
-        .mobile-app-section {
-            .content-container {
-                .content {
-                    padding: 8px;
-                    border-radius: 6px;
-                    display: flex;
-                    flex-direction: row;
-                    gap: 8px;
-                    background-color: black;
-                    align-items: center;
-                    i,
-                    p {
-                        color: white;
-                    }
-
-                    i{
-                        font-size: 20px;
-                    }
-
-                    p:nth-child(odd) {
-                        font-size: 10px;
-                    }
-                    p:nth-child(even) {
-                        font-size: 12px;
-                    }
-                }
-            }
-        }
-    }
-
-    .payment-partner-section{
-        img{
-            width: 90px;
         }
     }
 }

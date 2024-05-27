@@ -1,7 +1,9 @@
 // top section
 .count-card-new-users {
+    row-gap: 1rem;
     .new-user-div {
         height: fit-content;
+        width: fit-content;
         border: 2px solid rgb(71, 165, 95);
 
         .profile-container {
@@ -93,14 +95,13 @@
 // recently arrived books
 .recently-arrived-books-container {
     .recently-arrived-books-div {
-        flex-wrap: wrap;
-
         .recently-arrived-book {
             display: flex;
             flex-direction: column;
             overflow: hidden;
             gap: 6px;
             transition: 0.4s;
+            cursor: pointer;
 
             &:hover {
                 transform: scale3d(1.1, 1.1, 1.1);
@@ -138,8 +139,6 @@
 // rent ending
 .rent-ending-container {
     .rent-ending-div {
-        flex-wrap: wrap;
-
         .rent-ending {
             display: flex;
             flex-direction: row;
@@ -200,11 +199,14 @@
 // book review
 .book-review-container {
     .book-review-div {
-        display: grid;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 1rem;
-        grid-template-columns: repeat(2, 1fr);
-
+        
         .book-review {
+            width: calc(50% - 0.5rem);
+            min-width: 400px;
             display: flex;
             flex-direction: row;
 
@@ -232,14 +234,14 @@
                     margin: 0;
                 }
 
-                .reader-div{
-                    p{
+                .reader-div {
+                    p {
                         font-weight: 600;
                         color: grey;
                     }
                 }
 
-                .review-div{
+                .review-div {
                     max-height: 62px;
                     overflow: hidden;
                 }

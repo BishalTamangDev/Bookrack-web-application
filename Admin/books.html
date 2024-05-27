@@ -28,151 +28,148 @@
 </head>
 
 <body>
-    <div class="d-flex flex-row body-content">
-        <!-- empty aside -->
-        <div class="empty-aside"> </div>
+    
 
-        <!-- user table -->
-        <div class="main-content">
-            <!-- heading -->
-            <h4 class="fw-bold"> Books </h4>
+    <!-- main content -->
+    <main class="main">
+        <!-- heading -->
+        <h4 class="fw-bold"> Books </h4>
 
-            <!-- cards -->
-            <div class="section card-container">
-                <!-- number of books -->
-                <div class="card-v1">
-                    <p class="card-v1-title"> Number of Books </p>
-                    <p class="card-v1-detail"> 1245 </p>
-                </div>
-
-                <!-- number of books on rent -->
-                <div class="card-v1">
-                    <p class="card-v1-title"> Books on Rent </p>
-                    <p class="card-v1-detail"> 207 </p>
+        <!-- cards -->
+        <section class="section card-container">
+            <!-- number of books -->
+            <div class="card-v1">
+                <p class="card-v1-title"> Number of Books </p>
+                <p class="card-v1-detail"> 1245 </p>
+            </div>
+    
+            <!-- number of books on rent -->
+            <div class="card-v1">
+                <p class="card-v1-title"> Books on Rent </p>
+                <p class="card-v1-detail"> 207 </p>
+            </div>
+        </section>
+        
+        <!-- table to section -->
+        <div class="section table-top-section">
+            <!-- filter -->
+            <div class="filter-div">
+                <i class="fa fa-filter" id="filter-icon"></i>
+    
+                <!-- rent / stock -->
+                <select class="form-select" aria-label="select">
+                    <option value="0" selected hidden> Book status </option>
+                    <option value="1"> All </option>
+                    <option value="2"> On Rent </option>
+                    <option value="3"> On Stock </option>
+                </select>
+    
+                <!-- genre -->
+                <select class="form-select" aria-label="select">
+                    <option value="0" selected hidden> Genre </option>
+                    <option value="1"> All </option>
+                    <option value="2"> Genre 1 </option>
+                    <option value="3"> Genre 2 </option>
+                    <option value="4"> Genre 3 </option>
+                    <option value="5"> Genre 4 </option>
+                    <option value="6"> Genre 5 </option>
+                </select>
+    
+                <!-- language -->
+                <select class="form-select" aria-label="select">
+                    <option value="0" selected hidden> Language </option>
+                    <option value="1"> All </option>
+                    <option value="2"> English </option>
+                    <option value="3"> Nepali </option>
+                    <option value="4"> Hindi </option>
+                </select>
+    
+                <!-- clear filter -->
+                <div class="clear-filter-div" id="clear-filter">
+                    <p class="f-reset"> Clear </p>
+                    <i class="fa fa-multiply"></i>
                 </div>
             </div>
-
-            <!-- table to section -->
-            <div class="section table-top-section">
-                <!-- filter -->
-                <div class="filter-div">
-                    <i class="fa fa-filter" id="filter-icon"></i>
-
-                    <!-- rent / stock -->
-                    <select class="form-select" aria-label="select">
-                        <option value="0" selected hidden> Book status </option>
-                        <option value="1"> All </option>
-                        <option value="2"> On Rent </option>
-                        <option value="3"> On Stock </option>
-                    </select>
-
-                    <!-- genre -->
-                    <select class="form-select" aria-label="select">
-                        <option value="0" selected hidden> Genre </option>
-                        <option value="1"> All </option>
-                        <option value="2"> Genre 1 </option>
-                        <option value="3"> Genre 2 </option>
-                        <option value="4"> Genre 3 </option>
-                        <option value="5"> Genre 4 </option>
-                        <option value="6"> Genre 5 </option>
-                    </select>
-
-                    <!-- language -->
-                    <select class="form-select" aria-label="select">
-                        <option value="0" selected hidden> Language </option>
-                        <option value="1"> All </option>
-                        <option value="2"> English </option>
-                        <option value="3"> Nepali </option>
-                        <option value="4"> Hindi </option>
-                    </select>
-
-                    <!-- clear filter -->
-                    <div class="clear-filter-div" id="clear-filter">
-                        <p class="f-reset"> Clear </p>
-                        <i class="fa fa-multiply"></i>
-                    </div>
+    
+            <!-- search & clear section -->
+            <div class="search-clear">
+                <!-- clear search -->
+                <div class="clear-search-div" id="clear-search">
+                    <p class="f-reset"> Clear Search </p>
+                    <i class="fa fa-multiply"></i>
                 </div>
-
-                <!-- search & clear section -->
-                <div class="search-clear">
-                    <!-- clear search -->
-                    <div class="clear-search-div" id="clear-search">
-                        <p class="f-reset"> Clear Search </p>
-                        <i class="fa fa-multiply"></i>
-                    </div>
-
-                    <!-- search section -->
-                    <div class="search-container">
-                        <input type="text" placeholder="search book">
-                        <div class="search-icon-div">
-                            <i class="fa fa-search"> </i>
-                        </div>
+    
+                <!-- search section -->
+                <div class="search-container">
+                    <input type="text" placeholder="search book">
+                    <div class="search-icon-div">
+                        <i class="fa fa-search"> </i>
                     </div>
                 </div>
             </div>
-
-            <!-- book table -->
-            <table class="table user-table">
-                <!-- header -->
-                <thead>
-                    <tr>
-                        <th scope="col"> Book ID </th>
-                        <th scope="col"> ISBN </th>
-                        <th scope="col"> Title </th>
-                        <th scope="col"> Genre </th>
-                        <th scope="col"> Author[s] </th>
-                        <th scope="col"> Language </th>
-                        <th scope="col"> Owner </th>
-                        <th scope="col"> Book State </th>
-                    </tr>
-                </thead>
-
-                <!-- body -->
-                <tbody>
-                    <!-- dummy data -->
-                    <tr class="book-row on-rent-row on-stock-row">
-                        <th scope="row"> 124745 </th>
-                        <td> 978-1-84356-028-9 </td>
-                        <td> To Kill a Mockingbird </td>
-                        <td>Fiction, Classic, Historical</td>
-                        <td>Harper Lee</td>
-                        <td>English</td>
-                        <td>Bishal Tamang</td>
-                        <td>On Rent</td>
-                    </tr>
-
-                    <tr class="book-row on-rent-row on-stock-row">
-                        <th scope="row"> 456789 </th>
-                        <td> 978-0-596-52068-7 </td>
-                        <td> 1984 </td>
-                        <td> Dystopian, Science Fiction, Political Fiction </td>
-                        <td> George Orwell </td>
-                        <td> English </td>
-                        <td> Rupak Dangi </td>
-                        <td> On rent </td>
-                    </tr>
-
-                    <tr class="book-row on-rent-row on-stock-row">
-                        <th scope="row"> 159482 </th>
-                        <td> 978-3-16-148410-0 </td>
-                        <td> The Great Gatsby </td>
-                        <td> Fiction, Classic, Tragedy </td>
-                        <td> F. Scott Fitzgerald </td>
-                        <td> English </td>
-                        <td> Shristi Pradhan </td>
-                        <td> On stock </td>
-                    </tr>
-                </tbody>
-
-                <!-- footer -->
-                <tfoot id="table-foot">
-                    <tr>
-                        <td colspan="9"> No book found! </td>
-                    </tr>
-                </tfoot>
-            </table>
         </div>
-    </div>
+    
+        <!-- book table -->
+        <table class="table user-table">
+            <!-- header -->
+            <thead>
+                <tr>
+                    <th scope="col"> Book ID </th>
+                    <th scope="col"> ISBN </th>
+                    <th scope="col"> Title </th>
+                    <th scope="col"> Genre </th>
+                    <th scope="col"> Author[s] </th>
+                    <th scope="col"> Language </th>
+                    <th scope="col"> Owner </th>
+                    <th scope="col"> Book State </th>
+                </tr>
+            </thead>
+    
+            <!-- body -->
+            <tbody>
+                <!-- dummy data -->
+                <tr class="book-row on-rent-row on-stock-row">
+                    <th scope="row"> 124745 </th>
+                    <td> 978-1-84356-028-9 </td>
+                    <td> To Kill a Mockingbird </td>
+                    <td>Fiction, Classic, Historical</td>
+                    <td>Harper Lee</td>
+                    <td>English</td>
+                    <td>Bishal Tamang</td>
+                    <td>On Rent</td>
+                </tr>
+    
+                <tr class="book-row on-rent-row on-stock-row">
+                    <th scope="row"> 456789 </th>
+                    <td> 978-0-596-52068-7 </td>
+                    <td> 1984 </td>
+                    <td> Dystopian, Science Fiction, Political Fiction </td>
+                    <td> George Orwell </td>
+                    <td> English </td>
+                    <td> Rupak Dangi </td>
+                    <td> On rent </td>
+                </tr>
+    
+                <tr class="book-row on-rent-row on-stock-row">
+                    <th scope="row"> 159482 </th>
+                    <td> 978-3-16-148410-0 </td>
+                    <td> The Great Gatsby </td>
+                    <td> Fiction, Classic, Tragedy </td>
+                    <td> F. Scott Fitzgerald </td>
+                    <td> English </td>
+                    <td> Shristi Pradhan </td>
+                    <td> On stock </td>
+                </tr>
+            </tbody>
+    
+            <!-- footer -->
+            <tfoot id="table-foot">
+                <tr>
+                    <td colspan="9"> No book found! </td>
+                </tr>
+            </tfoot>
+        </table>
+    </main>
 
     <!-- jquery -->
     <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>

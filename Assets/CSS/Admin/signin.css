@@ -1,7 +1,7 @@
-.login-container {
+.signin-container {
   min-height: 100vh;
 }
-.login-container .login-div {
-  min-width: 600px;
+.signin-container .signin-div {
+  min-width: 500px;
   margin: auto;
 }/*# sourceMappingURL=signin.css.map */

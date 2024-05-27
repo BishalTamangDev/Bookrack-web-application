@@ -1,0 +1,105 @@
+// footer section
+.footer {
+    width: 100%;
+
+    .footer-container {
+        gap: 2rem;
+        .main-footer {
+            flex-wrap: wrap;
+            gap: 1rem;
+
+            // footer title: Quick links, about us & popular genre
+            .footer-title{
+                font-size: 1.3rem;
+            }
+
+            // physical location
+            .physical-location-section {
+                row-gap: 6px;
+
+                .content {
+                    align-items: center;
+
+                    .left{
+                        i{
+                            padding-left: 6px;
+                            font-size: 20px;
+                        }
+                    }
+
+                    p {
+                        font-size: 14px;
+                    }
+
+                    .shop-name {
+                        font-weight: 500;
+                    }
+
+                    .shop-location {
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            // main footer content section
+            .main-footer-content-section {
+                ul {
+                    margin-top: 10px;
+                    padding: 0;
+                    list-style-type: none;
+
+                    li {
+                        line-height: 30px;
+                        a {
+                            font-size: 1.15rem;
+                            color: black;
+
+                            &:hover{
+                                color: var(--brand-color);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // mobile app links
+            .mobile-app-section {
+                .content-container {
+                    .content {
+                        padding: 8px;
+                        border-radius: 6px;
+                        display: flex;
+                        flex-direction: row;
+                        gap: 8px;
+                        background-color: black;
+                        align-items: center;
+
+                        i,
+                        p {
+                            color: white;
+                        }
+
+                        i {
+                            font-size: 20px;
+                        }
+
+                        p:nth-child(odd) {
+                            font-size: 10px;
+                        }
+
+                        p:nth-child(even) {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+
+        // payment partner
+        .payment-partner-section {
+            img {
+                width: 90px;
+            }
+        }
+    }
+}

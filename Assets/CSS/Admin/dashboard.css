@@ -1,6 +1,11 @@
+.count-card-new-users {
+  row-gap: 1rem;
+}
 .count-card-new-users .new-user-div {
   height: -moz-fit-content;
   height: fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   border: 2px solid rgb(71, 165, 95);
 }
 .count-card-new-users .new-user-div .profile-container {
@@ -68,15 +73,13 @@
   border: 0px solid white;
 }
 
-.recently-arrived-books-container .recently-arrived-books-div {
-  flex-wrap: wrap;
-}
 .recently-arrived-books-container .recently-arrived-books-div .recently-arrived-book {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   gap: 6px;
   transition: 0.4s;
+  cursor: pointer;
 }
 .recently-arrived-books-container .recently-arrived-books-div .recently-arrived-book:hover {
   transform: scale3d(1.1, 1.1, 1.1);
@@ -101,9 +104,6 @@
   font-size: 12px;
 }
 
-.rent-ending-container .rent-ending-div {
-  flex-wrap: wrap;
-}
 .rent-ending-container .rent-ending-div .rent-ending {
   display: flex;
   flex-direction: row;
@@ -147,11 +147,14 @@
 }
 
 .book-review-container .book-review-div {
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 1rem;
-  grid-template-columns: repeat(2, 1fr);
 }
 .book-review-container .book-review-div .book-review {
+  width: calc(50% - 0.5rem);
+  min-width: 400px;
   display: flex;
   flex-direction: row;
 }

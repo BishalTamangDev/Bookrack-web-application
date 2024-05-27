@@ -10,14 +10,6 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-.user-detail-div .photo-account-status .account-status {
-  position: relative;
-  top: -10px;
-  margin: auto;
-  width: 50px;
-  border-radius: 15px;
-  text-align: center;
-}
 .user-detail-div .details .all-details .contact-address .contact .title,
 .user-detail-div .details .all-details .contact-address .address .title {
   color: rgb(146, 145, 145);
@@ -27,10 +19,12 @@
 .user-detail-div .details .all-details .rent-contribution .contribution .data {
   color: var(--brand-color);
 }
+.user-detail-div .details .all-details .rent-contribution .rent .title,
+.user-detail-div .details .all-details .rent-contribution .contribution .title {
+  text-align: center;
+}
 
 .contributed-book-container {
-  display: flex;
-  flex-direction: row;
   margin-top: 10px;
   gap: 1rem;
 }
