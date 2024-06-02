@@ -1,0 +1,107 @@
+.book-container {
+    width: 100%;
+    transition: 0.4s;
+    cursor: pointer;
+    display: flex;
+    row-gap: 1rem;
+    flex-direction: column;
+    border-radius: 1rem;
+    overflow: hidden;
+    // box-shadow: 0px 4px 4px whitesmoke;
+
+    &:hover {
+        transition: 0.4s;
+        border-inline-start: initial;
+    }
+
+    .book-image {
+        width: 100%;
+        aspect-ratio: 3/4;
+        border-radius: 1rem;
+        overflow: hidden;
+        min-width: 131px;
+        min-height: 175px;
+    }
+
+    .book-details {
+        display: flex;
+        flex-direction: column;
+        padding: 0.6rem;
+        row-gap: 0.5rem;
+
+        p {
+            margin: 0;
+        }
+
+        .book-description-container {
+            height: 3rem;
+            overflow: hidden;
+        }
+
+        .book-title-menu {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .book-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            i {
+                cursor: pointer;
+            }
+
+            .book-menu {
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+                background-color: white;
+                border: 1px solid rgb(223, 223, 223);
+                box-shadow: -2px 2px 4px whitesmoke;
+
+                ul {
+                    list-style-type: none;
+                    padding: initial;
+                    margin: initial;
+
+                    li {
+                        padding: 0.6rem;
+                        background-color: white;
+
+                        &:hover {
+                            background-color: whitesmoke;
+                        }
+                    }
+                }
+            }
+        }
+
+        .book-price-wishlist {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .book-price {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: var(--success-color);
+            }
+
+            i {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width: 768px) {
+    .book-container {
+        width: 49%;
+        flex-direction: row;
+    }
+}

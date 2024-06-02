@@ -15,11 +15,6 @@ html {
 
 :root {
   --brand-color: rgb(240, 134, 36);
-  --base-color: #5454C7;
-  --base-light-color: #CCCCFF;
-  --base-dark-color: #020249;
-  --base-color: rgb(23, 101, 227);
-  --base-dark-color: rgb(17, 80, 182);
   --warning-color: #C79D54;
   --danger-color: #cc3333;
   --success-color: #28ad49;
@@ -52,6 +47,12 @@ body {
   margin: 0 auto;
   position: relative;
   box-sizing: inherit;
+}
+
+.main {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .input[type=text] {

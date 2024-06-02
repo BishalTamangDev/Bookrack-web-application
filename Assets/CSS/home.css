@@ -1,0 +1,111 @@
+.main {
+  margin-top: 4rem;
+}
+
+.aside {
+  position: relative;
+  display: none;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  align-content: center;
+  z-index: var(--fixed-z-index);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.aside .filter-section {
+  width: 80%;
+  min-width: 300px;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  border-radius: 6px;
+  margin-top: auto;
+  border: 1px solid rgb(226, 225, 225);
+  padding: 1rem;
+  background-color: white;
+}
+.aside .filter-section .filter-parameter-section .filter-parameter {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.aside .filter-section .filter-parameter-section .filter-parameter .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.aside .filter-section .filter-parameter-section .filter-parameter .heading label {
+  margin: 0;
+}
+.aside .filter-section hr {
+  border: 1px solid rgb(179, 177, 177);
+}
+.aside .filter-section .filter-btn {
+  background-color: white;
+  color: var(--brand-color);
+  padding: 0.4rem;
+  border: 1px solid var(--brand-color);
+}
+.aside .filter-section .filter-btn:hover {
+  color: white;
+  background-color: var(--brand-color);
+}
+.aside .advertisement-section {
+  min-height: 100px;
+  max-width: 240px;
+  border-radius: 6px;
+  aspect-ratio: 9/16;
+  overflow: hidden;
+  display: none;
+  background-color: whitesmoke;
+}
+
+.article {
+  width: 100%;
+}
+.article .top-genre-section .genre-container .genre {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid whitesmoke;
+  cursor: pointer;
+}
+.article .top-genre-section .genre-container .genre:hover {
+  background-color: whitesmoke;
+}
+.article .trending-book-container {
+  row-gap: 1rem;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    margin-top: 6rem;
+  }
+  .main .aside .filter-section {
+    max-width: 340px;
+  }
+}
+@media screen and (min-width: 1188px) {
+  .main .aside {
+    position: initial;
+    width: 20%;
+    min-width: 240px;
+    height: initial;
+    top: 0;
+    z-index: initial;
+    background-color: white;
+  }
+  .main .aside .filter-section {
+    margin: initial;
+    min-width: 240px;
+  }
+  .main .aside .advertisement-section {
+    display: block;
+  }
+}/*# sourceMappingURL=home.css.map */
