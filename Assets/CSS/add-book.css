@@ -1,0 +1,66 @@
+.main {
+  margin-top: 6rem;
+}
+.main .add-book-section {
+  width: 100%;
+  margin: auto;
+}
+.main .add-book-section .add-book-form {
+  width: 100%;
+}
+.main .add-book-section .add-book-form label {
+  font-weight: 600;
+  font-size: 15px;
+  color: rgb(78, 78, 78);
+}
+.main .add-book-section .add-book-form .book-details {
+  padding: 14px;
+}
+.main .add-book-section .add-book-form .book-details .description textarea {
+  overflow-y: scroll;
+  resize: none;
+  height: 150px;
+}
+.main .add-book-section .add-book-form .right {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.main .add-book-section .add-book-form .right .book-images input {
+  border-radius: 4px;
+  line-height: 24px;
+  font-size: 12px;
+  border: 1px solid rgb(233, 233, 233);
+}
+.main .add-book-section .add-book-form .right .operation .btn {
+  width: 100%;
+  color: white;
+  background-color: var(--brand-color);
+}
+
+@media (min-width: 768px) {
+  .add-book-form .book-details {
+    border: 1px solid whitesmoke;
+    width: 100%;
+  }
+  .add-book-form .book-details .publisher, .add-book-form .book-details .publication, .add-book-form .book-details .genre, .add-book-form .book-details .edition, .add-book-form .book-details .actual-price, .add-book-form .book-details .offer-price {
+    width: 100%;
+  }
+  .add-book-form .right {
+    border: 1px solid whitesmoke;
+    width: 35%;
+  }
+}
+@media (min-width: 992px) {
+  .add-book-form .book-details {
+    width: 74%;
+  }
+  .add-book-form .right {
+    width: 26%;
+  }
+}
+@media (min-width: 1188px) {
+  .add-book-section {
+    max-width: 900px;
+    margin: auto;
+  }
+}/*# sourceMappingURL=add-book.css.map */
