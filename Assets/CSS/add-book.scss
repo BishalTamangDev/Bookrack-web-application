@@ -9,8 +9,7 @@
             width: 100%;
 
             label {
-                font-weight: 600;
-                font-size: 15px;
+                font-size: 1.1rem;
                 color: rgb(78, 78, 78);
             }
 
@@ -36,6 +35,14 @@
                         line-height: 24px;
                         font-size: 12px;
                         border: 1px solid rgb(233, 233, 233);
+                    }
+                    .book-image{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                        p{
+                            font-size: 1.2rem;
+                        }
                     }
                 }
 
@@ -71,11 +78,11 @@
 @media (min-width: 992px) {
     .add-book-form {
         .book-details {
-            width: 74%;
+            width: 65%;
         }
         
         .right {
-            width: 26%;
+            width: 35%;
         }
     }
 }
