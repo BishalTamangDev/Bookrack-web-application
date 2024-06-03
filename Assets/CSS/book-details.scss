@@ -1,0 +1,256 @@
+.main {
+    margin-top: 4rem;
+
+    // top section
+    .title-rating-count-container {
+
+        // rating visualixation and rating count
+        .rating-count-container {
+            .rating-container {
+                img {
+                    width: 14px;
+                    height: 14px;
+                }
+            }
+        }
+    }
+
+    // book details
+    .book-detail-container {
+
+        // book image
+        .book-image-container {
+            width: 100%;
+            overflow: hidden;
+
+            .book-image {
+                cursor: pointer;
+                width: 100%;
+                aspect-ratio: 3/4;
+                object-fit: cover;
+            }
+
+            .top {
+                width: 100%;
+                aspect-ratio: 3/4;
+                overflow: hidden;
+            }
+
+            .bottom {
+                .book-image {
+                    width: calc(100% / 3);
+                    aspect-ratio: 2/2;
+                }
+            }
+        }
+
+        .all-detail-container {
+            width: 100%;
+
+            // genre
+            .genre-container {
+                .genre-list {
+                    .genre {
+                        padding: 8px 12px;
+                        text-align: center;
+                        background-color: black;
+                        border-radius: 6px;
+
+                        p {
+                            margin: 0;
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            // author
+            .author-container {
+                .author-list {
+                    .author {
+                        padding: 8px 12px;
+                        border-radius: 6px;
+                        border: 1px solid rgb(223, 223, 223);
+                        background-color: white;
+
+                        p {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+
+            // remaing details ; ISBN, editio0n, price, ....
+            .misc-container {
+                .misc-div {
+                    padding: 8px 4px;
+                    align-items: center;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 2rem;
+
+                    &:hover {
+                        background-color: whitesmoke;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+
+                    .title {
+                        min-width: 25%;
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            // operation buttons: request, add to cart, add to wishlist
+            .operation-container {
+                gap: 1rem;
+                flex-direction: column-reverse;
+
+                #request-btn,
+                #wishlist-btn,
+                #cart-btn {
+                    padding: 12px;
+                    background-color: white;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                #request-btn {
+                    color: var(--brand-color);
+                    border: 0.2rem solid var(--brand-color);
+
+                    &:hover {
+                        color: white;
+                        background-color: var(--brand-color);
+                    }
+                }
+
+                #wishlist-btn,
+                #cart-btn {
+                    border: 1px solid rgb(189, 189, 189);
+
+                    &:hover {
+                        background-color: rgb(235, 233, 233);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .main {
+        margin-top: 6rem;
+
+        .book-detail-container {
+            .book-image-container {
+                .top {
+                    width: 80%;
+                    flex-grow: 1;
+                }
+
+                .bottom {
+                    width: 20%;
+
+                    .book-image {
+                        width: 100%;
+                        aspect-ratio: 1/1;
+                    }
+                }
+            }
+
+            .all-detail-container {
+                .misc-container {
+                    .misc-div {
+                        width: 50%;
+                    }
+                }
+
+                .operation-container {
+                    gap: 1rem;
+
+                    #request-btn,
+                    #wishlist-btn,
+                    #cart-btn {
+                        padding: 6px 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width:992px) {
+    .main {
+        .book-detail-container {
+            .book-image-container {
+                width: 340px;
+
+                .top {
+                    width: 100%;
+                }
+
+                .bottom {
+                    width: 100%;
+
+                    .book-image {
+                        width: 100%;
+                        aspect-ratio: 1/1;
+                    }
+                }
+            }
+
+            .all-detail-container {
+                .misc-container {
+                    .misc-div {
+                        width: 50%;
+                    }
+                }
+
+                .operation-container {
+                    gap: 1rem;
+
+                    #request-btn,
+                    #wishlist-btn,
+                    #cart-btn {
+                        padding: 6px 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1188px) {
+    .main {
+        .book-detail-container {
+            .book-image-container {
+                width: 340px;
+
+                .top {
+                    width: 100%;
+                }
+
+                .bottom {
+                    width: 100%;
+                }
+            }
+
+            .all-detail-container {
+                width: calc(100% - 200px);
+
+                .misc-container {
+                    .misc-div {
+                        width: calc(33.33% - 1rem);
+                    }
+                }
+            }
+        }
+    }
+}

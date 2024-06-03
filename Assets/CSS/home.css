@@ -82,6 +82,31 @@
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
+.article .pagination-container i, .article .pagination-container p {
+  line-height: 30px;
+}
+.article .pagination-container .pagination-controller {
+  width: 30px;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  background-color: var(--brand-color);
+}
+.article .pagination-container .pagination-stamp {
+  width: 30px;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid whitesmoke;
+}
+.article .pagination-container .pagination-stamp p {
+  margin: 0;
+}
+.article .pagination-container .pagination-stamp:hover {
+  background-color: grey;
+}
+.article .pagination-container .active {
+  background-color: rgb(163, 161, 161);
+}
 
 @media screen and (min-width: 768px) {
   .main {
