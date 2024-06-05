@@ -81,6 +81,22 @@ img {
      object-position: center;
 }
 
+.empty-div {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  align-items: center;
+  padding: 2rem 0;
+}
+.empty-div img {
+  width: 200px;
+}
+.empty-div .empty-message {
+  font-size: 1.2rem;
+  color: var(--danger-color);
+}
+
 .table {
   width: 100%;
 }
