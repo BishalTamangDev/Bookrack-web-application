@@ -40,8 +40,6 @@
 
 // feature section
 .feature-section {
-    text-align: center;
-
     .description {
         padding: 1rem 0;
         font-size: 1.25rem;
@@ -49,21 +47,26 @@
 
     .feature-card-container {
         flex-wrap: wrap;
-        margin: auto;
 
         .card {
-            margin: auto;
-            // width: 20rem;
+            flex-grow: 1;
             width: 100%;
 
+            // max-width: 250px;
+            .feature-image {
+                width: 100%;
+                aspect-ratio: 3/2;
+                overflow: hidden;
+            }
+
             .card-body {
-                .card-text {
-                    font-size: 1.1rem;
+                .card-title {
+                    color: rgb(70, 70, 70);
+                    font-weight: bold;
                 }
 
-                .btn {
+                .card-text {
                     font-size: 1.1rem;
-                    padding: 6px 18px;
                 }
             }
         }
@@ -72,45 +75,24 @@
 
 // genre section
 .genre-section {
-    text-align: center;
-    row-gap: 2rem;
-
-    .description {
-        font-size: 1.25rem;
-    }
-
-    .genre-card-container {
-        flex-wrap: wrap;
+    .genre-container {
+        padding: 0;
 
         .genre-card {
-            margin: auto;
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            width: 80px;
-            row-gap: 10px;
+            flex-grow: 1;
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid rgb(207, 206, 206);
 
-            .top {
-                width: 100%;
-                height: 80px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                border-radius: 100%;
+            &:hover {
                 background-color: whitesmoke;
-
-                img {
-                    margin: auto;
-                    height: 60%;
-                    width: 60%;
-                    object-fit: cover;
-                }
             }
 
-            .bottom {
-                p {
-                    font-size: 1.2rem;
-                }
+            .genre-title {
+                margin: 0;
+                font-size: 1.2rem;
+                margin: 0 auto;
             }
         }
     }
@@ -140,15 +122,6 @@
             .card {
                 margin: 0;
                 width: 20rem;
-            }
-        }
-    }
-
-    // genre section
-    .genre-section {
-        .genre-card-container {
-            .genre-card {
-                margin: 0;
             }
         }
     }

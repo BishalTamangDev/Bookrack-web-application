@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="Assets/css/header.css">
     <link rel="stylesheet" href="Assets/css/footer.css">
     <link rel="stylesheet" href="Assets/css/index.css">
+    <link rel="stylesheet" href="Assets/css/book.css">
+
 </head>
 
 <body>
@@ -88,150 +90,283 @@
             <div class="d-flex flex-column m-auto landing-detail">
                 <p class="f-reset title"> Share Your Favourite Reads with <br> The World </p>
                 <p class="f-reset detail">
-                    Lorem ipsum dolor ssadsu uasda asasdbsysgds siwewdsc as asias culpa alias gds siwewdsc as asias culpa al
-                    consequatur, voluptas, molestias deserunt explicabo quisquam velit nemo qui ratione! Aut iusto omnis
-                    possimus.
+                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and discovering books that ignite your imagination, inspire your dreams, and expand your horizons. Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read, Bookrack is here to connect you with a world of literary wonders.
                 </p>
                 <button class="btn btn-block text-light" id="signup-btn-trigger" data-toggle="modal"
                     data-target="#signupModal"> Join Now </button>
             </div>
         </section>
 
-        <!-- application features section -->
-        <section class="section container d-flex flex-column gap-4 feature-section">
-            <!-- title -->
-            <p class="f-reset fw-bold fs-1 title m-auto title"> What do we offer? </p>
+        <!-- trending books -->
+        <section class="section container d-flex flex-column gap-5 trending-book-section">
+            <p class="f-reset fw-bold fs-1 title title"> Trending Books </p>
+
+            <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
+                <!-- book container :: dummy data 1 -->
+                <div class="book-container">
+                    <!-- book image -->
+                    <div class="book-image">
+                        <img src="assets/Images/cover-1.jpeg" alt="">
+                    </div>
+
+                    <!-- book details -->
+                    <div class="book-details">
+                        <!-- book title -->
+                        <div class="book-title">
+                            <p class="book-title"> To Kill a Mockingbird </p>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+
+                        <!-- book purpose -->
+                        <p class="book-purpose"> Renting </p>
+
+                        <!-- book description -->
+                        <div class="book-description-container">
+                            <p class="book-description"> Set in the American South during the 1930s, this classic
+                                novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                Finch, a young girl whose father, Atticus Finch, is ... </p>
+                        </div>
+
+                        <!-- book price -->
+                        <div class="book-price">
+                            <p class="book-price"> NRs. 85 </p>
+                        </div>
+
+                        <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                    </div>
+                </div>
+
+                <!-- book container :: dummy data 2 -->
+                <div class="book-container">
+                    <!-- book image -->
+                    <div class="book-image">
+                        <img src="assets/Images/cover-2.png" alt="">
+                    </div>
+
+                    <!-- book details -->
+                    <div class="book-details">
+                        <!-- book title -->
+                        <div class="book-title">
+                            <p class="book-title"> Don't Look Back </p>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+
+                        <!-- book purpose -->
+                        <p class="book-purpose"> Selling </p>
+
+                        <!-- book description -->
+                        <div class="book-description-container">
+                            <p class="book-description"> Set in the American South during the 1930s, this classic
+                                novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                Finch, a young girl whose father, Atticus Finch, is ... </p>
+                        </div>
+
+                        <!-- book price -->
+                        <div class="book-price">
+                            <p class="book-price"> NRs. 170 </p>
+                        </div>
+
+                        <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-            <p class="f-reset text-muted fs-5 description"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
-                necessitatibus eligendi architecto atque dicta molestiae voluptas vitae eius magni delectus nesciunt quo,
-                saepe exercitationem modi illo possimus suscipit quos libero. </p>
+        <!-- application features section -->
+        <section class="section container d-flex flex-column gap-5 feature-section">
+            <!-- title -->
+            <p class="f-reset fw-bold fs-1 title title"> What do we offer? </p>
         
             <!-- feature cards -->
-            <div class="d-flex flex-row feature-card-container gap-5 m-auto">
+            <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
                 <div class="card">
-                    <img class="card-img-top" src="assets/Images/book-1.jpg" alt="Card image cap">
+                    <div class="feature-image">
+                        <img class="card-img-top" src="assets/Images/rent.jpg" alt="Card image cap">
+                        </div>
                     <div class="card-body">
-                        <h4 class="card-title"> Feature 1 </h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
-                        <a href="#" class="btn btn-outline-warning"> Offer Now </a>
+                        <h4 class="card-title"> RENT OUT YOUR FAVOURITE BOOKS </h4>
+                        <p class="card-text"> From an ocean of books, you can choose the ones you like and rent them for a period of time. </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="feature-image">
+                        <img class="card-img-top" src="assets/Images/buy-and-sell.jpg" alt="Card image cap">
+                        </div>
+                    <div class="card-body">
+                        <h4 class="card-title"> BUY & SELL USED BOOKS </h4>
+                        <p class="card-text"> Wanna keep the books forever with you? Obviously you can keep it from us. </p>
                     </div>
                 </div>
         
                 <div class="card">
-                    <img class="card-img-top" src="assets/Images/book-2.jpg" alt="Card image cap">
+                    <div class="feature-image">
+                        <img class="card-img-top" src="assets/Images/earn.jpg" alt="Card image cap">
+                        </div>
                     <div class="card-body">
-                        <h4 class="card-title"> Feature 2 </h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
-                        <a href="#" class="btn btn-outline-warning"> Rent Now </a>
+                        <h4 class="card-title"> EARN FROM YOUR OLD BOOKS </h4>
+                        <p class="card-text"> For each circulation of your books on rent, you receive the share of it. <span class="text-warning">JOIN US NOW TO EARN.</span> </p>
                     </div>
                 </div>
         
                 <div class="card">
-                    <img class="card-img-top" src="assets/Images/book-3.jpg" alt="Card image cap">
+                    <div class="feature-image">
+                        <img class="card-img-top" src="assets/Images/dropshipping.jpg" alt="Card image cap">
+                        </div>
                     <div class="card-body">
-                        <h4 class="card-title"> Feature 3 </h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
-                        <a href="#" class="btn btn-outline-warning">Go somewhere</a>
+                        <h4 class="card-title"> DROPSHIPPING </h4>
+                        <p class="card-text"> We pick your books and aslo drop your orders everytime, on time. </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- book genre section -->
-        <section class="d-flex flex-column container section genre-section">
-            <!-- title -->
-            <p class="f-reset fw-bold fs-1 title m-auto title"> Genres </p>
+        <!-- genre section -->
+        <section class="section container d-flex flex-column gap-4 genre-section">
+            <p class="f-reset fw-bold fs-1 title title"> Genres </p>
+            <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent them instantly. </p>
 
-            <!-- description -->
-            <p class="f-reset text-muted description"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
-                necessitatibus eligendi architecto atque dicta molestiae voluptas vitae eius magni delectus nesciunt quo,
-                saepe exercitationem modi illo possimus suscipit quos libero. </p>
-    
-            <!-- genre cards -->
-            <div class="d-flex flex-row m-auto gap-5 genre-card-container">
-                <!-- genre 1 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/mystery.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Mystery </p>
-                    </div>
-                </div>
-    
-                <!-- genre 2 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/romance.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Romance </p>
-                    </div>
-                </div>
-    
-                <!-- genre 3 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/fantasy.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Fantasy </p>
-                    </div>
-                </div>
-    
-                <!-- genre 4 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/sci-fi.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Science </p>
-                    </div>
-                </div>
-    
-                <!-- genre 5 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/Genre/history.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Historical Fiction </p>
-                    </div>
-                </div>
-    
-                <!-- genre 6 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/horror.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Horror </p>
-                    </div>
-                </div>
-    
-                <!-- genre 7 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/Genre/chilren's.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Children's </p>
-                    </div>
-                </div>
-    
-                <!-- genre 8 -->
-                <div class="genre-card">
-                    <div class="top">
-                        <img src="assets/Icons/genre/thriller.png" alt="">
-                    </div>
-                    <div class="bottom">
-                        <p class="f-reset"> Thriller </p>
-                    </div>
-                </div>
+            <div class="d-flex flex-row flex-wrap container gap-3 genre-container">
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Adventure</p>
             </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Art & Photography</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Biography</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Chick Lit</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Children’s</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Classics</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Contemporary</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Cookbooks</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Dystopian</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Drama</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Essays</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Fairy Tales & Folklore</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Fantasy</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Graphic Novels</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Guide / How-to</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Health & Fitness</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Historical Fiction</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">History</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Horror</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Humor</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Humor & Satire</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Journalism</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">LGBTQ+</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Literary Fiction</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Magical Realism</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Memoir & Autobiography</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Motivational</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Mystery</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">New Adult (NA)</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Parenting & Families</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Paranormal Romance</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Philosophy</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Poetry</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Politics</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Religion & Spirituality</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Romance</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Science</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Science Fiction</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Self-Help</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Short Stories</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Thriller</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Travel</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">True Crime</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Western</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Women’s Fiction</p>
+            </div>
+            <div class="d-flex flex-row genre-card">
+                <p class="genre-title">Young Adult (YA)</p>
+            </div>
+            </div>
+            
         </section>
     </main>
 
@@ -390,7 +525,7 @@
                     </button>
                 </div>
                 <div class="modal-body bg-transparent">
-                    <form id="signin-form" class="d-flex flex-column gap-3">
+                    <form action="home.html" id="signin-form" class="d-flex flex-column gap-3">
                         <!-- error message -->
                         <p class="f-reset small text-sm text-danger"> Error message appears here... </p>
 
@@ -432,7 +567,7 @@
                     </button>
                 </div>
                 <div class="modal-body bg-transparent">
-                    <form id="signup-form" class="d-flex flex-column gap-3">
+                    <form action="home.html" id="signup-form" class="d-flex flex-column gap-3">
                         <!-- error message -->
                         <p class="f-reset small text-sm text-danger"> Error message appears here... </p>
 

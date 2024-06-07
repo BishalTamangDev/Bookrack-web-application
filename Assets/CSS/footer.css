@@ -33,6 +33,9 @@
 .footer .footer-container .main-footer .physical-location-section .content .shop-location {
   font-size: 12px;
 }
+.footer .footer-container .main-footer .main-footer-content-section {
+  flex-grow: 1;
+}
 .footer .footer-container .main-footer .main-footer-content-section ul {
   margin-top: 10px;
   padding: 0;

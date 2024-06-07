@@ -1,7 +1,6 @@
 .book-container {
   width: 100%;
   transition: 0.4s;
-  cursor: pointer;
   display: flex;
   row-gap: 1rem;
   flex-direction: column;
@@ -14,11 +13,10 @@
 }
 .book-container .book-image {
   width: 100%;
+  min-width: 131px;
   aspect-ratio: 3/4;
   border-radius: 1rem;
   overflow: hidden;
-  min-width: 131px;
-  min-height: 175px;
 }
 .book-container .book-details {
   display: flex;
@@ -29,62 +27,42 @@
 .book-container .book-details p {
   margin: 0;
 }
-.book-container .book-details .book-description-container {
-  height: 3rem;
-  overflow: hidden;
-}
-.book-container .book-details .book-title-menu {
+.book-container .book-details .book-title {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-.book-container .book-details .book-title-menu .book-title {
+.book-container .book-details .book-title .book-title {
   font-size: 1.2rem;
   font-weight: bold;
 }
-.book-container .book-details .book-title-menu i {
+.book-container .book-details .book-title i {
   cursor: pointer;
 }
-.book-container .book-details .book-title-menu .book-menu {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  background-color: white;
-  border: 1px solid rgb(223, 223, 223);
-  box-shadow: -2px 2px 4px whitesmoke;
+.book-container .book-details .book-description-container {
+  height: 3rem;
+  overflow: hidden;
 }
-.book-container .book-details .book-title-menu .book-menu ul {
-  list-style-type: none;
-  padding: initial;
-  margin: initial;
-}
-.book-container .book-details .book-title-menu .book-menu ul li {
-  padding: 0.6rem;
-  background-color: white;
-}
-.book-container .book-details .book-title-menu .book-menu ul li:hover {
-  background-color: whitesmoke;
-}
-.book-container .book-details .book-price-wishlist {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-.book-container .book-details .book-price-wishlist .book-price {
+.book-container .book-details .book-price {
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--success-color);
 }
-.book-container .book-details .book-price-wishlist i {
-  cursor: pointer;
+.book-container .book-details .btn {
+  width: -moz-fit-content;
+  width: fit-content;
+  color: var(--brand-color);
+  border: 1px solid var(--brand-color);
 }
 
 @media screen and (min-width: 768px) {
   .book-container {
     width: 49%;
     flex-direction: row;
+  }
+  .book-container .book-image {
+    max-width: 170px;
   }
 }/*# sourceMappingURL=book.css.map */

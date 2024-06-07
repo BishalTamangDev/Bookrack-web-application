@@ -72,10 +72,12 @@
   width: -moz-fit-content;
   width: fit-content;
 }
-.main .article .contents .edit-profile-content .edit-profile-form .profile-pic-password-div .password-div .btn {
+.main .article .contents .edit-profile-content .edit-profile-form .profile-pic-password-div .password-div .change-password {
   font-size: 0.95rem;
   width: -moz-fit-content;
   width: fit-content;
+  padding: 6px 1rem;
+  border-radius: 6px;
 }
 .main .article .contents .edit-profile-content .edit-profile-form .dob-gender .dob-div input {
   height: 50%;
