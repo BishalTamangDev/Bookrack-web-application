@@ -1,139 +1,113 @@
-@import url("https://fonts.googleapis.com/css2?family=Romanesco&display=swap");
 .header {
-  top: 0;
-  left: 0;
-  width: 100%;
   position: fixed;
-  padding: 4px 0;
-  background-color: white;
-  z-index: var(--fixed-z-index);
-  border-bottom: 1px solid var(--shadow-color);
-}
-.header .header-container .logo-section a {
-  -moz-column-gap: 10px;
-       column-gap: 10px;
-}
-.header .header-container .logo-section a img {
-  width: 28px;
-  height: 28px;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.header .header-container .logo-section a p {
-  font-family: "Romanesco", cursive;
-  font-size: 1.6rem;
-}
-.header .header-container .menu-div {
-  position: absolute;
-  right: 10px;
-  height: 100vh;
   top: 0;
-  right: 0;
-  padding: 10px;
-  right: -100%;
+  z-index: var(--fixed-z-index);
   background-color: white;
 }
-.header .header-container .menu-div .close-div {
-  position: relative;
-  text-align: right;
+.header .header-container .header-logo img {
+  height: 3rem;
 }
-.header .header-container .menu-div .search-div {
-  gap: 2px;
+.header .header-container .menu {
+  display: flex;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 0 80px rgb(216, 214, 214);
+}
+.header .header-container .menu .search-form {
+  width: 100%;
+}
+.header .header-container .menu .search-form input[type=search] {
+  width: 100%;
   border-radius: 6px;
-  background-color: rgb(238, 238, 238);
-}
-.header .header-container .menu-div .search-div i {
-  padding-left: 12px;
-}
-.header .header-container .menu-div .search-div input {
-  font-size: 12px;
-  font-size: 0.9rem;
-  width: 180px;
-  padding: 8px 12px;
-  padding-left: 6px;
-  background-color: transparent;
+  border: 1.5px solid rgb(179, 179, 179);
   outline: none;
 }
-.header .header-container .menu-div .wishlist-div i {
-  font-size: 18px;
+.header .header-container .menu .add-book,
+.header .header-container .menu .wishlist,
+.header .header-container .menu .cart {
+  width: 100%;
 }
-.header .header-container .menu-div .wishlist-div .wishlist-count-div {
-  position: absolute;
-  overflow: hidden;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  transform: translate(8px, -10px);
-  background-color: red;
-}
-.header .header-container .menu-div .wishlist-div .wishlist-count-div #wishlist-count {
-  font-size: 12px;
-  color: white;
-}
-.header .header-container .menu-div .signin-btn {
-  background-color: var(--brand-color);
+.header .header-container .menu .add-book {
   border: none;
-  color: white;
-  font-size: 14px;
-  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: var(--brand-color);
+}
+.header .header-container .menu .profile-div {
+  width: 100%;
+}
+.header .header-container .menu .profile-div .profile-photo {
+  overflow: hidden;
+  width: 40px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+.header .header-container .menu .profile-div .profile-menu {
+  right: 0;
+  width: 100%;
+}
+.header .header-container .menu .profile-div .profile-menu ul {
+  padding: 0;
+  list-style: none;
+  border: 1px solid whitesmoke;
+  background-color: white;
+  margin: 0;
+}
+.header .header-container .menu .profile-div .profile-menu ul li {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 3rem 1rem 1rem;
+  margin: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.header .header-container .menu .profile-div .profile-menu ul li:hover {
+  background-color: whitesmoke;
+}
+.header .header-container .menu .profile-div .profile-menu ul li i {
+  width: 14px;
 }
 
 @media (min-width: 768px) {
-  .header .header-container .logo-section a img {
-    width: 44px;
-  }
-  .header .header-container .logo-section a p {
-    font-size: 2.5rem;
-  }
-  .header .header-container .hamburger-menu {
-    display: none;
-  }
-  .header .header-container .menu-div {
+  .header .header-container .menu {
     position: initial;
-    right: initial;
+    max-width: initial;
     height: initial;
+    box-shadow: initial;
   }
-  .header .header-container .menu-div .close-div {
-    display: none;
+  .header .header-container .menu .search-form {
+    width: 100%;
   }
-  .header .header-container .menu-div .search-div {
-    gap: 2px;
+  .header .header-container .menu .search-form input[type=search] {
+    width: 100%;
     border-radius: 6px;
-    background-color: rgb(238, 238, 238);
-  }
-  .header .header-container .menu-div .search-div i {
-    padding-left: 12px;
-  }
-  .header .header-container .menu-div .search-div input {
-    font-size: 12px;
-    font-size: 0.9rem;
-    width: 180px;
-    padding: 8px 12px;
-    padding-left: 6px;
-    background-color: transparent;
+    border: 1.5px solid rgb(179, 179, 179);
     outline: none;
   }
-  .header .header-container .menu-div .wishlist-div i {
-    font-size: 18px;
+  .header .header-container .menu .add-book,
+  .header .header-container .menu .wishlist,
+  .header .header-container .menu .cart {
+    width: -moz-fit-content;
+    width: fit-content;
   }
-  .header .header-container .menu-div .wishlist-div .wishlist-count-div {
+  .header .header-container .menu .profile-div {
+    position: relative;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+  .header .header-container .menu .profile-div .profile-menu {
     position: absolute;
-    overflow: hidden;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    transform: translate(8px, -10px);
-    background-color: red;
+    right: 100px;
+    width: 100%;
+    margin-top: 0px;
+    box-shadow: 0 0 12px whitesmoke;
   }
-  .header .header-container .menu-div .wishlist-div .wishlist-count-div #wishlist-count {
-    font-size: 12px;
-    color: white;
-  }
-  .header .header-container .menu-div .signin-btn {
-    background-color: var(--brand-color);
-    border: none;
-    color: white;
-    font-size: 14px;
-    padding: 6px 12px;
+  .header .header-container .menu .profile-div .profile-menu ul {
+    width: -moz-fit-content;
+    width: fit-content;
   }
 }/*# sourceMappingURL=header.css.map */

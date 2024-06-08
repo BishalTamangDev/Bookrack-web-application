@@ -1,10 +1,59 @@
 .main {
   display: flex;
   flex-direction: column;
-  row-gap: 8rem;
+  row-gap: 6rem;
+  padding-top: 6rem;
   padding-bottom: 7rem;
 }
 
+.header {
+  position: fixed;
+  z-index: var(--fixed-z-index);
+  background-color: white;
+}
+.header .header-container .header-logo img {
+  height: 3rem;
+}
+.header .header-container .search-signin {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 70%;
+  max-width: 300px;
+  height: 100vh;
+  background-color: white;
+  box-shadow: 0 0 80px rgb(216, 214, 214);
+}
+.header .header-container .search-signin .search-form {
+  width: 100%;
+}
+.header .header-container .search-signin .search-form input[type=search] {
+  width: 100%;
+  border-radius: 6px;
+  border: 1.5px solid rgb(179, 179, 179);
+  outline: none;
+}
+.header .header-container .search-signin #signin-btn-trigger {
+  width: 100%;
+  background-color: var(--brand-color);
+  border: none;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .header .header-container .search-signin {
+    box-shadow: none;
+    background-color: none;
+    height: -moz-fit-content;
+    height: fit-content;
+    position: initial;
+  }
+  .header .header-container .search-signin #signin-btn-trigger {
+    padding: initial;
+    width: 130px;
+    background-color: var(--brand-color);
+  }
+}
 .landing-section {
   overflow: hidden;
   gap: 1rem;

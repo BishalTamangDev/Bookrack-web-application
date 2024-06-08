@@ -78,6 +78,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+  justify-content: center;
 }
 .main .book-detail-container .all-detail-container .operation-container #request-btn {
   color: var(--brand-color);

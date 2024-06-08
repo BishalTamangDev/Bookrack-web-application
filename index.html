@@ -24,7 +24,7 @@
     <!-- css files -->
     <link rel="stylesheet" href="Assets/css/navbar.css">
     <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/header.css">
+    <!-- <link rel="stylesheet" href="Assets/css/header.css"> -->
     <link rel="stylesheet" href="Assets/css/footer.css">
     <link rel="stylesheet" href="Assets/css/index.css">
     <link rel="stylesheet" href="Assets/css/book.css">
@@ -33,55 +33,36 @@
 
 <body>
     <!-- header -->
-    <header class="d-flex flex-row header">
-        <!-- heading container -->
-        <div class="d-flex flex-row container justify-content-between align-items-center header-container">
-            <!-- logo section -->
-            <div class="d-flex flex-row logo-section">
-                <a href="index.html" class="d-flex flex-row align-items-center">
-                    <img src="Assets/Brand/bookrack-logo-black.png" alt="" id="brand-icon">
-                    <p class="f-reset fw-bold text-dark" id="title"> bookrack </p>
-                </a>
+    <header class="header w-100 border-bottom">
+        <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
+            <!-- logo -->
+            <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
+                onclick="window.location.href='index.html'">
+                <img src="assets/Brand/bookrack-logo-black.png" alt="">
+                <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
 
-            <!-- hamburger menu -->
-            <div class="hamburger-menu">
-                <i class="fa fa-bars pointer" id="open-menu"></i>
-            </div>
+            <!-- menu bar -->
+            <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
 
-            <!-- menu -->
-            <div class="d-flex flex-column flex-md-row align-items-centers gap-3 menu-div" id="menu">
-                <!-- hide menu -->
-                <div class="close-div">
-                    <i class="fa fa-multiply" id="close-menu"> </i>
+            <div class="d-flex flex-column flex-md-row gap-3 p-4 p-md-0 align-items-center search-signin" id="menu">
+                <!-- close menu -->
+                <div class="d-flex d-md-none justify-content-end container p-3 close" id="close-menu">
+                    <i class="fa fa-multiply pointer fs-3"></i>
                 </div>
-                
+
                 <!-- search -->
-                <div class="d-flex flex-row align-items-center search-div p-0">
-                    <!-- search icon -->
-                    <i class="fa fa-search"> </i>
-                    <input type="text" class="border-0" placeholder="What do you want to read?">
-                </div>
-    
-                <!-- wishlist -->
-                <div class="d-flex align-items-center wishlist-div m-2">
-                    <div class="d-flex flex-row gap-2 align-items-center wishlist">
-                        <i class="fa fa-shopping-cart pointer"></i>
-                        <p class="f-reset d-none"> Wishlist </p>
-                    </div>
+                <form action="" class="search-form">
+                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2">
+                </form>
 
-                    <!-- wishlist counter -->
-                    <div class="d-flex flex-row wishlist-count-div align-items-center pointer">
-                        <p class="f-reset m-auto" id="wishlist-count"> 9+ </p>
-                    </div>
-                </div>
-    
-                <!-- sign in -->
-                <button type="button" class="rounded signin-btn" id="signin-btn-trigger" data-toggle="modal"
-                    data-target="#signinModal"> Sign in </button>
+                <!-- signin -->
+                <button type="button" class="rounded px-md-3 py-2 signin-btn" id="signin-btn-trigger"
+                    data-toggle="modal" data-target="#signinModal"> Sign In </button>
             </div>
         </div>
     </header>
+
 
     <!-- main -->
     <main class="main">
@@ -90,7 +71,10 @@
             <div class="d-flex flex-column m-auto landing-detail">
                 <p class="f-reset title"> Share Your Favourite Reads with <br> The World </p>
                 <p class="f-reset detail">
-                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and discovering books that ignite your imagination, inspire your dreams, and expand your horizons. Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read, Bookrack is here to connect you with a world of literary wonders.
+                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and
+                    discovering books that ignite your imagination, inspire your dreams, and expand your horizons.
+                    Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
+                    Bookrack is here to connect you with a world of literary wonders.
                 </p>
                 <button class="btn btn-block text-light" id="signup-btn-trigger" data-toggle="modal"
                     data-target="#signupModal"> Join Now </button>
@@ -171,48 +155,51 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- application features section -->
         <section class="section container d-flex flex-column gap-5 feature-section">
             <!-- title -->
             <p class="f-reset fw-bold fs-1 title title"> What do we offer? </p>
-        
+
             <!-- feature cards -->
             <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
                 <div class="card">
                     <div class="feature-image">
                         <img class="card-img-top" src="assets/Images/rent.jpg" alt="Card image cap">
-                        </div>
+                    </div>
                     <div class="card-body">
                         <h4 class="card-title"> RENT OUT YOUR FAVOURITE BOOKS </h4>
-                        <p class="card-text"> From an ocean of books, you can choose the ones you like and rent them for a period of time. </p>
+                        <p class="card-text"> From an ocean of books, you can choose the ones you like and rent them for
+                            a period of time. </p>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="feature-image">
                         <img class="card-img-top" src="assets/Images/buy-and-sell.jpg" alt="Card image cap">
-                        </div>
+                    </div>
                     <div class="card-body">
                         <h4 class="card-title"> BUY & SELL USED BOOKS </h4>
-                        <p class="card-text"> Wanna keep the books forever with you? Obviously you can keep it from us. </p>
+                        <p class="card-text"> Wanna keep the books forever with you? Obviously you can keep it from us.
+                        </p>
                     </div>
                 </div>
-        
+
                 <div class="card">
                     <div class="feature-image">
                         <img class="card-img-top" src="assets/Images/earn.jpg" alt="Card image cap">
-                        </div>
+                    </div>
                     <div class="card-body">
                         <h4 class="card-title"> EARN FROM YOUR OLD BOOKS </h4>
-                        <p class="card-text"> For each circulation of your books on rent, you receive the share of it. <span class="text-warning">JOIN US NOW TO EARN.</span> </p>
+                        <p class="card-text"> For each circulation of your books on rent, you receive the share of it.
+                            <span class="text-warning">JOIN US NOW TO EARN.</span> </p>
                     </div>
                 </div>
-        
+
                 <div class="card">
                     <div class="feature-image">
                         <img class="card-img-top" src="assets/Images/dropshipping.jpg" alt="Card image cap">
-                        </div>
+                    </div>
                     <div class="card-body">
                         <h4 class="card-title"> DROPSHIPPING </h4>
                         <p class="card-text"> We pick your books and aslo drop your orders everytime, on time. </p>
@@ -224,149 +211,150 @@
         <!-- genre section -->
         <section class="section container d-flex flex-column gap-4 genre-section">
             <p class="f-reset fw-bold fs-1 title title"> Genres </p>
-            <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent them instantly. </p>
+            <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent
+                them instantly. </p>
 
             <div class="d-flex flex-row flex-wrap container gap-3 genre-container">
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Adventure</p>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Adventure</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Art & Photography</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Biography</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Chick Lit</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Children’s</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Classics</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Contemporary</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Cookbooks</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Dystopian</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Drama</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Essays</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Fairy Tales & Folklore</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Fantasy</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Graphic Novels</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Guide / How-to</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Health & Fitness</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Historical Fiction</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">History</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Horror</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Humor</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Humor & Satire</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Journalism</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">LGBTQ+</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Literary Fiction</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Magical Realism</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Memoir & Autobiography</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Motivational</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Mystery</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">New Adult (NA)</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Parenting & Families</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Paranormal Romance</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Philosophy</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Poetry</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Politics</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Religion & Spirituality</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Romance</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Science</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Science Fiction</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Self-Help</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Short Stories</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Thriller</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Travel</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">True Crime</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Western</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Women’s Fiction</p>
+                </div>
+                <div class="d-flex flex-row genre-card">
+                    <p class="genre-title">Young Adult (YA)</p>
+                </div>
             </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Art & Photography</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Biography</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Chick Lit</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Children’s</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Classics</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Contemporary</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Cookbooks</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Dystopian</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Drama</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Essays</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Fairy Tales & Folklore</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Fantasy</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Graphic Novels</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Guide / How-to</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Health & Fitness</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Historical Fiction</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">History</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Horror</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Humor</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Humor & Satire</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Journalism</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">LGBTQ+</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Literary Fiction</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Magical Realism</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Memoir & Autobiography</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Motivational</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Mystery</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">New Adult (NA)</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Parenting & Families</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Paranormal Romance</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Philosophy</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Poetry</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Politics</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Religion & Spirituality</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Romance</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Science</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Science Fiction</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Self-Help</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Short Stories</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Thriller</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Travel</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">True Crime</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Western</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Women’s Fiction</p>
-            </div>
-            <div class="d-flex flex-row genre-card">
-                <p class="genre-title">Young Adult (YA)</p>
-            </div>
-            </div>
-            
+
         </section>
     </main>
 
@@ -617,18 +605,40 @@
 
     <!-- js :: current file -->
     <script>
-        const openMenu =  document.getElementById("open-menu");
-        const closeMenu =  document.getElementById("close-menu");
-
+        var menuState = false;
         const menu = document.getElementById("menu");
+        const openMenu = document.getElementById("open-menu");
+        const closeMenu = document.getElementById("close-menu");
 
-        openMenu.addEventListener('click', function(){
-            menu.style = "right: 0; transition: .4s";    
+        // open menu
+        openMenu.addEventListener('click', function () {
+            menuState = !menuState;
+            menu.style = "right: 0; transition: .4s";
         });
 
-        closeMenu.addEventListener('click', function(){
-            menu.style = "right: -100%; transition: .4s";    
+        // close menu
+        closeMenu.addEventListener('click', function () {
+            menuState = !menuState;
+            menu.style = "right: -100%; transition: .4s";
         });
+
+        // device width changing
+        widthCheck = () => {
+            if (window.innerWidth < 768) {
+                if (!menuState) {
+                    menu.style = "right: -100%; transition: 0s";
+                } else {
+                    menu.style = "right: 0; transition: 0.4s";
+                }
+            }
+        }
+
+        window.addEventListener('resize', widthCheck);
+
+
+        window.onload = () => {
+            widthCheck();
+        }
     </script>
 </body>
 
