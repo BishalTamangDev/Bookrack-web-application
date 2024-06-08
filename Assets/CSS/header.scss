@@ -1,189 +1,136 @@
-// font for logo >> romanesco
-@import url('https://fonts.googleapis.com/css2?family=Romanesco&display=swap');
-
 // header
 .header {
-    top: 0;
-    left: 0;
-    width: 100%;
     position: fixed;
-    padding: 4px 0;
-    background-color: white;
+    top: 0;
     z-index: var(--fixed-z-index);
-    border-bottom: 1px solid var(--shadow-color);
+    background-color: white;
 
-    // header container
     .header-container {
-
-        // logo section
-        .logo-section {
-
-            // home link
-            a {
-                column-gap: 10px;
-
-                // brand logo
-                img {
-                    width: 28px;
-                    height: 28px;
-                    object-fit: cover;
-                }
-
-                // brand name
-                p {
-                    font-family: "Romanesco", cursive;
-                    font-size: 1.6rem;
-                }
+        .header-logo {
+            img {
+                height: 3rem;
             }
         }
 
-        // menu
-        .menu-div {
-            position: absolute;
-            right: 10px;
-            height: 100vh;
-            top: 0;
+        .menu {
+            display: flex;
+            position: fixed;
             right: 0;
-            padding: 10px;
-            right: -100%;
-            background-color: white;
+            top: 0;
+            width: 70%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: rgba($color: #ffffff, $alpha: 1.0);
+            box-shadow: 0 0 80px rgb(216, 214, 214);
 
-            .close-div {
-                position: relative;
-                text-align: right;
-            }
+            .search-form {
+                width: 100%;
 
-            .search-div {
-                gap: 2px;
-                border-radius: 6px;
-                background-color: rgb(238, 238, 238);
-
-                i {
-                    padding-left: 12px;
-                }
-
-                input {
-                    font-size: 12px;
-                    font-size: 0.9rem;
-                    width: 180px;
-                    padding: 8px 12px;
-                    padding-left: 6px;
-                    background-color: transparent;
+                input[type=search] {
+                    width: 100%;
+                    border-radius: 6px;
+                    border: 1.5px solid rgb(179, 179, 179);
                     outline: none;
                 }
             }
 
-            // wishlist
-            .wishlist-div {
-                i {
-                    font-size: 18px;
-                }
-
-                .wishlist-count-div {
-                    position: absolute;
-                    overflow: hidden;
-                    border-radius: 50%;
-                    width: 22px;
-                    height: 22px;
-                    transform: translate(8px, -10px);
-                    background-color: red;
-
-                    #wishlist-count {
-                        font-size: 12px;
-                        color: white;
-                    }
-                }
+            .add-book,
+            .wishlist,
+            .cart {
+                width: 100%;
             }
 
-            .signin-btn {
-                background-color: var(--brand-color);
+            .add-book{
                 border: none;
-                color: white;
-                font-size: 14px;
-                padding: 6px 12px;
+                border-radius: 4px;
+                background-color: var(--brand-color);
+            }
+
+            .profile-div {
+                width: 100%;
+
+                .profile-photo {
+                    overflow: hidden;
+                    width: 40px;
+                    border-radius: 50%;
+                    aspect-ratio: 1/1;
+                }
+
+                .profile-menu {
+                    right: 0;
+                    width: 100%;
+
+                    ul {
+                        padding: 0;
+                        list-style: none;
+                        border: 1px solid whitesmoke;
+                        background-color: white;
+                        margin: 0;
+
+                        li {
+                            display: flex;
+                            gap: 0.5rem;
+                            padding: 1rem 3rem 1rem 1rem;
+                            margin: 0;
+                            white-space: nowrap;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: whitesmoke;
+                            }
+
+                            i {
+                                width: 14px;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width:768px) {
     .header {
         .header-container {
-            .logo-section{
-                a{
-                    img{
-                        width: 44px;
-                    }
-
-                    p{
-                        font-size: 2.5rem;
-                    }
-                }
-            }
-
-            // menu bar
-            .hamburger-menu {
-                display: none;
-            }
-
-            // menu
-            .menu-div {
+            .menu {
                 position: initial;
-                right: initial;
+                max-width: initial;
                 height: initial;
+                box-shadow: initial;
 
-                .close-div{
-                    display: none;
-                }
+                .search-form {
+                    width: 100%;
 
-                .search-div {
-                    gap: 2px;
-                    border-radius: 6px;
-                    background-color: rgb(238, 238, 238);
-
-                    i {
-                        padding-left: 12px;
-                    }
-
-                    input {
-                        font-size: 12px;
-                        font-size: 0.9rem;
-                        width: 180px;
-                        padding: 8px 12px;
-                        padding-left: 6px;
-                        background-color: transparent;
+                    input[type=search] {
+                        width: 100%;
+                        border-radius: 6px;
+                        border: 1.5px solid rgb(179, 179, 179);
                         outline: none;
                     }
                 }
 
-                // wishlist
-                .wishlist-div {
-                    i {
-                        font-size: 18px;
-                    }
-
-                    .wishlist-count-div {
-                        position: absolute;
-                        overflow: hidden;
-                        border-radius: 50%;
-                        width: 22px;
-                        height: 22px;
-                        transform: translate(8px, -10px);
-                        background-color: red;
-
-                        #wishlist-count {
-                            font-size: 12px;
-                            color: white;
-                        }
-                    }
+                .add-book,
+                .wishlist,
+                .cart {
+                    width: fit-content;
                 }
 
-                .signin-btn {
-                    background-color: var(--brand-color);
-                    border: none;
-                    color: white;
-                    font-size: 14px;
-                    padding: 6px 12px;
+                .profile-div {
+                    position: relative;
+                    width: fit-content;
+
+                    .profile-menu {
+                        position: absolute;
+                        right: 100px;
+                        width: 100%;
+                        margin-top: 0px;
+                        box-shadow: 0 0 12px whitesmoke;
+
+                        ul {
+                            width: fit-content;
+                        }
+                    }
                 }
             }
         }

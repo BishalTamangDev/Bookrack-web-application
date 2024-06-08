@@ -148,11 +148,13 @@
   width: 60px;
 }
 
+@media (min-width: 1000px) {
+  .checkout {
+    max-width: 330px;
+  }
+}
 @media (min-width: 1188px) {
   .main .current-cart-section .cart-detail {
     width: 100%;
-  }
-  .main .current-cart-section .checkout {
-    width: 400px;
   }
 }/*# sourceMappingURL=cart.css.map */
