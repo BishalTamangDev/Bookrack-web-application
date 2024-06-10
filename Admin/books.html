@@ -110,10 +110,11 @@
         </div>
     
         <!-- book table -->
-        <table class="table user-table">
+        <table class="table table-striped user-table">
             <!-- header -->
             <thead>
                 <tr>
+                    <th scope="col"> SN </th>
                     <th scope="col"> Book ID </th>
                     <th scope="col"> ISBN </th>
                     <th scope="col"> Title </th>
@@ -122,6 +123,7 @@
                     <th scope="col"> Language </th>
                     <th scope="col"> Owner </th>
                     <th scope="col"> Book State </th>
+                    <th scope="col"> Action </th>
                 </tr>
             </thead>
     
@@ -129,7 +131,8 @@
             <tbody>
                 <!-- dummy data -->
                 <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 124745 </th>
+                    <th scope="row"> 1 </th>
+                    <td> 124745 </td>
                     <td> 978-1-84356-028-9 </td>
                     <td> To Kill a Mockingbird </td>
                     <td>Fiction, Classic, Historical</td>
@@ -137,10 +140,18 @@
                     <td>English</td>
                     <td>Bishal Tamang</td>
                     <td>On Rent</td>
+                    <td>
+                        <abbr title="Show full details">
+                            <a href="book-details.html">
+                                <i class="fa fa-eye"></i>
+                                </a>
+                        </abbr>
+                    </td>
                 </tr>
     
                 <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 456789 </th>
+                    <th scope="row"> 2 </th>
+                    <td> 456789 </td>
                     <td> 978-0-596-52068-7 </td>
                     <td> 1984 </td>
                     <td> Dystopian, Science Fiction, Political Fiction </td>
@@ -148,10 +159,18 @@
                     <td> English </td>
                     <td> Rupak Dangi </td>
                     <td> On rent </td>
+                    <td>
+                        <abbr title="Show full details">
+                            <a href="book-details.html">
+                                <i class="fa fa-eye"></i>
+                                </a>
+                        </abbr>
+                    </td>
                 </tr>
     
                 <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 159482 </th>
+                    <th scope="row"> 3 </th>
+                    <td> 159482 </td>
                     <td> 978-3-16-148410-0 </td>
                     <td> The Great Gatsby </td>
                     <td> Fiction, Classic, Tragedy </td>
@@ -159,13 +178,20 @@
                     <td> English </td>
                     <td> Shristi Pradhan </td>
                     <td> On stock </td>
+                    <td>
+                        <abbr title="Show full details">
+                            <a href="book-details.html">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </abbr>
+                    </td>
                 </tr>
             </tbody>
     
             <!-- footer -->
             <tfoot id="table-foot">
                 <tr>
-                    <td colspan="9"> No book found! </td>
+                    <td colspan="10"> No book found! </td>
                 </tr>
             </tfoot>
         </table>

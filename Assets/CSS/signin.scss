@@ -63,8 +63,6 @@
                 }
 
                 .action {
-
-                    button,
                     a {
                         flex-grow: 1;
                         border-radius: 1rem;
@@ -75,6 +73,14 @@
 
                     a {
                         background-color: whitesmoke;
+                    }
+
+                    #signin-btn,
+                    #signup-btn {
+                        padding: 0 2rem;
+                        color: white;
+                        background-color: var(--brand-color);
+                        border-radius: 1.25rem;
                     }
                 }
             }

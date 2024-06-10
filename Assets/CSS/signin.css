@@ -46,7 +46,6 @@
   border: 0.5px solid var(--brand-color);
   box-shadow: none;
 }
-.signin-container .content .sign-content .signin-form .action button,
 .signin-container .content .sign-content .signin-form .action a {
   flex-grow: 1;
   border-radius: 1rem;
@@ -56,6 +55,13 @@
 }
 .signin-container .content .sign-content .signin-form .action a {
   background-color: whitesmoke;
+}
+.signin-container .content .sign-content .signin-form .action #signin-btn,
+.signin-container .content .sign-content .signin-form .action #signup-btn {
+  padding: 0 2rem;
+  color: white;
+  background-color: var(--brand-color);
+  border-radius: 1.25rem;
 }
 
 @media (min-width: 720px) {
