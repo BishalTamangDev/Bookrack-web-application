@@ -1,0 +1,103 @@
+.main {
+  background-image: url("/Assets/Images/free.jpg");
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+.signin-container {
+  background-color: white;
+  width: 100%;
+}
+.signin-container .heading img {
+  width: 80px;
+}
+.signin-container .content .landing-content {
+  width: 100%;
+}
+.signin-container .content .landing-content .landing-content-heading {
+  font-size: 2rem;
+}
+.signin-container .content .landing-content .landing-content-image {
+  width: 100%;
+  aspect-ratio: 4/2;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.signin-container .content .sign-content {
+  width: 100%;
+}
+.signin-container .content .sign-content .heading .note {
+  letter-spacing: 0.5px;
+  line-height: 1.25rem;
+}
+.signin-container .content .sign-content .signin-form .input-group input[type=email],
+.signin-container .content .sign-content .signin-form .input-group input[type=password] {
+  line-height: 2rem;
+}
+.signin-container .content .sign-content .signin-form .input-group input[type=email]:focus,
+.signin-container .content .sign-content .signin-form .input-group input[type=password]:focus {
+  border: 0.5px solid var(--brand-color);
+  box-shadow: none;
+}
+.signin-container .content .sign-content .signin-form .action button,
+.signin-container .content .sign-content .signin-form .action a {
+  flex-grow: 1;
+  border-radius: 1rem;
+  border: none;
+  padding: 10px 20px;
+  background-color: var(--brand-color);
+}
+.signin-container .content .sign-content .signin-form .action a {
+  background-color: whitesmoke;
+}
+
+@media (min-width: 720px) {
+  .signin-container .content .landing-content .landing-content-image {
+    width: 100%;
+    aspect-ratio: 4/1;
+  }
+}
+@media (min-width: 992px) {
+  .main {
+    height: 100vh;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .main .signin-container {
+    width: 80%;
+    border-radius: 1rem;
+    height: -moz-fit-content;
+    height: fit-content;
+  }
+  .main .signin-container .content .landing-content {
+    width: 60%;
+  }
+  .main .signin-container .content .landing-content .landing-content-heading {
+    font-size: 3rem;
+  }
+  .main .signin-container .content .landing-content .landing-content-image {
+    width: 100%;
+    aspect-ratio: 4/2;
+  }
+  .main .signin-container .content .sign-content {
+    width: 40%;
+  }
+  .main .signin-container .content .sign-content .signin-form .btn {
+    flex-grow: initial;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+@media (min-width: 1440px) {
+  .main .signin-container {
+    width: 80%;
+    max-width: 1200px;
+  }
+}/*# sourceMappingURL=signin.css.map */

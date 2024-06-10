@@ -16,12 +16,15 @@
             // left
             .book-details {
                 padding: 14px;
-                
-                .description{
-                    textarea{
-                        overflow-y: scroll;
-                        resize: none;
-                        height: 150px;
+                input{
+                    border: 1px solid rgb(202, 202, 202);
+                    }
+                    .description {
+                        textarea {
+                            overflow-y: scroll;
+                            resize: none;
+                            height: 150px;
+                            border: 1px solid rgb(202, 202, 202);
                     }
                 }
             }
@@ -30,18 +33,18 @@
                 height: fit-content;
 
                 .book-images {
-                    input {
-                        border-radius: 4px;
-                        line-height: 24px;
-                        font-size: 12px;
-                        border: 1px solid rgb(233, 233, 233);
-                    }
-                    .book-image{
+                    .input-group {
                         display: flex;
                         flex-direction: column;
-                        gap: 0.5rem;
-                        p{
+                        width: 100%;
+                        gap: 0.7rem;
+
+                        label{
                             font-size: 1.2rem;
+                        }
+
+                        input[type=file] {
+                            width: 100%;
                         }
                     }
                 }
@@ -63,11 +66,17 @@
         .book-details {
             border: 1px solid whitesmoke;
             width: 100%;
-            .publisher, .publication, .genre, .edition, .actual-price, .offer-price{
+
+            .publisher,
+            .publication,
+            .genre,
+            .edition,
+            .actual-price,
+            .offer-price {
                 width: 100%;
             }
         }
-        
+
         .right {
             border: 1px solid whitesmoke;
             width: 35%;
@@ -80,7 +89,7 @@
         .book-details {
             width: 65%;
         }
-        
+
         .right {
             width: 35%;
         }

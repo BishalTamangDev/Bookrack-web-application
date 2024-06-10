@@ -15,28 +15,30 @@
 .main .add-book-section .add-book-form .book-details {
   padding: 14px;
 }
+.main .add-book-section .add-book-form .book-details input {
+  border: 1px solid rgb(202, 202, 202);
+}
 .main .add-book-section .add-book-form .book-details .description textarea {
   overflow-y: scroll;
   resize: none;
   height: 150px;
+  border: 1px solid rgb(202, 202, 202);
 }
 .main .add-book-section .add-book-form .right {
   height: -moz-fit-content;
   height: fit-content;
 }
-.main .add-book-section .add-book-form .right .book-images input {
-  border-radius: 4px;
-  line-height: 24px;
-  font-size: 12px;
-  border: 1px solid rgb(233, 233, 233);
-}
-.main .add-book-section .add-book-form .right .book-images .book-image {
+.main .add-book-section .add-book-form .right .book-images .input-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  width: 100%;
+  gap: 0.7rem;
 }
-.main .add-book-section .add-book-form .right .book-images .book-image p {
+.main .add-book-section .add-book-form .right .book-images .input-group label {
   font-size: 1.2rem;
+}
+.main .add-book-section .add-book-form .right .book-images .input-group input[type=file] {
+  width: 100%;
 }
 .main .add-book-section .add-book-form .right .operation .btn {
   width: 100%;
@@ -49,7 +51,12 @@
     border: 1px solid whitesmoke;
     width: 100%;
   }
-  .add-book-form .book-details .publisher, .add-book-form .book-details .publication, .add-book-form .book-details .genre, .add-book-form .book-details .edition, .add-book-form .book-details .actual-price, .add-book-form .book-details .offer-price {
+  .add-book-form .book-details .publisher,
+  .add-book-form .book-details .publication,
+  .add-book-form .book-details .genre,
+  .add-book-form .book-details .edition,
+  .add-book-form .book-details .actual-price,
+  .add-book-form .book-details .offer-price {
     width: 100%;
   }
   .add-book-form .right {

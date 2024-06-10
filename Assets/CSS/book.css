@@ -39,6 +39,7 @@
   font-weight: bold;
 }
 .book-container .book-details .book-title i {
+  color: black;
   cursor: pointer;
 }
 .book-container .book-details .book-description-container {

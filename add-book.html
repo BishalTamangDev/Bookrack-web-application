@@ -39,29 +39,32 @@
                 <button class="btn btn-danger" onclick="window.location.href='add-book.html'"> Reset </button>
             </div>
 
+            <div class="alert alert-danger" role="alert">
+                Error message appears here...
+            </div>
+
             <!-- add book form -->
-            <form action="" class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
+            <form action="" method="GET" class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
-                        <p class="f-reset text-danger"> Error message appears here... </p>
                         <label for="book-title" class="f-reset form-label"> Title </label>
-                        <input type="text" class="form-control" id="book-title" name="book-title"
-                            aria-describedby="textHelp">
+                        <input type="text" class="form-control-lg" id="book-title" name="book-title"
+                            aria-describedby="book title" required>
                     </div>
 
                     <!-- description -->
                     <div class="d-flex flex-column gap-2 description">
                         <label for="book-description" class="f-reset form-label"> Description </label>
-                        <textarea class="form-control" placeholder="" id="book-description"
-                            name="book-description"></textarea>
+                        <textarea class="form-control-lg" placeholder="" id="book-description"
+                            name="book-description" required></textarea>
                     </div>
 
                     <!-- ISBN -->
                     <div class="d-flex flex-column gap-2 isbn">
                         <label for="book-isbn" class="f-reset form-label"> ISBN </label>
-                        <input type="text" class="form-control" id="book-isbn" name="book-isbn"
-                            aria-describedby="textHelp">
+                        <input type="text" class="form-control-lg" id="book-isbn" name="book-isbn"
+                            aria-describedby="book isbn" required>
                     </div>
 
                     <!-- publisher & publication -->
@@ -69,15 +72,15 @@
                         <!-- publisher -->
                         <div class="d-flex flex-column gap-2 publisher ">
                             <label for="book-publisher" class="f-reset form-label"> Publisher </label>
-                            <input type="text" class="form-control" id="book-publisher" name="book-publisher"
-                                aria-describedby="textHelp">
+                            <input type="text" class="form-control-lg" id="book-publisher" name="book-publisher"
+                                aria-describedby="publisher" required>
                         </div>
 
                         <!-- publication -->
                         <div class="d-flex flex-column gap-2 publication ">
                             <label for="book-publication" class="f-reset form-label"> Publication </label>
-                            <input type="text" class="form-control" id="book-publication" name="book-publication"
-                                aria-describedby="textHelp">
+                            <input type="text" class="form-control-lg" id="book-publication" name="book-publication"
+                                aria-describedby="publication" required>
                         </div>
                     </div>
 
@@ -86,16 +89,30 @@
                         <!-- genre -->
                         <div class="d-flex flex-column gap-2 genre ">
                             <label for="book-genre" class="f-reset f-reset form-label"> Genre </label>
-                            <input type="text" class="form-control" id="book-genre" name="book-genre"
-                                aria-describedby="textHelp">
+                            <input type="text" class="form-control-lg" id="book-genre" name="book-genre"
+                                aria-describedby="book genre" required>
+                        </div>
+
+                        <!-- language -->
+                        <div class="d-flex flex-column gap-2 language ">
+                            <label for="book-language" class="f-reset f-reset form-label"> language </label>
+                            <select class="form-select form-select-lg" id="book-language" name="book-language"
+                                aria-label="book language" required>
+                                <option selected hidden value=""> Select the language </option>
+                                <option value="1"> Language 1 </option>
+                                <option value="2"> Language 2 </option>
+                                <option value="3"> Language 3 </option>
+                                <option value="4"> Language 4 </option>
+                                <option value="5"> Language 5 </option>
+                            </select>
                         </div>
 
                         <!-- edition -->
                         <div class="d-flex flex-column gap-2 edition ">
                             <label for="book-edition" class="f-reset f-reset form-label"> Edition </label>
-                            <select class="form-select form-select" id="book-edition" name="book-edition"
-                                aria-label="Small select example">
-                                <option selected hidden value="0"> Select the edition </option>
+                            <select class="form-select form-select-lg" id="book-edition" name="book-edition"
+                                aria-label="book edition" required>
+                                <option selected hidden value=""> Select the edition </option>
                                 <option value="1"> 1st </option>
                                 <option value="2"> 2nd </option>
                                 <option value="3"> 3rd </option>
@@ -111,14 +128,14 @@
                     <div class="d-flex flex-column flex-md-row gap-3 price">
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-actual-price" class="f-reset form-label"> Actual price </label>
-                            <input type="text" class="form-control" id="book-actual-price" name="book-actual-price"
-                                aria-describedby="textHelp" placeholder="">
+                            <input type="text" class="form-control-lg" id="book-actual-price" name="book-actual-price"
+                                aria-describedby="actual price" placeholder=""  required>
                         </div>
 
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-offer-price" class="f-reset form-label"> Offer price </label>
-                            <input type="text" class="form-control" id="book-offer-price" name="book-offer-price"
-                                aria-describedby="textHelp" placeholder="">
+                            <input type="text" class="form-control-lg" id="book-offer-price" name="book-offer-price"
+                                aria-describedby="offer price" placeholder=""  required>
                         </div>
                     </div>
                 </div>
@@ -131,19 +148,22 @@
                     </div>
 
                     <div class="d-flex flex-column gap-3 book-images">
-                        <div class="book-image">
-                            <p class="f-reset"> Cover page </p>
-                            <input type="file" name="" id="">
+                        <div class="input-group">
+                            <label for="cover-page">Cover page</label>
+                            <input type="file" name="cover-page" id="cover-page" class="form-control" aria-label="cover page image"
+                                    aria-describedby="cover page image" required>
                         </div>
 
-                        <div class="book-image">
-                            <p class="f-reset"> Price page </p>
-                            <input type="file" name="" id="">
+                        <div class="input-group">
+                            <label for="price-page">Price page</label>
+                            <input type="file" name="price-page" id="cover-page" class="form-control" aria-label="price page image"
+                                    aria-describedby="price page image" required>
                         </div>
 
-                        <div class="book-image">
-                        <p class="f-reset"> ISBN page </p>
-                        <input type="file" name="" id="">
+                        <div class="input-group">
+                            <label for="isbn-page">ISBN page</label>
+                            <input type="file" name="isbn-page" id="isbn-page" class="form-control" aria-label="isbn page image"
+                                    aria-describedby="isbn page image" required>
                         </div>
                     </div>
 

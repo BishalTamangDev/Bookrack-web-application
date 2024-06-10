@@ -33,8 +33,7 @@
   border: 1.5px solid rgb(179, 179, 179);
   outline: none;
 }
-.header .header-container .search-signin #signin-btn-trigger {
-  width: 100%;
+.header .header-container .search-signin a {
   background-color: var(--brand-color);
   border: none;
   color: white;

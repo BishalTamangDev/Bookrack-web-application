@@ -57,8 +57,7 @@
                 </form>
 
                 <!-- signin -->
-                <button type="button" class="rounded px-md-3 py-2 signin-btn" id="signin-btn-trigger"
-                    data-toggle="modal" data-target="#signinModal"> Sign In </button>
+                <a href="signin.html" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
             </div>
         </div>
     </header>
@@ -76,8 +75,7 @@
                     Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
                     Bookrack is here to connect you with a world of literary wonders.
                 </p>
-                <button class="btn btn-block text-light" id="signup-btn-trigger" data-toggle="modal"
-                    data-target="#signupModal"> Join Now </button>
+                <a href="signup.html" class="btn btn-warning text-light"> JOIN NOW </a>
             </div>
         </section>
 
@@ -165,7 +163,7 @@
             <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/rent.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="assets/Images/rent.jpg" alt="rent out book" loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> RENT OUT YOUR FAVOURITE BOOKS </h4>
@@ -176,7 +174,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/buy-and-sell.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="assets/Images/buy-and-sell.jpg" alt="buy & sell book" loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> BUY & SELL USED BOOKS </h4>
@@ -187,7 +185,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/earn.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="assets/Images/earn.jpg" alt="earn by placing book on rent" loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> EARN FROM YOUR OLD BOOKS </h4>
@@ -198,7 +196,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/dropshipping.jpg" alt="Card image cap">
+                        <img class="card-img-top" src="assets/Images/dropshipping.jpg" alt="dropshipping" loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> DROPSHIPPING </h4>
@@ -499,91 +497,6 @@
         </div>
     </footer>
 
-    <!-- modal -->
-    <!-- sign in modal -->
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal" role="document">
-            <div class="modal-content">
-                <div class="d-flex flex-row justify-content-between modal-header">
-                    <h5 class="modal-title fw-bold fs-2" id="exampleModalLongTitle">Sign In</h5>
-                    <button type="button" class="close border-0 bg-transparent" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-times fs-4 bg-transparent"></i>
-                        <!-- <span aria-hidden="true">&times;</span> -->
-                    </button>
-                </div>
-                <div class="modal-body bg-transparent">
-                    <form action="home.html" id="signin-form" class="d-flex flex-column gap-3">
-                        <!-- error message -->
-                        <p class="f-reset small text-sm text-danger"> Error message appears here... </p>
-
-                        <!-- email address -->
-                        <div class="d-flex flex-column form-group gap-1">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="signin-email" aria-describedby="emailHelp"
-                                placeholder="Enter email">
-                        </div>
-
-                        <!-- password -->
-                        <div class="d-flex flex-column form-group gap-1">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="signin-password" placeholder="Password">
-                        </div>
-
-                        <!-- password toggle -->
-                        <div class="form-check mt-1">
-                            <input type="checkbox" class="form-check-input" id="signin-password-toggle">
-                            <label class="form-check-label small text-sm" for="exampleCheck1">Check me out</label>
-                        </div>
-                        <button type="submit" class="btn btn-warning"> Sign in </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- sign up modal -->
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal" role="document">
-            <div class="modal-content">
-                <div class="d-flex flex-row justify-content-between modal-header">
-                    <h5 class="modal-title fw-bold fs-2" id=""> Sign up </h5>
-                    <button type="button" class="close border-0 bg-transparent" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-times fs-3 bg-transparent"></i>
-                        <!-- <span aria-hidden="true">&times;</span> -->
-                    </button>
-                </div>
-                <div class="modal-body bg-transparent">
-                    <form action="home.html" id="signup-form" class="d-flex flex-column gap-3">
-                        <!-- error message -->
-                        <p class="f-reset small text-sm text-danger"> Error message appears here... </p>
-
-                        <!-- email address -->
-                        <div class="d-flex flex-column form-group gap-1">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="signup-email" aria-describedby="emailHelp"
-                                placeholder="Enter email">
-                        </div>
-
-                        <!-- password -->
-                        <div class="d-flex flex-column form-group gap-1">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="signup-password" placeholder="Password">
-                        </div>
-
-                        <!-- password toggle -->
-                        <div class="form-check mt-1">
-                            <input type="checkbox" class="form-check-input" id="signup-password-toggle">
-                            <label class="form-check-label small text-sm" for="exampleCheck1">Check me out</label>
-                        </div>
-                        <button type="submit" class="btn btn-warning"> Sign up </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- jquery -->
     <script src="assets/js/jquery-3.7.1.min.js"></script>
 
@@ -634,7 +547,6 @@
         }
 
         window.addEventListener('resize', widthCheck);
-
 
         window.onload = () => {
             widthCheck();
