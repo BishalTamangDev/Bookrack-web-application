@@ -115,9 +115,17 @@ img{
 
     tbody{
         tr{
-            td{
+            th, td{
+                abbr{
+                    text-decoration: none;
+                }
+
+                a{
+                    color: black;
+                }
                 &:hover{
-                    background-color: whitesmoke;
+                    // background-color: whitesmoke;
+                    cursor: default;
                 }
             }
         }

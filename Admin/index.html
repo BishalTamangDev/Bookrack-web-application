@@ -47,23 +47,18 @@
                         <p class="card-v1-detail"> 1245 </p>
                     </div>
 
-                    <!-- number of contributors -->
-                    <div class="card-v1">
-                        <p class="card-v1-title"> Providers </p>
-                        <p class="card-v1-detail"> 27 </p>
-                    </div>
-
-                    <!-- number of readers -->
-                    <div class="card-v1">
-                        <p class="card-v1-title"> Readers </p>
-                        <p class="card-v1-detail"> 167 </p>
-                    </div>
-
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
                         <p class="card-v1-detail"> 5000 </p>
                     </div>
+
+                    <!-- number of books on rent -->
+                    <div class="card-v1">
+                        <p class="card-v1-title"> Books on Rent </p>
+                        <p class="card-v1-detail"> 27 </p>
+                    </div>
+
                 </div>
             </div>
 
@@ -72,17 +67,17 @@
                 <div class="d-flex flex-row profile-container">
                     <!-- user 1 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-1.png" alt="">
+                        <img src="../Assets/Images/user-1.png" alt="" loading="lazy">
                     </div>
 
                     <!-- user 2 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-2.jpg" alt="">
+                        <img src="../Assets/Images/user-2.jpg" alt="" loading="lazy">
                     </div>
 
                     <!-- user 3 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-3.jpg" alt="">
+                        <img src="../Assets/Images/user-3.jpg" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -96,17 +91,16 @@
         <!-- offer and request -->
         <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
             <!-- offer -->
-            <div class="offer-container w-100 w-md-50">
+            <div class="w-100 w-md-50 offer-container">
                 <!-- heading -->
                 <p class="f-reset fs-5 fw-bold"> New Offers </p>
 
                 <div class="mt-3 offer-div">
                     <!-- offer table -->
-                    <table class="table offer-table">
+                    <table class="table table-striped offer-table">
                         <!-- table heading -->
                         <thead>
                             <tr>
-                                <th scope="col"> SN </th>
                                 <th scope="col"> Book </th>
                                 <th scope="col"> Title </th>
                                 <th scope="col"> Provider </th>
@@ -118,19 +112,10 @@
                         <tbody>
                             <!-- dummy data -->
                             <tr>
-                                <td> 1 </td>
                                 <td>
                                     <div class="offer-book-image-container">
                                         <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-1.jpeg" alt="">
-                                        </div>
-
-                                        <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-2.png" alt="">
-                                        </div>
-
-                                        <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-3.jpg" alt="">
+                                            <img src="../Assets/Images/cover-1.jpeg" alt="" loading="lazy">
                                         </div>
                                     </div>
                                 </td>
@@ -138,34 +123,16 @@
                                 <td> Rupak Dangi </td>
                                 <td> NRs. 140.00 </td>
                             </tr>
-
-                            <tr>
-                                <td> 2 </td>
-                                <td>
-                                    <div class="offer-book-image-container">
-                                        <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-1.jpeg" alt="">
-                                        </div>
-
-                                        <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-2.png" alt="">
-                                        </div>
-
-                                        <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-3.jpg" alt="">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td> Intuition </td>
-                                <td> Shristi Pradhan </td>
-                                <td> NRs. 190.00 </td>
-                            </tr>
                         </tbody>
 
                         <!-- table footer -->
                         <tfoot id="table-foot">
+                            <tr class="empty-request-tr">
+                                <td colspan="4"> No new offers! </td>
+                            </tr>
+
                             <tr>
-                                <td colspan="9">
+                                <td colspan="4">
                                     <a href="book-offers.html"> Show all offers </a>
                                 </td>
                             </tr>
@@ -181,11 +148,10 @@
 
                 <div class="mt-3 request-div">
                     <!-- request table -->
-                    <table class="table request-table">
+                    <table class="table table-striped request-table">
                         <!-- table heading -->
                         <thead>
                             <tr>
-                                <th scope="col"> SN </th>
                                 <th scope="col"> Title </th>
                                 <th scope="col"> Reader </th>
                                 <th scope="col"> Rent days </th>
@@ -197,30 +163,24 @@
                         <tbody>
                             <!-- dummy data -->
                             <tr>
-                                <td> 1 </td>
                                 <td> Intuition </td>
                                 <td> Rupak Dangi </td>
                                 <td> 1 week </td>
                                 <td> NRs. 120.00 </td>
                             </tr>
-
-                            <tr>
-                                <td> 2 </td>
-                                <td> Don't Look Back </td>
-                                <td> Shristi Pradhan </td>
-                                <td> 2 month </td>
-                                <td> NRs. 280.00 </td>
-                            </tr>
                         </tbody>
-
-                        <!-- table footer -->
-                        <tfoot id="table-foot">
-                            <tr>
-                                <td colspan="9">
-                                    <a href="book-requests.html"> Show all requests </a>
-                                </td>
-                            </tr>
-                        </tfoot>
+                            
+                            <!-- table footer -->
+                            <tfoot id="table-foot">
+                                <tr class="empty-request-tr">
+                                    <td colspan="4"> No new request! </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9">
+                                        <a href="book-requests.html"> Show all requests </a>
+                                    </td>
+                                </tr>
+                            </tfoot>
                     </table>
                 </div>
             </div>
@@ -230,6 +190,10 @@
         <section class="section d-flex flex-column gap-4 recently-arrived-books-container">
             <!-- heading -->
             <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
+
+            <!-- empty arrived book -->
+            <p class="f-reset text-danger"> No books found! </p>
+
             <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
                 <!-- book 1 -->
                 <div class="recently-arrived-book" onclick="window.location.href='book-details.html'">
@@ -246,121 +210,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- book 2 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-2.png" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> Don't Look Back </p>
-                        </div>
-                        <div class="genre">
-                            <p> Thriller </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 3 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-3.jpg" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> Intuituin </p>
-                        </div>
-                        <div class="genre">
-                            <p> Life Lesson </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 4 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> The Black Universe </p>
-                        </div>
-                        <div class="genre">
-                            <p> Action </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 5 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-2.png" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> Don't Look Back </p>
-                        </div>
-                        <div class="genre">
-                            <p> Thriller </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 6 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-3.jpg" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> Intuituin </p>
-                        </div>
-                        <div class="genre">
-                            <p> Life Lesson </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 7 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> The Black Universe </p>
-                        </div>
-                        <div class="genre">
-                            <p> Action </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- book 8 -->
-                <div class="recently-arrived-book">
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-2.png" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> Don't Look Back </p>
-                        </div>
-                        <div class="genre">
-                            <p> Thriller </p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <a href="#" class="btn btn-outline-success m-auto"> Show all </a>
+            <a href="books.html" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
 
         </section>
 
@@ -369,6 +221,8 @@
             <div class="heading">
                 <p class="f-reset fs-4 fw-bold"> Some books' returning date is arriving soon </p>
             </div>
+
+            <p class="f-reset text-danger"> No books has been issued yet!</p>
 
             <div class="d-flex flex-row flex-wrap gap-3 rent-ending-div">
                 <!-- dummy data 1 -->
@@ -380,15 +234,18 @@
 
                     <!-- detail -->
                     <div class="detail-div">
+                        <!-- title -->
+                        <div class="title-div">
+                            <a href="book-details.html">
+                                The Black Universe
+                            </a>
+                        </div>
+
                         <!-- days remaining -->
                         <div class="remaining-days-div">
                             <p class="remaining-days"> 3 days <span> remaining </span> </p>
                         </div>
 
-                        <!-- title -->
-                        <div class="title-div">
-                            <p> The Black Universe </p>
-                        </div>
 
                         <!-- reader -->
                         <div class="reader-div">
@@ -397,84 +254,21 @@
 
                         <!-- contact -->
                         <div class="contact-div">
-                            <button class="btn btn-success" onclick="window.location.href='user-details.html'">
-                                Contact Now </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- dummy data 2 -->
-                <div class="rent-ending">
-                    <!-- image -->
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-2.png" alt="">
-                    </div>
-
-                    <!-- detail -->
-                    <div class="detail-div">
-                        <!-- days remaining -->
-                        <div class="remaining-days-div">
-                            <p class="remaining-days"> 13 days <span> remaining </span> </p>
-                        </div>
-
-                        <!-- title -->
-                        <div class="title-div">
-                            <p> Don't Look Back </p>
-                        </div>
-
-                        <!-- reader -->
-                        <div class="reader-div">
-                            <p> Rupak Dangi </p>
-                        </div>
-
-                        <!-- contact -->
-                        <div class="contact-div">
-                            <button class="btn btn-success" onclick="window.location.href='user-details.html'">
-                                Contact Now </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- dummy data 3 -->
-                <div class="rent-ending">
-                    <!-- image -->
-                    <div class="image-div">
-                        <img src="../Assets/Images/cover-3.jpg" alt="">
-                    </div>
-
-                    <!-- detail -->
-                    <div class="detail-div">
-                        <!-- days remaining -->
-                        <div class="remaining-days-div">
-                            <p class="remaining-days"> 1 day <span> remaining </span> </p>
-                        </div>
-
-                        <!-- title -->
-                        <div class="title-div">
-                            <p> Intuition </p>
-                        </div>
-
-                        <!-- reader -->
-                        <div class="reader-div">
-                            <p> Bishal Tamang </p>
-                        </div>
-
-                        <!-- contact -->
-                        <div class="contact-div">
-                            <button class="btn btn-success" onclick="window.location.href='user-details.html'">
-                                Contact Now </button>
+                            <a href="user-details.html" class="btn">Contact Reader</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <a href="#" class="btn btn-outline-success m-auto"> Show all </a>
+            <a href="#" class="btn m-auto" id="show-all-rent-ending"> Show all </a>
         </section>
 
         <!-- book reviews -->
         <section class="d-flex flex-column section gap-3 book-review-container">
             <!-- heading -->
             <p class="f-reset fs-4 fw-bold"> Book Reviews </p>
+
+            <p class="f-reset text-danger"> No book reviews has been submitted yet! </p>
 
             <!-- book reviews -->
             <div class="book-review-div">
@@ -560,7 +354,7 @@
                 </div>
             </div>
 
-            <a href="#" class="btn btn-outline-success m-auto"> Show all </a>
+            <a href="#" class="btn m-auto" id="show-all-reviews"> Show all </a>
         </section>
     </main>
 

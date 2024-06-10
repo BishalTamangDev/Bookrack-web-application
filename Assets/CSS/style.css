@@ -100,8 +100,14 @@ img {
 .table {
   width: 100%;
 }
-.table tbody tr td:hover {
-  background-color: whitesmoke;
+.table tbody tr th abbr, .table tbody tr td abbr {
+  text-decoration: none;
+}
+.table tbody tr th a, .table tbody tr td a {
+  color: black;
+}
+.table tbody tr th:hover, .table tbody tr td:hover {
+  cursor: default;
 }
 .table #table-foot tr td {
   color: var(--brand-color);

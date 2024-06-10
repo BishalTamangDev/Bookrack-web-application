@@ -157,17 +157,17 @@
         <h6 class="section fw-bold text-danger"> Rent History </h6>
 
         <!-- book table -->
-        <table class="table user-table">
+        <table class="table table-striped user-table">
             <!-- header -->
             <thead>
                 <tr>
                     <th scope="col"> S.N. </th>
-                    <th scope="col"> ISBN </th>
                     <th scope="col"> Title </th>
                     <th scope="col"> Genre </th>
                     <th scope="col"> Issued Date </th>
                     <th scope="col"> Returned Date </th>
                     <th scope="col"> Rent Status </th>
+                    <th scope="col"> Action </th>
                 </tr>
             </thead>
 
@@ -175,30 +175,43 @@
             <tbody>
                 <!-- dummy data -->
                 <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 1 </th>
-                    <td> 978-1-84356-028-9 </td>
-                    <td> To Kill a Mockingbird </td>
+                    <th scope="row"> 1 </th>                
+                    <td>
+                        <abbr title="Show book details"> To Kill a Mockingbird </abbr>
+                    </td>
+                    </td>
                     <td> Fiction, Classic, Historical </td>
                     <td> 0000-00-00 </td>
                     <td> 0000-00-00 </td>
                     <td> Completed </td>
+                    <td>
+                        <abbr title="Show full details">
+                            <i class="fa fa-eye"></i>
+                        </abbr>
+                    </td>
                 </tr>
 
                 <tr class="book-row on-rent-row on-stock-row">
                     <th scope="row"> 2 </th>
-                    <td> 978-0-596-52068-7 </td>
-                    <td> 1984 </td>
+                    <td>
+                        <abbr title="Show book details"> 1984 </abbr>
+                    </td>
                     <td> Dystopian, Science Fiction, Political Fiction </td>
                     <td> 0000-00-00 </td>
                     <td> - </td>
                     <td> On rent </td>
+                    <td>
+                        <abbr title="Show full details">
+                            <i class="fa fa-eye"></i>
+                        </abbr>
+                    </td>
                 </tr>
             </tbody>
 
             <!-- footer -->
             <tfoot id="table-foot">
                 <tr>
-                    <td colspan="9"> No book rent history found! </td>
+                    <td colspan="10"> No book rent history found! </td>
                 </tr>
             </tfoot>
         </table>
