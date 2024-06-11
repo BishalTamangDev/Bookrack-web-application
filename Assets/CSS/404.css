@@ -1,0 +1,16 @@
+.main {
+  height: 100vh;
+}
+.main .page-not-found-section {
+  align-items: center;
+}
+.main .page-not-found-section .page-not-found-detail {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.main .page-not-found-section .page-not-found-detail .title {
+  font-size: 3rem;
+}
+.main .page-not-found-section .page-not-found-detail .sub-title {
+  font-size: 2rem;
+}/*# sourceMappingURL=404.css.map */

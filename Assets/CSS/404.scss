@@ -1,0 +1,17 @@
+.main {
+    height: 100vh;
+
+    .page-not-found-section {
+        align-items: center;
+        .page-not-found-detail {
+            height: fit-content;
+            .title{
+                font-size: 3rem;
+            }
+
+            .sub-title{
+                font-size: 2rem;
+            }
+        }
+    }
+}
