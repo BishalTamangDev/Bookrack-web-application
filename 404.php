@@ -33,7 +33,7 @@
                     You may have mistyped the address or the page may have moved.
                 </p>
                 <ul>
-                    <li><a href="/landing.html">Home</a></li>
+                    <li><a href="/landing.php">Home</a></li>
                 </ul>
             </div>
 

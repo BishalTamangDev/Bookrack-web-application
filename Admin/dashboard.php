@@ -133,7 +133,7 @@
 
                             <tr>
                                 <td colspan="4">
-                                    <a href="book-offers.html"> Show all offers </a>
+                                    <a href="book-offers.php"> Show all offers </a>
                                 </td>
                             </tr>
                         </tfoot>
@@ -177,7 +177,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="9">
-                                        <a href="book-requests.html"> Show all requests </a>
+                                        <a href="book-requests.php"> Show all requests </a>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -196,7 +196,7 @@
 
             <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
                 <!-- book 1 -->
-                <div class="recently-arrived-book" onclick="window.location.href='book-details.html'">
+                <div class="recently-arrived-book" onclick="window.location.href='book-details.php'">
                     <div class="image-div">
                         <img src="../Assets/Images/cover-1.jpeg" alt="">
                     </div>
@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <a href="books.html" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
+            <a href="books.php" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
 
         </section>
 
@@ -236,7 +236,7 @@
                     <div class="detail-div">
                         <!-- title -->
                         <div class="title-div">
-                            <a href="book-details.html">
+                            <a href="book-details.php">
                                 The Black Universe
                             </a>
                         </div>
@@ -254,7 +254,7 @@
 
                         <!-- contact -->
                         <div class="contact-div">
-                            <a href="user-details.html" class="btn">Contact Reader</a>
+                            <a href="user-details.php" class="btn">Contact Reader</a>
                         </div>
                     </div>
                 </div>

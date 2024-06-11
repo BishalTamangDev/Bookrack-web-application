@@ -52,19 +52,19 @@
             <nav class="nav px-lg-2">
                 <ul class="d-flex flex-column p-0">
                     <!-- dashboard -->
-                    <li onclick="window.location.href='index.html'">
+                    <li onclick="window.location.href='index.php'">
                         <i class="fa-brands fa-windows nav-icon"></i>
                         <span class="d-none d-lg-block"> Dashboard </span>
                     </li>
 
                     <!-- users -->
-                    <li onclick="window.location.href='users.html'">
+                    <li onclick="window.location.href='users.php'">
                         <i class="fa fa-users nav-icon"></i>
                         <span class="d-none d-lg-block"> Users </span>
                     </li>
 
                     <!-- books -->
-                    <li onclick="window.location.href='books.html'">
+                    <li onclick="window.location.href='books.php'">
 
                         <i class="fa fa-book nav-icon"></i>
                         <span class="d-none d-lg-block"> Books </span>
@@ -72,25 +72,25 @@
                     </li>
 
                     <!-- notification -->
-                    <li onclick="window.location.href='notification.html'">
+                    <li onclick="window.location.href='notification.php'">
                         <i class="fa-regular fa-bell nav-icon"></i>
                         <span class="d-none d-lg-block"> Notification </span>
                     </li>
 
                     <!-- offers -->
-                    <li onclick="window.location.href='book-offers.html'">
+                    <li onclick="window.location.href='book-offers.php'">
                         <i class="fa fa-hands nav-icon"></i>
                         <span class="d-none d-lg-block"> Offers </span>
                     </li>
 
                     <!-- request -->
-                    <li onclick="window.location.href='book-requests.html'">
+                    <li onclick="window.location.href='book-requests.php'">
                         <i class="fa-solid fa-comment-dots nav-icon"></i>
                         <span class="d-none d-lg-block"> Requests </span>
                     </li>
 
                     <!-- request -->
-                    <li onclick="window.location.href='rent.html'">
+                    <li onclick="window.location.href='rent.php'">
                         <i class="fa-regular fa-note-sticky nav-icon"></i>
                         <span class="d-none d-lg-block"> Rent History </span>
                     </li>

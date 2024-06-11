@@ -118,12 +118,12 @@
                 <tr class="request-row accepted-row rejected-row ">
                     <th scope="row">
                         <abbr title="Show book details">
-                            <a href="book-details.html"> 124745 </a>
+                            <a href="book-details.php"> 124745 </a>
                         </abbr>
                     </th>
                     <td> 
                         <abbr title="Show user details">
-                            <a href="user-details.html"> Bishal Tamang </a>
+                            <a href="user-details.php"> Bishal Tamang </a>
                             </abbr>
                     </td>
                     <td> 978-1-84356-028-9 </td>
@@ -137,12 +137,12 @@
                 <tr class="request-row accepted-row rejected-row ">
                     <th scope="row"> 
                         <abbr title="Show book details">
-                            <a href="book-details.html"> 124745 </a>
+                            <a href="book-details.php"> 124745 </a>
                         </abbr>
                         </th>
                     <td> 
                         <abbr title="Show user details">
-                            <a href="user-details.html"> Rupak Dangi </a>
+                            <a href="user-details.php"> Rupak Dangi </a>
                             </abbr>
                     </td>
                     <td> 978-0-596-52068-7 </td>
@@ -156,12 +156,12 @@
                 <tr class="request-row accepted-row rejected-row ">
                     <th scope="row"> 
                         <abbr title="Show book details">
-                            <a href="book-details.html"> 124745 </a>
+                            <a href="book-details.php"> 124745 </a>
                         </abbr>
                         </th>
                     <td> 
                         <abbr title="Show user details">
-                            <a href="user-details.html"> Shristi Pradhan </a>
+                            <a href="user-details.php"> Shristi Pradhan </a>
                             </abbr>
                     </td>
                     <td> 978-3-16-148410-0 </td>

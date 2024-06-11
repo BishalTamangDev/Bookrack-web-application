@@ -37,7 +37,7 @@
                 <img src="Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="signin.html">
+                <a href="signin.php">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -52,7 +52,7 @@
                     </div>
 
                     <!-- email form -->
-                    <form action="forgot-password.html?tab=otp" class="d-flex flex-column forgot-password-email-form">
+                    <form action="forgot-password.php?tab=otp" class="d-flex flex-column forgot-password-email-form">
                         <!-- error message section -->
                         <p class="f-reset text-danger mb-3"> Error message appears here... </p>
 
@@ -70,7 +70,7 @@
                         </div>
 
                         <div class="d-flex flex-row gap-3 flex-wrap justify-content-between remember-me-forgot-password mb-3">
-                            <a href="forgot-password.html?tab=otp" class="float float-right"> Already have an OTP code? </a>
+                            <a href="forgot-password.php?tab=otp" class="float float-right"> Already have an OTP code? </a>
                         </div>
 
                         <div class="action">
@@ -89,7 +89,7 @@
                     </div>
 
                     <!-- otp form -->
-                    <form action="forgot-password.html?tab=reset-password" class="d-flex flex-column forgot-password-email-form">
+                    <form action="forgot-password.php?tab=reset-password" class="d-flex flex-column forgot-password-email-form">
                         <!-- error message section -->
                         <p class="f-reset text-danger mb-3"> Error message appears here... </p>
 
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="d-flex flex-row gap-3 flex-wrap justify-content-between remember-me-forgot-password mb-3">
-                            <a href="forgot-password.html?tab=email"> Didn't get the code? </a>
+                            <a href="forgot-password.php?tab=email"> Didn't get the code? </a>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
@@ -115,7 +115,7 @@
                     </div>
 
                     <!-- password reset form -->
-                    <form action="signin.html" class="d-flex flex-column gap-3 forgot-password-email-form">
+                    <form action="signin.php" class="d-flex flex-column gap-3 forgot-password-email-form">
                         <!-- error message section -->
                         <p class="f-reset text-danger mb-3"> Error message appears here... </p>
 

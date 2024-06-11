@@ -40,11 +40,11 @@
 
         <div class="d-flex flex-row gap-2 cart-status-container">
             <button class="btn active-cart" id="current-cart-btn"
-                onclick="window.location.href='cart.html?cart=current'"> Current Cart </button>
+                onclick="window.location.href='cart.php?cart=current'"> Current Cart </button>
             <button class="btn inactive-cart" id="pending-cart-btn"
-                onclick="window.location.href='cart.html?cart=pending'"> Pending Cart </button>
+                onclick="window.location.href='cart.php?cart=pending'"> Pending Cart </button>
             <button class="btn inactive-cart" id="completed-cart-btn"
-                onclick="window.location.href='cart.html?cart=completed'"> Completed Cart </button>
+                onclick="window.location.href='cart.php?cart=completed'"> Completed Cart </button>
         </div>
 
         <!-- cart section -->
@@ -137,7 +137,7 @@
                                         <img src="assets/Images/cover-1.jpeg" alt="">
                                     </div>
                                 </td>
-                                <td class="title" onclick="window.location.href='book-details.html'"> The Black Universe
+                                <td class="title" onclick="window.location.href='book-details.php'"> The Black Universe
                                 </td>
                                 <td> unused </td>
                                 <td> Rent </td>
@@ -225,7 +225,7 @@
                                     <img src="assets/Images/cover-1.jpeg" alt="">
                                 </div>
                             </td>
-                            <td class="title" onclick="window.location.href='book-details.html'"> The Black Universe
+                            <td class="title" onclick="window.location.href='book-details.php'"> The Black Universe
                             </td>
                             <td> unused </td>
                             <td> Rent </td>
@@ -317,7 +317,7 @@
                                     <img src="assets/Images/cover-1.jpeg" alt="">
                                 </div>
                             </td>
-                            <td class="title cursor" onclick="window.location.href='book-details.html'"> The Black
+                            <td class="title cursor" onclick="window.location.href='book-details.php'"> The Black
                                 Universe </td>
                             <td> unused </td>
                             <td> Rent </td>

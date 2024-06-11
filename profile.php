@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <button class="btn" id="edit-profile-btn" onclick="window.location.href='profile.html?tab=edit-profile'"> Edit </button>
+                <button class="btn" id="edit-profile-btn" onclick="window.location.href='profile.php?tab=edit-profile'"> Edit </button>
             </section>
         </aside>
 
@@ -115,25 +115,25 @@
             <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-4 tab-section">
                 <!-- my books tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.html?tab=my-books'"> MY BOOKS </p>
+                    <p onclick="window.location.href='profile.php?tab=my-books'"> MY BOOKS </p>
                     <div class="indicator active"></div>
                 </div>
 
                 <!-- wihslist tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.html?tab=wishlist'"> WISHLIST </p>
+                    <p onclick="window.location.href='profile.php?tab=wishlist'"> WISHLIST </p>
                     <div class="indicator inactive"></div>
                 </div>
 
                 <!-- cart tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.html?tab=requested-books'"> REQUESTED BOOKS </p>
+                    <p onclick="window.location.href='profile.php?tab=requested-books'"> REQUESTED BOOKS </p>
                     <div class="indicator inactive"></div>
                 </div>
 
                 <!-- earnign tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.html?tab=earning'"> EARNING </p>
+                    <p onclick="window.location.href='profile.php?tab=earning'"> EARNING </p>
                     <div class="indicator inactive"></div>
                 </div>
             </section>
@@ -158,7 +158,7 @@
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='profile.html?tab=password-change'"> Cancel </button>
+                        <button class="btn btn-danger" onclick="window.location.href='profile.php?tab=password-change'"> Cancel </button>
                     </div>
 
                     <!-- edit profile deatail form -->
@@ -201,7 +201,7 @@
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='profile.html?tab=edit-profile'"> Reset </button>
+                        <button class="btn btn-danger" onclick="window.location.href='profile.php?tab=edit-profile'"> Reset </button>
                     </div>
 
                     <!-- edit profile deatail form -->
@@ -214,7 +214,7 @@
                             </div>
                             
                             <div class="d-flex flex-row flex-grow-1 gap-2 align-items-center w-100 w-md-50 password-div">
-                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password" onclick="window.location.href='profile.html?tab=password-change'">                                    
+                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password" onclick="window.location.href='profile.php?tab=password-change'">                                    
                                     <i class="fa fa-lock text-light"></i>
                                     <p class="f-reset text-light"> Change Password </p>
                                 </div>
@@ -286,19 +286,19 @@
                 <div class="d-flex flex-column gap-4 my-book-content">
                     <!-- my book filter -->
                     <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
-                        <div class="book-status active-book-status" onclick="window.location.href='profile.html?tab=my-books&book-state=all'">
+                        <div class="book-status active-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=all'">
                             <p> All Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.html?tab=my-books&book-state=active'">
+                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=active'">
                             <p> Active Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.html?tab=my-books&book-state=inactive'">
+                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=inactive'">
                             <p> Inactive Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.html?tab=my-books&book-state=sold-out'">
+                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=sold-out'">
                             <p> Sold Out </p>
                         </div>
                     </div>
@@ -335,7 +335,7 @@
                                     <p class="book-price"> NRs. 85 </p>
                                 </div>
         
-                                <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                             </div>
                         </div>
         
@@ -369,7 +369,7 @@
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
         
-                                <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                             </div>
                         </div>
 
@@ -403,14 +403,14 @@
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
         
-                                <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- add book -->
                     <div class="d-flex flex-column justify-content-center add-book-container"
-                        onclick="window.location.href='add-book.html'">
+                        onclick="window.location.href='add-book.php'">
                         <div class="add-book">
                             <i class="fa fa-plus text-light"></i>
                         </div>
@@ -452,7 +452,7 @@
                                     <p class="book-price"> NRs. 85 </p>
                                 </div>
         
-                                <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                             </div>
                         </div>
         
@@ -486,7 +486,7 @@
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
         
-                                <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                             </div>
                         </div>
                     </div>

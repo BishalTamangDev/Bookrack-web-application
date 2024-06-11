@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Books </title>
+    <title> Rent </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
@@ -14,7 +14,7 @@
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- bootstrap :: cdn -->
+    <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -28,69 +28,59 @@
 </head>
 
 <body>
-    
+    <!-- aside :: nav -->
+    <aside class="aside"></aside>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Books </h4>
+        <h4 class="fw-bold"> Rent History </h4>
 
         <!-- cards -->
         <section class="section card-container">
-            <!-- number of books -->
+            <!-- active rent -->
             <div class="card-v1">
-                <p class="card-v1-title"> Number of Books </p>
-                <p class="card-v1-detail"> 1245 </p>
-            </div>
-    
-            <!-- number of books on rent -->
-            <div class="card-v1">
-                <p class="card-v1-title"> Books on Rent </p>
+                <p class="card-v1-title"> Active </p>
                 <p class="card-v1-detail"> 207 </p>
             </div>
+
+            <!-- completed rent -->
+            <div class="card-v1">
+                <p class="card-v1-title"> Completed </p>
+                <p class="card-v1-detail"> 79 </p>
+            </div>
         </section>
-        
+
         <!-- table to section -->
-        <div class="section table-top-section">
-            <!-- filter -->
+        <section class="section table-top-section">
+            <!-- filter div -->
             <div class="filter-div">
+                <!-- filter icon -->
                 <i class="fa fa-filter" id="filter-icon"></i>
-    
-                <!-- rent / stock -->
+
+                <!-- book status -->
                 <select class="form-select" aria-label="select">
-                    <option value="0" selected hidden> Book status </option>
+                    <option value="0" selected hidden> Rent status </option>
                     <option value="1"> All </option>
-                    <option value="2"> On Rent </option>
-                    <option value="3"> On Stock </option>
+                    <option value="2"> Active </option>
+                    <option value="3"> Completed </option>
                 </select>
-    
-                <!-- genre -->
+
+                <!-- fine -->
                 <select class="form-select" aria-label="select">
-                    <option value="0" selected hidden> Genre </option>
+                    <option value="0" selected hidden> Fine Status </option>
                     <option value="1"> All </option>
-                    <option value="2"> Genre 1 </option>
-                    <option value="3"> Genre 2 </option>
-                    <option value="4"> Genre 3 </option>
-                    <option value="5"> Genre 4 </option>
-                    <option value="6"> Genre 5 </option>
+                    <option value="2"> Fine </option>
+                    <option value="3"> No fine </option>
                 </select>
-    
-                <!-- language -->
-                <select class="form-select" aria-label="select">
-                    <option value="0" selected hidden> Language </option>
-                    <option value="1"> All </option>
-                    <option value="2"> English </option>
-                    <option value="3"> Nepali </option>
-                    <option value="4"> Hindi </option>
-                </select>
-    
+
                 <!-- clear filter -->
                 <div class="clear-filter-div" id="clear-filter">
                     <p class="f-reset"> Clear </p>
                     <i class="fa fa-multiply"></i>
                 </div>
             </div>
-    
+
             <!-- search & clear section -->
             <div class="search-clear">
                 <!-- clear search -->
@@ -98,100 +88,120 @@
                     <p class="f-reset"> Clear Search </p>
                     <i class="fa fa-multiply"></i>
                 </div>
-    
+
                 <!-- search section -->
                 <div class="search-container">
-                    <input type="text" placeholder="search book">
+                    <input type="text" placeholder="search user">
                     <div class="search-icon-div">
                         <i class="fa fa-search"> </i>
                     </div>
                 </div>
             </div>
-        </div>
-    
+        </section>
+
         <!-- book table -->
         <table class="table table-striped user-table">
-            <!-- header -->
+            <!-- heading -->
             <thead>
                 <tr>
-                    <th scope="col"> SN </th>
-                    <th scope="col"> Book ID </th>
+                    <th scope="col"> S.N. </th>
                     <th scope="col"> ISBN </th>
                     <th scope="col"> Title </th>
-                    <th scope="col"> Genre </th>
-                    <th scope="col"> Author[s] </th>
-                    <th scope="col"> Language </th>
-                    <th scope="col"> Owner </th>
-                    <th scope="col"> Book State </th>
+                    <th scope="col"> Rented By </th>
+                    <th scope="col"> Issued Date </th>
+                    <th scope="col"> Returned Date </th>
+                    <th scope="col"> Fine </th>
+                    <th scope="col"> Rent Status </th>
                     <th scope="col"> Action </th>
                 </tr>
             </thead>
-    
+
             <!-- body -->
             <tbody>
                 <!-- dummy data -->
-                <tr class="book-row on-rent-row on-stock-row">
+                <tr class="rent-row completed-row nofine-row">
                     <th scope="row"> 1 </th>
-                    <td> 124745 </td>
                     <td> 978-1-84356-028-9 </td>
-                    <td> To Kill a Mockingbird </td>
-                    <td>Fiction, Classic, Historical</td>
-                    <td>Harper Lee</td>
-                    <td>English</td>
-                    <td>Bishal Tamang</td>
-                    <td>On Rent</td>
+                    <td>
+                        <abbr title="Show book details">
+                            <a href="book-details.php"> To Kill a Mockingbird </a>
+                        </abbr>
+                    </td>
+                    <td>
+                        <abbr title="Show user details">
+                            <a href="user-details.php"> Bishal Tamang </a>
+                        </abbr>
+                    </td>
+                    <td> 0000-00-00 </td>
+                    <td> 1111-11-11 </td>
+                    <td> - </td>
+                    <td> Completed </td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.html">
+                            <a href="">
                                 <i class="fa fa-eye"></i>
-                                </a>
+                            </a>
                         </abbr>
                     </td>
                 </tr>
-    
-                <tr class="book-row on-rent-row on-stock-row">
+
+                <tr class="rent-row active-row nofine-row">
                     <th scope="row"> 2 </th>
-                    <td> 456789 </td>
                     <td> 978-0-596-52068-7 </td>
-                    <td> 1984 </td>
-                    <td> Dystopian, Science Fiction, Political Fiction </td>
-                    <td> George Orwell </td>
-                    <td> English </td>
-                    <td> Rupak Dangi </td>
-                    <td> On rent </td>
+                    <td>
+                        <abbr title="Show book details">
+                            <a href="book-details.php"> 1984 </a>
+                        </abbr>
+                    </td>
+                    <td>
+                        <abbr title="Show user details">
+                            <a href="user-details.php"> Rupak Dangi </a>
+                        </abbr>
+                    </td>
+                    <td> 2222-22-22 </td>
+                    <td> - </td>
+                    <td> - </td>
+                    <td> Active </td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.html">
+                            <a href="">
                                 <i class="fa fa-eye"></i>
-                                </a>
+                            </a>
                         </abbr>
                     </td>
                 </tr>
-    
-                <tr class="book-row on-rent-row on-stock-row">
+
+                <tr class="rent-row  completed-row fine-row">
                     <th scope="row"> 3 </th>
-                    <td> 159482 </td>
                     <td> 978-3-16-148410-0 </td>
-                    <td> The Great Gatsby </td>
-                    <td> Fiction, Classic, Tragedy </td>
-                    <td> F. Scott Fitzgerald </td>
-                    <td> English </td>
-                    <td> Shristi Pradhan </td>
-                    <td> On stock </td>
+                    <td>
+                        <abbr title="Show book details">
+                            <a href="book-details.php"> The Great Gatsby </a>
+                        </abbr>
+                    </td>
+                    <td>
+                        <abbr title="Show user details">
+                            <a href="user-details.php"> Shristi Pradhan </a>
+                        </abbr>
+                    </td>
+                    <td> 3333-33-33 </td>
+                    <td> 4444-44-44 </td>
+                    <td> Nrs. 175.00 </td>
+                    <td> Completed </td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.html">
+                            <a href="">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </abbr>
                     </td>
                 </tr>
             </tbody>
-    
+
             <!-- footer -->
             <tfoot id="table-foot">
                 <tr>
-                    <td colspan="10"> No book found! </td>
+                    <td colspan="9"> No book rent history found! </td>
                 </tr>
             </tfoot>
         </table>
@@ -205,7 +215,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <!-- bootstrap js :: local file -->
+    <!-- bootstrap js : local file -->
     <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 

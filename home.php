@@ -36,7 +36,7 @@
         <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='home.html'">
+                onclick="window.location.href='home.php'">
                 <img src="assets/Brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
@@ -57,19 +57,19 @@
                 </form>
 
                 <!-- add book -->
-                <div class="d-flex flex-row align-items-center gap-2 pointer justify-content-center p-2 px-3 text-white add-book" onclick="window.location.href='add-book.html'">
+                <div class="d-flex flex-row align-items-center gap-2 pointer justify-content-center p-2 px-3 text-white add-book" onclick="window.location.href='add-book.php'">
                     <i class="fa fa-add"></i>
                     <span style="white-space: nowrap;"> ADD BOOK </span>
                 </div>
 
                 <!-- wishlist -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist" onclick="window.location.href='profile.html?tab=wishlist'">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist" onclick="window.location.href='profile.php?tab=wishlist'">
                     <i class="fa fa-bookmark"></i>
                     <span> Wishlist </span>
                 </div>
                 
                 <!-- cart -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer cart" onclick="window.location.href='cart.html'">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer cart" onclick="window.location.href='cart.php'">
                     <i class="fa fa-shopping-cart"></i>
                     <span> Cart </span>
                 </div>
@@ -82,10 +82,10 @@
 
                     <div class="position-absolute profile-menu" id="profile-menu">
                         <ul>
-                            <li onclick="window.location.href='profile.html?'"> <i class="fa fa-user"></i> <span>My Profile</span> </li>
-                            <li onclick="window.location.href='profile.html?tab=my-books'"> <i class="fa fa-book"></i> <span>My Books</span> </li>
-                            <li onclick="window.location.href='profile.html?tab=earning'"> <i class="fa fa-dollar"></i> <span>Earning</span> </li>
-                            <li onclick="window.location.href='index.html'"> <i class="fa fa-sign-out"></i> <span>Sign Out</span> </li>
+                            <li onclick="window.location.href='profile.php?'"> <i class="fa fa-user"></i> <span>My Profile</span> </li>
+                            <li onclick="window.location.href='profile.php?tab=my-books'"> <i class="fa fa-book"></i> <span>My Books</span> </li>
+                            <li onclick="window.location.href='profile.php?tab=earning'"> <i class="fa fa-dollar"></i> <span>Earning</span> </li>
+                            <li onclick="window.location.href='index.php'"> <i class="fa fa-sign-out"></i> <span>Sign Out</span> </li>
                         </ul>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>
     
@@ -278,7 +278,7 @@
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>
     
@@ -361,7 +361,7 @@
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>
                 </div>

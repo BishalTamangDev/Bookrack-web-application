@@ -37,7 +37,7 @@
         <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='landing.html'">
+                onclick="window.location.href='landing.php'">
                 <img src="assets/Brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
@@ -57,7 +57,7 @@
                 </form>
 
                 <!-- signin -->
-                <a href="signin.html" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
+                <a href="signin.php" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
             </div>
         </div>
     </header>
@@ -75,7 +75,7 @@
                     Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
                     Bookrack is here to connect you with a world of literary wonders.
                 </p>
-                <a href="signup.html" class="btn btn-warning text-light"> JOIN NOW </a>
+                <a href="signup.php" class="btn btn-warning text-light"> JOIN NOW </a>
             </div>
         </section>
 
@@ -114,7 +114,7 @@
                             <p class="book-price"> NRs. 85 </p>
                         </div>
 
-                        <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                        <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@
                             <p class="book-price"> NRs. 170 </p>
                         </div>
 
-                        <button class="btn" onclick="window.location.href='book-details.html'"> Show More </button>
+                        <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                     </div>
                 </div>
             </div>
