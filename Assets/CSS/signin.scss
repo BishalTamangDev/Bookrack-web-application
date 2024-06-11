@@ -48,39 +48,34 @@
                 }
             }
 
-            .signin-form {
+            form {
                 .input-group {
-
+                    input[type=text],
                     input[type=email],
                     input[type=password] {
                         line-height: 2rem;
 
                         &:focus {
-                            border: 0.5px solid var(--brand-color);
+                            border: 0.7px solid var(--brand-color);
                             box-shadow: none;
                         }
                     }
                 }
 
                 .action {
-                    a {
+                    a, button{
                         flex-grow: 1;
+                        padding: 0.5rem 3rem;
                         border-radius: 1rem;
-                        border: none;
-                        padding: 10px 20px;
-                        background-color: var(--brand-color);
-                    }
 
-                    a {
-                        background-color: whitesmoke;
                     }
-
-                    #signin-btn,
-                    #signup-btn {
-                        padding: 0 2rem;
+                    button {
                         color: white;
                         background-color: var(--brand-color);
-                        border-radius: 1.25rem;
+                    }
+
+                    a {
+                        background-color: rgb(230, 230, 230);
                     }
                 }
             }
@@ -130,10 +125,11 @@
                 .sign-content {
                     width: 40%;
 
-                    .signin-form {
-                        .btn {
-                            flex-grow: initial;
+                    form {
+                        button, a {
                             width: fit-content;
+                            padding: initial;
+                            padding: 0.5rem 3rem;
                         }
                     }
                 }

@@ -37,31 +37,28 @@
   letter-spacing: 0.5px;
   line-height: 1.25rem;
 }
-.signin-container .content .sign-content .signin-form .input-group input[type=email],
-.signin-container .content .sign-content .signin-form .input-group input[type=password] {
+.signin-container .content .sign-content form .input-group input[type=text],
+.signin-container .content .sign-content form .input-group input[type=email],
+.signin-container .content .sign-content form .input-group input[type=password] {
   line-height: 2rem;
 }
-.signin-container .content .sign-content .signin-form .input-group input[type=email]:focus,
-.signin-container .content .sign-content .signin-form .input-group input[type=password]:focus {
-  border: 0.5px solid var(--brand-color);
+.signin-container .content .sign-content form .input-group input[type=text]:focus,
+.signin-container .content .sign-content form .input-group input[type=email]:focus,
+.signin-container .content .sign-content form .input-group input[type=password]:focus {
+  border: 0.7px solid var(--brand-color);
   box-shadow: none;
 }
-.signin-container .content .sign-content .signin-form .action a {
+.signin-container .content .sign-content form .action a, .signin-container .content .sign-content form .action button {
   flex-grow: 1;
+  padding: 0.5rem 3rem;
   border-radius: 1rem;
-  border: none;
-  padding: 10px 20px;
-  background-color: var(--brand-color);
 }
-.signin-container .content .sign-content .signin-form .action a {
-  background-color: whitesmoke;
-}
-.signin-container .content .sign-content .signin-form .action #signin-btn,
-.signin-container .content .sign-content .signin-form .action #signup-btn {
-  padding: 0 2rem;
+.signin-container .content .sign-content form .action button {
   color: white;
   background-color: var(--brand-color);
-  border-radius: 1.25rem;
+}
+.signin-container .content .sign-content form .action a {
+  background-color: rgb(230, 230, 230);
 }
 
 @media (min-width: 720px) {
@@ -95,10 +92,11 @@
   .main .signin-container .content .sign-content {
     width: 40%;
   }
-  .main .signin-container .content .sign-content .signin-form .btn {
-    flex-grow: initial;
+  .main .signin-container .content .sign-content form button, .main .signin-container .content .sign-content form a {
     width: -moz-fit-content;
     width: fit-content;
+    padding: initial;
+    padding: 0.5rem 3rem;
   }
 }
 @media (min-width: 1440px) {

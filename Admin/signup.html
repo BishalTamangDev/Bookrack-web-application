@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- local css -->
+    <link rel="stylesheet" href="/Assets/css/style.css">
     <link rel="stylesheet" href="/Assets/css/admin/admin.css">
     <link rel="stylesheet" href="/Assets/css/signin.css">
 </head>
@@ -36,7 +37,7 @@
                 <img src="/Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="index.html">
+                <a href="signin.html">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -57,7 +58,7 @@
                 </div>
 
                 <!-- signin content -->
-                <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="d-nones d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Welcome Back :) </p>
                         <p class="f-reset text-secondary note"> To keep connected with us please login awith your
@@ -95,8 +96,32 @@
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 mt-3 action">
-                            <button type="submit" class="btn bg-warning" id="signup-btn" name="signup-btn"> Signup Now </button>
-                            <a href="signin.html" class="btn btn-light"> Already have account </a>
+                            <button type="submit" class="btn signup-btn" id="signup-btn" name="signup-btn"> Signup </button>
+                            <a href="signin.html" class="btn"> Already have account </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- email verification content -->
+                <div class="d-none d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                    <div class="d-flex flex-column gap-2 heading">
+                        <p class="f-reset fs-1"> Email Verification </p>
+                        <p class="f-reset text-secondary note"> Enter the OTP code sent to your email address. </p>
+                    </div>
+
+                    <!-- sign up form -->
+                    <form class="d-flex flex-column signin-form email-cerification-form" action="home.html">
+                        <!-- error message section -->
+                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
+
+                        <!-- otp -->
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp" maxlength="4" required>
+                        </div>
+
+                        <div class="d-flex flex-row flex-wrap gap-3 action">
+                            <button type="submit" name="signup-btn" class="btn" id="signup-btn"> Verify Now </button>
+                            <a href="signup.html" class="btn"> Didn't get OTP </a>
                         </div>
                     </form>
                 </div>
