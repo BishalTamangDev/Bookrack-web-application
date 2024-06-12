@@ -113,10 +113,16 @@
         <article class="article bg-md-success mb-4 bg-sm-danger">
             <!-- tab -->
             <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-4 tab-section">
+                <!-- my profile tab -->
+                <div class="tab">
+                    <p onclick="window.location.href='profile.html?tab=view-profile'"> MY PROFILE </p>
+                    <div class="indicator active"></div>
+                </div>
+
                 <!-- my books tab -->
                 <div class="tab">
                     <p onclick="window.location.href='profile.html?tab=my-books'"> MY BOOKS </p>
-                    <div class="indicator active"></div>
+                    <div class="indicator inactive"></div>
                 </div>
 
                 <!-- wihslist tab -->
@@ -208,9 +214,9 @@
                     <form class="d-flex flex-column gap-4 edit-profile-form">
                         <!-- profile picture & password-->
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
-                            <div class="w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture"  class="border rounded" id="edit-profile-profile-picture">
+                            <div class="w-100 w-md-50 flex-grow-1 input-group align-items-center gap-2 profile-picture">
+                                <label for="edit-profile-profile-picture" class="form-label m-0 text-secondary"> Change profile picture </label>
+                                <input type="file" name="edit-profile-profile-picture"  class="border rounded form-control" id="edit-profile-profile-picture">
                             </div>
                             
                             <div class="d-flex flex-row flex-grow-1 gap-2 align-items-center w-100 w-md-50 password-div">
