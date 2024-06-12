@@ -1,54 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$request = $_SERVER['REQUEST_URI'];
+$router = str_replace('/bookrack', '', $request);
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// echo "Request: ".$request."<br/>";
+// echo "Router: ".$router."<br/>";
 
-    <!-- title -->
-    <title> Bookrack </title>
+if ($router == '/' || $router == '/landing' || $router == '/index') {
+    include ('landing.php');
+} elseif ($router == '/home') {
+    include 'home.php';
+} elseif ($router == '/add-book') {
+    include 'add-book.php';
+} elseif ($router == '/book-details') {
+    include 'book-details.php';
+} elseif ($router == '/cart' || preg_match("/cart\/[a-z][A-Z]/i", $router)) {
+    $arr = explode('/', $router);
+    $tab = isset($arr[2]) ? $arr[2] : "current";
+    include 'cart.php';
+} elseif ($router == '/forgot-password' || preg_match("/forgot-password\/[a-z][A-Z]/i", $router)) {
+    $arr = explode('/', $router);
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    if (isset($arr[2])) {
+        $tab = $arr[2];
+    }
 
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    include 'forgot-password.php';
+} elseif ($router == '/profile' || preg_match("/profile\/[a-z][A-Z]/i", $router)) {
+    $arr = explode('/', $router);
+    $tab = isset($arr[2]) ? $arr[2] : "view-profile";
+    include 'profile.php';
+} elseif ($router == '/signin') {
+    include 'signin.php';
+} elseif ($router == '/signup' || preg_match("/signup\/[a-z][A-Z]/i", $router)) {
+    $arr = explode('/', $router);
 
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
-
-    <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/style.css">
-
-    <style>
-        .main{
-            height: 100vh;
-            align-items: center;
-            justify-content: center;
-        }
-            .btn{
-                width: fit-content;
-                background-color: orange;
+    if (isset($arr[2])) {
+        if ($arr[2] == "email-verification" || $arr[2] == "") {
+            if ($arr[2] == "email-verification") {
+                $tab = $arr[2];
+            } else {
+                $tab = "email";
             }
-    </style>
+        }
+    }
 
-</head>
-
-<body>
-
-    <div class="main gap-2">
-        <p class="m-0 text-secondary"> The system is under construction...</p>
-            <a href="landing.php" class="btn btn-warning text-white"> Click here.. </a>
-    </div>
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap js :: local file -->
-    <script src="Assets/CSS/bootstrap-css-5.3.3/bootstrap.min.css"></script>
-
-</body>
-
-</html>
+    include 'signup.php';
+} elseif ($router == '/admin') {
+    include '/dashboard.php';
+} else {
+    include '404.php';
+}

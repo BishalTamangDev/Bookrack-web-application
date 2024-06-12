@@ -9,7 +9,7 @@
     <title> Bookrack </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,15 +19,15 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/navbar.css">
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <!-- <link rel="stylesheet" href="Assets/css/header.css"> -->
-    <link rel="stylesheet" href="Assets/css/footer.css">
-    <link rel="stylesheet" href="Assets/css/landing.css">
-    <link rel="stylesheet" href="Assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
+    <!-- <link rel="stylesheet" href="/bookrack/Assets/css/header.css"> -->
+    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/landing.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
 
 </head>
 
@@ -37,7 +37,7 @@
         <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='landing.php'">
+                onclick="window.location.href='landing'">
                 <img src="assets/Brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
@@ -57,7 +57,7 @@
                 </form>
 
                 <!-- signin -->
-                <a href="signin.php" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
+                <a href="/bookrack/signin" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
             </div>
         </div>
     </header>
@@ -75,7 +75,7 @@
                     Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
                     Bookrack is here to connect you with a world of literary wonders.
                 </p>
-                <a href="signup.php" class="btn btn-warning text-light"> JOIN NOW </a>
+                <a href="/bookrack/signup" class="btn btn-warning text-light"> JOIN NOW </a>
             </div>
         </section>
 
@@ -88,7 +88,7 @@
                 <div class="book-container">
                     <!-- book image -->
                     <div class="book-image">
-                        <img src="assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                     </div>
 
                     <!-- book details -->
@@ -122,7 +122,7 @@
                 <div class="book-container">
                     <!-- book image -->
                     <div class="book-image">
-                        <img src="assets/Images/cover-2.png" alt="">
+                        <img src="/bookrack/assets/Images/cover-2.png" alt="">
                     </div>
 
                     <!-- book details -->
@@ -163,7 +163,8 @@
             <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/rent.jpg" alt="rent out book" loading="lazy">
+                        <img class="card-img-top" src="/bookrack/assets/Images/rent.jpg" alt="rent out book"
+                            loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> RENT OUT YOUR FAVOURITE BOOKS </h4>
@@ -174,7 +175,8 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/buy-and-sell.jpg" alt="buy & sell book" loading="lazy">
+                        <img class="card-img-top" src="/bookrack/assets/Images/buy-and-sell.jpg" alt="buy & sell book"
+                            loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> BUY & SELL USED BOOKS </h4>
@@ -185,18 +187,21 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/earn.jpg" alt="earn by placing book on rent" loading="lazy">
+                        <img class="card-img-top" src="/bookrack/assets/Images/earn.jpg"
+                            alt="earn by placing book on rent" loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> EARN FROM YOUR OLD BOOKS </h4>
                         <p class="card-text"> For each circulation of your books on rent, you receive the share of it.
-                            <span class="text-warning">JOIN US NOW TO EARN.</span> </p>
+                            <span class="text-warning">JOIN US NOW TO EARN.</span>
+                        </p>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="assets/Images/dropshipping.jpg" alt="dropshipping" loading="lazy">
+                        <img class="card-img-top" src="/bookrack/assets/Images/dropshipping.jpg" alt="dropshipping"
+                            loading="lazy">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"> DROPSHIPPING </h4>
@@ -498,10 +503,12 @@
     </footer>
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
     <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>

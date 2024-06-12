@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,15 +19,15 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/navbar.css">
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/header.css">
-    <link rel="stylesheet" href="Assets/css/footer.css">
-    <link rel="stylesheet" href="Assets/css/book.css">
-    <link rel="stylesheet" href="Assets/css/home.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/home.css">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
         <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='home.php'">
+                onclick="window.location.href='/bookrack/home'">
                 <img src="assets/Brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
@@ -57,19 +57,19 @@
                 </form>
 
                 <!-- add book -->
-                <div class="d-flex flex-row align-items-center gap-2 pointer justify-content-center p-2 px-3 text-white add-book" onclick="window.location.href='add-book.php'">
+                <div class="d-flex flex-row align-items-center gap-2 pointer justify-content-center p-2 px-3 text-white add-book" onclick="window.location.href='/bookrack/add-book'">
                     <i class="fa fa-add"></i>
                     <span style="white-space: nowrap;"> ADD BOOK </span>
                 </div>
 
                 <!-- wishlist -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist" onclick="window.location.href='profile.php?tab=wishlist'">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist" onclick="window.location.href='/bookrack/profile/wishlist'">
                     <i class="fa fa-bookmark"></i>
                     <span> Wishlist </span>
                 </div>
                 
                 <!-- cart -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer cart" onclick="window.location.href='cart.php'">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer cart" onclick="window.location.href='/bookrack/cart'">
                     <i class="fa fa-shopping-cart"></i>
                     <span> Cart </span>
                 </div>
@@ -82,10 +82,10 @@
 
                     <div class="position-absolute profile-menu" id="profile-menu">
                         <ul>
-                            <li onclick="window.location.href='profile.php?'"> <i class="fa fa-user"></i> <span>My Profile</span> </li>
-                            <li onclick="window.location.href='profile.php?tab=my-books'"> <i class="fa fa-book"></i> <span>My Books</span> </li>
-                            <li onclick="window.location.href='profile.php?tab=earning'"> <i class="fa fa-dollar"></i> <span>Earning</span> </li>
-                            <li onclick="window.location.href='index.php'"> <i class="fa fa-sign-out"></i> <span>Sign Out</span> </li>
+                            <li onclick="window.location.href='/bookrack/profile'"> <i class="fa fa-user"></i> <span>My Profile</span> </li>
+                            <li onclick="window.location.href='/bookrack/profile/my-books'"> <i class="fa fa-book"></i> <span>My Books</span> </li>
+                            <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i> <span>Earning</span> </li>
+                            <li onclick="window.location.href='/bookrack/landing'"> <i class="fa fa-sign-out"></i> <span>Sign Out</span> </li>
                         </ul>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="assets/Images/cover-1.jpeg" alt="">
+                            <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                         </div>
     
                         <!-- book details -->
@@ -242,7 +242,7 @@
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                         </div>
                     </div>
     
@@ -250,7 +250,7 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="assets/Images/cover-2.png" alt="">
+                            <img src="/bookrack/assets/Images/cover-2.png" alt="">
                         </div>
     
                         <!-- book details -->
@@ -278,7 +278,7 @@
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
     
-                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                         </div>
                     </div>
                 </div>
@@ -297,7 +297,7 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="assets/Images/cover-1.jpeg" alt="">
+                            <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                         </div>
     
                         <!-- book details -->
@@ -333,7 +333,7 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="assets/Images/cover-2.png" alt="">
+                            <img src="/bookrack/assets/Images/cover-2.png" alt="">
                         </div>
     
                         <!-- book details -->
@@ -404,7 +404,7 @@
     </main>
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -412,7 +412,7 @@
         crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- js :: current file -->
     <script>

@@ -36,7 +36,7 @@
                 <img src="Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="landing.php">
+                <a href="/bookrack/landing">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -65,7 +65,7 @@
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form" action="home.php">
+                    <form class="d-flex flex-column signin-form" action="home" method="POST">
                         <!-- error message section -->
                         <p class="f-reset text-danger mb-3"> Error message appears here... </p>
 
@@ -101,12 +101,12 @@
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
 
-                            <a href="forgot-password.php?tab=email"> Forgot Password? </a>
+                            <a href="forgot-password/email"> Forgot Password? </a>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" class="btn" name="signin-btn" id="signin-btn"> Sign in </button>
-                            <a href="signup.php" class="btn"> Create Account </a>
+                            <a href="signup" class="btn"> Create Account </a>
                         </div>
                     </form>
                 </div>

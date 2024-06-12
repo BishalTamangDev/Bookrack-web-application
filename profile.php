@@ -1,3 +1,6 @@
+<?php
+// echo $tab;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +12,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,15 +22,15 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/navbar.css">
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/header.css">
-    <link rel="stylesheet" href="Assets/css/footer.css">
-    <link rel="stylesheet" href="Assets/css/book.css">
-    <link rel="stylesheet" href="Assets/css/profile.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/Assets/css/profile.css">
 </head>
 
 <body>
@@ -43,7 +46,7 @@
                 <!-- profile picture -->
                 <div class="d-flex flex-column align-items-center gap-2 profile-top">
                     <div class="profile-image">
-                        <img src="assets/Images/user-1.png" alt="profile picture">
+                        <img src="/bookrack/assets/Images/user-1.png" alt="profile picture">
                     </div>
                     <p class="f-reset text-secondary"> Rupak Dangi </p>
                 </div>
@@ -105,7 +108,8 @@
                     </div>
                 </div>
 
-                <button class="btn" id="edit-profile-btn" onclick="window.location.href='profile.php?tab=edit-profile'"> Edit </button>
+                <button class="btn" id="edit-profile-btn"
+                    onclick="window.location.href='/bookrack/profile/edit-profile'"> Edit </button>
             </section>
         </aside>
 
@@ -113,42 +117,49 @@
         <article class="article bg-md-success mb-4 bg-sm-danger">
             <!-- tab -->
             <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-4 tab-section">
+                <!-- profile tab -->
+                <div class="tab">
+                    <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
+                    <div class="indicator <?php echo ($tab=="view-profile")?"active":"inactive";?>"></div>
+                </div>
+                
                 <!-- my books tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.php?tab=my-books'"> MY BOOKS </p>
-                    <div class="indicator active"></div>
+                    <p onclick="window.location.href='/bookrack/profile/my-books'"> MY BOOKS </p>
+                    <div class="indicator <?php echo ($tab=="my-books")?"active":"inactive";?>"></div>
                 </div>
 
                 <!-- wihslist tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.php?tab=wishlist'"> WISHLIST </p>
-                    <div class="indicator inactive"></div>
+                    <p onclick="window.location.href='/bookrack/profile/wishlist'"> WISHLIST </p>
+                    <div class="indicator <?php echo ($tab=="wishlist")?"active":"inactive";?>"></div>
                 </div>
 
-                <!-- cart tab -->
+                <!-- requested books tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.php?tab=requested-books'"> REQUESTED BOOKS </p>
-                    <div class="indicator inactive"></div>
+                    <p onclick="window.location.href='/bookrack/profile/requested-books'"> REQUESTED BOOKS </p>
+                    <div class="indicator <?php echo ($tab=="requested-books")?"active":"inactive";?>"></div>
                 </div>
 
-                <!-- earnign tab -->
+                <!-- earning tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='profile.php?tab=earning'"> EARNING </p>
-                    <div class="indicator inactive"></div>
+                    <p onclick="window.location.href='/bookrack/profile/earning'"> EARNING </p>
+                    <div class="indicator <?php echo ($tab=="earning")?"active":"inactive";?>"></div>
                 </div>
             </section>
 
             <!-- account state notification note div -->
-            <section class="d-flex flex-row gap-2 justify-content-between border rounded p-3 mb-4 account-state-section">
-                <p class="f-reset text-justify text-danger" id="account-state-message"> 
-                    Note: Complete setting up your details to get access to all the feature. 
+            <section
+                class="d-flex flex-row gap-2 justify-content-between border rounded p-3 mb-4 account-state-section">
+                <p class="f-reset text-justify text-danger" id="account-state-message">
+                    Note: Complete setting up your details to get access to all the feature.
                 </p>
             </section>
 
             <!-- contents -->
             <section class="d-flex flex-column gap-5 contents">
                 <!-- change password -->
-                <div class="d-nones d-flex flex-column gap-3 password-change-content">
+                <div class="<?php if($tab!="password-change") echo "d-none";?> d-flex flex-column gap-3 password-change-content">
                     <!-- top-section -->
                     <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
                         <!-- heading -->
@@ -158,40 +169,45 @@
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='profile.php?tab=password-change'"> Cancel </button>
+                        <button class="btn btn-danger"
+                            onclick="window.location.href='/bookrack/profile/password-change'"> Cancel </button>
                     </div>
 
-                    <!-- edit profile deatail form -->
-                    <form method="" class="d-flex flex-column gap-4 password-change-form">
+                    <!-- change password form -->
+                    <form method="POST" class="d-flex flex-column gap-4 password-change-form">
                         <!-- old password -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="old-password" name="old-password" placeholder="Password">
+                            <input type="password" class="form-control" id="old-password" name="old-password"
+                                placeholder="Password required">
                             <label for="old-password"> Old password </label>
                         </div>
-                        
+
                         <!-- new password -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password" name="new-password" placeholder="Password">
+                            <input type="password" class="form-control" id="new-password" name="new-password"
+                                placeholder="Password" required>
                             <label for="new-password"> New password </label>
                         </div>
-                        
+
                         <!-- new password confirmation -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password-confirmation" name="new-password-confirmation" placeholder="Password">
+                            <input type="password" class="form-control" id="new-password-confirmation"
+                                name="new-password-confirmation" placeholder="Password" required>
                             <label for="new-password-confirmation"> New password confirmation </label>
                         </div>
 
-                        <div class="d-flex flex-row  align-items-center gap-2 pointer show-hide-password-div" id="show-hide-password">
+                        <div class="d-flex flex-row  align-items-center gap-2 pointer show-hide-password-div"
+                            id="show-hide-password">
                             <i class="fa fa-eye"></i>
                             <p class="f-reset"> Show password </p>
                         </div>
-                        
-                            <button type="submit" class="btn" id="update-password-btn"> Update Password </button>
-                      </form>
+
+                        <button type="submit" class="btn" id="update-password-btn"> Update Password </button>
+                    </form>
                 </div>
 
                 <!-- edit profile -->
-                <div class="d-flex flex-column gap-3 edit-profile-content">
+                <div class="<?php if($tab!="edit-profile" && $tab!="view-profile") echo "d-none";?>  d-flex flex-column gap-3 edit-profile-content">
                     <!-- top-section -->
                     <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
                         <!-- heading -->
@@ -201,7 +217,8 @@
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='profile.php?tab=edit-profile'"> Reset </button>
+                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/edit-profile'">
+                            Reset </button>
                     </div>
 
                     <!-- edit profile deatail form -->
@@ -209,12 +226,16 @@
                         <!-- profile picture & password-->
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
                             <div class="w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture"  class="border rounded" id="edit-profile-profile-picture">
+                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
+                                    profile picture </label>
+                                <input type="file" name="edit-profile-profile-picture" class="border rounded"
+                                    id="edit-profile-profile-picture">
                             </div>
-                            
-                            <div class="d-flex flex-row flex-grow-1 gap-2 align-items-center w-100 w-md-50 password-div">
-                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password" onclick="window.location.href='profile.php?tab=password-change'">                                    
+
+                            <div
+                                class="d-flex flex-row flex-grow-1 gap-2 align-items-center w-100 w-md-50 password-div">
+                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password"
+                                    onclick="window.location.href='/bookrack/profile/password-change'">
                                     <i class="fa fa-lock text-light"></i>
                                     <p class="f-reset text-light"> Change Password </p>
                                 </div>
@@ -225,15 +246,17 @@
                         <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                             <div class="flex-grow-1 first-name-div">
                                 <label for="edit-profile-first-name" class="form-label">First name </label>
-                                <input type="email" class="form-control" id="edit-profile-first-name" name="edit-profile-first-name" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-first-name"
+                                    name="edit-profile-first-name" aria-describedby="emailHelp">
                             </div>
 
                             <div class="flex-grow-1 last-name-div">
                                 <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                <input type="email" class="form-control" id="edit-profile-last-name" name="edit-profile-last-name" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-last-name"
+                                    name="edit-profile-last-name" aria-describedby="emailHelp">
                             </div>
                         </div>
-                        
+
                         <!-- date of birth & gender -->
                         <div class="d-flex flex-column flex-md-row gap-3 dob-gender">
                             <!-- date of birth -->
@@ -241,11 +264,12 @@
                                 <label for="edit-profile-dob" class="form-label"> Date of birth </label>
                                 <input type="date" class="p-2" name="edit-profile-dob">
                             </div>
-                            
+
                             <!-- gender -->
                             <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
                                 <label for="edit-profile-gender" class="form-label"> Gender </label>
-                                <select class="form-select" name="edit-profile-gender" aria-label="Default select example">
+                                <select class="form-select" name="edit-profile-gender"
+                                    aria-label="Default select example">
                                     <option value="0" selected hidden>Select gender</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -259,7 +283,8 @@
                             <!-- district -->
                             <div class="w-100 w-md-50 district-div">
                                 <label for="edit-profile-district" class="form-label"> District </label>
-                                <select class="form-select" name="edit-profile-district" aria-label="Default select example">
+                                <select class="form-select" name="edit-profile-district"
+                                    aria-label="Default select example">
                                     <option value="0" selected hidden> Select district </option>
                                     <option value="1"> DIstrict 1 </option>
                                     <option value="2"> DIstrict 2 </option>
@@ -272,33 +297,38 @@
                             <!-- location -->
                             <div class="w-100 w-md-50 location-div">
                                 <label for="edit-profile-location" class="form-label"> Location </label>
-                                <input type="email" class="form-control" id="edit-profile-location" name="edit-profile-location" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-location"
+                                    name="edit-profile-location" aria-describedby="emailHelp">
                             </div>
                         </div>
 
                         <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
 
                         <button type="submit" class="btn" id="update-profile-btn"> Update </button>
-                      </form>
+                    </form>
                 </div>
 
                 <!-- my books -->
-                <div class="d-flex flex-column gap-4 my-book-content">
+                <div class="<?php if($tab!="my-books") echo "d-none";?> d-flex flex-column gap-4 my-book-content">
                     <!-- my book filter -->
                     <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
-                        <div class="book-status active-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=all'">
+                        <div class="book-status active-book-status"
+                            onclick="window.location.href='/bookrack/profile/my-books&book-state=all'">
                             <p> All Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=active'">
+                        <div class="book-status inactive-book-status"
+                            onclick="window.location.href='/bookrack/profile.php/my-books&book-state=active'">
                             <p> Active Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=inactive'">
+                        <div class="book-status inactive-book-status"
+                            onclick="window.location.href='/bookrack/profile.php?tab=my-books&book-state=inactive'">
                             <p> Inactive Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status" onclick="window.location.href='profile.php?tab=my-books&book-state=sold-out'">
+                        <div class="book-status inactive-book-status"
+                            onclick="window.location.href='/bookrack/profile.php?tab=my-books&book-state=sold-out'">
                             <p> Sold Out </p>
                         </div>
                     </div>
@@ -309,9 +339,9 @@
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="assets/Images/cover-1.jpeg" alt="">
+                                <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                             </div>
-        
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
@@ -319,33 +349,36 @@
                                     <p class="book-title"> To Kill a Mockingbird </p>
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
-        
+
                                 <!-- book purpose -->
                                 <p class="book-purpose"> Renting </p>
-        
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                    <p class="book-description"> Set in the American South during the 1930s, this
+                                        classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of
+                                        Scout
                                         Finch, a young girl whose father, Atticus Finch, is ... </p>
                                 </div>
-        
+
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price"> NRs. 85 </p>
                                 </div>
-        
-                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                </button>
                             </div>
                         </div>
-        
+
                         <!-- book container :: dummy data 2 -->
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="assets/Images/cover-2.png" alt="">
+                                <img src="/bookrack/assets/Images/cover-2.png" alt="">
                             </div>
-        
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
@@ -353,23 +386,26 @@
                                     <p class="book-title"> Don't Look Back </p>
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
-        
+
                                 <!-- book purpose -->
                                 <p class="book-purpose"> Selling </p>
-        
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                    <p class="book-description"> Set in the American South during the 1930s, this
+                                        classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of
+                                        Scout
                                         Finch, a young girl whose father, Atticus Finch, is ... </p>
                                 </div>
-        
+
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
-        
-                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                </button>
                             </div>
                         </div>
 
@@ -377,9 +413,9 @@
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="assets/Images/cover-3.jpg" alt="">
+                                <img src="/bookrack/assets/Images/cover-3.jpg" alt="">
                             </div>
-        
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
@@ -387,30 +423,33 @@
                                     <p class="book-title"> Intuition </p>
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
-        
+
                                 <!-- book purpose -->
                                 <p class="book-purpose"> Selling </p>
-        
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                    <p class="book-description"> Set in the American South during the 1930s, this
+                                        classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of
+                                        Scout
                                         Finch, a young girl whose father, Atticus Finch, is ... </p>
                                 </div>
-        
+
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
-        
-                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- add book -->
                     <div class="d-flex flex-column justify-content-center add-book-container"
-                        onclick="window.location.href='add-book.php'">
+                        onclick="window.location.href='/bookrack/add-book'">
                         <div class="add-book">
                             <i class="fa fa-plus text-light"></i>
                         </div>
@@ -420,15 +459,15 @@
 
                 <!-- wishlist -->
                 <!-- my books container-->
-                <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
+                <div class="<?php if($tab!="wishlist") echo "d-none";?>  d-flex flex-column gap-4 my-book-content wishlist-content">
                     <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
                         <!-- book container :: dummy data 1 -->
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="assets/Images/cover-1.jpeg" alt="">
+                                <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                             </div>
-        
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
@@ -436,33 +475,36 @@
                                     <p class="book-title"> To Kill a Mockingbird </p>
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
-        
+
                                 <!-- book purpose -->
                                 <p class="book-purpose"> Renting </p>
-        
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                    <p class="book-description"> Set in the American South during the 1930s, this
+                                        classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of
+                                        Scout
                                         Finch, a young girl whose father, Atticus Finch, is ... </p>
                                 </div>
-        
+
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price"> NRs. 85 </p>
                                 </div>
-        
-                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                </button>
                             </div>
                         </div>
-        
+
                         <!-- book container :: dummy data 2 -->
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="assets/Images/cover-2.png" alt="">
+                                <img src="/bookrack/assets/Images/cover-2.png" alt="">
                             </div>
-        
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
@@ -470,35 +512,38 @@
                                     <p class="book-title"> Don't Look Back </p>
                                     <i class="fa-regular fa-bookmark"></i>
                                 </div>
-        
+
                                 <!-- book purpose -->
                                 <p class="book-purpose"> Selling </p>
-        
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                    <p class="book-description"> Set in the American South during the 1930s, this
+                                        classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of
+                                        Scout
                                         Finch, a young girl whose father, Atticus Finch, is ... </p>
                                 </div>
-        
+
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price"> NRs. 170 </p>
                                 </div>
-        
-                                <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="empty-div">
-                        <img src="assets/Icons/empty.svg" alt="">
-                        <p class="empty-message"> Your wishlist is empty! </p>    
+                        <img src="/bookrack/assets/Icons/empty.svg" alt="">
+                        <p class="empty-message"> Your wishlist is empty! </p>
                     </div>
                 </div>
 
                 <!-- requested books -->
-                <div class="d-flex flex-column gap-4 requested-book-content">
+                <div class="<?php if($tab!="requested-books") echo "d-none";?> d-flex flex-column gap-4 requested-book-content">
                     <!-- requested books filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
                         <select class="form-select" name="book-request-purpose" aria-label="Default select example">
@@ -529,7 +574,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
+                                <tr
+                                    class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
                                     <th scope="row">1</th>
                                     <td> The Great Gatsby </td>
                                     <td> NRs. 120 </td>
@@ -552,7 +598,8 @@
 
                             <tfoot>
                                 <tr style="text-align: center;">
-                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book yet! </td>
+                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
+                                        yet! </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -560,7 +607,7 @@
                 </div>
 
                 <!-- earning -->
-                <div class="d-flex flex-column gap-4 requested-book-content earning-content">
+                <div class="<?php if($tab!="earning") echo "d-none";?> d-flex flex-column gap-4 requested-book-content earning-content">
                     <!-- requested books filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
                         <select class="form-select" name="earning-purpose" aria-label="Default select example">
@@ -570,7 +617,7 @@
                         </select>
 
                         <select class="form-select" name="earning-state" aria-label="Default select example">
-                            <option value="0" selected > All state </option>
+                            <option value="0" selected> All state </option>
                             <option value="1"> Active </option>
                             <option value="2"> Incomplete </option>
                         </select>
@@ -590,7 +637,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
+                                <tr
+                                    class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
                                     <th scope="row">1</th>
                                     <td> The Great Gatsby </td>
                                     <td> NRs. 120 </td>
@@ -613,7 +661,8 @@
 
                             <tfoot>
                                 <tr style="text-align: center;">
-                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book yet! </td>
+                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
+                                        yet! </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -628,13 +677,15 @@
     <!-- modal -->
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- js :: current file -->
 </body>

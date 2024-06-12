@@ -1,3 +1,9 @@
+<?php
+
+if(!isset($tab)){
+    $tab = "email";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Signin </title>
+    <title> Signup </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,11 +25,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/signin.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/style.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/signin.css">
 </head>
 
 <body>
@@ -36,7 +42,7 @@
                 <img src="Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="landing.php">
+                <a href="/bookrack/landing">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -65,7 +71,8 @@
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form" action="signup.php?tab=email-verification">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/email-verification"
+                        method="POST">
                         <!-- error message section -->
                         <p class="f-reset text-danger mb-3"> Error message appears here... </p>
 
@@ -95,12 +102,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <p class="f-reset text-secondary"> Note: make sure you complete your profile setting to use the featured we provide. </p>
+                            <p class="f-reset text-secondary"> Note: make sure you complete your profile setting to use
+                                the featured we provide. </p>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" name="signup-btn" class="btn" id="signup-btn"> Signup Now </button>
-                            <a href="signup.php" class="btn btn-light"> Already have an account </a>
+                            <a href="signin" class="btn btn-light"> Already have an account </a>
                         </div>
                     </form>
                 </div>
@@ -119,7 +127,8 @@
 
                         <!-- otp -->
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp" maxlength="4" required>
+                            <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp"
+                                maxlength="4" required>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
@@ -133,13 +142,15 @@
     </main>
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 
     <!-- bootstrap js :: local file -->
-    <script src="Assets/CSS/bootstrap-css-5.3.3/bootstrap.min.css"></script>
+    <script src="/bookrack/Assets/CSS/bootstrap-css-5.3.3/bootstrap.min.css"></script>
 
     <!-- js :: current file -->
     <script></script>

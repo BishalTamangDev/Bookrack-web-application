@@ -9,7 +9,7 @@
     <title> Add new book </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/Bookrack/Assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,14 +19,14 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/Bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/navbar.css">
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/header.css">
-    <link rel="stylesheet" href="Assets/css/footer.css">
-    <link rel="stylesheet" href="Assets/css/add-book.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/navbar.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/style.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/header.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/footer.css">
+    <link rel="stylesheet" href="/Bookrack/Assets/css/add-book.css">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
             <!-- heading -->
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <p class="f-reset fs-3 fw-semibold text-secondary"> Add New Book </p>
-                <button class="btn btn-danger" onclick="window.location.href='add-book.php'"> Reset </button>
+                <button class="btn btn-danger" onclick="window.location.href='/bookrack/add-book'"> Reset </button>
             </div>
 
             <div class="alert alert-danger" role="alert">
@@ -44,7 +44,7 @@
             </div>
 
             <!-- add book form -->
-            <form action="" method="GET" class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
+            <form action="" method="POST" class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
