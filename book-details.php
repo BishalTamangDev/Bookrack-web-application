@@ -31,6 +31,7 @@
 
 <body>
     <!-- header -->
+    <?php include 'header.php';?>
 
     <!-- main -->
     <main class="d-flex flex-column gap-3 pb-5 container main">

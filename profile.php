@@ -1,5 +1,19 @@
 <?php
-// echo $tab;
+
+// echo "Primary tab: ".$tab."<br/>";
+// $arr = explode('?', $tab);
+
+// echo "Secondary tab: ".$arr[0]."<br/>";
+
+// $bookType = "Book type: all"."<br/>";
+
+// if($arr[0] == "my-books"){
+//     if(isset($arr[1])){
+//         $bookTypeArr = explode('=', $arr[1]);
+//         $bookType = $bookTypeArr[1];
+//     }
+// }
+// echo "Book type: ".$bookType."<br/>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -226,9 +240,8 @@
                         <!-- profile picture & password-->
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
                             <div class="w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
-                                    profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture" class="border rounded"
+                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile picture </label>
+                                <input type="file" name="edit-profile-profile-picture" class="border rounded form-control"
                                     id="edit-profile-profile-picture">
                             </div>
 
@@ -313,22 +326,22 @@
                     <!-- my book filter -->
                     <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
                         <div class="book-status active-book-status"
-                            onclick="window.location.href='/bookrack/profile/my-books&book-state=all'">
+                            onclick="window.location.href='/bookrack/profile/my-books?book-state=all'">
                             <p> All Books </p>
                         </div>
 
                         <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile.php/my-books&book-state=active'">
+                            onclick="window.location.href='/bookrack/profile/my-books?book-state=active'">
                             <p> Active Books </p>
                         </div>
 
                         <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile.php?tab=my-books&book-state=inactive'">
+                            onclick="window.location.href='/bookrack/profile/my-books?book-state=inactive'">
                             <p> Inactive Books </p>
                         </div>
 
                         <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile.php?tab=my-books&book-state=sold-out'">
+                            onclick="window.location.href='/bookrack/profile/my-books?book-state=sold-out'">
                             <p> Sold Out </p>
                         </div>
                     </div>
@@ -336,7 +349,7 @@
                     <!-- my books container-->
                     <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                         <!-- book container :: dummy data 1 -->
-                        <div class="book-container">
+                        <div class="book-container active-book">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
@@ -373,7 +386,7 @@
                         </div>
 
                         <!-- book container :: dummy data 2 -->
-                        <div class="book-container">
+                        <div class="book-container inactive-book">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-2.png" alt="">
@@ -410,7 +423,7 @@
                         </div>
 
                         <!-- book container :: dummy data 3 -->
-                        <div class="book-container">
+                        <div class="book-container soldout-book">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-3.jpg" alt="">
@@ -546,17 +559,16 @@
                 <div class="<?php if($tab!="requested-books") echo "d-none";?> d-flex flex-column gap-4 requested-book-content">
                     <!-- requested books filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="book-request-purpose" aria-label="Default select example">
-                            <option value="0" selected> All purpose </option>
+                        <select class="form-select" name="book-request-purpose" id="request-purpose" aria-label="book request purpose">
+                            <option value="0"> All purpose </option>
                             <option value="1"> Rent </option>
-                            <option value="2"> Buy/sell </option>
+                            <option value="2"> Sell </option>
                         </select>
 
-                        <select class="form-select" name="book-request-state" aria-label="Default select example">
-                            <option selected> State </option>
-                            <option value="1"> All </option>
-                            <option value="2"> Active </option>
-                            <option value="3"> Incomplete </option>
+                        <select class="form-select" name="book-request-state" id="request-state" aria-label="book request purpose">
+                            <option value="0"> All State </option>
+                            <option value="1"> Active </option>
+                            <option value="2"> Incomplete </option>
                         </select>
                     </div>
 
@@ -575,7 +587,7 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
+                                    class="requested-book-tr requested-book-purpose-rent-tr requested-book-state-pending-tr">
                                     <th scope="row">1</th>
                                     <td> The Great Gatsby </td>
                                     <td> NRs. 120 </td>
@@ -585,7 +597,7 @@
                                     <td> Pending </td>
                                 </tr>
 
-                                <tr>
+                                <tr class="requested-book-tr requested-book-purpose-sell-tr requested-book-state-completed-tr">
                                     <th scope="row">2</th>
                                     <td> Harry Porter and the Socerer's Stonr </td>
                                     <td> NRs. 75 </td>
@@ -688,6 +700,60 @@
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- js :: current file -->
+     <script>
+        // my books
+         $('.book-container').show();
+        <?php
+        if(isset($_GET['book-state'])){
+            if($_GET['book-state'] == "active"){
+                ?>
+                $('.inactive-book').hide();
+                $('.soldout-book').hide();
+                <?php
+            }if($_GET['book-state'] == "inactive"){
+                ?>
+                $('.active-book').hide();
+                $('.soldout-book').hide();
+                <?php
+            }if($_GET['book-state'] == "sold-out"){
+                ?>
+                $('.active-book').hide();
+                $('.inactive-book').hide();
+                <?php
+            }
+            ?>
+            
+            <?php
+        }
+        ?>
+
+        // requested books
+        // request purpose
+        $('#request-state').change(function(){
+            $('.requested-book-tr').show();
+            switch($(this).val()){
+                case '1':
+                    $('.requested-book-purpose-sell-tr').hide();
+                    break;
+                case '2':
+                    $('.requested-book-purpose-rent-tr').hide();
+                    break;
+                }
+        });
+
+        // request status
+        $('#request-purpose').change(function(){
+            $('.requested-book-tr').show();
+            switch($(this).val()){
+                case '1':
+                    $('.requested-book-state-pending-tr').hide();
+                    break;
+                case '2':
+                    $('.requested-book-state-completed-tr').hide();
+                    break;
+                }
+        });
+     </script>
 </body>
 
 </html>

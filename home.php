@@ -32,66 +32,7 @@
 
 <body>
     <!-- header -->
-    <header class="header w-100 border-bottom">
-        <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
-            <!-- logo -->
-            <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='/bookrack/home'">
-                <img src="assets/Brand/bookrack-logo-black.png" alt="">
-                <h3 class="f-reset fw-bold"> Bookrack </h3>
-            </div>
-
-            <!-- menu bar -->
-            <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
-
-            <!-- menu -->
-            <div class="flex-column d-md-flex flex-md-row gap-3 p-4 p-md-0 align-items-center menu" id="menu">
-                <!-- close menu -->
-                <div class="d-flex d-md-none justify-content-end container p-3 close" id="close-menu">
-                    <i class="fa fa-multiply pointer fs-3"></i>
-                </div>
-
-                <!-- search -->
-                <form action="" class="search-form">
-                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2" required>
-                </form>
-
-                <!-- add book -->
-                <div class="d-flex flex-row align-items-center gap-2 pointer justify-content-center p-2 px-3 text-white add-book" onclick="window.location.href='/bookrack/add-book'">
-                    <i class="fa fa-add"></i>
-                    <span style="white-space: nowrap;"> ADD BOOK </span>
-                </div>
-
-                <!-- wishlist -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist" onclick="window.location.href='/bookrack/profile/wishlist'">
-                    <i class="fa fa-bookmark"></i>
-                    <span> Wishlist </span>
-                </div>
-                
-                <!-- cart -->
-                <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer cart" onclick="window.location.href='/bookrack/cart'">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span> Cart </span>
-                </div>
-                
-                <!-- profile menu -->
-                <div class="position-relative profile-div">
-                    <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
-                        <img src="assets/Images/user-2.jpg" alt="" class="pointer">
-                    </div>
-
-                    <div class="position-absolute profile-menu" id="profile-menu">
-                        <ul>
-                            <li onclick="window.location.href='/bookrack/profile'"> <i class="fa fa-user"></i> <span>My Profile</span> </li>
-                            <li onclick="window.location.href='/bookrack/profile/my-books'"> <i class="fa fa-book"></i> <span>My Books</span> </li>
-                            <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i> <span>Earning</span> </li>
-                            <li onclick="window.location.href='/bookrack/landing'"> <i class="fa fa-sign-out"></i> <span>Sign Out</span> </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>  
+    <?php include 'header.php';?>
 
     <!-- main -->
     <main class="d-flex flex-row gap-lg-3 pb-5 container main">
@@ -422,41 +363,6 @@
         const showFilter = document.getElementById("filter-show-trigger-2");
         const hideFilter = document.getElementById("filter-hide-trigger");
 
-        // menu
-        const openMenu = document.getElementById("open-menu");
-        const closeMenu = document.getElementById("close-menu");
-
-        const menu = document.getElementById("menu");
-
-        // profile menu
-        var profileMenuState = false;
-        const profileMenu = document.getElementById("profile-menu");
-        const profileMenuTrigger = document.getElementById("profile-menu-trigger");
-
-        // open menu
-        openMenu.addEventListener('click', function () {
-            menu.style.display = "flex";
-            menu.style = "right: 0; transition: .4s";
-        });
-
-
-        // close menu
-        closeMenu.addEventListener('click', function () {
-            menu.style.display = "none";
-            menu.style = "right: -100%; transition: .4s";
-        });
-
-        // profile menu
-        profileMenuTrigger.addEventListener('click', function(){
-            profileMenuState = !profileMenuState;
-            if(profileMenuState){
-                profileMenu.style.display = "block";
-            }else{
-                profileMenu.style.display = "none";
-            }
-        });
-
-
         // filter
         showFilter.addEventListener('click', function () {
             aside.style = "display:block";
@@ -469,20 +375,8 @@
         });
 
         // device width changing
-        widthCheck = () => {
-            if(window.innerWidth < 768){
-                profileMenuState= true;
-                }else{
-                    profileMenuState= false;
-            }
+        homeWidthCheck = () => {
             if (window.innerWidth < 1188) {
-                // user menu
-                if(profileMenuState){
-                    profileMenu.style.display = "block";
-                    }else{
-                        profileMenu.style.display = "none";
-                }
-
                 // filter
                 if (!filterTriggerState) {
                     aside.style.display = "none";
@@ -491,7 +385,6 @@
                 }
             }
             if (window.innerWidth >= 1188) {
-                // profileMenu.style.display = "none";
                 showFilter.style.display = "none";
                 aside.style.display = "flex";
             } else {
@@ -499,13 +392,8 @@
             }
         }
 
-        window.addEventListener('resize', widthCheck);
-
-        window.onload = () => {
-            menu.style.display = "none";
-            profileMenu.style.display = "none";
-            widthCheck();
-        }
+        window.addEventListener('resize', homeWidthCheck);
+        homeWidthCheck();
     </script>
 </body>
 
