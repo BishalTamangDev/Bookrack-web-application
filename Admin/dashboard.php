@@ -30,11 +30,13 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"></aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Dashboard </h4>
+        <p class="page-heading"> Dashboard </p>
 
         <!-- card & new users -->
         <section

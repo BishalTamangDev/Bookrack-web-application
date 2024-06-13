@@ -103,4 +103,12 @@
   font-weight: bold;
   font-size: 18px;
   color: var(--brand-color);
+}
+
+.page-heading {
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
 }/*# sourceMappingURL=admin.css.map */

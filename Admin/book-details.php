@@ -30,14 +30,16 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"> </aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading & rating -->
         <section class="d-flex flex-column heading-rating">
             <!-- heading -->
-            <h1 class="fw-bold"> The Tales of Two Cities </h1>
+            <p class="page-heading"> The Tales of Two Cities </p>
 
             <!-- rating -->
             <div class="d-flex flex-row align-items-center gap-2 rating-count">

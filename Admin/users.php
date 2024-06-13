@@ -30,12 +30,14 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"></aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Users </h4>
+        <p class="fw-bold page-heading"> Users </p>
 
         <!-- cards -->
         <section class="section card-container">

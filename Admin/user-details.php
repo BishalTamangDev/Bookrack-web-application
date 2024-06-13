@@ -30,12 +30,14 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"> </aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> User Details </h4>
+        <p class="fw-bold page-heading"> User Details </p>
 
         <!-- user detail -->
         <section class="section d-flex flex-column flex-lg-row gap-5 user-detail-div">

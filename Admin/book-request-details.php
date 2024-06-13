@@ -20,9 +20,24 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+
 </head>
 
 <body>
+    <!-- nav -->
+    <?php
+    include 'nav.php';
+    ?>
+
+    <!-- main -->
+    <main class="main">
+        <p class="page-heading"> Book Request Details </p>
+    </main>
+
     <!-- jquery -->
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
 

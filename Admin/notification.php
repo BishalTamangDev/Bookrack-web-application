@@ -30,12 +30,14 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"></aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Notifications </h4>
+        <p class="page-heading"> Notifications </p>
 
         <!-- filters -->
         <section class="d-flex flex-row mt-3 notification-filter">

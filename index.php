@@ -116,7 +116,7 @@ if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router
         case "nav":
             include 'admin/nav.php';
             break;
-        case "notification.php":
+        case "notification":
             include 'admin/notification.php';
             break;
         case "rent":

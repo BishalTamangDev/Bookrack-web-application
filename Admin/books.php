@@ -28,12 +28,14 @@
 </head>
 
 <body>
-
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Books </h4>
+        <p class="page-heading"> Books </p>
 
         <!-- cards -->
         <section class="section card-container">

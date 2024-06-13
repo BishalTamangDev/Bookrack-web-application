@@ -29,12 +29,14 @@
 
 <body>
     <!-- aside :: nav -->
-    <aside class="aside"></aside>
+    <?php
+    include 'nav.php';
+    ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <h4 class="fw-bold"> Rent History </h4>
+        <p class="page-heading"> Rent History </p>
 
         <!-- cards -->
         <section class="section card-container">
