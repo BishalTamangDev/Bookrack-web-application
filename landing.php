@@ -9,7 +9,7 @@
     <title> Bookrack </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,12 +22,12 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/landing.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/landing.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
 
 </head>
 

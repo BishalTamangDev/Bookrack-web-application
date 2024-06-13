@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,11 +22,11 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/book-details.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/book-details.css">
 </head>
 
 <body>
@@ -44,11 +44,11 @@
             <div class="d-flex flex-row gap-2 align-items-center rating-count-container">
                 <!-- rating -->
                 <div class="d-flex flex-row align-items-center rating-container">
-                    <img src="/bookrack/assets/Icons/full-rating.png" alt="" loading="lazy">
-                    <img src="/bookrack/assets/Icons/full-rating.png" alt="" loading="lazy">
-                    <img src="/bookrack/assets/Icons/full-rating.png" alt="" loading="lazy">
-                    <img src="/bookrack/assets/Icons/full-rating.png" alt="" loading="lazy">
-                    <img src="/bookrack/assets/Icons/half-rating.png" alt="" loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                    <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
                 </div>
 
                 <!-- count -->
@@ -62,7 +62,7 @@
                 <!-- top image -->
                 <div class="d-flex flex-row top">
                     <div class="book-image">
-                        <img src="/bookrack/assets/Images/cover-1.jpeg" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -71,21 +71,21 @@
                     <!-- cover -->
                     <div class="book-image">
                         <abbr title="cover page">
-                            <img src="/bookrack/assets/Images/cover-1.jpeg" alt="" loading="lazy">
+                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                         </abbr>
                     </div>
 
                     <!-- price page -->
                     <div class="book-image">
                         <abbr title="price page">
-                            <img src="/bookrack/assets/Images/book-3.jpg" alt="" loading="lazy">
+                            <img src="/bookrack/assets/images/book-3.jpg" alt="" loading="lazy">
                         </abbr>
                     </div>
 
                     <!-- ISBN page -->
                     <div class="book-image">
                         <abbr title="isbn page">
-                            <img src="/bookrack/assets/Images/ISBN-1.jpg" alt="" loading="lazy">
+                            <img src="/bookrack/assets/images/ISBN-1.jpg" alt="" loading="lazy">
                         </abbr>
                     </div>
                 </div>

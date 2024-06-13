@@ -9,7 +9,7 @@
     <title> Rent </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,12 +19,12 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="../Assets/CSS/style.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
 </head>
 
 <body>
@@ -124,12 +124,12 @@
                     <td> 978-1-84356-028-9 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="book-details.php"> To Kill a Mockingbird </a>
+                            <a href="/bookrack/admin/book-details"> To Kill a Mockingbird </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="user-details.php"> Bishal Tamang </a>
+                            <a href="/bookrack/admin/user-details"> Bishal Tamang </a>
                         </abbr>
                     </td>
                     <td> 0000-00-00 </td>
@@ -150,12 +150,12 @@
                     <td> 978-0-596-52068-7 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="book-details.php"> 1984 </a>
+                            <a href="/bookrack/admin/book-details"> 1984 </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="user-details.php"> Rupak Dangi </a>
+                            <a href="/bookrack/admin/user-details"> Rupak Dangi </a>
                         </abbr>
                     </td>
                     <td> 2222-22-22 </td>
@@ -176,12 +176,12 @@
                     <td> 978-3-16-148410-0 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="book-details.php"> The Great Gatsby </a>
+                            <a href="/bookrack/admin/book-details"> The Great Gatsby </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="user-details.php"> Shristi Pradhan </a>
+                            <a href="/bookrack/admin/user-details"> Shristi Pradhan </a>
                         </abbr>
                     </td>
                     <td> 3333-33-33 </td>
@@ -208,7 +208,7 @@
     </main>
 
     <!-- jquery -->
-    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -216,7 +216,7 @@
         crossorigin="anonymous"></script>
 
     <!-- bootstrap js : local file -->
-    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

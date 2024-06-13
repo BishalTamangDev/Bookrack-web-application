@@ -9,7 +9,7 @@
     <title> Dashboard </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,13 +19,13 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="../Assets/CSS/style.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/dashboard.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/dashboard.css">
 </head>
 
 <body>
@@ -37,7 +37,8 @@
         <h4 class="fw-bold"> Dashboard </h4>
 
         <!-- card & new users -->
-        <section class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
+        <section
+            class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
             <div class="count-card">
                 <!-- cards -->
                 <div class="card-container">
@@ -67,17 +68,17 @@
                 <div class="d-flex flex-row profile-container">
                     <!-- user 1 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-1.png" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/user-1.png" alt="" loading="lazy">
                     </div>
 
                     <!-- user 2 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-2.jpg" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/user-2.jpg" alt="" loading="lazy">
                     </div>
 
                     <!-- user 3 -->
                     <div class="profile-div">
-                        <img src="../Assets/Images/user-3.jpg" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/user-3.jpg" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -115,7 +116,7 @@
                                 <td>
                                     <div class="offer-book-image-container">
                                         <div class="offer-book-div">
-                                            <img src="../Assets/Images/cover-1.jpeg" alt="" loading="lazy">
+                                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                                         </div>
                                     </div>
                                 </td>
@@ -133,7 +134,7 @@
 
                             <tr>
                                 <td colspan="4">
-                                    <a href="book-offers.php"> Show all offers </a>
+                                    <a href="/bookrack/admin/book-offers"> Show all offers </a>
                                 </td>
                             </tr>
                         </tfoot>
@@ -169,18 +170,18 @@
                                 <td> NRs. 120.00 </td>
                             </tr>
                         </tbody>
-                            
-                            <!-- table footer -->
-                            <tfoot id="table-foot">
-                                <tr class="empty-request-tr">
-                                    <td colspan="4"> No new request! </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="9">
-                                        <a href="book-requests.php"> Show all requests </a>
-                                    </td>
-                                </tr>
-                            </tfoot>
+
+                        <!-- table footer -->
+                        <tfoot id="table-foot">
+                            <tr class="empty-request-tr">
+                                <td colspan="4"> No new request! </td>
+                            </tr>
+                            <tr>
+                                <td colspan="9">
+                                    <a href="/bookrack/admin/book-requests"> Show all requests </a>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -198,7 +199,7 @@
                 <!-- book 1 -->
                 <div class="recently-arrived-book" onclick="window.location.href='book-details.php'">
                     <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                     </div>
 
                     <div class="detail">
@@ -212,7 +213,8 @@
                 </div>
             </div>
 
-            <a href="books.php" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
+            <a href="/bookrack/admin/books" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show
+                all </a>
 
         </section>
 
@@ -229,14 +231,14 @@
                 <div class="rent-ending">
                     <!-- image -->
                     <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                     </div>
 
                     <!-- detail -->
                     <div class="detail-div">
                         <!-- title -->
                         <div class="title-div">
-                            <a href="book-details.php">
+                            <a href="/bookrack/admin/book-details">
                                 The Black Universe
                             </a>
                         </div>
@@ -254,7 +256,7 @@
 
                         <!-- contact -->
                         <div class="contact-div">
-                            <a href="user-details.php" class="btn">Contact Reader</a>
+                            <a href="/bookrack/admin/user-details" class="btn">Contact Reader</a>
                         </div>
                     </div>
                 </div>
@@ -275,7 +277,7 @@
                 <!-- review 1 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -292,11 +294,11 @@
                         </div>
 
                         <div class="rating-div">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/half-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/half-rating.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -304,7 +306,7 @@
                 <!-- review 2 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="../Assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -319,9 +321,9 @@
                         </div>
 
                         <div class="rating-div">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -329,7 +331,7 @@
                 <!-- review 3 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="../Assets/Images/cover-3.jpg" alt="">
+                        <img src="/bookrack/assets/images/cover-3.jpg" alt="">
                     </div>
 
                     <div class="detail-div">
@@ -346,9 +348,9 @@
                         </div>
 
                         <div class="rating-div">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/full-rating.png" alt="">
-                            <img src="../Assets/Icons/half-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/half-rating.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -359,7 +361,7 @@
     </main>
 
     <!-- jquery -->
-    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -367,7 +369,7 @@
         crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

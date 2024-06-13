@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,12 +22,12 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/home.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/home.css">
 </head>
 
 <body>
@@ -67,14 +67,14 @@
 
                             <div class="d-flex gap-2 align-items-center">
                                 <!-- min price -->
-                                <input type="number" name="min-price" class="form-control" id="min-price" aria-describedby="min price"
-                                    placeholder="Min">
+                                <input type="number" name="min-price" class="form-control" id="min-price"
+                                    aria-describedby="min price" placeholder="Min">
 
                                 <p class="f-reset fw-bold"> - </p>
 
                                 <!-- max price -->
-                                <input type="number" name="max-price" class="form-control" id="max-price" aria-describedby="max price"
-                                    placeholder="Max">
+                                <input type="number" name="max-price" class="form-control" id="max-price"
+                                    aria-describedby="max price" placeholder="Max">
                             </div>
                         </div>
 
@@ -86,7 +86,8 @@
                                 <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
                             </div>
 
-                            <select class="form-select form-select-md" name="purpose" id="purpose" aria-label="Small select example">
+                            <select class="form-select form-select-md" name="purpose" id="purpose"
+                                aria-label="Small select example">
                                 <option value="all"> All </option>
                                 <option value="renting"> Rent </option>
                                 <option value="selling"> Buy </option>
@@ -101,7 +102,8 @@
                                 <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
                             </div>
 
-                            <select class="form-select form-select-md" name="genre" id="genre" aria-label="Small select example">
+                            <select class="form-select form-select-md" name="genre" id="genre"
+                                aria-label="Small select example">
                                 <option selected hidden value="all"> All genre </option>
                                 <option value="genre1"> Genre 1 </option>
                                 <option value="genre2"> Genre 2 </option>
@@ -119,7 +121,7 @@
 
             <!-- advertisement -->
             <section class="advertisement-section">
-                <img src="assets/Images/ad-1.jpg" alt="advertisement" loading="lazy">
+                <img src="/bookrack/assets/images/ad-1.jpg" alt="advertisement" loading="lazy">
             </section>
         </aside>
 
@@ -157,9 +159,9 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
+                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                         </div>
-    
+
                         <!-- book details -->
                         <div class="book-details">
                             <!-- book title -->
@@ -169,33 +171,34 @@
                                     <i class="fa-regular fa-bookmark"></i>
                                 </a>
                             </div>
-    
+
                             <!-- book purpose -->
                             <p class="book-purpose"> Renting </p>
-    
+
                             <!-- book description -->
                             <div class="book-description-container">
                                 <p class="book-description"> Set in the American South during the 1930s, this classic
                                     novel explores themes of racial injustice and moral growth through the eyes of Scout
                                     Finch, a young girl whose father, Atticus Finch, is ... </p>
                             </div>
-    
+
                             <!-- book price -->
                             <div class="book-price">
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
-    
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
+
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                            </button>
                         </div>
                     </div>
-    
+
                     <!-- book container :: dummy data 2 -->
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="/bookrack/assets/Images/cover-2.png" alt="">
+                            <img src="/bookrack/assets/images/cover-2.png" alt="">
                         </div>
-    
+
                         <!-- book details -->
                         <div class="book-details">
                             <!-- book title -->
@@ -205,23 +208,24 @@
                                     <i class="fa-regular fa-bookmark"></i>
                                 </a>
                             </div>
-    
+
                             <!-- book purpose -->
                             <p class="book-purpose"> Selling </p>
-    
+
                             <!-- book description -->
                             <div class="book-description-container">
                                 <p class="book-description"> Set in the American South during the 1930s, this classic
                                     novel explores themes of racial injustice and moral growth through the eyes of Scout
                                     Finch, a young girl whose father, Atticus Finch, is ... </p>
                             </div>
-    
+
                             <!-- book price -->
                             <div class="book-price">
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
-    
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
+
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -240,9 +244,9 @@
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
+                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                         </div>
-    
+
                         <!-- book details -->
                         <div class="book-details">
                             <!-- book title -->
@@ -252,33 +256,33 @@
                                     <i class="fa-regular fa-bookmark"></i>
                                 </a>
                             </div>
-    
+
                             <!-- book purpose -->
                             <p class="book-purpose"> Renting </p>
-    
+
                             <!-- book description -->
                             <div class="book-description-container">
                                 <p class="book-description"> Set in the American South during the 1930s, this classic
                                     novel explores themes of racial injustice and moral growth through the eyes of Scout
                                     Finch, a young girl whose father, Atticus Finch, is ... </p>
                             </div>
-    
+
                             <!-- book price -->
                             <div class="book-price">
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
-    
+
                             <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>
-    
+
                     <!-- book container :: dummy data 2 -->
                     <div class="book-container">
                         <!-- book image -->
                         <div class="book-image">
-                            <img src="/bookrack/assets/Images/cover-2.png" alt="">
+                            <img src="/bookrack/assets/images/cover-2.png" alt="">
                         </div>
-    
+
                         <!-- book details -->
                         <div class="book-details">
                             <!-- book title -->
@@ -288,22 +292,22 @@
                                     <i class="fa-regular fa-bookmark"></i>
                                 </a>
                             </div>
-    
+
                             <!-- book purpose -->
                             <p class="book-purpose"> Selling </p>
-    
+
                             <!-- book description -->
                             <div class="book-description-container">
                                 <p class="book-description"> Set in the American South during the 1930s, this classic
                                     novel explores themes of racial injustice and moral growth through the eyes of Scout
                                     Finch, a young girl whose father, Atticus Finch, is ... </p>
                             </div>
-    
+
                             <!-- book price -->
                             <div class="book-price">
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
-    
+
                             <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
                         </div>
                     </div>

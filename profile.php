@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/Brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,17 +22,17 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/profile.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/profile.css">
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header.php';?>
+    <?php include 'header.php'; ?>
 
     <!-- main -->
     <main class="d-flex d-column flex-lg-row gap-lg-4 container main">
@@ -43,7 +43,7 @@
                 <!-- profile picture -->
                 <div class="d-flex flex-column align-items-center gap-2 profile-top">
                     <div class="profile-image">
-                        <img src="/bookrack/assets/Images/user-1.png" alt="profile picture">
+                        <img src="/bookrack/assets/images/user-1.png" alt="profile picture">
                     </div>
                     <p class="f-reset text-secondary"> Rupak Dangi </p>
                 </div>
@@ -212,26 +212,32 @@
                         <!-- heading -->
                         <div class="d-flex flex-row align-items-center gap-2 heading">
                             <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset">  <?php echo $tab=="view-profile"? "My Profile":"Edit Profile"; ?> </h4>
+                            <h4 class="f-reset"> <?php echo $tab == "view-profile" ? "My Profile" : "Edit Profile"; ?> </h4>
                         </div>
 
                         <!-- form reset btn -->
-                         <div class="d-flex flex-row gap-2 action">
+                        <div class="d-flex flex-row gap-2 action">
 
-                             <button class="btn btn-warning text-white <?php if($tab=="view-profile") echo "d-none";?>" onclick="window.location.href='/bookrack/profile/edit-profile'">
-                                 Reset </button>
-                                
-                                <!-- cancel btn -->
-                            <button class="btn btn-danger <?php if($tab=="view-profile") echo "d-none";?>" onclick="window.location.href='/bookrack/profile/view-profile'">
+                            <button class="btn btn-warning text-white <?php if ($tab == "view-profile")
+                                echo "d-none"; ?>"
+                                onclick="window.location.href='/bookrack/profile/edit-profile'">
+                                Reset </button>
+
+                            <!-- cancel btn -->
+                            <button class="btn btn-danger <?php if ($tab == "view-profile")
+                                echo "d-none"; ?>"
+                                onclick="window.location.href='/bookrack/profile/view-profile'">
                                 Cancel </button>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <!-- edit profile deatail form -->
                     <form class="d-flex flex-column gap-4 edit-profile-form">
                         <!-- profile picture & password-->
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
-                            <div class="<?php if($tab=="view-profile") echo "d-none";?> w-100 w-md-50 flex-grow-1 profile-picture">
+                            <div
+                                class="<?php if ($tab == "view-profile")
+                                    echo "d-none"; ?> w-100 w-md-50 flex-grow-1 profile-picture">
                                 <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
                                     profile picture </label>
                                 <input type="file" name="edit-profile-profile-picture"
@@ -253,13 +259,15 @@
                             <div class="flex-grow-1 first-name-div">
                                 <label for="edit-profile-first-name" class="form-label">First name </label>
                                 <input type="email" class="form-control" id="edit-profile-first-name" value="first name"
-                                    name="edit-profile-first-name" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
+                                    name="edit-profile-first-name" aria-describedby="emailHelp" <?php if ($tab == "view-profile")
+                                        echo "disabled"; ?>>
                             </div>
 
                             <div class="flex-grow-1 last-name-div">
                                 <label for="edit-profile-last-name" class="form-label">Last name</label>
                                 <input type="email" class="form-control" id="edit-profile-last-name" value="last name"
-                                    name="edit-profile-last-name" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
+                                    name="edit-profile-last-name" aria-describedby="emailHelp" <?php if ($tab == "view-profile")
+                                        echo "disabled"; ?>>
                             </div>
                         </div>
 
@@ -268,14 +276,16 @@
                             <!-- date of birth -->
                             <div class="d-flex flex-column w-100 w-md-50 dob-div">
                                 <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                                <input type="date" class="p-2" name="edit-profile-dob" <?php if($tab=="view-profile") echo "disabled";?>>
+                                <input type="date" class="p-2" name="edit-profile-dob" <?php if ($tab == "view-profile")
+                                    echo "disabled"; ?>>
                             </div>
 
                             <!-- gender -->
                             <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
                                 <label for="edit-profile-gender" class="form-label"> Gender </label>
                                 <select class="form-select" name="edit-profile-gender"
-                                    aria-label="Default select example" <?php if($tab=="view-profile") echo "disabled";?>>
+                                    aria-label="Default select example" <?php if ($tab == "view-profile")
+                                        echo "disabled"; ?>>
                                     <option value="0" selected hidden>Select gender</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -290,7 +300,8 @@
                             <div class="w-100 w-md-50 district-div">
                                 <label for="edit-profile-district" class="form-label"> District </label>
                                 <select class="form-select" name="edit-profile-district"
-                                    aria-label="Default select example" <?php if($tab=="view-profile") echo "disabled";?>>
+                                    aria-label="Default select example" <?php if ($tab == "view-profile")
+                                        echo "disabled"; ?>>
                                     <option value="0" selected hidden> Select district </option>
                                     <option value="1"> DIstrict 1 </option>
                                     <option value="2"> DIstrict 2 </option>
@@ -303,14 +314,18 @@
                             <!-- location -->
                             <div class="w-100 w-md-50 location-div">
                                 <label for="edit-profile-location" class="form-label"> Location </label>
-                                <input type="email" class="form-control" id="edit-profile-location" value="location name"
-                                    name="edit-profile-location" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
+                                <input type="email" class="form-control" id="edit-profile-location"
+                                    value="location name" name="edit-profile-location" aria-describedby="emailHelp"
+                                    <?php if ($tab == "view-profile")
+                                        echo "disabled"; ?>>
                             </div>
                         </div>
 
                         <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
 
-                        <button type="submit" class="btn <?php if($tab=="view-profile") echo "d-none";?>" id="update-profile-btn"> Update </button>
+                        <button type="submit" class="btn <?php if ($tab == "view-profile")
+                            echo "d-none"; ?>"
+                            id="update-profile-btn"> Update </button>
                     </form>
                 </div>
 
@@ -342,7 +357,7 @@
                         <div class="book-container my-book my-book-active">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
+                                <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                             </div>
 
                             <!-- book details -->
@@ -379,7 +394,7 @@
                         <div class="book-container my-book my-book-inactive">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="/bookrack/assets/Images/cover-2.png" alt="">
+                                <img src="/bookrack/assets/images/cover-2.png" alt="">
                             </div>
 
                             <!-- book details -->
@@ -416,7 +431,7 @@
                         <div class="book-container my-book my-book-sold-out">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="/bookrack/assets/Images/cover-3.jpg" alt="">
+                                <img src="/bookrack/assets/images/cover-3.jpg" alt="">
                             </div>
 
                             <!-- book details -->
@@ -469,7 +484,7 @@
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
+                                <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                             </div>
 
                             <!-- book details -->
@@ -506,7 +521,7 @@
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="/bookrack/assets/Images/cover-2.png" alt="">
+                                <img src="/bookrack/assets/images/cover-2.png" alt="">
                             </div>
 
                             <!-- book details -->
@@ -618,13 +633,15 @@
                     echo "d-none"; ?> d-flex flex-column gap-4 requested-book-content earning-content">
                     <!-- earning filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="earning-purpose" id="earning-purpose" aria-label="earning purpose select">
+                        <select class="form-select" name="earning-purpose" id="earning-purpose"
+                            aria-label="earning purpose select">
                             <option value="earning-purpose-all" selected> All Purpose </option>
                             <option value="earning-purpose-rent"> Rent </option>
                             <option value="earning-purpose-buy-sell"> Buy/ Sell </option>
                         </select>
 
-                        <select class="form-select" name="earning-state" name="earning-state" id="earning-state" aria-label="earning state select">
+                        <select class="form-select" name="earning-state" name="earning-state" id="earning-state"
+                            aria-label="earning state select">
                             <option value="earning-state-all" selected> All state </option>
                             <option value="earning-state-active"> Active </option>
                             <option value="earning-state-completed"> Completed </option>
@@ -645,8 +662,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr
-                                    class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
+                                <tr class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
                                     <th scope="row">1</th>
                                     <td> The Great Gatsby </td>
                                     <td> NRs. 120 </td>
@@ -782,18 +798,18 @@
     </script>
 
     <!-- earning script -->
-     <script>
+    <script>
         // earning purpose
-        $('#earning-purpose').change(function(){
+        $('#earning-purpose').change(function () {
             filterEarning();
         });
 
         // earning state
-        $('#earning-state').change(function(){
+        $('#earning-state').change(function () {
             filterEarning();
         });
-            
-        filterEarning = () =>{
+
+        filterEarning = () => {
             console.clear();
 
             // earning purpose
@@ -817,7 +833,7 @@
                     break;
             }
         };
-     </script>
+    </script>
 </body>
 
 </html>

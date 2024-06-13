@@ -9,7 +9,7 @@
     <title> Nav </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,11 +19,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- local bootstrap : local file -->
-    <link rel="stylesheet:" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    <link rel="stylesheet:" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="../Assets/CSS/style.css">
-    <link rel="stylesheet" href="../Assets/CSS/admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
 </head>
 
 <body>
@@ -35,9 +35,9 @@
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
                 <div class="profile-photo rounded-circle">
-                    <img src="../Assets/Images/user-2.jpg" alt="" id="admin-profile-photo">
+                    <img src="/bookrack/assets/images/user-2.jpg" alt="" id="admin-profile-photo">
                 </div>
-    
+
                 <!-- profile detail -->
                 <div class="d-flex flex-column align-items-center profile-details">
                     <p class="f-reset" id="username"> Bishal Tamang </p>
@@ -111,7 +111,7 @@
         crossorigin="anonymous"></script>
 
     <!-- bootstrap local file :: backup-->
-    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@
     <title> Admin Signin </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,12 +19,12 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- local css -->
-    <link rel="stylesheet" href="/Assets/css/style.css">
-    <link rel="stylesheet" href="/Assets/css/signin.css">
-    <link rel="stylesheet" href="/Assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
 </head>
 
 <body>
@@ -34,10 +34,10 @@
             <!-- heading -->
             <div class="d-flex flex-row justify-content-between heading">
                 <!-- brand logo -->
-                <img src="/Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
+                <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="signin.php">
+                <a href="/bookrack/admin/signin">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="landing-content-image">
-                        <img src="/Assets/Images/free.jpg" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/free.jpg" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" class="btn" name="signin-btn" id="signin-btn"> Signin Now </button>
-                            <a href="signup.php" class="btn"> Create Account </a>
+                            <a href="/bookrack/admin/signup" class="btn"> Create Account </a>
                         </div>
                     </form>
                 </div>
@@ -116,13 +116,15 @@
     </main>
 
     <!-- jquery -->
-    <script src="/Assets/Js/jquery-3.7.1.min.js"> </script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
 
     <!-- boostrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file  -->
-    <script src="/Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@
     <title> Signin </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,11 +19,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
             <!-- heading -->
             <div class="d-flex flex-row justify-content-between heading">
                 <!-- brand logo -->
-                <img src="Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
+                <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
                 <a href="/bookrack/landing">
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="landing-content-image">
-                        <img src="Assets/Images/free.jpg" alt="" loading="lazy">
+                        <img src="/bookrack/assets/images/free.jpg" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" class="btn" name="signin-btn" id="signin-btn"> Sign in </button>
-                            <a href="signup" class="btn"> Create Account </a>
+                            <a href="/bookrack/signup" class="btn"> Create Account </a>
                         </div>
                     </form>
                 </div>
@@ -115,13 +115,15 @@
     </main>
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="Assets/CSS/bootstrap-css-5.3.3/bootstrap.min.css"></script>
+    <script src="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css"></script>
 
     <!-- js :: current file -->
     <script></script>

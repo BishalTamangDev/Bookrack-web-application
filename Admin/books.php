@@ -9,7 +9,7 @@
     <title> Books </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="../Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,16 +19,16 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="../Assets/CSS/bootstrap-css-5.3.3/bootstrap.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="../Assets/CSS/style.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/admin.css">
-    <link rel="stylesheet" href="../Assets/CSS/Admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
 </head>
 
 <body>
-    
+
 
     <!-- main content -->
     <main class="main">
@@ -42,20 +42,20 @@
                 <p class="card-v1-title"> Number of Books </p>
                 <p class="card-v1-detail"> 1245 </p>
             </div>
-    
+
             <!-- number of books on rent -->
             <div class="card-v1">
                 <p class="card-v1-title"> Books on Rent </p>
                 <p class="card-v1-detail"> 207 </p>
             </div>
         </section>
-        
+
         <!-- table to section -->
         <div class="section table-top-section">
             <!-- filter -->
             <div class="filter-div">
                 <i class="fa fa-filter" id="filter-icon"></i>
-    
+
                 <!-- rent / stock -->
                 <select class="form-select" aria-label="select">
                     <option value="0" selected hidden> Book status </option>
@@ -63,7 +63,7 @@
                     <option value="2"> On Rent </option>
                     <option value="3"> On Stock </option>
                 </select>
-    
+
                 <!-- genre -->
                 <select class="form-select" aria-label="select">
                     <option value="0" selected hidden> Genre </option>
@@ -74,7 +74,7 @@
                     <option value="5"> Genre 4 </option>
                     <option value="6"> Genre 5 </option>
                 </select>
-    
+
                 <!-- language -->
                 <select class="form-select" aria-label="select">
                     <option value="0" selected hidden> Language </option>
@@ -83,14 +83,14 @@
                     <option value="3"> Nepali </option>
                     <option value="4"> Hindi </option>
                 </select>
-    
+
                 <!-- clear filter -->
                 <div class="clear-filter-div" id="clear-filter">
                     <p class="f-reset"> Clear </p>
                     <i class="fa fa-multiply"></i>
                 </div>
             </div>
-    
+
             <!-- search & clear section -->
             <div class="search-clear">
                 <!-- clear search -->
@@ -98,7 +98,7 @@
                     <p class="f-reset"> Clear Search </p>
                     <i class="fa fa-multiply"></i>
                 </div>
-    
+
                 <!-- search section -->
                 <div class="search-container">
                     <input type="text" placeholder="search book">
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- book table -->
         <table class="table table-striped user-table">
             <!-- header -->
@@ -126,7 +126,7 @@
                     <th scope="col"> Action </th>
                 </tr>
             </thead>
-    
+
             <!-- body -->
             <tbody>
                 <!-- dummy data -->
@@ -142,13 +142,13 @@
                     <td>On Rent</td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.php">
+                            <a href="/bookrack/admin/book-details">
                                 <i class="fa fa-eye"></i>
-                                </a>
+                            </a>
                         </abbr>
                     </td>
                 </tr>
-    
+
                 <tr class="book-row on-rent-row on-stock-row">
                     <th scope="row"> 2 </th>
                     <td> 456789 </td>
@@ -161,13 +161,13 @@
                     <td> On rent </td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.php">
+                            <a href="/bookrack/admin/book-details">
                                 <i class="fa fa-eye"></i>
-                                </a>
+                            </a>
                         </abbr>
                     </td>
                 </tr>
-    
+
                 <tr class="book-row on-rent-row on-stock-row">
                     <th scope="row"> 3 </th>
                     <td> 159482 </td>
@@ -180,14 +180,14 @@
                     <td> On stock </td>
                     <td>
                         <abbr title="Show full details">
-                            <a href="book-details.php">
+                            <a href="/bookrack/admin/book-details">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </abbr>
                     </td>
                 </tr>
             </tbody>
-    
+
             <!-- footer -->
             <tfoot id="table-foot">
                 <tr>
@@ -198,7 +198,7 @@
     </main>
 
     <!-- jquery -->
-    <script src="../Assets/Js/jquery-3.7.1.min.js"> </script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
 
     <!-- bootstrap js :: cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -206,7 +206,7 @@
         crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="../Assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 </body>
 
 </html>

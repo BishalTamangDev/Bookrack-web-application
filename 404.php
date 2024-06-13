@@ -9,18 +9,18 @@
     <title> 404 - Page Not Found </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- bootstrap css :: cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/Bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/Bookrack/Assets/CSS/style.css">
-    <link rel="stylesheet" href="/Bookrack/Assets/CSS/404.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/404.css">
 </head>
 
 <body>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="w-50 page-not-found-image">
-                <img src="/bookrack/Assets/Icons/empty.svg" alt="">
+                <img src="/bookrack/assets/icons/empty.svg" alt="">
             </div>
         </section>
     </main>

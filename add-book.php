@@ -9,7 +9,7 @@
     <title> Add new book </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/Bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -19,14 +19,14 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/Bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/Bookrack/Assets/css/navbar.css">
-    <link rel="stylesheet" href="/Bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/Bookrack/Assets/css/header.css">
-    <link rel="stylesheet" href="/Bookrack/Assets/css/footer.css">
-    <link rel="stylesheet" href="/Bookrack/Assets/css/add-book.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/add-book.css">
 </head>
 
 <body>
@@ -34,7 +34,7 @@
     <?php
     include 'header.php';
     ?>
-    
+
     <!-- main -->
     <main class="d-flex flex-column gap-3 container main pb-5">
         <section class="d-flex flex-column gap-5 gap-md-4 section add-book-section">
@@ -49,7 +49,8 @@
             </div>
 
             <!-- add book form -->
-            <form action="" method="POST" class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
+            <form action="" method="POST"
+                class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
@@ -61,8 +62,8 @@
                     <!-- description -->
                     <div class="d-flex flex-column gap-2 description">
                         <label for="book-description" class="f-reset form-label"> Description </label>
-                        <textarea class="form-control-lg" placeholder="" id="book-description"
-                            name="book-description" required></textarea>
+                        <textarea class="form-control-lg" placeholder="" id="book-description" name="book-description"
+                            required></textarea>
                     </div>
 
                     <!-- ISBN -->
@@ -134,13 +135,13 @@
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-actual-price" class="f-reset form-label"> Actual price </label>
                             <input type="text" class="form-control-lg" id="book-actual-price" name="book-actual-price"
-                                aria-describedby="actual price" placeholder=""  required>
+                                aria-describedby="actual price" placeholder="" required>
                         </div>
 
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-offer-price" class="f-reset form-label"> Offer price </label>
                             <input type="text" class="form-control-lg" id="book-offer-price" name="book-offer-price"
-                                aria-describedby="offer price" placeholder=""  required>
+                                aria-describedby="offer price" placeholder="" required>
                         </div>
                     </div>
                 </div>
@@ -155,20 +156,20 @@
                     <div class="d-flex flex-column gap-3 book-images">
                         <div class="input-group">
                             <label for="cover-page">Cover page</label>
-                            <input type="file" name="cover-page" id="cover-page" class="form-control" aria-label="cover page image"
-                                    aria-describedby="cover page image" required>
+                            <input type="file" name="cover-page" id="cover-page" class="form-control"
+                                aria-label="cover page image" aria-describedby="cover page image" required>
                         </div>
 
                         <div class="input-group">
                             <label for="price-page">Price page</label>
-                            <input type="file" name="price-page" id="cover-page" class="form-control" aria-label="price page image"
-                                    aria-describedby="price page image" required>
+                            <input type="file" name="price-page" id="cover-page" class="form-control"
+                                aria-label="price page image" aria-describedby="price page image" required>
                         </div>
 
                         <div class="input-group">
                             <label for="isbn-page">ISBN page</label>
-                            <input type="file" name="isbn-page" id="isbn-page" class="form-control" aria-label="isbn page image"
-                                    aria-describedby="isbn page image" required>
+                            <input type="file" name="isbn-page" id="isbn-page" class="form-control"
+                                aria-label="isbn page image" aria-describedby="isbn page image" required>
                         </div>
                     </div>
 
@@ -181,13 +182,15 @@
     </main>
 
     <!-- jquery -->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- js :: current file -->
     <script> </script>

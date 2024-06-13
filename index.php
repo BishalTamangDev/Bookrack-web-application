@@ -7,6 +7,8 @@ $router = str_replace('/bookrack', '', $request);
 
 $profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|my-books|wishlist|requested-books|earning)/';
 
+$adminPagesPattern = '/admin\/(book-details|book-offer-details|book-offers|book-request-details|book-requests|books|dashboard|index|nav|notification|rent|signin|signup|user-details|users)/i';
+
 $tab = "";
 
 if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router == '/index' || $router == '/index/' || $router == '/header' || $router == '/header/') {
@@ -84,8 +86,58 @@ if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router
     }
 
     include 'signup.php';
-} elseif ($router == '/admin' || $router == '/admin/') {
-    include '/dashboard.php';
+} elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
+    // print_r($router);
+    $arr = explode('/', $router);
+    // print_r($arr);
+
+    switch ($arr[2]) {
+        case "book-details":
+            include 'admin/book-details.php';
+            break;
+        case "book-offer-details":
+            include 'admin/book-offer-details.php';
+            break;
+        case "book-offers":
+            include 'admin/book-offers.php';
+            break;
+        case "book-request-details":
+            include 'admin/book-request-details.php';
+            break;
+        case "book-requests":
+            include 'admin/book-requests.php';
+            break;
+        case "books":
+            include 'admin/books.php';
+            break;
+        case "dashboard":
+            include 'admin/dashboard.php';
+            break;
+        case "nav":
+            include 'admin/nav.php';
+            break;
+        case "notification.php":
+            include 'admin/notification.php';
+            break;
+        case "rent":
+            include 'admin/rent.php';
+            break;
+        case "signin":
+            include 'admin/signin.php';
+            break;
+        case "signup":
+            include 'admin/signup.php';
+            break;
+        case "user-details":
+            include 'admin/user-details.php';
+            break;
+        case "users":
+            include 'admin/users.php';
+            break;
+        default:
+            include 'admin/index.php';
+            break;
+    }
 } else {
     include '404.php';
 }

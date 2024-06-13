@@ -12,7 +12,7 @@
     <title> Password Recovery </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -25,9 +25,9 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/signin.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/forgot-password.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/forgot-password.css">
 </head>
 
 <body>
@@ -37,7 +37,7 @@
             <!-- heading -->
             <div class="d-flex flex-row justify-content-between heading">
                 <!-- brand logo -->
-                <img src="/bookrack/Assets/Brand/bookrack-logo-color.png" alt="" loading="lazy">
+                <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
                 <a href="/bookrack/signin">
@@ -150,7 +150,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
-    <script src="/bookrack/Assets/CSS/bootstrap-css-5.3.3/bootstrap.min.css"></script>
+    <script src="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css"></script>
 
     <!-- js :: current file -->
     <script></script>

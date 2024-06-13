@@ -9,7 +9,7 @@
     <title> Header </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/Assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
                 onclick="window.location.href='/bookrack/home'">
-                <img src="/bookrack/assets/Brand/bookrack-logo-black.png" alt="">
+                <img src="/bookrack/assets/brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
 
@@ -76,7 +76,7 @@
                 <!-- profile menu -->
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
-                        <img src="/bookrack/assets/Images/user-2.jpg" alt="" class="pointer">
+                        <img src="/bookrack/assets/images/user-2.jpg" alt="" class="pointer">
                     </div>
 
                     <div class="position-absolute profile-menu" id="profile-menu">
@@ -84,11 +84,14 @@
                             <li onclick="window.location.href='/bookrack/profile'"> <i class="fa fa-user"></i> <span>My
                                     Profile</span> </li>
                             <li onclick="window.location.href='/bookrack/profile/my-books'"> <i class="fa fa-book"></i>
-                                <span>My Books</span> </li>
+                                <span>My Books</span>
+                            </li>
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
-                                <span>Earning</span> </li>
+                                <span>Earning</span>
+                            </li>
                             <li onclick="window.location.href='/bookrack/landing'"> <i class="fa fa-sign-out"></i>
-                                <span>Sign Out</span> </li>
+                                <span>Sign Out</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
