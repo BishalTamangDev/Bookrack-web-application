@@ -52,6 +52,7 @@ body {
 .main {
   min-height: 80vh;
   display: flex;
+  margin-top: 8rem;
   flex-direction: column;
 }
 

@@ -30,6 +30,11 @@
 </head>
 
 <body>
+    <!-- header -->
+    <?php
+    include 'header.php';
+    ?>
+    
     <!-- main -->
     <main class="d-flex flex-column gap-3 container main pb-5">
         <section class="d-flex flex-column gap-5 gap-md-4 section add-book-section">

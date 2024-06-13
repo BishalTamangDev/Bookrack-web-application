@@ -1,20 +1,3 @@
-<?php
-
-// echo "Primary tab: ".$tab."<br/>";
-// $arr = explode('?', $tab);
-
-// echo "Secondary tab: ".$arr[0]."<br/>";
-
-// $bookType = "Book type: all"."<br/>";
-
-// if($arr[0] == "my-books"){
-//     if(isset($arr[1])){
-//         $bookTypeArr = explode('=', $arr[1]);
-//         $bookType = $bookTypeArr[1];
-//     }
-// }
-// echo "Book type: ".$bookType."<br/>";
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +32,7 @@
 
 <body>
     <!-- header -->
-
+    <?php include 'header.php';?>
 
     <!-- main -->
     <main class="d-flex d-column flex-lg-row gap-lg-4 container main">
@@ -134,31 +117,31 @@
                 <!-- profile tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
-                    <div class="indicator <?php echo ($tab=="view-profile")?"active":"inactive";?>"></div>
+                    <div class="indicator <?php echo ($tab == "view-profile") ? "active" : "inactive"; ?>"></div>
                 </div>
-                
+
                 <!-- my books tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/my-books'"> MY BOOKS </p>
-                    <div class="indicator <?php echo ($tab=="my-books")?"active":"inactive";?>"></div>
+                    <div class="indicator <?php echo ($tab == "my-books") ? "active" : "inactive"; ?>"></div>
                 </div>
 
                 <!-- wihslist tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/wishlist'"> WISHLIST </p>
-                    <div class="indicator <?php echo ($tab=="wishlist")?"active":"inactive";?>"></div>
+                    <div class="indicator <?php echo ($tab == "wishlist") ? "active" : "inactive"; ?>"></div>
                 </div>
 
                 <!-- requested books tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/requested-books'"> REQUESTED BOOKS </p>
-                    <div class="indicator <?php echo ($tab=="requested-books")?"active":"inactive";?>"></div>
+                    <div class="indicator <?php echo ($tab == "requested-books") ? "active" : "inactive"; ?>"></div>
                 </div>
 
                 <!-- earning tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/earning'"> EARNING </p>
-                    <div class="indicator <?php echo ($tab=="earning")?"active":"inactive";?>"></div>
+                    <div class="indicator <?php echo ($tab == "earning") ? "active" : "inactive"; ?>"></div>
                 </div>
             </section>
 
@@ -173,7 +156,8 @@
             <!-- contents -->
             <section class="d-flex flex-column gap-5 contents">
                 <!-- change password -->
-                <div class="<?php if($tab!="password-change") echo "d-none";?> d-flex flex-column gap-3 password-change-content">
+                <div class="<?php if ($tab != "password-change")
+                    echo "d-none"; ?> d-flex flex-column gap-3 password-change-content">
                     <!-- top-section -->
                     <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
                         <!-- heading -->
@@ -183,8 +167,8 @@
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger"
-                            onclick="window.location.href='/bookrack/profile/password-change'"> Cancel </button>
+                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/'"> Cancel
+                        </button>
                     </div>
 
                     <!-- change password form -->
@@ -221,28 +205,37 @@
                 </div>
 
                 <!-- edit profile -->
-                <div class="<?php if($tab!="edit-profile" && $tab!="view-profile") echo "d-none";?>  d-flex flex-column gap-3 edit-profile-content">
+                <div class="<?php if ($tab != "edit-profile" && $tab != "view-profile")
+                    echo "d-none"; ?>  d-flex flex-column gap-3 edit-profile-content">
                     <!-- top-section -->
                     <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
                         <!-- heading -->
                         <div class="d-flex flex-row align-items-center gap-2 heading">
                             <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset"> Edit Profile </h4>
+                            <h4 class="f-reset">  <?php echo $tab=="view-profile"? "My Profile":"Edit Profile"; ?> </h4>
                         </div>
 
                         <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/edit-profile'">
-                            Reset </button>
-                    </div>
+                         <div class="d-flex flex-row gap-2 action">
+
+                             <button class="btn btn-warning text-white <?php if($tab=="view-profile") echo "d-none";?>" onclick="window.location.href='/bookrack/profile/edit-profile'">
+                                 Reset </button>
+                                
+                                <!-- cancel btn -->
+                            <button class="btn btn-danger <?php if($tab=="view-profile") echo "d-none";?>" onclick="window.location.href='/bookrack/profile/view-profile'">
+                                Cancel </button>
+                            </div>
+                            </div>
 
                     <!-- edit profile deatail form -->
                     <form class="d-flex flex-column gap-4 edit-profile-form">
                         <!-- profile picture & password-->
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
-                            <div class="w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture" class="border rounded form-control"
-                                    id="edit-profile-profile-picture">
+                            <div class="<?php if($tab=="view-profile") echo "d-none";?> w-100 w-md-50 flex-grow-1 profile-picture">
+                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
+                                    profile picture </label>
+                                <input type="file" name="edit-profile-profile-picture"
+                                    class="border rounded form-control" id="edit-profile-profile-picture">
                             </div>
 
                             <div
@@ -259,14 +252,14 @@
                         <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                             <div class="flex-grow-1 first-name-div">
                                 <label for="edit-profile-first-name" class="form-label">First name </label>
-                                <input type="email" class="form-control" id="edit-profile-first-name"
-                                    name="edit-profile-first-name" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-first-name" value="first name"
+                                    name="edit-profile-first-name" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
                             </div>
 
                             <div class="flex-grow-1 last-name-div">
                                 <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                <input type="email" class="form-control" id="edit-profile-last-name"
-                                    name="edit-profile-last-name" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-last-name" value="last name"
+                                    name="edit-profile-last-name" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
                             </div>
                         </div>
 
@@ -275,14 +268,14 @@
                             <!-- date of birth -->
                             <div class="d-flex flex-column w-100 w-md-50 dob-div">
                                 <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                                <input type="date" class="p-2" name="edit-profile-dob">
+                                <input type="date" class="p-2" name="edit-profile-dob" <?php if($tab=="view-profile") echo "disabled";?>>
                             </div>
 
                             <!-- gender -->
                             <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
                                 <label for="edit-profile-gender" class="form-label"> Gender </label>
                                 <select class="form-select" name="edit-profile-gender"
-                                    aria-label="Default select example">
+                                    aria-label="Default select example" <?php if($tab=="view-profile") echo "disabled";?>>
                                     <option value="0" selected hidden>Select gender</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
@@ -297,7 +290,7 @@
                             <div class="w-100 w-md-50 district-div">
                                 <label for="edit-profile-district" class="form-label"> District </label>
                                 <select class="form-select" name="edit-profile-district"
-                                    aria-label="Default select example">
+                                    aria-label="Default select example" <?php if($tab=="view-profile") echo "disabled";?>>
                                     <option value="0" selected hidden> Select district </option>
                                     <option value="1"> DIstrict 1 </option>
                                     <option value="2"> DIstrict 2 </option>
@@ -310,38 +303,35 @@
                             <!-- location -->
                             <div class="w-100 w-md-50 location-div">
                                 <label for="edit-profile-location" class="form-label"> Location </label>
-                                <input type="email" class="form-control" id="edit-profile-location"
-                                    name="edit-profile-location" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="edit-profile-location" value="location name"
+                                    name="edit-profile-location" aria-describedby="emailHelp" <?php if($tab=="view-profile") echo "disabled";?>>
                             </div>
                         </div>
 
                         <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
 
-                        <button type="submit" class="btn" id="update-profile-btn"> Update </button>
+                        <button type="submit" class="btn <?php if($tab=="view-profile") echo "d-none";?>" id="update-profile-btn"> Update </button>
                     </form>
                 </div>
 
                 <!-- my books -->
-                <div class="<?php if($tab!="my-books") echo "d-none";?> d-flex flex-column gap-4 my-book-content">
+                <div class="<?php if ($tab != "my-books")
+                    echo "d-none"; ?> d-flex flex-column gap-4 my-book-content">
                     <!-- my book filter -->
                     <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
-                        <div class="book-status active-book-status"
-                            onclick="window.location.href='/bookrack/profile/my-books?book-state=all'">
+                        <div class="book-status active-book-status" id="my-book-status-all">
                             <p> All Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile/my-books?book-state=active'">
+                        <div class="book-status inactive-book-status" id="my-book-status-active">
                             <p> Active Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile/my-books?book-state=inactive'">
+                        <div class="book-status inactive-book-status" id="my-book-status-inactive">
                             <p> Inactive Books </p>
                         </div>
 
-                        <div class="book-status inactive-book-status"
-                            onclick="window.location.href='/bookrack/profile/my-books?book-state=sold-out'">
+                        <div class="book-status inactive-book-status" id="my-book-status-sold-out">
                             <p> Sold Out </p>
                         </div>
                     </div>
@@ -349,7 +339,7 @@
                     <!-- my books container-->
                     <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                         <!-- book container :: dummy data 1 -->
-                        <div class="book-container active-book">
+                        <div class="book-container my-book my-book-active">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
@@ -386,7 +376,7 @@
                         </div>
 
                         <!-- book container :: dummy data 2 -->
-                        <div class="book-container inactive-book">
+                        <div class="book-container my-book my-book-inactive">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-2.png" alt="">
@@ -423,7 +413,7 @@
                         </div>
 
                         <!-- book container :: dummy data 3 -->
-                        <div class="book-container soldout-book">
+                        <div class="book-container my-book my-book-sold-out">
                             <!-- book image -->
                             <div class="book-image">
                                 <img src="/bookrack/assets/Images/cover-3.jpg" alt="">
@@ -472,7 +462,8 @@
 
                 <!-- wishlist -->
                 <!-- my books container-->
-                <div class="<?php if($tab!="wishlist") echo "d-none";?>  d-flex flex-column gap-4 my-book-content wishlist-content">
+                <div class="<?php if ($tab != "wishlist")
+                    echo "d-none"; ?>  d-flex flex-column gap-4 my-book-content wishlist-content">
                     <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
                         <!-- book container :: dummy data 1 -->
                         <div class="book-container">
@@ -556,19 +547,22 @@
                 </div>
 
                 <!-- requested books -->
-                <div class="<?php if($tab!="requested-books") echo "d-none";?> d-flex flex-column gap-4 requested-book-content">
+                <div class="<?php if ($tab != "requested-books")
+                    echo "d-none"; ?> d-flex flex-column gap-4 requested-book-content">
                     <!-- requested books filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="book-request-purpose" id="request-purpose" aria-label="book request purpose">
-                            <option value="0"> All purpose </option>
-                            <option value="1"> Rent </option>
-                            <option value="2"> Sell </option>
+                        <select class="form-select" name="book-request-purpose" id="request-purpose"
+                            aria-label="book request purpose">
+                            <option value="requested-books-purpose-all"> All purpose </option>
+                            <option value="requested-books-purpose-rent"> Rent </option>
+                            <option value="requested-books-purpose-buy-sell"> Buy/Sell </option>
                         </select>
 
-                        <select class="form-select" name="book-request-state" id="request-state" aria-label="book request purpose">
-                            <option value="0"> All State </option>
-                            <option value="1"> Active </option>
-                            <option value="2"> Incomplete </option>
+                        <select class="form-select" name="book-request-state" id="request-state"
+                            aria-label="book request purpose">
+                            <option value="requested-books-state-all"> All State </option>
+                            <option value="requested-books-state-pending"> Pending </option>
+                            <option value="requested-books-state-completed"> Completed </option>
                         </select>
                     </div>
 
@@ -597,7 +591,8 @@
                                     <td> Pending </td>
                                 </tr>
 
-                                <tr class="requested-book-tr requested-book-purpose-sell-tr requested-book-state-completed-tr">
+                                <tr
+                                    class="requested-book-tr requested-book-purpose-buy-sell-tr requested-book-state-completed-tr">
                                     <th scope="row">2</th>
                                     <td> Harry Porter and the Socerer's Stonr </td>
                                     <td> NRs. 75 </td>
@@ -619,19 +614,20 @@
                 </div>
 
                 <!-- earning -->
-                <div class="<?php if($tab!="earning") echo "d-none";?> d-flex flex-column gap-4 requested-book-content earning-content">
-                    <!-- requested books filter -->
+                <div class="<?php if ($tab != "earning")
+                    echo "d-none"; ?> d-flex flex-column gap-4 requested-book-content earning-content">
+                    <!-- earning filter -->
                     <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="earning-purpose" aria-label="Default select example">
-                            <option value="0" selected> All Purpose </option>
-                            <option value="1"> Rent </option>
-                            <option value="2"> Buy/ Sell </option>
+                        <select class="form-select" name="earning-purpose" id="earning-purpose" aria-label="earning purpose select">
+                            <option value="earning-purpose-all" selected> All Purpose </option>
+                            <option value="earning-purpose-rent"> Rent </option>
+                            <option value="earning-purpose-buy-sell"> Buy/ Sell </option>
                         </select>
 
-                        <select class="form-select" name="earning-state" aria-label="Default select example">
-                            <option value="0" selected> All state </option>
-                            <option value="1"> Active </option>
-                            <option value="2"> Incomplete </option>
+                        <select class="form-select" name="earning-state" name="earning-state" id="earning-state" aria-label="earning state select">
+                            <option value="earning-state-all" selected> All state </option>
+                            <option value="earning-state-active"> Active </option>
+                            <option value="earning-state-completed"> Completed </option>
                         </select>
                     </div>
 
@@ -650,17 +646,17 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    class="requested-book-purpose-rent requested-book-purpose-sell requested-book-state-pending requested-book-state-completed">
+                                    class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
                                     <th scope="row">1</th>
                                     <td> The Great Gatsby </td>
                                     <td> NRs. 120 </td>
                                     <td> Rent </td>
                                     <td> 2024/02/05 </td>
                                     <td> 2024/02/05 </td>
-                                    <td> Pending </td>
+                                    <td> Active </td>
                                 </tr>
 
-                                <tr>
+                                <tr class="earning-tr earning-purpose-buy-sell-tr earning-state-completed-tr">
                                     <th scope="row">2</th>
                                     <td> Harry Porter and the Socerer's Stonr </td>
                                     <td> NRs. 75 </td>
@@ -673,8 +669,7 @@
 
                             <tfoot>
                                 <tr style="text-align: center;">
-                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
-                                        yet! </td>
+                                    <td colspan="7" style="color: rgb(194, 16, 16);"> No earning yet! </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -699,60 +694,129 @@
     <!-- bootstrap js :: local file -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
-    <!-- js :: current file -->
-     <script>
+    <!-- my books script -->
+    <script>
         // my books
-         $('.book-container').show();
-        <?php
-        if(isset($_GET['book-state'])){
-            if($_GET['book-state'] == "active"){
-                ?>
-                $('.inactive-book').hide();
-                $('.soldout-book').hide();
-                <?php
-            }if($_GET['book-state'] == "inactive"){
-                ?>
-                $('.active-book').hide();
-                $('.soldout-book').hide();
-                <?php
-            }if($_GET['book-state'] == "sold-out"){
-                ?>
-                $('.active-book').hide();
-                $('.inactive-book').hide();
-                <?php
-            }
-            ?>
-            
-            <?php
-        }
-        ?>
+        $myBookStatus = "all";
+        $('.book-container').show();
 
-        // requested books
+        // my books - all
+        $('#my-book-status-all').click(function () {
+            $myBookStatus = "all";
+            toggleMyBooks();
+        });
+
+        // my books - active
+        $('#my-book-status-active').click(function () {
+            $myBookStatus = "active";
+            toggleMyBooks();
+        });
+
+        // my books - inactive
+        $('#my-book-status-inactive').click(function () {
+            $myBookStatus = "inactive";
+            toggleMyBooks();
+        });
+
+        // my books - sold out
+        $('#my-book-status-sold-out').click(function () {
+            $myBookStatus = "sold-out";
+            toggleMyBooks();
+        });
+
+        toggleMyBooks = () => {
+            $('.my-book').show();
+            switch ($myBookStatus) {
+                case 'active':
+                    $('.my-book-inactive').hide();
+                    $('.my-book-sold-out').hide();
+                    break;
+                case 'inactive':
+                    $('.my-book-active').hide();
+                    $('.my-book-sold-out').hide();
+                    break;
+                case 'sold-out':
+                    $('.my-book-active').hide();
+                    $('.my-book-inactive').hide();
+                    break;
+            };
+        };
+
+        toggleMyBooks();
+    </script>
+
+    <!-- requested book script -->
+    <script>
         // request purpose
-        $('#request-state').change(function(){
-            $('.requested-book-tr').show();
-            switch($(this).val()){
-                case '1':
-                    $('.requested-book-purpose-sell-tr').hide();
-                    break;
-                case '2':
-                    $('.requested-book-purpose-rent-tr').hide();
-                    break;
-                }
+        $('#request-purpose').change(function () {
+            filterRequestedBooks();
         });
 
         // request status
-        $('#request-purpose').change(function(){
+        $('#request-state').change(function () {
+            filterRequestedBooks();
+        });
+
+        filterRequestedBooks = () => {
+            // purpose
             $('.requested-book-tr').show();
-            switch($(this).val()){
-                case '1':
-                    $('.requested-book-state-pending-tr').hide();
+            switch ($('#request-purpose').val()) {
+                case 'requested-books-purpose-rent':
+                    $('.requested-book-purpose-buy-sell-tr').hide();
                     break;
-                case '2':
+                case 'requested-books-purpose-buy-sell':
+                    $('.requested-book-purpose-rent-tr').hide();
+                    break;
+            }
+
+            // state
+            switch ($('#request-state').val()) {
+                case 'requested-books-state-pending':
                     $('.requested-book-state-completed-tr').hide();
                     break;
-                }
+                case 'requested-books-state-completed':
+                    $('.requested-book-state-pending-tr').hide();
+                    break;
+            }
+        }
+    </script>
+
+    <!-- earning script -->
+     <script>
+        // earning purpose
+        $('#earning-purpose').change(function(){
+            filterEarning();
         });
+
+        // earning state
+        $('#earning-state').change(function(){
+            filterEarning();
+        });
+            
+        filterEarning = () =>{
+            console.clear();
+
+            // earning purpose
+            $('.earning-tr').show();
+            switch ($('#earning-purpose').val()) {
+                case 'earning-purpose-rent':
+                    $('.earning-purpose-buy-sell-tr').hide();
+                    break;
+                case 'earning-purpose-buy-sell':
+                    $('.earning-purpose-rent-tr').hide();
+                    break;
+            }
+
+            // earning state
+            switch ($('#earning-state').val()) {
+                case 'earning-state-active':
+                    $('.earning-state-completed-tr').hide();
+                    break;
+                case 'earning-state-completed':
+                    $('.earning-state-active-tr').hide();
+                    break;
+            }
+        };
      </script>
 </body>
 

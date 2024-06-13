@@ -1,7 +1,3 @@
-.main {
-    margin-top: 6rem;
-}
-
 .aside {
     position: relative;
     display: none;
@@ -131,8 +127,6 @@
 
 @media (min-width: 768px) {
     .main {
-        margin-top: 7rem;
-
         .aside {
             .filter-section {
                 max-width: 340px;

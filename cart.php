@@ -1,9 +1,9 @@
 <?php
 
-if(!isset($tab)){
+if (!isset($tab)) {
     $tab = "current";
     header("Location: /bookrack/cart/current");
-} 
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,10 +38,13 @@ if(!isset($tab)){
 </head>
 
 <body>
+    <!-- header -->
+    <?php include 'header.php'; ?>
+
     <!-- main -->
     <main class="d-flex flex-column gap-4 container main">
         <!-- heading section -->
-        <section class="d-flex flex-row mt-5 align-items-center gap-3 heading">
+        <section class="d-flex flex-row align-items-center gap-3 heading">
             <i class="fa fa-shopping-cart fs-5"></i>
             <h4 class="f-reset fw-bold"> MY CART </h4>
         </section>
@@ -57,42 +60,49 @@ if(!isset($tab)){
 
         <!-- cart section -->
         <!-- pending cart section -->
-        <section class="<?php if($tab!="current"){ echo "d-none"; }?> pending-cart-status-container">
+        <section class="<?php if ($tab != "current") {
+            echo "d-none";
+        } ?> pending-cart-status-container">
             <h5 class="f-reset text-secondary"> Order Status </h5>
 
             <!-- book details -->
             <div class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-div">
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-received.png" alt="">
+                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-received.png"
+                            alt="">
                     </div>
                     <p class="f-reset"> Order Received </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-confirmed.png" alt="">
+                        <img class="status-image completed-status-image"
+                            src="/bookrack/assets/Icons/order-confirmed.png" alt="">
                     </div>
                     <p class="f-reset"> Order Confirmed </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-picked.png" alt="">
+                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-picked.png"
+                            alt="">
                     </div>
                     <p class="f-reset"> Picked </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-arrived.png" alt="">
+                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-arrived.png"
+                            alt="">
                     </div>
                     <p class="f-reset"> Arrived </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-packed.png" alt="">
+                        <img class="status-image completed-status-image" src="/bookrack/assets/Icons/order-packed.png"
+                            alt="">
                     </div>
                     <p class="f-reset"> Packed </p>
                 </div>
@@ -145,7 +155,8 @@ if(!isset($tab)){
                                         <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                                     </div>
                                 </td>
-                                <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black Universe
+                                <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
+                                    Universe
                                 </td>
                                 <td> unused </td>
                                 <td> Rent </td>
@@ -207,7 +218,10 @@ if(!isset($tab)){
         </section>
 
         <!-- pending cart section -->
-        <section class="<?php if($tab!="pending"){ echo "d-none"; }?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+        <section
+            class="<?php if ($tab != "pending") {
+                echo "d-none";
+            } ?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
             <!-- cart details -->
             <div class="rounded p-1 cart-detail">
                 <table class="table cart-table">
@@ -233,7 +247,8 @@ if(!isset($tab)){
                                     <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
                                 </div>
                             </td>
-                            <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black Universe
+                            <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
+                                Universe
                             </td>
                             <td> unused </td>
                             <td> Rent </td>
@@ -301,7 +316,10 @@ if(!isset($tab)){
         </section>
 
         <!-- completed cart -->
-        <section class="<?php if($tab!="completed"){ echo "d-none"; }?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+        <section
+            class="<?php if ($tab != "completed") {
+                echo "d-none";
+            } ?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
             <div class="rounded p-1 cart-detail">
                 <table class="table cart-table">
                     <thead>

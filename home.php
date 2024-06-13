@@ -32,7 +32,9 @@
 
 <body>
     <!-- header -->
-    <?php include 'header.php';?>
+    <?php
+    include 'header.php';
+    ?>
 
     <!-- main -->
     <main class="d-flex flex-row gap-lg-3 pb-5 container main">

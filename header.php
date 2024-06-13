@@ -32,7 +32,7 @@
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
                 onclick="window.location.href='/bookrack/home'">
-                <img src="assets/Brand/bookrack-logo-black.png" alt="">
+                <img src="/bookrack/assets/Brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
 
@@ -76,7 +76,7 @@
                 <!-- profile menu -->
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
-                        <img src="assets/Images/user-2.jpg" alt="" class="pointer">
+                        <img src="/bookrack/assets/Images/user-2.jpg" alt="" class="pointer">
                     </div>
 
                     <div class="position-absolute profile-menu" id="profile-menu">

@@ -24,7 +24,7 @@
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/Assets/css/navbar.css">
     <link rel="stylesheet" href="/bookrack/Assets/css/style.css">
-    <!-- <link rel="stylesheet" href="/bookrack/Assets/css/header.css"> -->
+    <link rel="stylesheet" href="/bookrack/Assets/css/header.css">
     <link rel="stylesheet" href="/bookrack/Assets/css/footer.css">
     <link rel="stylesheet" href="/bookrack/Assets/css/landing.css">
     <link rel="stylesheet" href="/bookrack/Assets/css/book.css">
