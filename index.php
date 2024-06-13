@@ -11,7 +11,7 @@ $adminPagesPattern = '/admin\/(book-details|book-offer-details|book-offers|book-
 
 $tab = "";
 
-if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router == '/index' || $router == '/index/' || $router == '/header' || $router == '/header/' || preg_match('/\?i=1/', $router) {
+if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router == '/index' || $router == '/index/' || $router == '/header' || $router == '/header/' || preg_match('/\?i=1/', $router)) {
     include ('landing.php');
 } elseif ($router == '/home' || $router == '/home/' || preg_match('/home\?/i', $router)) {
     include 'home.php';
