@@ -1,8 +1,4 @@
 <?php
-
-if (!isset($tab)) {
-    $tab = "email";
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +59,7 @@ if (!isset($tab)) {
                 </div>
 
                 <!-- signin content -->
-                <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="<?php if($tab!="email") echo "d-none "; ?> d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Hello :) </p>
                         <p class="f-reset text-secondary note"> To keep connected with us please login awith your
@@ -114,7 +110,7 @@ if (!isset($tab)) {
                 </div>
 
                 <!-- email verification content -->
-                <div class="d-none d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="<?php if($tab!="email-verification") echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Email Verification </p>
                         <p class="f-reset text-secondary note"> Enter the OTP code sent to your email address. </p>
@@ -133,7 +129,7 @@ if (!isset($tab)) {
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" name="signup-btn" class="btn" id="signup-btn"> Verify Now </button>
-                            <a href="/bookrack/signin.php" class="btn"> Didn't get OTP </a>
+                            <a href="" class="btn"> Resend OTP </a>
                         </div>
                     </form>
                 </div>

@@ -37,8 +37,8 @@
         <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='landing'">
-                <img src="assets/brand/bookrack-logo-black.png" alt="">
+                onclick="window.location.href='/bookrack/landing'">
+                <img src="/bookrack/assets/brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
 

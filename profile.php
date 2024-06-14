@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/brand/bookrack-logo-black.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -117,7 +117,7 @@
                 <!-- profile tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
-                    <div class="indicator <?php echo ($tab == "view-profile") ? "active" : "inactive"; ?>"></div>
+                    <div class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile") ? "active" : "inactive"; ?>"></div>
                 </div>
 
                 <!-- my books tab -->
@@ -246,7 +246,7 @@
 
                             <div
                                 class="d-flex flex-row flex-grow-1 gap-2 align-items-center w-100 w-md-50 password-div">
-                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password"
+                                <div class="d-flex flex-row gap-2 align-items-center bg-dark change-password pointer"
                                     onclick="window.location.href='/bookrack/profile/password-change'">
                                     <i class="fa fa-lock text-light"></i>
                                     <p class="f-reset text-light"> Change Password </p>

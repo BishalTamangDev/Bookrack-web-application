@@ -95,7 +95,7 @@
                         </div>
 
                         <div
-                            class="d-flex flex-row gap-3 flex-wrap justify-content-between remember-me-forgot-password mb-3">
+                            class="d-flex flex-row gap-3 flex-wrap justify-content-between align-items-center remember-me-forgot-password mb-3">
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>

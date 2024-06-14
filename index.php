@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/bookrack', '', $request);
 
@@ -11,31 +15,65 @@ $adminPagesPattern = '/admin\/(book-details|book-offer-details|book-offers|book-
 
 $tab = "";
 
+// index || landing || header
 if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router == '/index' || $router == '/index/' || $router == '/header' || $router == '/header/' || preg_match('/\?i=1/', $router)) {
-    if(preg_match('/\?i=1/', $router)){
+    if (preg_match('/\?i=1/', $router)) {
         header("Location: /landing");
-    }else{
+    } else {
         include ('landing.php');
     }
-} elseif ($router == '/home' || $router == '/home/' || preg_match('/home\?/i', $router)) {
+}
+
+// home
+elseif ($router == '/home' || $router == '/home/' || preg_match('/home\?/i', $router)) {
     include 'home.php';
-} elseif ($router == '/add-book' || $router == '/add-book/') {
+}
+
+
+// add book || edit book
+elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-book\/(add|edit)/i',$router)) {
+    $task = "add";
+
+    $arr = explode('/', $router);
+
+    if(isset($arr[2])){
+        if($arr[2] == "edit"){
+            $task = "edit";
+        }
+    }
     include 'add-book.php';
-} elseif ($router == '/book-details' || $router == '/book-details/') {
+}
+
+
+// book details
+elseif ($router == '/book-details' || $router == '/book-details/') {
     include 'book-details.php';
-} elseif ($router == '/cart' || preg_match("/cart\/[a-z][A-Z]/i", $router)) {
+}
+
+
+// cart
+elseif ($router == '/cart' || preg_match("/cart\/(current|pending|completed)/i", $router)) {
     $arr = explode('/', $router);
     $tab = isset($arr[2]) ? $arr[2] : "current";
     include 'cart.php';
-} elseif ($router == '/forgot-password' || $router == '/forgot-password/' || preg_match("/forgot-password\/[a-z][A-Z]/i", $router)) {
+}
+
+
+// forgot password
+elseif ($router == '/forgot-password' || $router == '/forgot-password/' || preg_match("/forgot-password\/(email|otp|reset-password)/i", $router)) {
     $arr = explode('/', $router);
+    $tab = "email";
 
     if (isset($arr[2])) {
         $tab = $arr[2];
     }
 
     include 'forgot-password.php';
-} elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePagePattern, $router)) {
+}
+
+
+// profile
+elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePagePattern, $router)) {
     $tab = "view-profile";
     if (preg_match($profilePagePattern, $router)) {
         // echo "Pattern matched<br/>";
@@ -74,23 +112,35 @@ if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router
         }
     }
     include 'profile.php';
-} elseif ($router == '/signin' || $router == '/signin/') {
+}
+
+
+// signin
+elseif ($router == '/signin' || $router == '/signin/') {
     include 'signin.php';
-} elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/[a-z][A-Z]/i", $router)) {
+}
+
+
+// signup
+elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(email|email-verification)/i", $router)) {
     $arr = explode('/', $router);
+
+    $tab = "email";
 
     if (isset($arr[2])) {
         if ($arr[2] == "email-verification" || $arr[2] == "") {
             if ($arr[2] == "email-verification") {
                 $tab = $arr[2];
-            } else {
-                $tab = "email";
             }
         }
     }
 
     include 'signup.php';
-} elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
+}
+
+
+// admin
+elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
     // print_r($router);
     $arr = explode('/', $router);
     // print_r($arr);
@@ -142,6 +192,10 @@ if ($router == '/' || $router == '/landing' || $router == '/landing/' || $router
             include 'admin/index.php';
             break;
     }
-} else {
+}
+
+
+// default page
+else {
     include '404.php';
 }

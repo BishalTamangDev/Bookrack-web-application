@@ -1,3 +1,6 @@
+<?php
+// echo $task;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Add new book </title>
+    <title> <?php echo ($task=="add")? "Add New Book":"Edit Book" ?> </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -40,8 +43,11 @@
         <section class="d-flex flex-column gap-5 gap-md-4 section add-book-section">
             <!-- heading -->
             <div class="d-flex flex-row justify-content-between align-items-center">
-                <p class="f-reset fs-3 fw-semibold text-secondary"> Add New Book </p>
-                <button class="btn btn-danger" onclick="window.location.href='/bookrack/add-book'"> Reset </button>
+                <p class="f-reset fs-3 fw-semibold text-secondary"> <?php echo ($task=="add")? "Add New Book":"Edit Book" ?></p>
+                <div class="d-flex flex-row flex-wrap gap-2 action">
+                    <button class="btn btn-warning" onclick="window.location.href='/bookrack/add-book/<?=$task;?>'"> Reset </button>
+                    <button class="btn btn-danger" onclick="window.location.href='/bookrack/home'"> Cancel </button>
+                </div>
             </div>
 
             <div class="alert alert-danger" role="alert">
@@ -93,40 +99,43 @@
                     <!-- genre & edition -->
                     <div class="d-flex flex-column flex-md-row gap-2 d-flex flex-row gap-3 genre-edition">
                         <!-- genre -->
-                        <div class="d-flex flex-column gap-2 genre ">
+                        <div class="d-flex flex-column w-50 gap genre">
                             <label for="book-genre" class="f-reset f-reset form-label"> Genre </label>
                             <input type="text" class="form-control-lg" id="book-genre" name="book-genre"
                                 aria-describedby="book genre" required>
                         </div>
 
-                        <!-- language -->
-                        <div class="d-flex flex-column gap-2 language ">
-                            <label for="book-language" class="f-reset f-reset form-label"> language </label>
-                            <select class="form-select form-select-lg" id="book-language" name="book-language"
-                                aria-label="book language" required>
-                                <option selected hidden value=""> Select the language </option>
-                                <option value="1"> Language 1 </option>
-                                <option value="2"> Language 2 </option>
-                                <option value="3"> Language 3 </option>
-                                <option value="4"> Language 4 </option>
-                                <option value="5"> Language 5 </option>
-                            </select>
-                        </div>
+                        <!-- language & genre -->
+                        <div class="d-flex flex-row w-50 gap-2">
+                            <!-- language -->
+                            <div class="d-flex flex-column gap-2 language ">
+                                <label for="book-language" class="f-reset f-reset form-label"> Language </label>
+                                <select class="form-select form-select" id="book-language" name="book-language"
+                                    aria-label="book language" required>
+                                    <option selected hidden value=""> Select the language </option>
+                                    <option value="1"> Language 1 </option>
+                                    <option value="2"> Language 2 </option>
+                                    <option value="3"> Language 3 </option>
+                                    <option value="4"> Language 4 </option>
+                                    <option value="5"> Language 5 </option>
+                                </select>
+                            </div>
 
-                        <!-- edition -->
-                        <div class="d-flex flex-column gap-2 edition ">
-                            <label for="book-edition" class="f-reset f-reset form-label"> Edition </label>
-                            <select class="form-select form-select-lg" id="book-edition" name="book-edition"
-                                aria-label="book edition" required>
-                                <option selected hidden value=""> Select the edition </option>
-                                <option value="1"> 1st </option>
-                                <option value="2"> 2nd </option>
-                                <option value="3"> 3rd </option>
-                                <option value="4"> 4th </option>
-                                <option value="5"> 5th </option>
-                                <option value="6"> 6th </option>
-                                <option value="7"> 7th </option>
-                            </select>
+                            <!-- edition -->
+                            <div class="d-flex flex-column gap-2 edition ">
+                                <label for="book-edition" class="f-reset f-reset form-label"> Edition </label>
+                                <select class="form-select form-select" id="book-edition" name="book-edition"
+                                    aria-label="book edition" required>
+                                    <option selected hidden value=""> Select the edition </option>
+                                    <option value="1"> 1st </option>
+                                    <option value="2"> 2nd </option>
+                                    <option value="3"> 3rd </option>
+                                    <option value="4"> 4th </option>
+                                    <option value="5"> 5th </option>
+                                    <option value="6"> 6th </option>
+                                    <option value="7"> 7th </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -134,13 +143,13 @@
                     <div class="d-flex flex-column flex-md-row gap-3 price">
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-actual-price" class="f-reset form-label"> Actual price </label>
-                            <input type="text" class="form-control-lg" id="book-actual-price" name="book-actual-price"
+                            <input type="number" class="form-control-lg" id="book-actual-price" name="book-actual-price"
                                 aria-describedby="actual price" placeholder="" required>
                         </div>
 
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-offer-price" class="f-reset form-label"> Offer price </label>
-                            <input type="text" class="form-control-lg" id="book-offer-price" name="book-offer-price"
+                            <input type="number" class="form-control-lg" id="book-offer-price" name="book-offer-price"
                                 aria-describedby="offer price" placeholder="" required>
                         </div>
                     </div>
@@ -174,7 +183,17 @@
                     </div>
 
                     <div class="mt-1 operation">
-                        <button type="submit" class="btn p-2"> Add Now </button>
+                        <?php
+                        if($task=="add"){
+                            ?>
+                            <button type="submit" name="add-book-btn" class="btn p-2"> Add Now </button>
+                            <?php
+                        }else{
+                            ?>
+                            <button type="submit" name="edit-book-btn" class="btn p-2"> Update Now </button>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </form>
