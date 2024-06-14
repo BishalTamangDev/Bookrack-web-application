@@ -1,10 +1,20 @@
 <?php
+
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// request & router
 $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/bookrack', '', $request);
+
+// realtime database connection file
+include 'connection.php';
 
 // echo "Index request: ".$request."<br/>";
 // echo "Index router: ".$router."<br/>";
@@ -116,26 +126,40 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
 
 
 // signin
-elseif ($router == '/signin' || $router == '/signin/') {
-    include 'signin.php';
+elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|code-authentication)/i", $router) ) {
+    $arr = explode('/', $router);
+
+    if(isset($arr[2]) && $arr[2] == "code-authentication"){
+        include 'code-authentication.php';
+    }else{
+        include 'signin.php';
+    }
 }
 
 
 // signup
-elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(email|email-verification)/i", $router)) {
+elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(email|code-authentication|email-verification)/i", $router)) {
     $arr = explode('/', $router);
 
     $tab = "email";
 
     if (isset($arr[2])) {
-        if ($arr[2] == "email-verification" || $arr[2] == "") {
+        if ($arr[2] == "email" || $arr[2] == "email-verification") {
             if ($arr[2] == "email-verification") {
                 $tab = $arr[2];
             }
+            include 'signup.php';
+        }else if($arr[2] == "code-authentication"){
+            include 'code-authentication.php';
         }
+    }else{
+        include 'signup.php';
     }
+}
 
-    include 'signup.php';
+// signout
+elseif ($router == '/signout' || $router == '/signout/'){
+    include 'signout.php';
 }
 
 

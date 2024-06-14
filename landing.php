@@ -1,3 +1,15 @@
+<?php
+
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(isset($_SESSION['bookrack-user-id']) && isset($_SESSION['idTokenString'])){
+    header("Location: home");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,7 +73,6 @@
             </div>
         </div>
     </header>
-
 
     <!-- main -->
     <main class="main">

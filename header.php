@@ -89,7 +89,7 @@
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/landing'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/signout'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>

@@ -1,4 +1,8 @@
 <?php
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +62,7 @@
                     </div>
                 </div>
 
-                <!-- signin content -->
+                <!-- signup content -->
                 <div class="<?php if($tab!="email") echo "d-none "; ?> d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Hello :) </p>
@@ -67,10 +71,17 @@
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/email-verification"
+                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/code-authentication"
                         method="POST">
                         <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
+                        <?php
+                        if(isset($_SESSION['status'])){
+                            ?>
+                            <p class="f-reset text-danger mb-3"> <?php echo $_SESSION['status'];?> </p>
+                            <?php
+                            unset($_SESSION['status']);
+                        }                        
+                        ?>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -78,7 +89,7 @@
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
+                                <input type="email" name="email" class="form-control" id="floatingEmailInput" value="<?php if(isset($_SESSION['temp-email'])) echo $_SESSION['temp-email'];?>"
                                     placeholder="someone@gmail.com" aria-label="email address"
                                     aria-describedby="email address" required>
                                 <label for="floatingEmailInput">Email address</label>
@@ -91,8 +102,8 @@
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
-                                    placeholder="********" aria-label="password" aria-describedby="password" required>
+                                <input type="password" name="password" class="form-control" id="floatingPasswordInput" value="<?php if(isset($_SESSION['temp-password'])) echo $_SESSION['temp-password'];?>"
+                                    placeholder="********" aria-label="password" aria-describedby="password" minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
                         </div>
@@ -113,14 +124,21 @@
                 <div class="<?php if($tab!="email-verification") echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Email Verification </p>
-                        <p class="f-reset text-secondary note"> Enter the OTP code sent to your email address. </p>
+
+                        <p class="m-0 text-secondary"> Enter the OTP code. </p>
+
+                        <?php
+                        if(isset($_SESSION['status']) && $_SESSION['status'] == "OTP code has been sent to your email address."){
+                            ?>
+                            <p class="f-reset text-danger mt-3 mb-3"> <?php echo $_SESSION['status'];?> </p>
+                            <?php
+                            unset($_SESSION['status']);
+                        }                        
+                        ?>
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form email-cerification-form" action="home.php">
-                        <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
-
+                    <form action="/bookrack/signup/code-authentication" class="d-flex flex-column signin-form email-verification-form" method="POST" autocomplete="off">
                         <!-- otp -->
                         <div class="mb-3">
                             <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp"
@@ -128,7 +146,7 @@
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
-                            <button type="submit" name="signup-btn" class="btn" id="signup-btn"> Verify Now </button>
+                            <button type="submit" name="otp-btn" class="btn" id="otp-btn"> Verify Now </button>
                             <a href="" class="btn"> Resend OTP </a>
                         </div>
                     </form>
@@ -149,7 +167,24 @@
     <script src="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css"></script>
 
     <!-- js :: current file -->
-    <script></script>
+    <script>
+        // password input
+        // prevent space as input
+        $('#floatingPasswordInput').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+        
+        // email input
+        $('#floatingEmailInput').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

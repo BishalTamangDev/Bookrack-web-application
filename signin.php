@@ -1,3 +1,14 @@
+<?php
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(isset($_SESSION['bookrack-user-id'])){
+    header("Location: /bookrack/home");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,9 +76,16 @@
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form" action="home" method="POST">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/signin/code-authentication" method="POST">
                         <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
+                        <?php
+                        if(isset($_SESSION['status'])){
+                            ?>
+                            <p class="f-reset text-danger mb-3"> <?php echo $_SESSION['status']?> </p>
+                            <?php
+                            unset($_SESSION['status']);
+                        }
+                        ?>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -75,7 +93,7 @@
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
+                                <input type="email" name="email" class="form-control" id="floatingEmailInput" value="<?php if(isset($_SESSION['temp-email'])) echo $_SESSION['temp-email'];?>"
                                     placeholder="someone@gmail.com" aria-label="email address"
                                     aria-describedby="email address" required>
                                 <label for="floatingEmailInput">Email address</label>
@@ -88,8 +106,8 @@
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
-                                    placeholder="********" aria-label="password" aria-describedby="password" required>
+                                <input type="password" name="password" class="form-control" id="floatingPasswordInput" value="<?php if(isset($_SESSION['temp-password'])) echo $_SESSION['temp-password'];?>"
+                                    placeholder="********" aria-label="password" aria-describedby="password" minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
                         </div>
@@ -101,7 +119,7 @@
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
 
-                            <a href="forgot-password/email"> Forgot Password? </a>
+                            <a href="/bookrack/forgot-password/email"> Forgot Password? </a>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
@@ -126,7 +144,24 @@
     <script src="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css"></script>
 
     <!-- js :: current file -->
-    <script></script>
+    <script>
+        // password input
+        // prevent space as input
+        $('#floatingPasswordInput').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+        
+        // email input
+        $('#floatingEmailInput').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>
