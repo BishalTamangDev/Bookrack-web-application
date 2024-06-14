@@ -272,7 +272,7 @@
                                 <p class="book-price"> NRs. 85 </p>
                             </div>
 
-                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                         </div>
                     </div>
 
@@ -308,7 +308,7 @@
                                 <p class="book-price"> NRs. 170 </p>
                             </div>
 
-                            <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                         </div>
                     </div>
                 </div>

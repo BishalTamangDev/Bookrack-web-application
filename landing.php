@@ -9,7 +9,7 @@
     <title> Bookrack </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -38,7 +38,7 @@
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
                 onclick="window.location.href='landing'">
-                <img src="assets/Brand/bookrack-logo-black.png" alt="">
+                <img src="assets/brand/bookrack-logo-black.png" alt="">
                 <h3 class="f-reset fw-bold"> Bookrack </h3>
             </div>
 
@@ -88,7 +88,7 @@
                 <div class="book-container">
                     <!-- book image -->
                     <div class="book-image">
-                        <img src="/bookrack/assets/Images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
                     </div>
 
                     <!-- book details -->
@@ -114,7 +114,7 @@
                             <p class="book-price"> NRs. 85 </p>
                         </div>
 
-                        <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                        <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                     </div>
                 </div>
 
@@ -122,7 +122,7 @@
                 <div class="book-container">
                     <!-- book image -->
                     <div class="book-image">
-                        <img src="/bookrack/assets/Images/cover-2.png" alt="">
+                        <img src="/bookrack/assets/images/cover-2.png" alt="">
                     </div>
 
                     <!-- book details -->
@@ -148,7 +148,7 @@
                             <p class="book-price"> NRs. 170 </p>
                         </div>
 
-                        <button class="btn" onclick="window.location.href='book-details.php'"> Show More </button>
+                        <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@
             <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="/bookrack/assets/Images/rent.jpg" alt="rent out book"
+                        <img class="card-img-top" src="/bookrack/assets/images/rent.jpg" alt="rent out book"
                             loading="lazy">
                     </div>
                     <div class="card-body">
@@ -175,7 +175,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="/bookrack/assets/Images/buy-and-sell.jpg" alt="buy & sell book"
+                        <img class="card-img-top" src="/bookrack/assets/images/buy-and-sell.jpg" alt="buy & sell book"
                             loading="lazy">
                     </div>
                     <div class="card-body">
@@ -187,7 +187,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="/bookrack/assets/Images/earn.jpg"
+                        <img class="card-img-top" src="/bookrack/assets/images/earn.jpg"
                             alt="earn by placing book on rent" loading="lazy">
                     </div>
                     <div class="card-body">
@@ -200,7 +200,7 @@
 
                 <div class="card">
                     <div class="feature-image">
-                        <img class="card-img-top" src="/bookrack/assets/Images/dropshipping.jpg" alt="dropshipping"
+                        <img class="card-img-top" src="/bookrack/assets/images/dropshipping.jpg" alt="dropshipping"
                             loading="lazy">
                     </div>
                     <div class="card-body">

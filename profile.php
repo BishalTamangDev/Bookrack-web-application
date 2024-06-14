@@ -9,7 +9,7 @@
     <title> Home </title>
 
     <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/Brand/brand-logo.png">
+    <link rel="icon" type="image/x-icon" href="/bookrack/brand/bookrack-logo-black.png">
 
     <!-- font awesome :: cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -556,7 +556,7 @@
                     </div>
 
                     <div class="empty-div">
-                        <img src="/bookrack/assets/Icons/empty.svg" alt="">
+                        <img src="/bookrack/assets/icons/empty.svg" alt="">
                         <p class="empty-message"> Your wishlist is empty! </p>
                     </div>
                 </div>
