@@ -126,11 +126,11 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
 
 
 // signin
-elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|code-authentication)/i", $router) ) {
+elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|authentication)/i", $router) ) {
     $arr = explode('/', $router);
 
-    if(isset($arr[2]) && $arr[2] == "code-authentication"){
-        include __DIR__.'/../bookrack/app/code-authentication.php';
+    if(isset($arr[2]) && $arr[2] == "authentication"){
+        include __DIR__.'/../bookrack/app/authentication.php';
     }else{
         include 'signin.php';
     }
@@ -138,7 +138,7 @@ elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(e
 
 
 // signup
-elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(email|code-authentication|email-verification)/i", $router)) {
+elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(email|authentication|email-verification)/i", $router)) {
     $arr = explode('/', $router);
 
     $tab = "email";
@@ -149,8 +149,8 @@ elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(e
                 $tab = $arr[2];
             }
             include 'signup.php';
-        }else if($arr[2] == "code-authentication"){
-            include __DIR__.'/../bookrack/app/code-authentication.php';
+        }else if($arr[2] == "authentication"){
+            include __DIR__.'/../bookrack/app/authentication.php';
         }
     }else{
         include 'signup.php';

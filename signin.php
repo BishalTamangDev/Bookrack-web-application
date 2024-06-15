@@ -77,7 +77,7 @@ if(isset($_SESSION['bookrack-user-id'])){
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/signin/code-authentication" method="POST">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/signin/authentication" method="POST">
                         <!-- error message section -->
                         <?php
                         if(isset($_SESSION['status'])){

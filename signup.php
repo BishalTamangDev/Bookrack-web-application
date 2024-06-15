@@ -76,7 +76,7 @@ if(isset($_SESSION['bookrack-user-id'])){
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/code-authentication"
+                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/authentication"
                         method="POST">
                         <!-- error message section -->
                         <?php
@@ -144,7 +144,7 @@ if(isset($_SESSION['bookrack-user-id'])){
                     </div>
 
                     <!-- sign up form -->
-                    <form action="/bookrack/signup/code-authentication" class="d-flex flex-column signin-form email-verification-form" method="POST" autocomplete="off">
+                    <form action="/bookrack/signup/authentication" class="d-flex flex-column signin-form email-verification-form" method="POST" autocomplete="off">
                         <!-- otp -->
                         <div class="mb-3">
                             <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp"
