@@ -14,7 +14,7 @@ $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/bookrack', '', $request);
 
 // realtime database connection file
-include 'connection.php';
+include __DIR__.'/../bookrack/app/connection.php';
 
 // echo "Index request: ".$request."<br/>";
 // echo "Index router: ".$router."<br/>";
@@ -130,7 +130,7 @@ elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(e
     $arr = explode('/', $router);
 
     if(isset($arr[2]) && $arr[2] == "code-authentication"){
-        include 'code-authentication.php';
+        include __DIR__.'/../bookrack/app/code-authentication.php';
     }else{
         include 'signin.php';
     }
@@ -150,7 +150,7 @@ elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(e
             }
             include 'signup.php';
         }else if($arr[2] == "code-authentication"){
-            include 'code-authentication.php';
+            include __DIR__.'/../bookrack/app/code-authentication.php';
         }
     }else{
         include 'signup.php';

@@ -3,6 +3,11 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+// if user is saved in the session, redirect to homepage
+if(isset($_SESSION['bookrack-user-id'])){
+    header("Location: /bookrack/home");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,9 +82,10 @@ if (session_status() == PHP_SESSION_NONE) {
                         <?php
                         if(isset($_SESSION['status'])){
                             ?>
-                            <p class="f-reset text-danger mb-3"> <?php echo $_SESSION['status'];?> </p>
+                            <p class="f-reset text-danger mb-3"> <?php echo $_SESSION['status-message'];?> </p>
                             <?php
                             unset($_SESSION['status']);
+                            unset($_SESSION['status-message']);
                         }                        
                         ?>
 

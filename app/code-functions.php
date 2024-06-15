@@ -1,8 +1,8 @@
 <?php
 
-require_once 'connection.php';
+require_once __DIR__ . '/../../bookrack/app/connection.php';
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../../bookrack/vendor/autoload.php';
 
 // for user authentication
 use Kreait\Firebase\Auth;

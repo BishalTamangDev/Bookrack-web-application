@@ -5,7 +5,9 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once 'connection.php';
+require_once __DIR__ . '/../../bookrack/app/connection.php';
+
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
 
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
@@ -17,39 +19,31 @@ $adminEmail = "info.bookrack@gmail.com";
 
 // signup table method
 if (isset($_POST['signup-btn'])) {
+    // user class
+    $user = new User();
+
     // getting email && password
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $user->setEmail($_POST['email']);
+    $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $user->setPassword($hashedPassword);
 
-    $_SESSION['temp-email'] =  $email;
-    $_SESSION['temp-password'] =  $password;
+    // for retaining form value after submission
+    $_SESSION['temp-email'] =  $_POST['email'];
+    $_SESSION['temp-password'] =  $_POST['password'];
 
-    $ref_table = "users";
-
-    $response = $database->getReference($ref_table)->getSnapshot()->getValue();
-    print_r($response);
-
-    // checking for the existence of email address
-    $emailExists = false;
-    foreach ($response as $key => $row) {
-        if (isset($row['email']) && $row['email'] == $email) {
-            $emailExists = true;
-        }
-    }
+    // checking the existence of provided email address
+    $emailExists = $user->checkEmailExistence();
 
     if ($emailExists) {
-        $_SESSION['status'] = "This email address is already in use.";
+        $_SESSION['status'] = false;
+        $_SESSION['status-message'] = "This email address is already in use.";
         header("Location: /bookrack/signup");
     } else {
-        $postData = [
-            'email' => $email,
-            'password' => $hashedPassword,
-        ];
-        $postRef = $database->getReference($ref_table)->push($postData);
+        $accountCreated = $user->registerUser();
 
-        if ($postRef) {
-            $_SESSION['status'] = "Signup successfully.";
+        if ($accountCreated) {
+            $_SESSION['status'] = true;
+            $_SESSION['status-message'] = "Signup successfully.";
             
             // unset temporary data
             unset($_SESSION['temp-email']);
@@ -57,7 +51,8 @@ if (isset($_POST['signup-btn'])) {
 
             header("Location: /bookrack/signin");
         } else {
-            $_SESSION['status'] = "Signin failed.";
+            $_SESSION['status'] = false;
+            $_SESSION['status-message'] = "Signin failed.";
             header("Location: /bookrack/signup");
         }
     }
@@ -68,50 +63,54 @@ if (isset($_POST['signup-btn'])) {
 
 // sign in table method
 if (isset($_POST['signin-btn'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // user class
+    $user = new User();
 
-    $_SESSION['temp-email'] =  $email;
-    $_SESSION['temp-password'] =  $password;
+    // form values
+    $user->setEmail($_POST['email']);
+    $user->setPassword($_POST['password']);
 
-    $ref_table = "users";
-    $rowKey = "";
+    // for retaining form values after submission
+    $_SESSION['temp-email'] =  $_POST['email'];
+    $_SESSION['temp-password'] =  $_POST['password'];
 
-    $response = $database->getReference($ref_table)->getSnapshot()->getValue();
+    // checking the existence of provided email address
+    $emailExists = $user->checkEmailExistence();
 
-    // checking for the existence of email address
-    $emailExists = false;
-    foreach ($response as $key => $row) {
-        if ($row['email'] == $email) {
-            $emailExists = true;
-            $rowKey = $key;
-        }
-    }
+    if ($emailExists) {
+        // verify password
+        $passwordVerified = $user->verifyPassword();
 
-    if (!$emailExists) {
-        $_SESSION['status'] = "This email address has not been registered yet.";
-        header("Location: /bookrack/signin");
-    } else {
-        // checking for password
+        if ($passwordVerified) {
+            // setting user key in the session
+            $_SESSION['bookrack-user-id'] = $user->getUserId();
 
-        $response = $database->getReference($ref_table)->getChild($rowKey)->getSnapshot()->getValue();
-
-        if (password_verify($password, $response['password'])) {
-            $_SESSION['bookrack-user-id'] = $rowKey;
-            $_SESSION['status'] = "Signin successful.";
+            $_SESSION['status'] = true;
+            $_SESSION['status-message'] = "Signin successful.";
             
+            // unsetting the form values 
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
             
+            // redirect to homepage
             header("Location: /bookrack/home");
         } else {
-            $_SESSION['status'] = "Invalid password!";
+            // password not verified
+            $_SESSION['status'] = false;
+            $_SESSION['status-message'] = "Invalid password!";
             header("Location: /bookrack/signin");
         }
+    } else {
+        // email not found
+        $_SESSION['status'] = false;
+        $_SESSION['status-message'] = "This email address has not been registered yet.";
+        header("Location: /bookrack/signin");
     }
 
     exit();
 }
+
+
 
 
 
