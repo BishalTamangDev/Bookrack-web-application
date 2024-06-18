@@ -85,8 +85,8 @@ if (isset($_POST['signin-btn'])) {
             // setting user key in the session
             $_SESSION['bookrack-user-id'] = $user->getUserId();
 
-            $_SESSION['status'] = true;
-            $_SESSION['status-message'] = "Signin successful.";
+            unset($_SESSION['status']);
+            unset($_SESSION['status-message']);
             
             // unsetting the form values 
             unset($_SESSION['temp-email']);

@@ -196,12 +196,9 @@ if(!$userFound){
             </section>
 
             <!-- account state notification note div -->
-            <section
-                class="<?php if($profileUser->getAccountStatus() != "incomplete") echo "d-none"; ?> d-flex flex-row gap-2 justify-content-between border rounded p-3 mb-4 account-state-section">
-                <p class="f-reset text-justify text-danger" id="account-state-message">
-                    Note: Complete setting up your details to get access to all the feature.
-                </p>
-            </section>
+            <div class="alert alert-danger <?php if($profileUser->getAccountStatus() != "incomplete") echo "d-none"; ?>" role="alert">
+                Complete setting up your details to get access to all the feature.
+            </div>
 
             <!-- contents -->
             <section class="d-flex flex-column gap-5 contents">
@@ -222,32 +219,60 @@ if(!$userFound){
                     </div>
 
                     <!-- change password form -->
-                    <form method="POST" class="d-flex flex-column gap-4 password-change-form">
+                    <form method="POST" action="/bookrack/app/password-change.php" class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
+                        <!-- status message -->
+                        <?php
+                        if(isset($_SESSION['status'])){
+                            ?>
+                            <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger";?>" id="change-password-status">
+                                <?=$_SESSION['status-message']?>
+                            </p>
+                            <?php
+                            unset($_SESSION['status']);
+                            unset($_SESSION['status-message']);
+                        }
+                        ?>
+
                         <!-- old password -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="old-password" name="old-password"
+                            <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
+                            if(isset($_SESSION['temp-old-password'])){
+                                echo $_SESSION['temp-old-password'];
+                            }
+                            unset($_SESSION['temp-old-password']);
+                            ?>"
                                 placeholder="" minlength="8" required>
                             <label for="old-password"> Old password </label>
                         </div>
 
                         <!-- new password -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password" name="new-password"
+                            <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
+                            if(isset($_SESSION['temp-new-password'])){
+                                echo $_SESSION['temp-new-password'];
+                            }
+                            unset($_SESSION['temp-new-password']);
+                            ?>"
                                 placeholder="" minlength="8" required>
                             <label for="new-password"> New password </label>
                         </div>
 
                         <!-- new password confirmation -->
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password-confirmation"
+                            <input type="password" class="form-control" id="new-password-confirmation" value="<?php
+                            if(isset($_SESSION['temp-new-password-confirmation'])){
+                                echo $_SESSION['temp-new-password-confirmation'];
+                            }
+                            unset($_SESSION['temp-new-password-confirmation']);
+                            ?>"
                                 name="new-password-confirmation" placeholder="" minlength="8" required>
                             <label for="new-password-confirmation"> New password confirmation </label>
                         </div>
 
-                        <div class="d-flex flex-row  align-items-center gap-2 pointer show-hide-password-div"
+                        <div class="d-flex flex-row align-items-center gap-2 pointer show-hide-password-div"
                             id="show-hide-password">
                             <i class="fa fa-eye"></i>
-                            <p class="f-reset"> Show password </p>
+                            <p class="m-0" id="show-hide-password-label"> Show password </p>
                         </div>
 
                         <button type="submit" class="btn" name="update-password-btn" id="update-password-btn"> Update Password </button>
@@ -874,6 +899,24 @@ if(!$userFound){
         };
 
         toggleMyBooks();
+    </script>
+
+    <!-- change password script -->
+    <script>
+        // toggle the visibility of the password
+        $('#show-hide-password').click(function(){    
+            if($('#old-password').attr('type') === 'password'){
+                $('#old-password').attr('type', 'text');
+                $('#new-password').attr('type', 'text');
+                $('#new-password-confirmation').attr('type', 'text');
+                $('#show-hide-password-label').text("Hide Password");
+            }else{
+                $('#old-password').attr('type', 'password');
+                $('#new-password').attr('type', 'password');
+                $('#new-password-confirmation').attr('type', 'password');
+                $('#show-hide-password-label').text("Show Password");
+            }
+        });
     </script>
 
     <!-- requested book script -->
