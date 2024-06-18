@@ -226,21 +226,21 @@ if(!$userFound){
                         <!-- old password -->
                         <div class="form-floating">
                             <input type="password" class="form-control" id="old-password" name="old-password"
-                                placeholder="" required>
+                                placeholder="" minlength="8" required>
                             <label for="old-password"> Old password </label>
                         </div>
 
                         <!-- new password -->
                         <div class="form-floating">
                             <input type="password" class="form-control" id="new-password" name="new-password"
-                                placeholder="" required>
+                                placeholder="" minlength="8" required>
                             <label for="new-password"> New password </label>
                         </div>
 
                         <!-- new password confirmation -->
                         <div class="form-floating">
                             <input type="password" class="form-control" id="new-password-confirmation"
-                                name="new-password-confirmation" placeholder="" required>
+                                name="new-password-confirmation" placeholder="" minlength="8" required>
                             <label for="new-password-confirmation"> New password confirmation </label>
                         </div>
 

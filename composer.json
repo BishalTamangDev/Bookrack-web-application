@@ -1,6 +1,5 @@
 {
     "require": {
-        "kreait/firebase-php": "^5.26",
-        "phpmailer/phpmailer": "^6.9"
+        "kreait/firebase-php": "^5.26"
     }
 }
