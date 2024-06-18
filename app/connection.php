@@ -9,12 +9,15 @@ require_once __DIR__ . '/../../bookrack/vendor/autoload.php';
 use Kreait\Firebase\Factory;
 
 // google servive connection & realtime database connection
-$factory = (new Factory)->withServiceAccount('bookrack-b7541-firebase-adminsdk-94yro-3018dfbec8.json')->withDatabaseUri('https://bookrack-b7541-default-rtdb.firebaseio.com/');
+$factory = (new Factory)->withServiceAccount('google-service-account.json')->withDatabaseUri('https://bookrack-b7541-default-rtdb.firebaseio.com/');
 
 // initializing the realtime database
 global $database;
-
 $database = $factory->createDatabase();
 
-// authentication initialized
+// cloud storage
+$storage = $factory->createStorage();
+$bucket = $storage->getBucket();
+
+// authentication
 $auth = $factory->createAuth();

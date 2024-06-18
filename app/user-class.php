@@ -16,37 +16,42 @@ class User
     private $lastName;
     private $password;
     private $profilePicture;
+    private $joinedDate;
     private $userId;
 
     // Constructor
-    public function __construct() {
-        $this->accountStatus  = "";
-        $this->addressDistrict  = "";
-        $this->addressLocation  = "";
-        $this->contact  = "";
-        $this->dob  = "";
-        $this->email  = "";
-        $this->firstName  = "";
-        $this->gender  = "";
-        $this->lastName  = "";
-        $this->password  = "";
-        $this->profilePicture  = "";
+    public function __construct()
+    {
+        $this->accountStatus = "";
+        $this->addressDistrict = "";
+        $this->addressLocation = "";
+        $this->contact = "";
+        $this->dob = "";
+        $this->email = "";
+        $this->firstName = "";
+        $this->gender = "";
+        $this->lastName = "";
+        $this->password = "";
+        $this->profilePicture = "";
         $this->userId = "";
     }
 
-    public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $profilePicture, $addressDistrict, $addressLocation, $accountStatus) {
-        $this->accountStatus  = $accountStatus;;
-        $this->addressDistrict  = $addressDistrict;
-        $this->addressLocation  = $addressLocation;
-        $this->contact  = $contact;
-        $this->dob  = $dob;
-        $this->email  = $email;
-        $this->firstName  = $firstName;
-        $this->gender  = $gender;
-        $this->lastName  = $lastName;
-        $this->password  = $password;
-        $this->profilePicture  = $profilePicture;
+    public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $profilePicture, $addressDistrict, $addressLocation, $accountStatus, $joinedDate)
+    {
+        $this->accountStatus = $accountStatus;
+        ;
+        $this->addressDistrict = $addressDistrict;
+        $this->addressLocation = $addressLocation;
+        $this->contact = $contact;
+        $this->dob = $dob;
+        $this->email = $email;
+        $this->firstName = $firstName;
+        $this->gender = $gender;
+        $this->lastName = $lastName;
+        $this->password = $password;
+        $this->profilePicture = $profilePicture;
         $this->userId = $userId;
+        $this->joinedDate = $joinedDate;
     }
 
 
@@ -109,6 +114,11 @@ class User
     public function getAccountStatus()
     {
         return $this->accountStatus;
+    }
+
+    public function getJoinedDate()
+    {
+        return $this->joinedDate;
     }
 
 
@@ -174,14 +184,23 @@ class User
         $this->accountStatus = $accountStatus;
     }
 
+    public function setgetJoinedDate($joinedDate)
+    {
+        $this->joinedDate = $joinedDate;
+    }
+
 
     // user registration
-    public function registerUser(){
-        global $database;       
+    public function registerUser()
+    {
+        global $database;
+
         $postData = [
-            'account_status' => 'active',
-            'address_district' => $this->getAddressDistrict(),
-            'address_location' => $this->getAddressLocation(),
+            'account_status' => 'incomplete',
+            'address' => [
+                'district' => $this->getAddressDistrict(),
+                'location' => $this->getAddressLocation()
+            ],
             'contact' => $this->getContact(),
             'dob' => $this->getDob(),
             'email' => $this->getEmail(),
@@ -190,12 +209,30 @@ class User
             'last_name' => $this->getLastName(),
             'password' => $this->getPassword(),
             'profile_picture' => $this->getProfilePicture(),
+            'joined_date' => date("Y:m:d H:i:s")
         ];
 
         $postRef = $database->getReference("users")->push($postData);
 
-        return $postRef ? true : false;  
+        return $postRef ? true : false;
     }
+
+
+    // fetch user details from the database
+    function fetchUserDetails($userId)
+    {
+        global $database;
+
+        $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
+
+        if ($response) {
+            $this->setUser($userId, $response['first_name'], $response['last_name'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['profile_picture'], $response['address']['district'], $response['address']['location'], $response['account_status'], $response['joined_date']);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     // authentication
     public function checkEmailExistence()
@@ -217,10 +254,43 @@ class User
         return $emailExists;
     }
 
+    // verify password
     public function verifyPassword()
     {
         global $database;
         $response = $database->getReference("users")->getChild($this->getUserId())->getSnapshot()->getValue();
         return password_verify($this->getPassword(), $response['password']) ? true : false;
+    }
+
+    public function getProfilePictureImageUrl()
+    {
+        global $bucket;
+
+        $profilePictureUrl = "/bookrack/assets/images/blank-user.jpg";
+
+        $prefix = 'users/';
+        $options = [
+            'prefix' => $prefix,
+            'delimiter' => '/'
+        ];
+
+        $objects = $bucket->objects($options);
+
+        foreach ($objects as $object) {
+            // Check if the object's name (filename) matches the filename we are looking for
+            if ($object->name() === $prefix . $this->getProfilePicture()) {
+                // Generate a signed URL valid until tomorrow for the matched object
+                $profilePictureUrl = $object->signedUrl(new DateTime('tomorrow'));
+                break; // Exit the loop once we find the matching filename
+            }
+        }
+
+        return $profilePictureUrl;
+    }
+
+    // update profile details
+    public function updateProfile()
+    {
+
     }
 }
