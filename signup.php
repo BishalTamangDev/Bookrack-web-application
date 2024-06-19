@@ -95,10 +95,10 @@ if(isset($_SESSION['bookrack-user-id'])){
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput" value="<?php if(isset($_SESSION['temp-email'])) echo $_SESSION['temp-email'];?>"
+                                <input type="email" name="email" class="form-control" id="user-password" value="<?php if(isset($_SESSION['temp-email'])) echo $_SESSION['temp-email'];?>"
                                     placeholder="someone@gmail.com" aria-label="email address"
                                     aria-describedby="email address" required>
-                                <label for="floatingEmailInput">Email address</label>
+                                <label for="user-password">Email address</label>
                             </div>
                         </div>
 
@@ -108,9 +108,9 @@ if(isset($_SESSION['bookrack-user-id'])){
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput" value="<?php if(isset($_SESSION['temp-password'])) echo $_SESSION['temp-password'];?>"
+                                <input type="password" name="password" class="form-control" id="user-email" value="<?php if(isset($_SESSION['temp-password'])) echo $_SESSION['temp-password'];?>"
                                     placeholder="********" aria-label="password" aria-describedby="password" minlength="8" required>
-                                <label for="floatingPasswordInput">Password</label>
+                                <label for="user-email">Password</label>
                             </div>
                         </div>
 
@@ -176,7 +176,7 @@ if(isset($_SESSION['bookrack-user-id'])){
     <script>
         // password input
         // prevent space as input
-        $('#floatingPasswordInput').keydown(function(){
+        $('#user-email').keydown(function(){
             var asciiValue = event.keyCode || event.which;
             if(asciiValue == 32){
                 event.preventDefault();
@@ -184,7 +184,7 @@ if(isset($_SESSION['bookrack-user-id'])){
         });
         
         // email input
-        $('#floatingEmailInput').keydown(function(){
+        $('#user-password').keydown(function(){
             var asciiValue = event.keyCode || event.which;
             if(asciiValue == 32){
                 event.preventDefault();

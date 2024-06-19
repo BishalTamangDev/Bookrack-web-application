@@ -1,14 +1,12 @@
 <?php
-// $request = $_SERVER['REQUEST_URI'];
-// $router = str_replace('/bookrack/admin','',$request);
 
-// echo "Admin index request: ".$request."<br/>";
-// echo "Admin index router: ".$router."<br/>";
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-// if($router == '/' || $router == '/dashboard'){
-// include 'dashboard.php';
-// }elseif($router == 'nav'){
-// include 'nav.php';
-// }
-
-include 'dashboard.php';
+if(isset($_SESSION['bookrack-admin-id'])){
+    header("Location: /bookrack/admin/dashboard");
+}else{
+    header("Location: /bookrack/admin/signin");
+}

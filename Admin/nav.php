@@ -1,3 +1,15 @@
+<?php
+
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(!isset($_SESSION['bookrack-admin-id'])){
+    header("Location: /bookrack/admin/signin");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,9 +108,9 @@
                     </li>
 
                     <!-- logout -->
-                    <li class="aside-menu-li">
+                    <li class="aside-menu-li" onclick="window.location.href='/bookrack/admin/app/admin-signout.php'">
                         <i class="fa-solid fa-right-from-bracket nav-icon"></i>
-                        <span class="d-none d-lg-block"> Logout </span>
+                        <span class="d-none d-lg-block"> Sign out </span>
                     </li>
                 </ul>
             </nav>

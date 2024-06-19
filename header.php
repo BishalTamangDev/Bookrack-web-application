@@ -1,3 +1,21 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// redirect to the landing page if no signed in
+if (!isset($_SESSION['bookrack-user-id'])) {
+    header("Location: /bookrack/");
+}
+
+require_once __DIR__ . '/../bookrack/app/user-class.php';
+
+$headerProfile = new User();
+
+$headerProfile->fetch($_SESSION['bookrack-user-id']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,7 +94,17 @@
                 <!-- profile menu -->
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
-                        <img src="/bookrack/assets/images/user-2.jpg" alt="" class="pointer">
+                        <?php
+                        if ($headerProfile->getProfilePicture() != "") {
+                            ?>
+                            <img src="<?= $headerProfile->getProfilePictureImageUrl() ?>" alt="" class="pointer">
+                            <?php
+                        } else {
+                            ?>
+                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer">
+                            <?php
+                        }
+                        ?>
                     </div>
 
                     <div class="position-absolute profile-menu" id="profile-menu">

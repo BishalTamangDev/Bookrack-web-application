@@ -5,10 +5,9 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-user-id'])){
+if (!isset($_SESSION['bookrack-user-id'])) {
     header("Location: /bookrack/");
 }
-
 
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
@@ -18,9 +17,9 @@ $profileUser = new User();
 $profileUser->setUserId($_SESSION['bookrack-user-id']);
 
 // get user details
-$userFound = $profileUser->fetchUserDetails($profileUser->getUserId());
+$userFound = $profileUser->fetch($profileUser->getUserId());
 
-if(!$userFound){
+if (!$userFound) {
     header("Location: /bookrack/signout");
 }
 ?>
@@ -73,19 +72,19 @@ if(!$userFound){
                 <div class="d-flex flex-column align-items-center gap-3 profile-top">
                     <div class="profile-image">
                         <?php
-                        if($profileUser->getProfilePicture() == ""){
+                        if ($profileUser->getProfilePicture() == "") {
                             ?>
                             <img src="/bookrack/assets/images/blank-user.jpg" alt="profile picture">
                             <?php
-                        }else{
+                        } else {
                             ?>
-                            <img src="<?=$profileUser->getProfilePictureImageUrl()?>" alt="profile picture">
+                            <img src="<?= $profileUser->getProfilePictureImageUrl() ?>" alt="profile picture">
                             <?php
                         }
                         ?>
                     </div>
                     <p class="f-reset text-secondary">
-                        <?php echo $profileUser->getFirstName() == ""? $profileUser->getEmail() : getPascalCaseString($profileUser->getFirstName())." ".getPascalCaseString($profileUser->getLastName()); ?>
+                        <?php echo $profileUser->getFirstName() == "" ? $profileUser->getEmail() : getPascalCaseString($profileUser->getFirstName()) . " " . getPascalCaseString($profileUser->getLastName()); ?>
                     </p>
                 </div>
 
@@ -99,7 +98,7 @@ if(!$userFound){
                         </div>
                         <div class="data-div">
                             <p class="f-reset">
-                                <?php echo $profileUser->getAddressLocation() != ""? getPascalCaseString($profileUser->getAddressLocation()).", ". $districtArray[$profileUser->getAddressDistrict()] : "-"; ?>
+                                <?php echo $profileUser->getAddressLocation() != "" ? getPascalCaseString($profileUser->getAddressLocation()) . ", " . $districtArray[$profileUser->getAddressDistrict()] : "-"; ?>
                             </p>
                         </div>
                     </div>
@@ -118,7 +117,8 @@ if(!$userFound){
                             <span> Member since </span>
                         </div>
                         <div class="data-div">
-                            <p class="f-reset"> <?php echo $profileUser->getJoinedDate() != ""? $dateOnly : "-"; ?> </p>
+                            <p class="f-reset"> <?php echo $profileUser->getJoinedDate() != "" ? $dateOnly : "-"; ?>
+                            </p>
                         </div>
                     </div>
 
@@ -138,7 +138,7 @@ if(!$userFound){
                         </div>
 
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?="-"?> </p>
+                            <p class="f-reset fw-bold"> <?= "-" ?> </p>
                         </div>
                     </div>
 
@@ -150,7 +150,7 @@ if(!$userFound){
                         </div>
 
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?="-"?> </p>
+                            <p class="f-reset fw-bold"> <?= "-" ?> </p>
                         </div>
                     </div>
                 </div>
@@ -167,7 +167,9 @@ if(!$userFound){
                 <!-- profile tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
-                    <div class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile" || $tab == "password-change") ? "active" : "inactive"; ?>"></div>
+                    <div
+                        class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile" || $tab == "password-change") ? "active" : "inactive"; ?>">
+                    </div>
                 </div>
 
                 <!-- my books tab -->
@@ -196,145 +198,93 @@ if(!$userFound){
             </section>
 
             <!-- account state notification note div -->
-            <div class="alert alert-danger <?php if($profileUser->getAccountStatus() != "incomplete") echo "d-none"; ?>" role="alert">
+            <div class="alert alert-danger <?php if ($profileUser->getAccountStatus() != "incomplete")
+                echo "d-none"; ?>" role="alert">
                 Complete setting up your details to get access to all the feature.
             </div>
 
             <!-- contents -->
-            <section class="d-flex flex-column gap-5 contents">
-                <!-- change password -->
-                <div class="<?php if ($tab != "password-change")
-                    echo "d-none"; ?> d-flex flex-column gap-3 password-change-content">
-                    <!-- top-section -->
-                    <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
-                        <!-- heading -->
-                        <div class="d-flex flex-row align-items-center gap-2 heading">
-                            <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset"> Password Change </h4>
-                        </div>
-
-                        <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/'"> Cancel
-                        </button>
-                    </div>
-
-                    <!-- change password form -->
-                    <form method="POST" action="/bookrack/app/password-change.php" class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
-                        <!-- status message -->
-                        <?php
-                        if(isset($_SESSION['status'])){
-                            ?>
-                            <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger";?>" id="change-password-status">
-                                <?=$_SESSION['status-message']?>
-                            </p>
-                            <?php
-                            unset($_SESSION['status']);
-                            unset($_SESSION['status-message']);
-                        }
-                        ?>
-
-                        <!-- old password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
-                            if(isset($_SESSION['temp-old-password'])){
-                                echo $_SESSION['temp-old-password'];
-                            }
-                            unset($_SESSION['temp-old-password']);
-                            ?>"
-                                placeholder="" minlength="8" required>
-                            <label for="old-password"> Old password </label>
-                        </div>
-
-                        <!-- new password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
-                            if(isset($_SESSION['temp-new-password'])){
-                                echo $_SESSION['temp-new-password'];
-                            }
-                            unset($_SESSION['temp-new-password']);
-                            ?>"
-                                placeholder="" minlength="8" required>
-                            <label for="new-password"> New password </label>
-                        </div>
-
-                        <!-- new password confirmation -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password-confirmation" value="<?php
-                            if(isset($_SESSION['temp-new-password-confirmation'])){
-                                echo $_SESSION['temp-new-password-confirmation'];
-                            }
-                            unset($_SESSION['temp-new-password-confirmation']);
-                            ?>"
-                                name="new-password-confirmation" placeholder="" minlength="8" required>
-                            <label for="new-password-confirmation"> New password confirmation </label>
-                        </div>
-
-                        <div class="d-flex flex-row align-items-center gap-2 pointer show-hide-password-div"
-                            id="show-hide-password">
-                            <i class="fa fa-eye"></i>
-                            <p class="m-0" id="show-hide-password-label"> Show password </p>
-                        </div>
-
-                        <button type="submit" class="btn" name="update-password-btn" id="update-password-btn"> Update Password </button>
-                    </form>
-                </div>
-
+            <section class="d-flex flex-column gap-3 contents">
                 <!-- profile -->
                 <div class="<?php if ($tab != "edit-profile" && $tab != "view-profile")
                     echo "d-none"; ?>  d-flex flex-column gap-3 edit-profile-content">
                     <!-- top-section -->
                     <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
                         <!-- heading -->
-                        <div class="d-flex flex-row align-items-center gap-2 heading">
+                        <div class="<?php if ($tab != "edit-profile") echo "d-none"; ?> d-flex flex-row align-items-center gap-2 heading">
                             <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset"> <?php echo $tab == "view-profile" ? "My Profile" : "Edit Profile"; ?> </h4>
+                            <h4 class="f-reset"> <?php echo $tab == "view-profile" ? "My Profile" : "Edit Profile"; ?>
+                            </h4>
                         </div>
 
                         <!-- form reset btn -->
                         <div class="d-flex flex-row gap-2 action">
                             <button class="btn btn-warning text-white <?php if ($tab == "view-profile")
-                                echo "d-none"; ?>"
-                                onclick="window.location.href='/bookrack/profile/edit-profile'">
+                                echo "d-none"; ?>" onclick="window.location.href='/bookrack/profile/edit-profile'">
                                 Reset </button>
 
                             <!-- cancel btn -->
                             <button class="btn btn-danger <?php if ($tab == "view-profile")
-                                echo "d-none"; ?>"
-                                onclick="window.location.href='/bookrack/profile/view-profile'">
+                                echo "d-none"; ?>" onclick="window.location.href='/bookrack/profile/view-profile'">
                                 Cancel </button>
                         </div>
                     </div>
 
                     <!-- edit profile deatail form -->
-                    <form action="/bookrack/app/update-user.php" method="POST" class="d-flex flex-column gap-4 edit-profile-form" enctype="multipart/form-data">
-                        <input type="text" class="d-none" name="user-id" id="user-id" value="<?=$profileUser->getUserId()?>">
-                        
-                        <!-- status -->
-                        <?php
-                        if(isset($_SESSION['status-message']) && isset($_SESSION['status'])){
-                            ?>
-                            <p class="m-0 <?php echo $_SESSION['status']? "text-success" : "text-danger";?>"> 
-                                <?=$_SESSION['status-message']?>
-                            </p>
-                            <?php
-                            unset($_SESSION['status']);
-                            unset($_SESSION['status-message']);
-                        }
-                        ?>
+                    <form action="/bookrack/app/update-user.php" method="POST"
+                        class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data">
+                        <input type="text" class="d-none" name="user-id" id="user-id"
+                            value="<?= $profileUser->getUserId() ?>">
 
-                        <!-- password -->
-                        <div class="d-flex flex-row flex-grow-1 align-items-center w-100 password-div">
-                            <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer" onclick="window.location.href='/bookrack/profile/password-change'">
+                        <!-- password & status message-->
+                        <div class="d-flex flex-column gap-3 m-0 flex-grow-1 w-100 password-div">
+                            <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
+                                onclick="window.location.href='/bookrack/profile/password-change'">
                                 <i class="fa fa-lock text-light"></i>
                                 <p class="f-reset text-light"> Change Password </p>
                             </div>
+                            <?php
+                            // status message
+                            if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
+                                ?>
+                                <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
+                                    <?= $_SESSION['status-message'] ?>
+                                </p>
+                                <?php
+                                unset($_SESSION['status']);
+                                unset($_SESSION['status-message']);
+                            }
+                            ?>
                         </div>
 
-                        <!-- profile picture & password-->
-                        <div class="d-flex flex-column flex-md-row gap-3 align-items-center profile-pic-password-div">
-                            <div class="<?php if ($tab == "view-profile") echo "d-none"; ?> w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture" class="border rounded form-control" id="edit-profile-profile-picture" accept="image/*">
+                        <!-- profile picture -->
+                            <div class="<?php if ($tab != "edit-profile")
+                                echo "d-none"; ?> d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">
+                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
+                                    profile picture </label>
+                                <input type="file" name="edit-profile-profile-picture"
+                                    class="border rounded form-control" id="edit-profile-profile-picture"
+                                    accept="image/*">
+                            </div>
+
+                        <!-- kyc-->
+                        <div class="<?php if ($tab != "edit-profile")
+                                echo "d-none"; ?> d-flex flex-column gap-1 border p-3 rounded">
+                            <label for="" class="form-label text-dark"> KYC Verification </label>
+                            
+                            <!-- kyc file inputs -->
+                            <div class="d-flex flex-row w-100 gap-3">
+                                <!-- front side -->
+                                <div class="front-side w-50">
+                                    <label for="" class="form-label text-secondary"> Front Side </label>
+                                    <input type="file" name="edit-profile-kyc-front" class="border rounded form-control" id="edit-profile-kyc-front" accept="image/*">
+                                </div>
+                                
+                                <div class="back-side w-50">
+                                    <!-- backside -->
+                                    <label for="" class="form-label text-secondary"> Back Side </label>
+                                    <input type="file" name="edit-profile-kyc-back" class="border rounded form-control" id="edit-profile-kyc-back" accept="image/*">
+                                </div>
                             </div>
                         </div>
 
@@ -342,14 +292,16 @@ if(!$userFound){
                         <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                             <div class="flex-grow-1 first-name-div">
                                 <label for="edit-profile-first-name" class="form-label">First name </label>
-                                <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if($profileUser->getFirstName() != "") echo $profileUser->getFirstName(); ?>"
+                                <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->getFirstName() != "")
+                                    echo getPascalCaseString($profileUser->getFirstName()); ?>"
                                     name="edit-profile-first-name" aria-describedby="first name" <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
                             </div>
 
                             <div class="flex-grow-1 last-name-div">
                                 <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if($profileUser->getLastName() != "") echo $profileUser->getLastName(); ?>"
+                                <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->getLastName() != "")
+                                    echo getPascalCaseString($profileUser->getLastName()); ?>"
                                     name="edit-profile-last-name" aria-describedby="last name" <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
                             </div>
@@ -360,8 +312,9 @@ if(!$userFound){
                             <!-- date of birth -->
                             <div class="d-flex flex-column w-100 w-md-50 dob-div">
                                 <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                                <input type="date" class="p-2" value="<?php if($profileUser->getDob() != "") echo $profileUser->getDob();?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
-                                    echo "disabled"; ?> required>
+                                <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
+                                    echo $profileUser->getDob(); ?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
+                                          echo "disabled"; ?> required>
                             </div>
 
                             <!-- gender -->
@@ -371,21 +324,21 @@ if(!$userFound){
                                     aria-label="Default select example" <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
                                     <?php
-                                    if($profileUser->getGender() == ""){
+                                    if ($profileUser->getGender() == "") {
                                         ?>
                                         <option value="" selected hidden>Select gender</option>
                                         <?php
-                                    }else{
+                                    } else {
                                         ?>
-                                        <option value="<?=$profileUser->getGender()?>" selected hidden>
+                                        <option value="<?= $profileUser->getGender() ?>" selected hidden>
                                             <?php
-                                            if($profileUser->getGender() == 0){
+                                            if ($profileUser->getGender() == 0) {
                                                 echo "Male";
-                                            }elseif($profileUser->getGender() == 1){
+                                            } elseif ($profileUser->getGender() == 1) {
                                                 echo "Female";
-                                            }elseif($profileUser->getGender() == 1){
+                                            } elseif ($profileUser->getGender() == 1) {
                                                 echo "Others";
-                                            }else{
+                                            } else {
                                                 echo "Select gender";
                                             }
                                             ?>
@@ -404,19 +357,18 @@ if(!$userFound){
                         <div class="d-flex flex-column flex-md-row gap-3 email-contact-div">
                             <!-- email -->
                             <div class="w-100 w-md-50 email-div">
-                                    <label for="edit-profile-email" class="form-label"> Email address </label>
-                                    <input type="text" class="form-control" id="edit-profile-email"
-                                        value="<?= $profileUser->getEmail() ?>"
-                                    name="edit-profile-email" aria-describedby="email" disabled>
+                                <label for="edit-profile-email" class="form-label"> Email address </label>
+                                <input type="text" class="form-control" id="edit-profile-email"
+                                    value="<?= $profileUser->getEmail() ?>" name="edit-profile-email"
+                                    aria-describedby="email" disabled>
                             </div>
-                        
+
                             <!-- contact -->
                             <div class="w-100 w-md-50 contact-div">
                                 <label for="edit-profile-contact" class="form-label"> Contact </label>
-                                <input type="text" class="form-control" id="edit-profile-contact"
-                                    value="<?php if ($profileUser->getContact() != "")
-                                        echo $profileUser->getContact(); ?>"
-                                    name="edit-profile-contact" aria-describedby="contact" <?php if ($tab == "view-profile")
+                                <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getContact() != "")
+                                    echo $profileUser->getContact(); ?>" name="edit-profile-contact"
+                                    aria-describedby="contact" <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
                             </div>
                         </div>
@@ -426,25 +378,29 @@ if(!$userFound){
                             <!-- district -->
                             <div class="w-100 w-md-50 district-div">
                                 <label for="edit-profile-district" class="form-label"> District </label>
-                                <select class="form-select" name="edit-profile-district"
-                                    aria-label="district select" <?php if ($tab == "view-profile")
+                                <select class="form-select" name="edit-profile-district" aria-label="district select"
+                                    <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
 
                                     <?php
                                     // if value is already set
-                                    if($profileUser->getAddressDistrict() != ""){
+                                    if ($profileUser->getAddressDistrict() != "") {
                                         ?>
-                                        <option value="<?=$profileUser->getAddressDistrict()?>" selected hidden> <?=$districtArray[$profileUser->getAddressDistrict()]?> </option>
+                                        <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
+                                            <?= $districtArray[$profileUser->getAddressDistrict()] ?>
+                                        </option>
                                         <?php
-                                    }else{
+                                    } else {
                                         ?>
                                         <option value="" selected hidden> Select district </option>
                                         <?php
                                     }
 
-                                    foreach($districtArray as $district){
+                                    foreach ($districtArray as $district) {
                                         ?>
-                                        <option value="<?php echo getArrayIndexValue($district, "district");?>"> <?=$district?> </option>
+                                        <option value="<?php echo getArrayIndexValue($district, "district"); ?>">
+                                            <?= $district ?>
+                                        </option>
                                         <?php
                                     }
                                     ?>
@@ -454,9 +410,9 @@ if(!$userFound){
                             <!-- location -->
                             <div class="w-100 w-md-50 location-div">
                                 <label for="edit-profile-location" class="form-label"> Location </label>
-                                <input type="text" class="form-control" id="edit-profile-location"
-                                    value="<?php if($profileUser->getAddressLocation() != "") echo $profileUser->getAddressLocation();?>" name="edit-profile-location" aria-describedby="location"
-                                    <?php if ($tab == "view-profile")
+                                <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
+                                    echo getPascalCaseString($profileUser->getAddressLocation()); ?>"
+                                    name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
                                         echo "disabled"; ?> required>
                             </div>
                         </div>
@@ -464,8 +420,70 @@ if(!$userFound){
                         <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
 
                         <button type="submit" class="btn <?php if ($tab == "view-profile")
-                            echo "d-none"; ?>"
-                            id="update-profile-btn" name="update-profile-btn"> Update </button>
+                            echo "d-none"; ?>" id="update-profile-btn" name="update-profile-btn"> Update </button>
+                    </form>
+                </div>
+
+                <!-- change password -->
+                <div class="<?php if ($tab != "password-change")
+                    echo "d-none"; ?> d-flex flex-column gap-3 password-change-content">
+                    <!-- top-section -->
+                    <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
+                        <!-- heading -->
+                        <div class="d-flex flex-row align-items-center gap-2 heading">
+                            <i class="fa fa-edit fs-4 text-secondary"></i>
+                            <h4 class="f-reset"> Password Change </h4>
+                        </div>
+
+                        <!-- form reset btn -->
+                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/'"> Cancel
+                        </button>
+                    </div>
+
+                    <!-- change password form -->
+                    <form method="POST" action="/bookrack/app/password-change.php"
+                        class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
+                        <!-- old password -->
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
+                            if (isset($_SESSION['temp-old-password'])) {
+                                echo $_SESSION['temp-old-password'];
+                            }
+                            unset($_SESSION['temp-old-password']);
+                            ?>" placeholder="" minlength="8" required>
+                            <label for="old-password"> Old password </label>
+                        </div>
+
+                        <!-- new password -->
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
+                            if (isset($_SESSION['temp-new-password'])) {
+                                echo $_SESSION['temp-new-password'];
+                            }
+                            unset($_SESSION['temp-new-password']);
+                            ?>" placeholder="" minlength="8" required>
+                            <label for="new-password"> New password </label>
+                        </div>
+
+                        <!-- new password confirmation -->
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="new-password-confirmation" value="<?php
+                            if (isset($_SESSION['temp-new-password-confirmation'])) {
+                                echo $_SESSION['temp-new-password-confirmation'];
+                            }
+                            unset($_SESSION['temp-new-password-confirmation']);
+                            ?>" name="new-password-confirmation" placeholder="" minlength="8" required>
+                            <label for="new-password-confirmation"> New password confirmation </label>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center gap-2 pointer show-hide-password-div"
+                            id="show-hide-password">
+                            <i class="fa fa-eye"></i>
+                            <p class="m-0" id="show-hide-password-label"> Show password </p>
+                        </div>
+
+                        <button type="submit" class="btn" name="update-password-btn" id="update-password-btn"> Update
+                            Password </button>
                     </form>
                 </div>
 
@@ -904,13 +922,13 @@ if(!$userFound){
     <!-- change password script -->
     <script>
         // toggle the visibility of the password
-        $('#show-hide-password').click(function(){    
-            if($('#old-password').attr('type') === 'password'){
+        $('#show-hide-password').click(function () {
+            if ($('#old-password').attr('type') === 'password') {
                 $('#old-password').attr('type', 'text');
                 $('#new-password').attr('type', 'text');
                 $('#new-password-confirmation').attr('type', 'text');
                 $('#show-hide-password-label').text("Hide Password");
-            }else{
+            } else {
                 $('#old-password').attr('type', 'password');
                 $('#new-password').attr('type', 'password');
                 $('#new-password-confirmation').attr('type', 'password');

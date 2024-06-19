@@ -1,3 +1,15 @@
+<?php
+
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(isset($_SESSION['bookrack-admin-id'])){
+    header("Location: /bookrack/admin/dashboard");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +37,7 @@
     <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/signin.css">
 </head>
 
 <body>
@@ -44,31 +57,26 @@
 
             <!-- bottom content -->
             <div class="d-flex flex-column flex-lg-row gap-1 gap-lg-5 content">
-                <!-- landing details -->
-                <div class="d-flex flex-column gap-4 landing-content">
-                    <div class="landing-content-heading">
-                        <p class="f-reset fw-bolder"> SIGN IN & <br class="d-none">START RENTING OUT YOUR <br
-                                class="d-none">FAVOURITE BOOKS INSTANTLY
-                        </p>
-                    </div>
-
-                    <div class="landing-content-image">
-                        <img src="/bookrack/assets/images/free.jpg" alt="" loading="lazy">
-                    </div>
-                </div>
-
                 <!-- signin content -->
-                <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="d-flex flex-column w-100 gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
-                        <p class="f-reset fs-1"> Welcome Back :) </p>
+                        <p class="f-reset fs-1 fw-bold"> Admin Sign In </p>
                         <p class="f-reset text-secondary note"> To keep connected with us please login awith your
                             personal information by email address and password. </p>
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form">
-                        <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
+                    <form method="POST" action="/bookrack/admin/app/admin-authentication.php" class="d-flex flex-column signin-form" id="admin-signin-form">
+                        <!-- status message section -->
+                        <?php
+                        if(isset($_SESSION['admin-status'])){
+                            ?>
+                            <p class="f-reset <?php echo $_SESSION['admin-status']? "text-success":"text-danger";?> text-danger mb-3"> <?=$_SESSION['admin-status-message']?> </p>
+                            <?php
+                            unset($_SESSION['admin-status']);
+                            unset($_SESSION['admin-status-message']);
+                        }
+                        ?>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -76,10 +84,15 @@
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
+                                <input type="email" name="admin-email" value="<?php
+                                if(isset($_SESSION['temp-admin-email'])){
+                                    echo $_SESSION['temp-admin-email'];
+                                }
+                                unset($_SESSION['temp-admin-email']);
+                                ?>" class="form-control" id="admin-email"
                                     placeholder="someone@gmail.com" aria-label="email address"
                                     aria-describedby="email address" required>
-                                <label for="floatingEmailInput">Email address</label>
+                                <label for="admin-email">Email address</label>
                             </div>
                         </div>
 
@@ -89,16 +102,21 @@
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
-                                    placeholder="********" aria-label="password" aria-describedby="password" required>
-                                <label for="floatingPasswordInput">Password</label>
+                                <input type="password" name="admin-password" class="form-control" id="admin-password" value="<?php
+                                if(isset($_SESSION['temp-admin-password'])){
+                                    echo $_SESSION['temp-admin-password'];
+                                }
+                                unset($_SESSION['temp-admin-password']);
+                                ?>"
+                                    placeholder="********" aria-label="password" aria-describedby="password" minlength="8" required>
+                                <label for="admin-password">Password</label>
                             </div>
                         </div>
 
                         <div
-                            class="d-flex flex-row gap-3 flex-wrap justify-content-between remember-me-forgot-password mb-3">
+                            class="d-none d-flex flex-row gap-3 flex-wrap justify-content-between remember-me-forgot-password mb-3">
                             <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                                <input type="checkbox" class="form-check-input" id="remember-me" name="admin-remember-me">
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
 
@@ -106,7 +124,7 @@
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 action">
-                            <button type="submit" class="btn" name="signin-btn" id="signin-btn"> Signin Now </button>
+                            <button type="submit" class="btn" name="admin-signin-btn" id="signin-btn"> Signin Now </button>
                             <a href="/bookrack/admin/signup" class="btn"> Create Account </a>
                         </div>
                     </form>
@@ -125,6 +143,26 @@
 
     <!-- bootstrap js :: local file  -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+
+    <!-- js :: current file -->
+    <script>
+        // password input
+        // prevent space as input
+        $('#admin-password').keydown(function () {
+            var asciiValue = event.keyCode || event.which;
+            if (asciiValue == 32) {
+                event.preventDefault();
+            }
+        });
+
+        // email input
+        $('#admin-email').keydown(function () {
+            var asciiValue = event.keyCode || event.which;
+            if (asciiValue == 32) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

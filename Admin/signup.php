@@ -1,3 +1,15 @@
+<?php
+
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['bookrack-admin-id'])) {
+    header("Location: /bookrack/admin/dashboard");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +37,7 @@
     <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/assets/css/admin/signin.css">
 </head>
 
 <body>
@@ -44,31 +57,27 @@
 
             <!-- bottom content -->
             <div class="d-flex flex-column flex-lg-row gap-1 gap-lg-5 content">
-                <!-- landing details -->
-                <div class="d-flex flex-column gap-4 landing-content">
-                    <div class="landing-content-heading">
-                        <p class="f-reset fw-bolder"> SIGN UP & <br class="d-none">START RENTING OUT YOUR <br
-                                class="d-none">FAVOURITE BOOKS INSTANTLY
-                        </p>
-                    </div>
-
-                    <div class="landing-content-image">
-                        <img src="/bookrack/assets/images/free.jpg" alt="" loading="lazy">
-                    </div>
-                </div>
-
                 <!-- signin content -->
-                <div class="d-nones d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="d-nones w-100 d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
-                        <p class="f-reset fs-1"> Welcome Back :) </p>
+                        <p class="f-reset fs-1 fw-bold"> Admin Sign Up </p>
                         <p class="f-reset text-secondary note"> To keep connected with us please login awith your
                             personal information by email address and password. </p>
                     </div>
 
-                    <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form">
-                        <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
+                    <!-- sign up form -->
+                    <form method="POST" action="/bookrack/admin/app/admin-authentication.php"
+                        class="d-flex flex-column signin-form" id="admin-signup-form">
+                        <!-- status message section -->
+                        <?php
+                        if(isset($_SESSION['admin-status'])){
+                            ?>
+                            <p class="f-reset text-danger mb-3"> <?=$_SESSION['admin-status-message']?> </p>
+                            <?php
+                            unset($_SESSION['admin-status']);
+                            unset($_SESSION['admin-status-message']);
+                        }
+                        ?>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -76,10 +85,10 @@
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
-                                    placeholder="someone@gmail.com" aria-label="email address"
-                                    aria-describedby="email address" required>
-                                <label for="floatingEmailInput">Email address</label>
+                                <input type="email" name="admin-email" class="form-control" id="admin-email"
+                                    placeholder="someone@gmail.com" aria-label="admin email address"
+                                    aria-describedby="admin email address" required>
+                                <label for="admin-email">Email address</label>
                             </div>
                         </div>
 
@@ -89,41 +98,17 @@
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
-                                    placeholder="********" aria-label="password" aria-describedby="password" required>
-                                <label for="floatingPasswordInput">Password</label>
+                                <input type="password" name="admin-password" class="form-control" id="admin-password"
+                                    placeholder="********" aria-label="password" aria-describedby="password"
+                                    minlength="8" required>
+                                <label for="admin-password"> Password </label>
                             </div>
                         </div>
 
                         <div class="d-flex flex-row flex-wrap gap-3 mt-3 action">
-                            <button type="submit" class="btn signup-btn" id="signup-btn" name="signup-btn"> Signup
+                            <button type="submit" class="btn signup-btn" id="signup-btn" name="admin-signup-btn"> Signup
                             </button>
                             <a href="/bookrack/admin/signin" class="btn"> Already have account </a>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- email verification content -->
-                <div class="d-none d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
-                    <div class="d-flex flex-column gap-2 heading">
-                        <p class="f-reset fs-1"> Email Verification </p>
-                        <p class="f-reset text-secondary note"> Enter the OTP code sent to your email address. </p>
-                    </div>
-
-                    <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form email-cerification-form" action="home.php">
-                        <!-- error message section -->
-                        <p class="f-reset text-danger mb-3"> Error message appears here... </p>
-
-                        <!-- otp -->
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="otp" id="otp" aria-describedby="otp"
-                                maxlength="4" required>
-                        </div>
-
-                        <div class="d-flex flex-row flex-wrap gap-3 action">
-                            <button type="submit" name="otp-btn" class="btn" id="otp-btn"> Verify Now </button>
-                            <a href="/bookrack/admin/signup" class="btn"> Didn't get OTP </a>
                         </div>
                     </form>
                 </div>
@@ -141,6 +126,26 @@
 
     <!-- bootstrap js :: local file  -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+
+    <!-- js :: current file -->
+    <script>
+        // password input
+        // prevent space as input
+        $('#admin-password').keydown(function () {
+            var asciiValue = event.keyCode || event.which;
+            if (asciiValue == 32) {
+                event.preventDefault();
+            }
+        });
+
+        // email input
+        $('#admin-email').keydown(function () {
+            var asciiValue = event.keyCode || event.which;
+            if (asciiValue == 32) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

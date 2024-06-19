@@ -64,7 +64,7 @@ if(isset($_SESSION['bookrack-user-id'])){
                 </div>
 
                 <!-- search -->
-                <form action="" class="search-form">
+                <form class="search-form">
                     <input type="search" name="search-content" id="search" placeholder="search here" class="p-2">
                 </form>
 

@@ -73,9 +73,14 @@
   width: -moz-fit-content;
   width: fit-content;
 }
-.main .article .contents .edit-profile-content .edit-profile-form .profile-pic-password-div .password-div .change-password {
-  font-size: 0.95rem;
+.main .article .contents .edit-profile-content .edit-profile-form .password-div {
   width: -moz-fit-content;
+  width: fit-content;
+}
+.main .article .contents .edit-profile-content .edit-profile-form .password-div .change-password {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 0.95rem;
   width: fit-content;
   padding: 6px 1rem;
   border-radius: 6px;

@@ -98,16 +98,17 @@
             // edit profile
             .edit-profile-content{
                 .edit-profile-form{
-                    .profile-pic-password-div{
                         .password-div{
+                            width: fit-content;
                             .change-password{
+                                width: fit-content;
                                 font-size: 0.95rem;
                                 width: fit-content;
                                 padding: 6px 1rem;
                                 border-radius: 6px;
                             }
                         }
-                    }
+                    
                     .dob-gender{
                         .dob-div{
                             input{
