@@ -16,6 +16,8 @@ class User
     private $addressDistrict;
     private $addressLocation;
     private $profilePicture;
+    private $documentType;
+
     private $kycFront;
     private $kycBack;
     private $joinedDate;
@@ -38,13 +40,14 @@ class User
         $this->addressDistrict = "";
         $this->addressLocation = "";
         $this->profilePicture = "";
+        $this->documentType = "";
         $this->kycFront = "";
         $this->kycBack = "";
         $this->joinedDate = "";
         $this->accountStatus = "";
     }
 
-    public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $addressDistrict, $addressLocation, $profilePicture, $kycFront, $kycBack, $joinedDate, $accountStatus)
+    public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $addressDistrict, $addressLocation, $profilePicture, $documentType, $kycFront, $kycBack, $joinedDate, $accountStatus)
     {
         $this->userId = $userId;
         $this->firstName = $firstName;
@@ -57,6 +60,7 @@ class User
         $this->addressDistrict = $addressDistrict;
         $this->addressLocation = $addressLocation;
         $this->profilePicture = $profilePicture;
+        $this->documentType = $documentType;
         $this->kycFront = $kycFront;
         $this->kycBack = $kycBack;
         $this->joinedDate = $joinedDate;
@@ -128,6 +132,11 @@ class User
     public function getJoinedDate()
     {
         return $this->joinedDate;
+    }
+
+    public function getDocumentType()
+    {
+        return $this->documentType;
     }
 
     public function getKycFront()
@@ -208,14 +217,19 @@ class User
         $this->joinedDate = $joinedDate;
     }
 
+    public function setDocumentType($documentType)
+    {
+        $this->documentType = $documentType;
+    }
+
     public function setKycFront($kycFront)
     {
-        $this->joinedDate = $kycFront;
+        $this->kycFront = $kycFront;
     }
 
     public function setKycBack($kycBack)
     {
-        $this->joinedDate = $kycBack;
+        $this->kycBack = $kycBack;
     }
 
 
@@ -240,11 +254,12 @@ class User
             ],
             'profile_picture' => $this->getProfilePicture(),
             'kyc' => [
+                'document_type' => $this->getDocumentType(),
                 'front' => $this->getKycFront(),
                 'back' => $this->getKycBack(),
             ],
             'joined_date' => date("Y:m:d H:i:s"),
-            'account_status' => 'incomplete'
+            'account_status' => 'pending'
         ];
 
         $postRef = $database->getReference("users")->push($postData);
@@ -261,7 +276,7 @@ class User
         $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setUser($_SESSION['bookrack-user-id'], $response['name']['first'], $response['name']['last'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address']['district'], $response['address']['location'], $response['profile_picture'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'], $response['account_status']);
+            $this->setUser($_SESSION['bookrack-user-id'], $response['name']['first'], $response['name']['last'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address']['district'], $response['address']['location'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'], $response['account_status']);
             return true;
         } else {
             return false;
@@ -322,6 +337,64 @@ class User
 
         return $profilePictureUrl;
     }
+
+    public function getKycFrontUrl()
+    {
+        global $bucket;
+
+        $kycFrontUrl = "blank";
+
+        if ($this->getKycFront() != "") {
+            $prefix = 'kyc/';
+            $options = [
+                'prefix' => $prefix,
+                'delimiter' => '/'
+            ];
+
+            $objects = $bucket->objects($options);
+
+            foreach ($objects as $object) {
+                // Check if the object's name (filename) matches the filename we are looking for
+                if ($object->name() === $prefix . $this->getKycFront()) {
+                    // Generate a signed URL valid until tomorrow for the matched object
+                    $kycFrontUrl = $object->signedUrl(new DateTime('tomorrow'));
+                    break; // Exit the loop once we find the matching filename
+                }
+            }
+        }
+
+        return $kycFrontUrl;
+    }
+
+    public function getKycBackUrl()
+    {
+        global $bucket;
+
+        $kycBackUrl = "blank";
+
+        if ($this->getKycBack() != "") {
+            $prefix = 'kyc/';
+            $options = [
+                'prefix' => $prefix,
+                'delimiter' => '/'
+            ];
+
+            $objects = $bucket->objects($options);
+
+            foreach ($objects as $object) {
+                // Check if the object's name (filename) matches the filename we are looking for
+                if ($object->name() === $prefix . $this->getKycBack()) {
+                    // Generate a signed URL valid until tomorrow for the matched object
+                    $kycBackUrl = $object->signedUrl(new DateTime('tomorrow'));
+                    break; // Exit the loop once we find the matching filename
+                }
+            }
+        }
+
+        return $kycBackUrl;
+    }
+
+
 
     // update profile details
     public function updateProfile()

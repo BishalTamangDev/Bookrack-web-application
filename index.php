@@ -22,7 +22,7 @@ include __DIR__.'/../bookrack/app/connection.php';
 // Set the default timezone to Nepal
 date_default_timezone_set("Asia/Kathmandu");
 
-$profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|my-books|wishlist|requested-books|earning)/';
+$profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
 
 $adminPagesPattern = '/admin\/(book-details|book-offer-details|book-offers|book-request-details|book-requests|books|dashboard|index|nav|notification|rent|signin|signup|user-details|users)/i';
 
@@ -110,7 +110,10 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
         } elseif (preg_match('/edit-profile/', $arr[2])) { // edit-profile
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
-        } elseif (preg_match('/wishlist/', $arr[2])) { // wishlist
+        } elseif (preg_match('/kyc/', $arr[2])) { // wishlist
+            $arr = explode('/', $arr[2]);
+            $tab = $arr[0];
+        }elseif (preg_match('/wishlist/', $arr[2])) { // wishlist
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
         } elseif (preg_match('/requested-books/', $arr[2])) { // requested-books

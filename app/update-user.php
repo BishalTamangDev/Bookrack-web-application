@@ -1,16 +1,25 @@
 <?php
 
+// starting the session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['bookrack-user-id'])) {
+    header("Location: /bookrack/");
+}
+
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
 
 if (isset($_POST['update-profile-btn'])) {
-    $status = false;
+    $status = 0;
 
     $newUser = new User();
 
     // checking if profile picture has been changed
-    $hasProfilePhoto = (isset($_FILES['edit-profile-profile-picture']) && $_FILES['edit-profile-profile-picture']['error'] === UPLOAD_ERR_OK) ? true : false;
+    $hasProfilePhoto = (isset($_FILES['edit-profile-profile-picture']) && $_FILES['edit-profile-profile-picture']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
 
     // getting the form details
     $newUser->setUserId($_POST['user-id']);
@@ -24,6 +33,7 @@ if (isset($_POST['update-profile-btn'])) {
     $newUser->setAddressDistrict($_POST['edit-profile-district']);
     $newUser->setAddressLocation($_POST['edit-profile-location']);
 
+    
     $properties = [
         'name' => [
             'first' => getLowerCaseString($newUser->getFirstName()),
@@ -58,12 +68,12 @@ if (isset($_POST['update-profile-btn'])) {
 
             try {
                 $response = $database->getReference("users/{$newUser->getUserId()}")->update($properties);
-                $status = true;
+                $status = 1;
             } catch (Exception $e) {
-                $status = false;
+                $status = 0;
             }
         } catch (Exception $e) {
-            $status = false;
+            $status = 0;
         }
 
         // in case photo uploaded
@@ -74,13 +84,13 @@ if (isset($_POST['update-profile-btn'])) {
     } else {
         try {
             $response = $database->getReference("users/{$newUser->getUserId()}")->update($properties);
-            $status = true;
+            $status = 1;
         } catch (Exception $e) {
-            $status = true;
+            $status = 1;
         }
     }
 
-    $_SESSION['status'] = $status ? true : false;
+    $_SESSION['status'] = $status ? 1 : 0;
     $_SESSION['status-message'] = $status ? "Profile updated successfully." : "Profile updation failed.";
 
     header("Location: /bookrack/profile/view-profile");

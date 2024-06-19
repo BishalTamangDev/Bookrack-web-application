@@ -14,7 +14,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 
-
 // variables
 $districtArray = array(
     "Achham",
@@ -105,6 +104,8 @@ function deleteFileFromStorageBucket($folder, $filename)
 
     if($folder == "users"){
         $prefix = 'users/';
+    }elseif($folder == "kyc"){
+        $prefix = 'kyc/';
     }else{
         $prefix = '';
     }

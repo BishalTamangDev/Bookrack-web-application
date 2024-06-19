@@ -17,6 +17,11 @@
   overflow: hidden;
   border-radius: 50%;
 }
+.main .aside .profile-section .profile-top .name-status .status-div {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
 .main .aside .profile-section .profile-bottom .profile-detail {
   gap: 1rem;
   justify-content: space-between;
@@ -66,24 +71,15 @@
   width: 50%;
   background-color: rgb(82, 82, 82);
 }
+.main .article .contents .password-change-content {
+  background-color: orange;
+}
 .main .article .contents .password-change-content .password-change-form .btn {
   color: white;
   padding: 6px 2rem;
   background-color: var(--brand-color);
   width: -moz-fit-content;
   width: fit-content;
-}
-.main .article .contents .edit-profile-content .edit-profile-form .password-div {
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.main .article .contents .edit-profile-content .edit-profile-form .password-div .change-password {
-  width: -moz-fit-content;
-  width: fit-content;
-  font-size: 0.95rem;
-  width: fit-content;
-  padding: 6px 1rem;
-  border-radius: 6px;
 }
 .main .article .contents .edit-profile-content .edit-profile-form .dob-gender .dob-div input {
   height: 50%;
@@ -96,6 +92,10 @@
   width: fit-content;
   padding: 6px 3rem;
   background-color: var(--brand-color);
+}
+.main .article .contents .kyc-section .kyc-form .btn {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .main .article .contents .my-book-content .book-status-container {
   width: -moz-fit-content;

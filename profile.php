@@ -69,7 +69,7 @@ if (!$userFound) {
             <!-- profile section -->
             <section class="d-flex flex-column p-3 py-4 mb-4 gap-3 profile-section">
                 <!-- profile picture -->
-                <div class="d-flex flex-column align-items-center gap-3 profile-top">
+                <div class="d-flex flex-column gap-2 profile-top">
                     <div class="profile-image">
                         <?php
                         if ($profileUser->getProfilePicture() == "") {
@@ -83,9 +83,23 @@ if (!$userFound) {
                         }
                         ?>
                     </div>
-                    <p class="f-reset text-secondary">
-                        <?php echo $profileUser->getFirstName() == "" ? $profileUser->getEmail() : getPascalCaseString($profileUser->getFirstName()) . " " . getPascalCaseString($profileUser->getLastName()); ?>
-                    </p>
+
+                    <div class="d-flex flex-row gap-2 align-items-center profile name-status">
+                        <p class="m-0 text-secondary">
+                            <?php echo $profileUser->getFirstName() == "" ? $profileUser->getEmail() : getPascalCaseString($profileUser->getFirstName()) . " " . getPascalCaseString($profileUser->getLastName()); ?>
+                        </p>
+                        <?php
+                        if ($profileUser->getAccountStatus() == "verified") {
+                            ?>
+                            <div class="status-div bg-success"></div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="status-div bg-danger"></div>
+                            <?php
+                        } ?>
+                    </div>
+
                 </div>
 
                 <!-- bottom -->
@@ -162,13 +176,25 @@ if (!$userFound) {
 
         <!-- article -->
         <article class="article bg-md-success mb-4 bg-sm-danger">
+            <!-- account state notification note div -->
+            <?php
+            if ($profileUser->getAccountStatus() != "verified") {
+                ?>
+                <div class="alert alert-danger mb-4" role="alert">
+                    Your account is still not verified. Make sure you have provided all your details. If you have provided
+                    every details already, please wait sometime to get your account verified.
+                </div>
+                <?php
+            }
+            ?>
+
             <!-- tab -->
-            <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-4 tab-section">
+            <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-3 tab-section">
                 <!-- profile tab -->
                 <div class="tab">
                     <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
                     <div
-                        class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile" || $tab == "password-change") ? "active" : "inactive"; ?>">
+                        class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile" || $tab == "password-change" || $tab == "kyc") ? "active" : "inactive"; ?>">
                     </div>
                 </div>
 
@@ -197,661 +223,831 @@ if (!$userFound) {
                 </div>
             </section>
 
-            <!-- account state notification note div -->
-            <div class="alert alert-danger <?php if ($profileUser->getAccountStatus() != "incomplete")
-                echo "d-none"; ?>" role="alert">
-                Complete setting up your details to get access to all the feature.
-            </div>
-
             <!-- contents -->
             <section class="d-flex flex-column gap-3 contents">
-                <!-- profile -->
-                <div class="<?php if ($tab != "edit-profile" && $tab != "view-profile")
-                    echo "d-none"; ?>  d-flex flex-column gap-3 edit-profile-content">
-                    <!-- top-section -->
-                    <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
-                        <!-- heading -->
-                        <div class="<?php if ($tab != "edit-profile") echo "d-none"; ?> d-flex flex-row align-items-center gap-2 heading">
-                            <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset"> <?php echo $tab == "view-profile" ? "My Profile" : "Edit Profile"; ?>
-                            </h4>
-                        </div>
-
-                        <!-- form reset btn -->
-                        <div class="d-flex flex-row gap-2 action">
-                            <button class="btn btn-warning text-white <?php if ($tab == "view-profile")
-                                echo "d-none"; ?>" onclick="window.location.href='/bookrack/profile/edit-profile'">
-                                Reset </button>
-
-                            <!-- cancel btn -->
-                            <button class="btn btn-danger <?php if ($tab == "view-profile")
-                                echo "d-none"; ?>" onclick="window.location.href='/bookrack/profile/view-profile'">
-                                Cancel </button>
-                        </div>
-                    </div>
-
-                    <!-- edit profile deatail form -->
-                    <form action="/bookrack/app/update-user.php" method="POST"
-                        class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data">
-                        <input type="text" class="d-none" name="user-id" id="user-id"
-                            value="<?= $profileUser->getUserId() ?>">
-
-                        <!-- password & status message-->
-                        <div class="d-flex flex-column gap-3 m-0 flex-grow-1 w-100 password-div">
-                            <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
-                                onclick="window.location.href='/bookrack/profile/password-change'">
-                                <i class="fa fa-lock text-light"></i>
-                                <p class="f-reset text-light"> Change Password </p>
-                            </div>
+                <!-- profile :: view & edit -->
+                <?php if ($tab == "edit-profile" || $tab == "view-profile") {
+                    ?>
+                    <div class="d-flex flex-column gap-3 edit-profile-content">
+                        <!-- top-section -->
+                        <div class="d-flex flex-row align-items-center justify-content-between gap-3 top-section">
+                            <!-- heading -->
                             <?php
-                            // status message
-                            if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
+                            if ($tab == "edit-profile") {
                                 ?>
-                                <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
-                                    <?= $_SESSION['status-message'] ?>
-                                </p>
+                                <div class="d-flex flex-row align-items-center gap-2 heading">
+                                    <i class="fa fa-edit fs-4 text-secondary"></i>
+                                    <h4 class="f-reset"> Edit Profile </h4>
+                                </div>
+
+                                <!-- form reset btn -->
+                                <div class="d-flex flex-row gap-2 action">
+                                    <button class="btn btn-outline-warning" id="profile-edit-reset-btn"
+                                        onclick="window.location.href='/bookrack/profile/edit-profile'"> Reset </button>
+
+                                    <!-- cancel btn -->
+                                    <button class="btn btn-danger" id="profile-edit-cancel-btn"
+                                        onclick="window.location.href='/bookrack/profile/view-profile'">
+                                        Cancel </button>
+                                </div>
                                 <?php
-                                unset($_SESSION['status']);
-                                unset($_SESSION['status-message']);
                             }
                             ?>
                         </div>
 
-                        <!-- profile picture -->
-                            <div class="<?php if ($tab != "edit-profile")
-                                echo "d-none"; ?> d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">
-                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change
-                                    profile picture </label>
-                                <input type="file" name="edit-profile-profile-picture"
-                                    class="border rounded form-control" id="edit-profile-profile-picture"
-                                    accept="image/*">
-                            </div>
+                        <!-- edit profile deatail form -->
+                        <form action="/bookrack/app/update-user.php" method="POST"
+                            class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data">
+                            <!-- password & status message-->
+                            <div class="d-flex flex-column gap-3 m-0 flex-grow-1 w-100 password-div">
+                                <?php
+                                if ($tab == "view-profile") {
+                                    ?>
+                                    <div class="d-flex flex-row gap-2">
+                                        <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
+                                            onclick="window.location.href='/bookrack/profile/password-change'">
+                                            <i class="fa fa-lock text-light"></i>
+                                            <p class="f-reset text-light"> Change Password </p>
+                                        </div>
 
-                        <!-- kyc-->
-                        <div class="<?php if ($tab != "edit-profile")
-                                echo "d-none"; ?> d-flex flex-column gap-1 border p-3 rounded">
-                            <label for="" class="form-label text-dark"> KYC Verification </label>
-                            
-                            <!-- kyc file inputs -->
-                            <div class="d-flex flex-row w-100 gap-3">
-                                <!-- front side -->
-                                <div class="front-side w-50">
-                                    <label for="" class="form-label text-secondary"> Front Side </label>
-                                    <input type="file" name="edit-profile-kyc-front" class="border rounded form-control" id="edit-profile-kyc-front" accept="image/*">
-                                </div>
-                                
-                                <div class="back-side w-50">
-                                    <!-- backside -->
-                                    <label for="" class="form-label text-secondary"> Back Side </label>
-                                    <input type="file" name="edit-profile-kyc-back" class="border rounded form-control" id="edit-profile-kyc-back" accept="image/*">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- name -->
-                        <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
-                            <div class="flex-grow-1 first-name-div">
-                                <label for="edit-profile-first-name" class="form-label">First name </label>
-                                <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->getFirstName() != "")
-                                    echo getPascalCaseString($profileUser->getFirstName()); ?>"
-                                    name="edit-profile-first-name" aria-describedby="first name" <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
-                            </div>
-
-                            <div class="flex-grow-1 last-name-div">
-                                <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->getLastName() != "")
-                                    echo getPascalCaseString($profileUser->getLastName()); ?>"
-                                    name="edit-profile-last-name" aria-describedby="last name" <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
-                            </div>
-                        </div>
-
-                        <!-- date of birth & gender -->
-                        <div class="d-flex flex-column flex-md-row gap-3 dob-gender">
-                            <!-- date of birth -->
-                            <div class="d-flex flex-column w-100 w-md-50 dob-div">
-                                <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                                <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
-                                    echo $profileUser->getDob(); ?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
-                                          echo "disabled"; ?> required>
-                            </div>
-
-                            <!-- gender -->
-                            <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
-                                <label for="edit-profile-gender" class="form-label"> Gender </label>
-                                <select class="form-select" name="edit-profile-gender"
-                                    aria-label="Default select example" <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
+                                        <p class="m-0 btn btn-outline-success p-2 px-3"
+                                            onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
+                                    </div>
                                     <?php
-                                    if ($profileUser->getGender() == "") {
-                                        ?>
-                                        <option value="" selected hidden>Select gender</option>
+                                }
+                                ?>
+
+                                <?php
+                                // status message
+                                if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
+                                    ?>
+                                    <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
+                                        <?= $_SESSION['status-message'] ?>
+                                    </p>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+
+                            <!-- user id -->
+                            <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
+
+                            <!-- profile picture -->
+                            <?php
+                            if ($tab == "edit-profile") {
+                                ?>
+                                <div class="d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">
+                                    <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile
+                                        picture </label>
+                                    <input type="file" name="edit-profile-profile-picture" class="border rounded form-control"
+                                        id="edit-profile-profile-picture" accept="image/*">
+                                </div>
+                                <?php
+                            }
+                            ?>
+
+
+                            <!-- name -->
+                            <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
+                                <div class="flex-grow-1 first-name-div">
+                                    <label for="edit-profile-first-name" class="form-label">First name </label>
+                                    <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->getFirstName() != "")
+                                        echo getPascalCaseString($profileUser->getFirstName()); ?>"
+                                        name="edit-profile-first-name" aria-describedby="first name" <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
+                                </div>
+
+                                <div class="flex-grow-1 last-name-div">
+                                    <label for="edit-profile-last-name" class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->getLastName() != "")
+                                        echo getPascalCaseString($profileUser->getLastName()); ?>"
+                                        name="edit-profile-last-name" aria-describedby="last name" <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
+                                </div>
+                            </div>
+
+                            <!-- date of birth & gender -->
+                            <div class="d-flex flex-column flex-md-row gap-3 dob-gender">
+                                <!-- date of birth -->
+                                <div class="d-flex flex-column w-100 w-md-50 dob-div">
+                                    <label for="edit-profile-dob" class="form-label"> Date of birth </label>
+                                    <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
+                                        echo $profileUser->getDob(); ?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
+                                              echo "disabled"; ?> required>
+                                </div>
+
+                                <!-- gender -->
+                                <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
+                                    <label for="edit-profile-gender" class="form-label"> Gender </label>
+                                    <select class="form-select" name="edit-profile-gender"
+                                        aria-label="Default select example" <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
                                         <?php
-                                    } else {
-                                        ?>
-                                        <option value="<?= $profileUser->getGender() ?>" selected hidden>
-                                            <?php
-                                            if ($profileUser->getGender() == 0) {
-                                                echo "Male";
-                                            } elseif ($profileUser->getGender() == 1) {
-                                                echo "Female";
-                                            } elseif ($profileUser->getGender() == 1) {
-                                                echo "Others";
-                                            } else {
-                                                echo "Select gender";
-                                            }
+                                        if ($profileUser->getGender() == "") {
                                             ?>
-                                        </option>
+                                            <option value="" selected hidden>Select gender</option>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="<?= $profileUser->getGender() ?>" selected hidden>
+                                                <?php
+                                                if ($profileUser->getGender() == 0) {
+                                                    echo "Male";
+                                                } elseif ($profileUser->getGender() == 1) {
+                                                    echo "Female";
+                                                } elseif ($profileUser->getGender() == 1) {
+                                                    echo "Others";
+                                                } else {
+                                                    echo "Select gender";
+                                                }
+                                                ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                        <option value="0">Male</option>
+                                        <option value="1">Female</option>
+                                        <option value="2">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- email & contact -->
+                            <div class="d-flex flex-column flex-md-row gap-3 email-contact-div">
+                                <!-- email -->
+                                <div class="w-100 w-md-50 email-div">
+                                    <label for="edit-profile-email" class="form-label"> Email address </label>
+                                    <input type="text" class="form-control" id="edit-profile-email"
+                                        value="<?= $profileUser->getEmail() ?>" name="edit-profile-email"
+                                        aria-describedby="email" disabled>
+                                </div>
+
+                                <!-- contact -->
+                                <div class="w-100 w-md-50 contact-div">
+                                    <label for="edit-profile-contact" class="form-label"> Contact </label>
+                                    <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getContact() != "")
+                                        echo $profileUser->getContact(); ?>" name="edit-profile-contact"
+                                        aria-describedby="contact" <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
+                                </div>
+                            </div>
+
+                            <!-- address -->
+                            <div class="d-flex flex-column flex-md-row gap-3 address-div">
+                                <!-- district -->
+                                <div class="w-100 w-md-50 district-div">
+                                    <label for="edit-profile-district" class="form-label"> District </label>
+                                    <select class="form-select" name="edit-profile-district" aria-label="district select"
+                                        <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
+
+                                        <?php
+                                        // if value is already set
+                                        if ($profileUser->getAddressDistrict() != "") {
+                                            ?>
+                                            <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
+                                                <?= $districtArray[$profileUser->getAddressDistrict()] ?>
+                                            </option>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="" selected hidden> Select district </option>
+                                            <?php
+                                        }
+
+                                        foreach ($districtArray as $district) {
+                                            ?>
+                                            <option value="<?php echo getArrayIndexValue($district, "district"); ?>">
+                                                <?= $district ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <!-- location -->
+                                <div class="w-100 w-md-50 location-div">
+                                    <label for="edit-profile-location" class="form-label"> Location </label>
+                                    <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
+                                        echo getPascalCaseString($profileUser->getAddressLocation()); ?>"
+                                        name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
+                                            echo "disabled"; ?> required>
+                                </div>
+                            </div>
+
+                            <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
+
+                            <?php
+                            if ($tab == "edit-profile") {
+                                ?>
+                                <button type="submit" class="btn rounded" id="update-profile-btn" name="update-profile-btn">
+                                    Update </button>
+                                <?php
+                            }
+                            ?>
+                        </form>
+                    </div>
+                    <?php
+                }
+                ?>
+
+                <!-- kyc -->
+                <?php
+                if ($tab == "kyc") {
+                    ?>
+                    <div class="d-flex flex-column gap-1 kyc-section">
+                        <?php
+                        if ($profileUser->getAccountStatus() == "pending") {
+                            ?>
+                            <hr>
+                            <p class="m-0 text-secondary fst-italic"> Note: You must submit your documents [birth-certificate/
+                                citizenship] in order to use our services. </p>
+                            <hr>
+                            <?php
+                        }
+                        ?>
+
+                        <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
+
+                        <?php
+                        if (isset($_SESSION['status'])) {
+                            if ($_SESSION['status'] == true) {
+                                ?>
+                                <p class="m-0 text-success"> <?= $_SESSION['status-message'] ?> </p>
+                                <?php
+                            } else {
+                                ?>
+                                <p class="m-0 text-danger"> <?= $_SESSION['status-message'] ?> </p>
+                                <?php
+                            }
+                            ?>
+                            <?php
+                        }
+                        ?>
+
+                        <!-- existing kyc documents -->
+                        <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
+                            <p class="m-0 fs-5"> Document type : <?= getPascalCaseString($profileUser->getDocumentType()) ?>
+                            </p>
+
+                            <div class="d-flex flex-row gap-3 documents">
+                                <div class="w-25 d-flex flex-column gap-1 document">
+                                    <?php
+                                    if ($profileUser->getDocumentType() == "citizenship") {
+                                        ?>
+                                        <p class="m-0"> Front side </p>
                                         <?php
                                     }
                                     ?>
-                                    <option value="0">Male</option>
-                                    <option value="1">Female</option>
-                                    <option value="2">Others</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- email & contact -->
-                        <div class="d-flex flex-column flex-md-row gap-3 email-contact-div">
-                            <!-- email -->
-                            <div class="w-100 w-md-50 email-div">
-                                <label for="edit-profile-email" class="form-label"> Email address </label>
-                                <input type="text" class="form-control" id="edit-profile-email"
-                                    value="<?= $profileUser->getEmail() ?>" name="edit-profile-email"
-                                    aria-describedby="email" disabled>
-                            </div>
-
-                            <!-- contact -->
-                            <div class="w-100 w-md-50 contact-div">
-                                <label for="edit-profile-contact" class="form-label"> Contact </label>
-                                <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getContact() != "")
-                                    echo $profileUser->getContact(); ?>" name="edit-profile-contact"
-                                    aria-describedby="contact" <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
-                            </div>
-                        </div>
-
-                        <!-- address -->
-                        <div class="d-flex flex-column flex-md-row gap-3 address-div">
-                            <!-- district -->
-                            <div class="w-100 w-md-50 district-div">
-                                <label for="edit-profile-district" class="form-label"> District </label>
-                                <select class="form-select" name="edit-profile-district" aria-label="district select"
-                                    <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
-
                                     <?php
-                                    // if value is already set
-                                    if ($profileUser->getAddressDistrict() != "") {
+                                    if ($profileUser->getKycFrontUrl() != "blank") {
                                         ?>
-                                        <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
-                                            <?= $districtArray[$profileUser->getAddressDistrict()] ?>
-                                        </option>
+                                        <img src="<?= $profileUser->getKycFrontUrl() ?>" alt="kyc front picture">
                                         <?php
                                     } else {
                                         ?>
-                                        <option value="" selected hidden> Select district </option>
-                                        <?php
-                                    }
-
-                                    foreach ($districtArray as $district) {
-                                        ?>
-                                        <option value="<?php echo getArrayIndexValue($district, "district"); ?>">
-                                            <?= $district ?>
-                                        </option>
+                                        <div class="p-2 px-3 border">
+                                            <p class="small m-0 text-danger"> Not uploaded yet. </p>
+                                        </div>
                                         <?php
                                     }
                                     ?>
-                                </select>
-                            </div>
+                                </div>
 
-                            <!-- location -->
-                            <div class="w-100 w-md-50 location-div">
-                                <label for="edit-profile-location" class="form-label"> Location </label>
-                                <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
-                                    echo getPascalCaseString($profileUser->getAddressLocation()); ?>"
-                                    name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
-                                        echo "disabled"; ?> required>
+                                <!-- hide back side if the submitted document is birth certificate -->
+                                <?php
+                                if ($profileUser->getDocumentType() == "citizenship") {
+                                    ?>
+                                    <div class="w-25 d-flex flex-column gap-1 document">
+                                        <p class="m-0"> Back side </p>
+                                        <?php
+                                        if ($profileUser->getKycBackUrl() != "blank") {
+                                            ?>
+                                            <img src="<?= $profileUser->getKycBackUrl() ?>" alt="kyc front picture">
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <div class="p-2 px-3 border">
+                                                <p class="small m-0 text-danger"> Not uploaded yet. </p>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
 
-                        <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
+                        <!-- hide this form if kyc is already verified -->
+                        <?php
+                        if ($profileUser->getAccountStatus() != "verified") {
+                            ?>
+                            <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-4 w-100 kyc-form"
+                                id="kyc-form" enctype="multipart/form-data">
+                                <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
 
-                        <button type="submit" class="btn <?php if ($tab == "view-profile")
-                            echo "d-none"; ?>" id="update-profile-btn" name="update-profile-btn"> Update </button>
-                    </form>
-                </div>
+                                <!-- kyc file inputs -->
+                                <div class="d-flex flex-column w-100 gap-3">
+                                    <!-- document type -->
+                                    <div class="document-type w-25">
+                                        <select class="form-select form-select" name="document-type"
+                                            aria-label="document type select" required>
+                                            <option value="" selected hidden> Select the document type </option>
+                                            <option value="1"> Birth Certificate </option>
+                                            <option value="2"> Citizenship </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- front side -->
+                                    <div class="front-side w-100">
+                                        <label for="" class="form-label text-secondary"> Front Side </label>
+                                        <input type="file" name="kyc-front" class="border rounded form-control" id="kyc-front"
+                                            accept="image/*" required>
+                                    </div>
+
+                                    <div class="back-side w-100">
+                                        <!-- backside -->
+                                        <label for="" class="form-label text-secondary"> Back Side </label>
+                                        <input type="file" name="kyc-back" class="border rounded form-control" id="kyc-back"
+                                            accept="image/*">
+                                    </div>
+                                </div>
+
+                                <button type="submit" name="upload-kyc-btn" class="btn btn-success"> Upload KYC </button>
+                            </form>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
 
                 <!-- change password -->
-                <div class="<?php if ($tab != "password-change")
-                    echo "d-none"; ?> d-flex flex-column gap-3 password-change-content">
-                    <!-- top-section -->
-                    <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
-                        <!-- heading -->
-                        <div class="d-flex flex-row align-items-center gap-2 heading">
-                            <i class="fa fa-edit fs-4 text-secondary"></i>
-                            <h4 class="f-reset"> Password Change </h4>
+                <?php
+                if ($tab == "password-change") {
+                    ?>
+                    <div class="d-flex flex-column gap-3 password-change-content">
+                        <!-- top-section -->
+                        <div class="d-flex flex-row align-items-center justify-content-between mb-2 gap-3 top-section">
+                            <!-- heading -->
+                            <div class="d-flex flex-row align-items-center gap-2 heading">
+                                <i class="fa fa-edit fs-4 text-secondary"></i>
+                                <h4 class="f-reset"> Password Change </h4>
+                            </div>
+
+                            <!-- form reset btn -->
+                            <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/'"> Cancel
+                            </button>
                         </div>
 
-                        <!-- form reset btn -->
-                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/profile/'"> Cancel
-                        </button>
+                        <!-- change password form -->
+                        <form method="POST" action="/bookrack/app/password-change.php"
+                            class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
+                            <!-- old password -->
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
+                                if (isset($_SESSION['temp-old-password'])) {
+                                    echo $_SESSION['temp-old-password'];
+                                }
+                                unset($_SESSION['temp-old-password']);
+                                ?>" placeholder="" minlength="8" required>
+                                <label for="old-password"> Old password </label>
+                            </div>
+
+                            <!-- new password -->
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
+                                if (isset($_SESSION['temp-new-password'])) {
+                                    echo $_SESSION['temp-new-password'];
+                                }
+                                unset($_SESSION['temp-new-password']);
+                                ?>" placeholder="" minlength="8" required>
+                                <label for="new-password"> New password </label>
+                            </div>
+
+                            <!-- new password confirmation -->
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="new-password-confirmation" value="<?php
+                                if (isset($_SESSION['temp-new-password-confirmation'])) {
+                                    echo $_SESSION['temp-new-password-confirmation'];
+                                }
+                                unset($_SESSION['temp-new-password-confirmation']);
+                                ?>" name="new-password-confirmation" placeholder="" minlength="8" required>
+                                <label for="new-password-confirmation"> New password confirmation </label>
+                            </div>
+
+                            <div class="d-flex flex-row align-items-center gap-2 pointer show-hide-password-div"
+                                id="show-hide-password">
+                                <i class="fa fa-eye"></i>
+                                <p class="m-0" id="show-hide-password-label"> Show password </p>
+                            </div>
+
+                            <button type="submit" class="btn" name="update-password-btn" id="update-password-btn"> Update
+                                Password </button>
+                        </form>
                     </div>
+                    <?php
+                }
+                ?>
 
-                    <!-- change password form -->
-                    <form method="POST" action="/bookrack/app/password-change.php"
-                        class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
-                        <!-- old password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
-                            if (isset($_SESSION['temp-old-password'])) {
-                                echo $_SESSION['temp-old-password'];
-                            }
-                            unset($_SESSION['temp-old-password']);
-                            ?>" placeholder="" minlength="8" required>
-                            <label for="old-password"> Old password </label>
-                        </div>
-
-                        <!-- new password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
-                            if (isset($_SESSION['temp-new-password'])) {
-                                echo $_SESSION['temp-new-password'];
-                            }
-                            unset($_SESSION['temp-new-password']);
-                            ?>" placeholder="" minlength="8" required>
-                            <label for="new-password"> New password </label>
-                        </div>
-
-                        <!-- new password confirmation -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="new-password-confirmation" value="<?php
-                            if (isset($_SESSION['temp-new-password-confirmation'])) {
-                                echo $_SESSION['temp-new-password-confirmation'];
-                            }
-                            unset($_SESSION['temp-new-password-confirmation']);
-                            ?>" name="new-password-confirmation" placeholder="" minlength="8" required>
-                            <label for="new-password-confirmation"> New password confirmation </label>
-                        </div>
-
-                        <div class="d-flex flex-row align-items-center gap-2 pointer show-hide-password-div"
-                            id="show-hide-password">
-                            <i class="fa fa-eye"></i>
-                            <p class="m-0" id="show-hide-password-label"> Show password </p>
-                        </div>
-
-                        <button type="submit" class="btn" name="update-password-btn" id="update-password-btn"> Update
-                            Password </button>
-                    </form>
-                </div>
 
                 <!-- my books -->
-                <div class="<?php if ($tab != "my-books")
-                    echo "d-none"; ?> d-flex flex-column gap-4 my-book-content">
-                    <!-- my book filter -->
-                    <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
-                        <div class="book-status active-book-status" id="my-book-status-all">
-                            <p> All Books </p>
+                <?php if ($tab == "my-books") {
+                    ?>
+                    <div class="d-flex flex-column gap-4 my-book-content">
+                        <!-- my book filter -->
+                        <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
+                            <div class="book-status active-book-status" id="my-book-status-all">
+                                <p> All Books </p>
+                            </div>
+
+                            <div class="book-status inactive-book-status" id="my-book-status-active">
+                                <p> Active Books </p>
+                            </div>
+
+                            <div class="book-status inactive-book-status" id="my-book-status-inactive">
+                                <p> Inactive Books </p>
+                            </div>
+
+                            <div class="book-status inactive-book-status" id="my-book-status-sold-out">
+                                <p> Sold Out </p>
+                            </div>
                         </div>
 
-                        <div class="book-status inactive-book-status" id="my-book-status-active">
-                            <p> Active Books </p>
+                        <!-- my books container-->
+                        <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
+                            <!-- book container :: dummy data 1 -->
+                            <div class="book-container my-book my-book-active">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                </div>
+
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title">
+                                        <p class="book-title"> To Kill a Mockingbird </p>
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </div>
+
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> Renting </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> Set in the American South during the 1930s, this
+                                            classic
+                                            novel explores themes of racial injustice and moral growth through the eyes of
+                                            Scout
+                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price"> NRs. 85 </p>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- book container :: dummy data 2 -->
+                            <div class="book-container my-book my-book-inactive">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="/bookrack/assets/images/cover-2.png" alt="">
+                                </div>
+
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title">
+                                        <p class="book-title"> Don't Look Back </p>
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </div>
+
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> Selling </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> Set in the American South during the 1930s, this
+                                            classic
+                                            novel explores themes of racial injustice and moral growth through the eyes of
+                                            Scout
+                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price"> NRs. 170 </p>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- book container :: dummy data 3 -->
+                            <div class="book-container my-book my-book-sold-out">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="/bookrack/assets/images/cover-3.jpg" alt="">
+                                </div>
+
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title">
+                                        <p class="book-title"> Intuition </p>
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </div>
+
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> Selling </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> Set in the American South during the 1930s, this
+                                            classic
+                                            novel explores themes of racial injustice and moral growth through the eyes of
+                                            Scout
+                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price"> NRs. 170 </p>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="book-status inactive-book-status" id="my-book-status-inactive">
-                            <p> Inactive Books </p>
-                        </div>
-
-                        <div class="book-status inactive-book-status" id="my-book-status-sold-out">
-                            <p> Sold Out </p>
+                        <!-- add book -->
+                        <div class="d-flex flex-column justify-content-center add-book-container"
+                            onclick="window.location.href='/bookrack/add-book'">
+                            <div class="add-book">
+                                <i class="fa fa-plus text-light"></i>
+                            </div>
+                            <p class="f-reset text-dark"> Add New Book </p>
                         </div>
                     </div>
 
-                    <!-- my books container-->
-                    <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                        <!-- book container :: dummy data 1 -->
-                        <div class="book-container my-book my-book-active">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                            </div>
+                    <?php
+                }
+                ?>
 
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> To Kill a Mockingbird </p>
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </div>
-
-                                <!-- book purpose -->
-                                <p class="book-purpose"> Renting </p>
-
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this
-                                        classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of
-                                        Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> NRs. 85 </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- book container :: dummy data 2 -->
-                        <div class="book-container my-book my-book-inactive">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="/bookrack/assets/images/cover-2.png" alt="">
-                            </div>
-
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> Don't Look Back </p>
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </div>
-
-                                <!-- book purpose -->
-                                <p class="book-purpose"> Selling </p>
-
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this
-                                        classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of
-                                        Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> NRs. 170 </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- book container :: dummy data 3 -->
-                        <div class="book-container my-book my-book-sold-out">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="/bookrack/assets/images/cover-3.jpg" alt="">
-                            </div>
-
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> Intuition </p>
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </div>
-
-                                <!-- book purpose -->
-                                <p class="book-purpose"> Selling </p>
-
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this
-                                        classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of
-                                        Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> NRs. 170 </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- add book -->
-                    <div class="d-flex flex-column justify-content-center add-book-container"
-                        onclick="window.location.href='/bookrack/add-book'">
-                        <div class="add-book">
-                            <i class="fa fa-plus text-light"></i>
-                        </div>
-                        <p class="f-reset text-dark"> Add New Book </p>
-                    </div>
-                </div>
 
                 <!-- wishlist -->
-                <!-- my books container-->
-                <div class="<?php if ($tab != "wishlist")
-                    echo "d-none"; ?>  d-flex flex-column gap-4 my-book-content wishlist-content">
-                    <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
-                        <!-- book container :: dummy data 1 -->
-                        <div class="book-container">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                <?php
+                if ($tab == "wishlist") {
+                    ?>
+                    <!-- my books container-->
+                    <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
+                        <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
+                            <!-- book container :: dummy data 1 -->
+                            <div class="book-container">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                </div>
+
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title">
+                                        <p class="book-title"> To Kill a Mockingbird </p>
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </div>
+
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> Renting </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> Set in the American South during the 1930s, this
+                                            classic
+                                            novel explores themes of racial injustice and moral growth through the eyes of
+                                            Scout
+                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price"> NRs. 85 </p>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    </button>
+                                </div>
                             </div>
 
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> To Kill a Mockingbird </p>
-                                    <i class="fa-regular fa-bookmark"></i>
+                            <!-- book container :: dummy data 2 -->
+                            <div class="book-container">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="/bookrack/assets/images/cover-2.png" alt="">
                                 </div>
 
-                                <!-- book purpose -->
-                                <p class="book-purpose"> Renting </p>
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title">
+                                        <p class="book-title"> Don't Look Back </p>
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </div>
 
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this
-                                        classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of
-                                        Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> Selling </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> Set in the American South during the 1930s, this
+                                            classic
+                                            novel explores themes of racial injustice and moral growth through the eyes of
+                                            Scout
+                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price"> NRs. 170 </p>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    </button>
                                 </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> NRs. 85 </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                </button>
                             </div>
                         </div>
 
-                        <!-- book container :: dummy data 2 -->
-                        <div class="book-container">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="/bookrack/assets/images/cover-2.png" alt="">
-                            </div>
-
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> Don't Look Back </p>
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </div>
-
-                                <!-- book purpose -->
-                                <p class="book-purpose"> Selling </p>
-
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this
-                                        classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of
-                                        Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> NRs. 170 </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                </button>
-                            </div>
+                        <div class="empty-div">
+                            <img src="/bookrack/assets/icons/empty.svg" alt="">
+                            <p class="empty-message"> Your wishlist is empty! </p>
                         </div>
                     </div>
-
-                    <div class="empty-div">
-                        <img src="/bookrack/assets/icons/empty.svg" alt="">
-                        <p class="empty-message"> Your wishlist is empty! </p>
-                    </div>
-                </div>
+                    <?php
+                }
+                ?>
 
                 <!-- requested books -->
-                <div class="<?php if ($tab != "requested-books")
-                    echo "d-none"; ?> d-flex flex-column gap-4 requested-book-content">
-                    <!-- requested books filter -->
-                    <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="book-request-purpose" id="request-purpose"
-                            aria-label="book request purpose">
-                            <option value="requested-books-purpose-all"> All purpose </option>
-                            <option value="requested-books-purpose-rent"> Rent </option>
-                            <option value="requested-books-purpose-buy-sell"> Buy/Sell </option>
-                        </select>
+                <?php
+                if ($tab == "requested-books") {
+                    ?>
+                    <div class="d-flex flex-column gap-4 requested-book-content">
+                        <!-- requested books filter -->
+                        <div class="d-flex flex-row gap-2 requested-book-filter">
+                            <select class="form-select" name="book-request-purpose" id="request-purpose"
+                                aria-label="book request purpose">
+                                <option value="requested-books-purpose-all"> All purpose </option>
+                                <option value="requested-books-purpose-rent"> Rent </option>
+                                <option value="requested-books-purpose-buy-sell"> Buy/Sell </option>
+                            </select>
 
-                        <select class="form-select" name="book-request-state" id="request-state"
-                            aria-label="book request purpose">
-                            <option value="requested-books-state-all"> All State </option>
-                            <option value="requested-books-state-pending"> Pending </option>
-                            <option value="requested-books-state-completed"> Completed </option>
-                        </select>
+                            <select class="form-select" name="book-request-state" id="request-state"
+                                aria-label="book request purpose">
+                                <option value="requested-books-state-all"> All State </option>
+                                <option value="requested-books-state-pending"> Pending </option>
+                                <option value="requested-books-state-completed"> Completed </option>
+                            </select>
+                        </div>
+
+                        <div class="requested-book-table-container">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> SN </th>
+                                        <th scope="col"> Title </th>
+                                        <th scope="col"> Price </th>
+                                        <th scope="col"> Purpose </th>
+                                        <th scope="col"> Starting Date </th>
+                                        <th scope="col"> Ending Date </th>
+                                        <th scope="col"> State </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        class="requested-book-tr requested-book-purpose-rent-tr requested-book-state-pending-tr">
+                                        <th scope="row">1</th>
+                                        <td> The Great Gatsby </td>
+                                        <td> NRs. 120 </td>
+                                        <td> Rent </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> Pending </td>
+                                    </tr>
+
+                                    <tr
+                                        class="requested-book-tr requested-book-purpose-buy-sell-tr requested-book-state-completed-tr">
+                                        <th scope="row">2</th>
+                                        <td> Harry Porter and the Socerer's Stonr </td>
+                                        <td> NRs. 75 </td>
+                                        <td> Sell </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> Completed </td>
+                                    </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr style="text-align: center;">
+                                        <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
+                                            yet! </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
+                    <?php
+                }
+                ?>
 
-                    <div class="requested-book-table-container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col"> SN </th>
-                                    <th scope="col"> Title </th>
-                                    <th scope="col"> Price </th>
-                                    <th scope="col"> Purpose </th>
-                                    <th scope="col"> Starting Date </th>
-                                    <th scope="col"> Ending Date </th>
-                                    <th scope="col"> State </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    class="requested-book-tr requested-book-purpose-rent-tr requested-book-state-pending-tr">
-                                    <th scope="row">1</th>
-                                    <td> The Great Gatsby </td>
-                                    <td> NRs. 120 </td>
-                                    <td> Rent </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> Pending </td>
-                                </tr>
-
-                                <tr
-                                    class="requested-book-tr requested-book-purpose-buy-sell-tr requested-book-state-completed-tr">
-                                    <th scope="row">2</th>
-                                    <td> Harry Porter and the Socerer's Stonr </td>
-                                    <td> NRs. 75 </td>
-                                    <td> Sell </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> Completed </td>
-                                </tr>
-                            </tbody>
-
-                            <tfoot>
-                                <tr style="text-align: center;">
-                                    <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
-                                        yet! </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
 
                 <!-- earning -->
-                <div class="<?php if ($tab != "earning")
-                    echo "d-none"; ?> d-flex flex-column gap-4 requested-book-content earning-content">
-                    <!-- earning filter -->
-                    <div class="d-flex flex-row gap-2 requested-book-filter">
-                        <select class="form-select" name="earning-purpose" id="earning-purpose"
-                            aria-label="earning purpose select">
-                            <option value="earning-purpose-all" selected> All Purpose </option>
-                            <option value="earning-purpose-rent"> Rent </option>
-                            <option value="earning-purpose-buy-sell"> Buy/ Sell </option>
-                        </select>
+                <?php
+                if ($tab == "earning") {
+                    ?>
+                    <div class="d-flex flex-column gap-4 requested-book-content earning-content">
+                        <!-- earning filter -->
+                        <div class="d-flex flex-row gap-2 requested-book-filter">
+                            <select class="form-select" name="earning-purpose" id="earning-purpose"
+                                aria-label="earning purpose select">
+                                <option value="earning-purpose-all" selected> All Purpose </option>
+                                <option value="earning-purpose-rent"> Rent </option>
+                                <option value="earning-purpose-buy-sell"> Buy/ Sell </option>
+                            </select>
 
-                        <select class="form-select" name="earning-state" name="earning-state" id="earning-state"
-                            aria-label="earning state select">
-                            <option value="earning-state-all" selected> All state </option>
-                            <option value="earning-state-active"> Active </option>
-                            <option value="earning-state-completed"> Completed </option>
-                        </select>
+                            <select class="form-select" name="earning-state" name="earning-state" id="earning-state"
+                                aria-label="earning state select">
+                                <option value="earning-state-all" selected> All state </option>
+                                <option value="earning-state-active"> Active </option>
+                                <option value="earning-state-completed"> Completed </option>
+                            </select>
+                        </div>
+
+                        <div class="requested-book-table-container">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> SN </th>
+                                        <th scope="col"> Title </th>
+                                        <th scope="col"> Price </th>
+                                        <th scope="col"> Purpose </th>
+                                        <th scope="col"> Starting Date </th>
+                                        <th scope="col"> Ending Date </th>
+                                        <th scope="col"> State </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
+                                        <th scope="row">1</th>
+                                        <td> The Great Gatsby </td>
+                                        <td> NRs. 120 </td>
+                                        <td> Rent </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> Active </td>
+                                    </tr>
+
+                                    <tr class="earning-tr earning-purpose-buy-sell-tr earning-state-completed-tr">
+                                        <th scope="row">2</th>
+                                        <td> Harry Porter and the Socerer's Stonr </td>
+                                        <td> NRs. 75 </td>
+                                        <td> Sell </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> 2024/02/05 </td>
+                                        <td> Completed </td>
+                                    </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr style="text-align: center;">
+                                        <td colspan="7" style="color: rgb(194, 16, 16);"> No earning yet! </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
-
-                    <div class="requested-book-table-container">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col"> SN </th>
-                                    <th scope="col"> Title </th>
-                                    <th scope="col"> Price </th>
-                                    <th scope="col"> Purpose </th>
-                                    <th scope="col"> Starting Date </th>
-                                    <th scope="col"> Ending Date </th>
-                                    <th scope="col"> State </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
-                                    <th scope="row">1</th>
-                                    <td> The Great Gatsby </td>
-                                    <td> NRs. 120 </td>
-                                    <td> Rent </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> Active </td>
-                                </tr>
-
-                                <tr class="earning-tr earning-purpose-buy-sell-tr earning-state-completed-tr">
-                                    <th scope="row">2</th>
-                                    <td> Harry Porter and the Socerer's Stonr </td>
-                                    <td> NRs. 75 </td>
-                                    <td> Sell </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> 2024/02/05 </td>
-                                    <td> Completed </td>
-                                </tr>
-                            </tbody>
-
-                            <tfoot>
-                                <tr style="text-align: center;">
-                                    <td colspan="7" style="color: rgb(194, 16, 16);"> No earning yet! </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
+                    <?php
+                }
+                ?>
             </section>
         </article>
     </main>
+
+    <?php
+    // unset session status & status
+    unset($_SESSION['status']);
+    unset($_SESSION['status-message']);
+    ?>
 
     <!-- footer -->
 

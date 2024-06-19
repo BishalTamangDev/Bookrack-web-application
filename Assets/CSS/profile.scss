@@ -18,6 +18,14 @@
                     overflow: hidden;
                     border-radius: 50%;
                 }
+
+                .name-status{
+                    .status-div{
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                    }
+                }
             }
 
             .profile-bottom {
@@ -85,6 +93,7 @@
         .contents{
             // change password content
             .password-change-content{
+                background-color: orange;
                 .password-change-form{
                     .btn{
                         color: white;
@@ -98,17 +107,6 @@
             // edit profile
             .edit-profile-content{
                 .edit-profile-form{
-                        .password-div{
-                            width: fit-content;
-                            .change-password{
-                                width: fit-content;
-                                font-size: 0.95rem;
-                                width: fit-content;
-                                padding: 6px 1rem;
-                                border-radius: 6px;
-                            }
-                        }
-                    
                     .dob-gender{
                         .dob-div{
                             input{
@@ -123,6 +121,15 @@
                         width: fit-content;
                         padding: 6px 3rem;
                         background-color: var(--brand-color);
+                    }
+                }
+            }
+
+            // kyc
+            .kyc-section{
+                .kyc-form{
+                    .btn{
+                        width: fit-content;
                     }
                 }
             }
@@ -180,6 +187,7 @@
                 }
             }
             
+            // requested books
             .requested-book-content{
                 .requested-book-filter{
                     width: fit-content;
