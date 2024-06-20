@@ -632,6 +632,17 @@ if (!$userFound) {
                         <!-- change password form -->
                         <form method="POST" action="/bookrack/app/password-change.php"
                             class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
+                            <?php
+                                // status message
+                                if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
+                                    ?>
+                                    <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
+                                        <?= $_SESSION['status-message'] ?>
+                                    </p>
+                                    <?php
+                                }
+                                ?>
+                                
                             <!-- old password -->
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="old-password" name="old-password" value="<?php

@@ -6,20 +6,36 @@ class User
 {
     // user properties
     private $userId;
-    private $firstName;
-    private $lastName;
+
+    private $name = [
+        "first" => "",
+        "last" => "",
+    ];
+    // private $firstName;
+    // private $lastName;
     private $email;
     private $password;
     private $contact;
     private $dob;
     private $gender;
-    private $addressDistrict;
-    private $addressLocation;
-    private $profilePicture;
-    private $documentType;
 
-    private $kycFront;
-    private $kycBack;
+    private $address = [
+        "district" => "",
+        "location" => ""
+    ];
+    // private $addressDistrict;
+    // private $addressLocation;
+    private $profilePicture;
+
+    private $kyc = [
+        "document_type" => "",
+        "front" => "",
+        "back" => ""
+    ];
+    // private $documentType;
+
+    // private $kycFront;
+    // private $kycBack;
     private $joinedDate;
     private $accountStatus;
 
@@ -30,19 +46,32 @@ class User
     {
 
         $this->userId = "";
-        $this->firstName = "";
-        $this->lastName = "";
+        $this->name = [
+            "first" => "",
+            "last" => ""
+        ];
+        // $this->firstName = "";
+        // $this->lastName = "";
         $this->email = "";
         $this->password = "";
         $this->contact = "";
         $this->dob = "";
         $this->gender = "";
-        $this->addressDistrict = "";
-        $this->addressLocation = "";
+        $this->address = [
+            "district" => "",
+            "location" => "",
+        ];
+        // $this->addressDistrict = "";
+        // $this->addressLocation = "";
         $this->profilePicture = "";
-        $this->documentType = "";
-        $this->kycFront = "";
-        $this->kycBack = "";
+        $this->kyc = [
+            "document_type" => "",
+            "front" => "",
+            "back" => ""
+        ];
+        // $this->documentType = "";
+        // $this->kycFront = "";
+        // $this->kycBack = "";
         $this->joinedDate = "";
         $this->accountStatus = "";
     }
@@ -50,19 +79,32 @@ class User
     public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $addressDistrict, $addressLocation, $profilePicture, $documentType, $kycFront, $kycBack, $joinedDate, $accountStatus)
     {
         $this->userId = $userId;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->name = [
+            "first" => $firstName,
+            "last" => $lastName,
+        ];
+        // $this->firstName = $firstName;
+        // $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
         $this->contact = $contact;
         $this->dob = $dob;
         $this->gender = $gender;
-        $this->addressDistrict = $addressDistrict;
-        $this->addressLocation = $addressLocation;
+        $this->address = [
+            "district" => $addressDistrict,
+            "location" => $addressLocation,
+        ];
+        // $this->addressDistrict = $addressDistrict;
+        // $this->addressLocation = $addressLocation;
         $this->profilePicture = $profilePicture;
-        $this->documentType = $documentType;
-        $this->kycFront = $kycFront;
-        $this->kycBack = $kycBack;
+        $this->kyc = [
+            "document_type" => $documentType,
+            "front" => $kycFront,
+            "back" => $kycBack
+        ];
+        // $this->documentType = $documentType;
+        // $this->kycFront = $kycFront;
+        // $this->kycBack = $kycBack;
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
     }
@@ -76,12 +118,12 @@ class User
 
     public function getFirstName()
     {
-        return $this->firstName;
+        return $this->name["first"];
     }
 
     public function getLastName()
     {
-        return $this->lastName;
+        return $this->name["last"];
     }
 
     public function getEmail()
@@ -116,12 +158,12 @@ class User
 
     public function getAddressDistrict()
     {
-        return $this->addressDistrict;
+        return $this->address["district"];
     }
 
     public function getAddressLocation()
     {
-        return $this->addressLocation;
+        return $this->address["location"];
     }
 
     public function getAccountStatus()
@@ -136,17 +178,17 @@ class User
 
     public function getDocumentType()
     {
-        return $this->documentType;
+        return $this->kyc["document_type"];
     }
 
     public function getKycFront()
     {
-        return $this->kycFront;
+        return $this->kyc["front"];
     }
 
     public function getKycBack()
     {
-        return $this->kycBack;
+        return $this->kyc["back"];
     }
 
 
@@ -159,12 +201,12 @@ class User
 
     public function setFirstName($firstName)
     {
-        $this->firstName = $firstName;
+        $this->name["first"] = $firstName;
     }
 
     public function setLastName($lastName)
     {
-        $this->lastName = $lastName;
+        $this->name["last"] = $lastName;
     }
 
     public function setEmail($email)
@@ -199,12 +241,12 @@ class User
 
     public function setAddressDistrict($addressDistrict)
     {
-        $this->addressDistrict = $addressDistrict;
+        $this->address["district"] = $addressDistrict;
     }
 
     public function setAddressLocation($addressLocation)
     {
-        $this->addressLocation = $addressLocation;
+        $this->address["location"] = $addressLocation;
     }
 
     public function setAccountStatus($accountStatus)
@@ -219,17 +261,17 @@ class User
 
     public function setDocumentType($documentType)
     {
-        $this->documentType = $documentType;
+        $this->kyc["document_type"] = $documentType;
     }
 
     public function setKycFront($kycFront)
     {
-        $this->kycFront = $kycFront;
+        $this->kyc["front"] = $kycFront;
     }
 
     public function setKycBack($kycBack)
     {
-        $this->kycBack = $kycBack;
+        $this->kyc["back"] = $kycBack;
     }
 
 
@@ -243,11 +285,11 @@ class User
                 'first' => $this->getFirstName(),
                 'last' => $this->getLastName(),
             ],
+            'dob' => $this->getDob(),
+            'gender' => $this->getGender(),
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'contact' => $this->getContact(),
-            'dob' => $this->getDob(),
-            'gender' => $this->getGender(),
             'address' => [
                 'district' => $this->getAddressDistrict(),
                 'location' => $this->getAddressLocation()

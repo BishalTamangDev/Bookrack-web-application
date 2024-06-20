@@ -27,7 +27,7 @@ if(isset($_POST['update-password-btn'])){
         $tempUser = new User();
 
         // fetch user details from database
-        $tempUser->fetchUserDetails($_SESSION['bookrack-user-id']);
+        $tempUser->fetch($_SESSION['bookrack-user-id']);
 
         // check if old password matched the existing password
         $status = password_verify($oldPassword, $tempUser->getPassword());
