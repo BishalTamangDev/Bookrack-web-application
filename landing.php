@@ -7,6 +7,8 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if(isset($_SESSION['bookrack-user-id'])){
     header("Location: /bookrack/home");
+}elseif(isset($_SESSION['bookrack-admin-id'])){
+    header("Location: /bookrack/admin/dashboard");
 }
 ?>
 

@@ -68,14 +68,12 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                     <!-- sign up form -->
                     <form method="POST" action="/bookrack/admin/app/admin-authentication.php"
                         class="d-flex flex-column signin-form" id="admin-signup-form">
-                        <!-- status message section -->
+                        <!-- session status and status message -->
                         <?php
-                        if(isset($_SESSION['admin-status'])){
+                        if(isset($_SESSION['status'])){
                             ?>
-                            <p class="f-reset text-danger mb-3"> <?=$_SESSION['admin-status-message']?> </p>
+                            <p class="m-0 <?=$_SESSION['status']? "text-success" : "text-danger"?>"> <?=$_SESSION['status-message']?> </p>
                             <?php
-                            unset($_SESSION['admin-status']);
-                            unset($_SESSION['admin-status-message']);
                         }
                         ?>
 
@@ -85,7 +83,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="admin-email" class="form-control" id="admin-email"
+                                <input type="email" name="email" class="form-control" id="admin-email"
                                     placeholder="someone@gmail.com" aria-label="admin email address"
                                     aria-describedby="admin email address" required>
                                 <label for="admin-email">Email address</label>
@@ -98,7 +96,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="admin-password" class="form-control" id="admin-password"
+                                <input type="password" name="password" class="form-control" id="admin-password"
                                     placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="admin-password"> Password </label>
@@ -115,6 +113,12 @@ if (isset($_SESSION['bookrack-admin-id'])) {
             </div>
         </div>
     </main>
+
+    <!-- unset session status and message -->
+    <?php
+    unset($_SESSION['status']);
+    unset($_SESSION['status-message']);
+    ?>
 
     <!-- jquery -->
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>

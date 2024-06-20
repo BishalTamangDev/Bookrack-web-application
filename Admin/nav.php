@@ -107,7 +107,7 @@ if(!isset($_SESSION['bookrack-admin-id'])){
                         <span class="d-none d-lg-block"> Rent History </span>
                     </li>
 
-                    <!-- logout -->
+                    <!-- signout -->
                     <li class="aside-menu-li" onclick="window.location.href='/bookrack/admin/app/admin-signout.php'">
                         <i class="fa-solid fa-right-from-bracket nav-icon"></i>
                         <span class="d-none d-lg-block"> Sign out </span>

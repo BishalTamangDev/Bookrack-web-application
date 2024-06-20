@@ -5,15 +5,25 @@ require_once __DIR__ . '/../../../bookrack/app/connection.php';
 class Admin
 {
     private $adminId;
-    private $firstName;
-    private $lastName;
+
+    private $name = [
+        "first" => "",
+        "last" => ""
+    ];
+
     private $gender;
+    private $dob;
     private $email;
     private $password;
     private $contact;
     private $profilePicture;
-    private $kycFront;
-    private $kycBack;
+
+    private $kyc = [
+        "docyment_type" => "",
+        "front" => "",
+        "back" => "",
+    ];
+
     private $joinedDate;
     private $accountStatus;
     
@@ -22,32 +32,45 @@ class Admin
     public function __construct()
     {
         $this->adminId = 0;
-        $this->firstName = "";
-        $this->lastName = "";
+        $this->name = [
+            "first" => "",
+            "last" => ""
+        ];
         $this->gender = "";
+        $this->dob = "";
         $this->email = "";
         $this->password = "";
         $this->contact = "";
         $this->profilePicture = "";
-        $this->kycFront = "";
-        $this->kycBack = "";
+
+        $this->kyc = [
+            "document_type" => "",
+            "front" => "",
+            "back" => ""
+        ];
         $this->joinedDate = "";
         $this->accountStatus = "";
     }
 
 
-    public function setAdmin($adminId, $firstName, $lastName, $gender, $email, $password, $contact, $profilePicture, $kycFront, $kycBack, $joinedDate, $accountStatus)
+    public function setAdmin($adminId, $firstName, $lastName, $gender, $dob, $email, $password, $contact, $profilePicture, $documentType, $kycFront, $kycBack, $joinedDate, $accountStatus)
     {
         $this->adminId = $adminId;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->name = [
+            "first" => $firstName,
+            "last" => $lastName,
+        ];
         $this->gender = $gender;
+        $this->dob = $dob;
         $this->email = $email;
         $this->password = $password;
         $this->contact = $contact;
         $this->profilePicture = $profilePicture;
-        $this->kycFront = $kycFront;
-        $this->kycBack = $kycBack;
+        $this->kyc = [
+            "document_type" => $documentType,
+            "front" => $kycFront,
+            "back" => $kycBack
+        ];
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
     }
@@ -61,17 +84,22 @@ class Admin
 
     public function getFirstName()
     {
-        return $this->firstName;
+        return $this->name["first"];
     }
 
     public function getLastName()
     {
-        return $this->lastName;
+        return $this->name["last"];
     }
 
     public function getGender()
     {
         return $this->gender;
+    }
+
+    public function getDob()
+    {
+        return $this->dob;
     }
 
     public function getEmail()
@@ -94,12 +122,16 @@ class Admin
         return $this->profilePicture;
     }
 
+    public function getKycDocumentType(){
+        return $this->kyc['document_type'];
+    }
+
     public function getKycFront(){
-        return $this->kycFront;
+        return $this->kyc['front'];
     }
 
     public function getKycBack(){
-        return $this->kycBack;
+        return $this->kyc['back'];
     }
 
     public function getAccountStatus()
@@ -121,16 +153,20 @@ class Admin
 
     public function setFirstName($firstName)
     {
-        $this->firstName = $firstName;
+        $this->name["first"] = $firstName;
     }
 
     public function setLastName($lastName)
     {
-        $this->lastName = $lastName;
+        $this->name["last"] = $lastName;
     }
 
     public function setGender($gender){
         $this->gender = $gender;
+    }
+    
+    public function setDob($dob){
+        $this->dob = $dob;
     }
 
     public function setEmail($email)
@@ -153,14 +189,18 @@ class Admin
         $this->profilePicture = $profilePicture;
     }
 
+    public function setKycDocumentType($kycDocumentType)
+    {
+        $this->kyc["document_type"] = $kycDocumentType;
+    }
     public function setKycFront($kycFront)
     {
-        $this->kycFront = $kycFront;
+        $this->kyc["front"] = $kycFront;
     }
 
     public function setKycBack($kycBack)
     {
-        $this->kycBack = $kycBack;
+        $this->kyc["back"] = $kycBack;
     }
 
     public function setAccountStatus($accountStatus)
@@ -179,21 +219,23 @@ class Admin
         global $database;
 
         $adminData = [
-            'account_status' => 'pending',
-            'contact' => $this->getContact(),
-            'email' => $this->getEmail(),
-            'gender' => $this->getGender(),
-            'joined_date' => date("Y:m:d H:i:s"),
-            'kyc' => [
-                'front' => $this->getKycFront(),
-                'back' => $this->getKycBack(),
-            ],
             'name' => [
                 'first' => $this->getFirstName(),
                 'last' => $this->getLastName(),
             ],
+            'gender' => $this->getGender(),
+            'dob' => $this->getDob(),
+            'email' => $this->getEmail(),
             'password' => $this->getPassword(),
+            'contact' => $this->getContact(),
             'profile_picture' => $this->getProfilePicture(),
+            'kyc' => [
+                'document_type' => $this->getKycDocumentType(),
+                'front' => $this->getKycFront(),
+                'back' => $this->getKycBack(),
+            ],
+            'joined_date' => date("Y:m:d H:i:s"),
+            'account_status' => 'pending',
         ];
 
         $status = $database->getReference("admins")->push($adminData);
@@ -210,7 +252,7 @@ class Admin
         $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setAdmin($adminId, $response['name']['first'], $response['name']['last'], $response['gender'], $response['email'], $response['password'], $response['contact'], $response['profile_picture'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'] , $response['account_status']);
+            $this->setAdmin($adminId, $response['name']['first'], $response['name']['last'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['contact'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'] , $response['account_status']);
             return true;
         } else {
             return false;
