@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- title -->
+    <title> My Profile </title>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/brand/brand-logo.png">
+
+    <!-- font awesome :: cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- bootstrap :: cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- bootstrap css :: local file -->
+    <link rel="stylesheet" href="/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+
+    <!-- css files -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/assets/css/admin/nav.css">
+    <link rel="stylesheet" href="/assets/css/admin/dashboard.css">
+</head>
+
+<body>
+    <!-- aside :: nav -->
+    <aside class="aside"></aside>
+
+    <main class="d-flex flex-column gap-3 main">
+        <!-- heading -->
+        <div class="d-flex flex-row align-items-center justify-content-between heading">
+            <h4 class="fw-bold"> My Profile </h4>
+            <div class="d-flex flex-row gap-3 align-items-center action">
+                <!-- reset -->
+                <abbr title="Reset form">
+                    <a href="/admin/profile.html" class="text-secondary">
+                        <i class="fa fa-undo fs-5"></i>
+                    </a>
+                </abbr>
+
+                <!-- cancel -->
+                <abbr title="Cancel">
+                    <a href="/admin/profile.html" class="text-secondary">
+                        <i class="fa fa-multiply fs-3"></i>
+                    </a>
+                </abbr>
+            </div>
+        </div>
+
+        <!-- alert for account verification -->
+        <div class="alert alert-danger mb-0" role="alert">
+            Your account is not verified yet. Please wait sometime.
+        </div>
+
+        <!-- profile details -->
+        <div class="d-flex flex-column flex-lg-row gap-4 article">
+            <div class="profile w-100">
+                <!-- my profile form -->
+                <form action="" class="d-nones d-flex flex-column gap-3 w-100 my-profile">
+                    <!-- status message section -->
+                    <p class="m-0 text-danger"> Status message appears here... </p>
+
+                    <input type="text" name="admin-id" class="form-control" value="" required>
+
+                    <!-- profile picture -->
+                    <div class="d-flex flex-column gap-3">
+                        <label for="profile-picture"> Change profile picture </label>
+                        <input type="file" name="profile-picture" class="form-control" id="profile-picture">
+                    </div>
+
+                    <!-- name -->
+                    <div class="d-flex flex-column flex-lg-row gap-3">
+                        <!-- first name -->
+                        <div class="d-flex flex-column gap-2 w-100 first-name">
+                            <label for="first-name"> First name </label>
+                            <input type="text" name="first-name" class="form-control" id="first-name" value="" required>
+                        </div>
+
+                        <!-- last name -->
+                        <div class="d-flex flex-column gap-2 w-100 last-name">
+                            <label for="last-name"> Last name </label>
+                            <input type="text" name="last-name" class="form-control" id="last-name" value="" required>
+                        </div>
+                    </div>
+
+                    <!-- dob && gender-->
+                    <div class="d-flex flex-column flex-lg-row gap-3">
+                        <!-- dob -->
+                        <div class="d-flex flex-column gap-2 w-100 first-name">
+                            <label for="dob"> Date of birth </label>
+                            <input type="date" name="dob" class="form-control" id="dob" value="0000-00-00" required>
+                        </div>
+
+                        <!-- gender -->
+                        <div class="d-flex flex-column gap-2 w-100 last-name">
+                            <label for="gender"> Gender </label>
+                            <select name="gender" class="form-select" id="gender" required>
+                                <option value="" selected hidden> Select gender </option>
+                                <option value="0"> Male </option>
+                                <option value="1"> Female </option>
+                                <option value="2"> Others </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- email && contact -->
+                    <div class="d-flex flex-column gap-3">
+                        <!-- email -->
+                        <div class="d-flex flex-column gap-2 w-100 first-name">
+                            <label for="email"> Email </label>
+                            <input type="email" name="email" class="form-control" id="email" value="someone@gmail.com"
+                                disabled>
+                        </div>
+                        <div class="d-flex flex-column gap-2 w-100 last-name">
+                            <label for="contact"> Contact </label>
+                            <input type="text" name="contact" class="form-control" id="contact" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="action">
+                        <button type="submit" name="admin-update-profile-btn" class="btn btn-warning px-5"> Update
+                        </button>
+                    </div>
+                </form>
+
+                <!-- password form -->
+                <form action="" class="d-flex flex-column gap-3 form mt-4" id="password-form">
+                    <!-- heading -->
+                    <h5 class="m-0 fw-bold mb-3 text-secondary"> Change Password </h5>
+
+                    <div class="form-floating">
+                        <input type="password" name="old-password" class="form-control" id="old-password" placeholder="*********" required>
+                        <label for="old-password"> Old password </label>
+                     </div>
+                    
+                     <div class="form-floating">
+                        <input type="password" name="new-password" class="form-control" id="new-password" placeholder="*********" required>
+                        <label for="new-password"> New password </label>
+                      </div>
+
+                      <div class="form-floating">
+                        <input type="password" name="new-password-confirmation" class="form-control" id="new-password-confirmation" placeholder="*********" required>
+                        <label for="new-password-confirmation"> Enter new password again </label>
+                      </div>
+
+                      <div class="d-flex flex-row gap-2 align-items-center pointer" id="password-toggler">
+                            <i class="fa fa-eye"></i>
+                            <p class="m-0"> Show password </p>
+                      </div>
+
+                    <div class="action">
+                        <button type="submit" class="btn btn-warning px-5"> Submit </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- documents -->
+            <div class="d-flex flex-column kyc w-100">
+                <!-- heading -->
+                <h5 class="m-0 fw-bold mb-3 text-secondary"> Documents </h5>
+
+                <!-- alert for uploadingdocuments -->
+                <div class="border-top border-bottom py-2 mb-3">
+                    <p class="m-0 text-danger"> You haven't submitted your document. </p>
+                </div>
+
+                <!-- uploaded documents -->
+                <div class="d-flex flex-column flex-lg-row gap-3 mb-5 kyc-container">
+                    <div class="d-flex flex-column gap-2 front-side">
+                        <label for=""> Front side </label>
+                        <img src="/assets/images/citizenship-front.jpg" alt="">
+                    </div>
+
+                    <div class="d-flex flex-column gap-2 back-side">
+                        <label for=""> Back side </label>
+                        <img src="/assets/images/citizenship-front.jpg" alt="">
+                    </div>
+                </div>
+
+                <form action="" class="d-flex flex-column gap-3 form kyc-form" enctype="multipart/form-data">
+                    <!-- error message -->
+                    <p class="m-0 text-success"> KYC has been submitted. </p>
+
+                    <div class="d-flex flex-column gap-2">
+                        <label for="kyc-front"> Front side </label>
+                        <input type="file" name="kyc-fornt" class="form-control" id="kyc-front" required>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <label for="kyc-back">Back side</label>
+                        <input type="file" name="kyc-back" class="form-control" id="kyc-back" required>
+                    </div>
+
+                    <div class="action">
+                        <button type="submit" name="admin-kyc-btn" class="btn btn-warning px-5"> Sumbit </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- jquery -->
+    <script src="/assets/js/jquery-3.7.1.min.js"> </script>
+
+    <!-- bootstrap js :: cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- bootstrap js :: local file -->
+    <script src="/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+</body>
+
+</html>
