@@ -69,7 +69,7 @@ if (!$userFound) {
             <!-- profile section -->
             <section class="d-flex flex-column p-3 py-4 mb-4 gap-3 profile-section">
                 <!-- profile picture -->
-                <div class="d-flex flex-column gap-2 profile-top">
+                <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
                         if ($profileUser->getProfilePicture() == "") {
@@ -461,14 +461,27 @@ if (!$userFound) {
                         if ($profileUser->getAccountStatus() == "pending") {
                             ?>
                             <hr>
-                            <p class="m-0 text-secondary fst-italic"> Note: You must submit your documents [birth-certificate/
-                                citizenship] in order to use our services. </p>
-                            <hr>
+                            <p class="m-0 text-secondary text-danger fst-italic"> 
+                            <?php
+                            if($profileUser->getDocumentType() == ""){
+                                echo " You haven't submitted your kyc document yet. Submit now in order to use our services.";
+                            }else{
+                                echo "Your documents are on hold to be verified.";
+                            }
+                            ?>
+                            </p>
                             <?php
                         }
                         ?>
+                        <hr>
 
-                        <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
+                        <?php
+                        if ($profileUser->getAccountStatus() == "verified") {
+                        ?>
+                            <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
+                        <?php
+                        }
+                        ?>
 
                         <?php
                         if (isset($_SESSION['status'])) {
@@ -487,44 +500,26 @@ if (!$userFound) {
                         ?>
 
                         <!-- existing kyc documents -->
-                        <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
-                            <p class="m-0 fs-5"> Document type : <?= getPascalCaseString($profileUser->getDocumentType()) ?>
-                            </p>
+                        <?php
+                        if($profileUser->getAccountStatus() == "verified" || $profileUser->getDocumentType() != ""){
+                            ?>
+                            <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
+                                <p class="m-0 fs-5"> Document type : <?=getPascalCaseString($profileUser->getDocumentType())?> </p>
 
-                            <div class="d-flex flex-row gap-3 documents">
-                                <div class="w-25 d-flex flex-column gap-1 document">
-                                    <?php
-                                    if ($profileUser->getDocumentType() == "citizenship") {
-                                        ?>
-                                        <p class="m-0"> Front side </p>
-                                        <?php
-                                    }
-                                    ?>
-                                    <?php
-                                    if ($profileUser->getKycFrontUrl() != "blank") {
-                                        ?>
-                                        <img src="<?= $profileUser->getKycFrontUrl() ?>" alt="kyc front picture">
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <div class="p-2 px-3 border">
-                                            <p class="small m-0 text-danger"> Not uploaded yet. </p>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-
-                                <!-- hide back side if the submitted document is birth certificate -->
-                                <?php
-                                if ($profileUser->getDocumentType() == "citizenship") {
-                                    ?>
+                                <div class="d-flex flex-row gap-4 documents">
+                                    <!-- kyc front side -->
                                     <div class="w-25 d-flex flex-column gap-1 document">
-                                        <p class="m-0"> Back side </p>
                                         <?php
-                                        if ($profileUser->getKycBackUrl() != "blank") {
+                                        if ($profileUser->getDocumentType() == "citizenship") {
                                             ?>
-                                            <img src="<?= $profileUser->getKycBackUrl() ?>" alt="kyc front picture">
+                                            <p class="m-0"> Front side </p>
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php
+                                        if ($profileUser->getKycFrontUrl() != "blank") {
+                                            ?>
+                                            <img src="<?= $profileUser->getKycFrontUrl() ?>" alt="kyc front picture">
                                             <?php
                                         } else {
                                             ?>
@@ -535,18 +530,48 @@ if (!$userFound) {
                                         }
                                         ?>
                                     </div>
+
+                                    <!-- hide back side if the submitted document is birth certificate -->
                                     <?php
-                                }
-                                ?>
+                                    if ($profileUser->getDocumentType() == "citizenship") {
+                                        ?>
+                                        <!-- back kyc -->
+                                        <div class="w-25 d-flex flex-column gap-1 document">
+                                            <p class="m-0"> Back side </p>
+                                            <?php
+                                            if ($profileUser->getKycBackUrl() != "blank") {
+                                                ?>
+                                                <img src="<?= $profileUser->getKycBackUrl() ?>" alt="kyc front picture">
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="p-2 px-3 border">
+                                                    <p class="small m-0 text-danger"> Not uploaded yet. </p>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
 
                         <!-- hide this form if kyc is already verified -->
                         <?php
-                        if ($profileUser->getAccountStatus() != "verified") {
+                        if ($profileUser->getAccountStatus() != "verified" && $profileUser->getDocumentType() == ""){
                             ?>
-                            <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-4 w-100 kyc-form"
+                            <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-2 w-100 kyc-form"
                                 id="kyc-form" enctype="multipart/form-data">
+                                <!-- heading -->
+                                <p class="m-0 fw-bold fs-3"> KYC Form </p>
+
+                                <hr>
+
                                 <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
 
                                 <!-- kyc file inputs -->
@@ -576,7 +601,7 @@ if (!$userFound) {
                                     </div>
                                 </div>
 
-                                <button type="submit" name="upload-kyc-btn" class="btn btn-success"> Upload KYC </button>
+                                <button type="submit" name="upload-kyc-btn" class="btn btn-success mt-3"> Upload KYC </button>
                             </form>
                             <?php
                         }
