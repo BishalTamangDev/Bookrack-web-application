@@ -148,7 +148,7 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                         ?>
                         <div class="d-flex flex-column gap-3">
                             <label for="profile-picture"> Change profile picture </label>
-                            <input type="file" name="profile-picture" class="form-control" id="profile-picture">
+                            <input type="file" name="profile-picture" class="form-control" accept="image/*" id="profile-picture">
                         </div>
                         <?php
                     }
@@ -347,12 +347,12 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
 
                         <div class="d-flex flex-column gap-2 w-100">
                             <label for="kyc-front"> Front side </label>
-                            <input type="file" name="kyc-front" class="form-control" id="kyc-front" required>
+                            <input type="file" name="kyc-front" class="form-control" id="kyc-front" accept="image/*" required>
                         </div>
 
                         <div class="d-flex flex-column gap-2 w-100">
                             <label for="kyc-back">Back side</label>
-                            <input type="file" name="kyc-back" class="form-control" id="kyc-back" required>
+                            <input type="file" name="kyc-back" class="form-control" id="kyc-back" accept="image/*" required>
                         </div>
 
                         <div class="action">

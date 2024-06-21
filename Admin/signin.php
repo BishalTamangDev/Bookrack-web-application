@@ -67,12 +67,12 @@ if (isset($_SESSION['bookrack-admin-id'])) {
 
                     <!-- sign in form -->
                     <form method="POST" action="/bookrack/admin/app/admin-authentication.php"
-                        class="d-flex flex-column gap-2 signin-form" id="admin-signin-form">
+                        class="d-flex flex-column signin-form" id="admin-signin-form">
                         <!-- session status and status message -->
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
-                            <p class="m-0 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
+                            <p class="m-0 mb-2 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
                                 <?= $_SESSION['status-message'] ?> </p>
                             <?php
                         }
@@ -87,7 +87,6 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                 <input type="email" name="email" value="<?php
                                 if (isset($_SESSION['temp-email'])) {
                                     echo $_SESSION['temp-email'];
-                                    unset($_SESSION['temp-email']);
                                 }
                                 ?>" class="form-control" id="admin-email" placeholder="someone@gmail.com"
                                     aria-label="email address" aria-describedby="email address" required>
@@ -105,7 +104,6 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                     value="<?php
                                     if (isset($_SESSION['temp-password'])) {
                                         echo $_SESSION['temp-password'];
-                                        unset($_SESSION['temp-admin-password']);
                                     }
                                     ?>" placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
@@ -139,6 +137,9 @@ if (isset($_SESSION['bookrack-admin-id'])) {
     <?php
     unset($_SESSION['status']);
     unset($_SESSION['status-message']);
+
+    unset($_SESSION['temp-email']);
+    unset($_SESSION['temp-password']);
     ?>
 
     <!-- jquery -->

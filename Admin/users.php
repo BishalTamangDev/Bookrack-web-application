@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-admin-id'])){
+if (!isset($_SESSION['bookrack-admin-id'])) {
     header("Location: /bookrack/admin/signin");
 }
 
@@ -18,9 +18,14 @@ $profileAdmin = new Admin();
 $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
-if($profileAdmin->getAccountStatus() != "verified"){
+if ($profileAdmin->getAccountStatus() != "verified") {
     header("Location: /bookrack/admin/profile");
 }
+
+// including user class
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
+$userObj = new User();
+
 ?>
 
 
@@ -62,6 +67,11 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
     <!-- main content -->
     <main class="main">
+        <!-- fetch all users -->
+        <?php
+        $userList = $userObj->fetchAllUsers();
+        ?>
+
         <!-- heading -->
         <p class="fw-bold page-heading"> Users </p>
 
@@ -70,13 +80,13 @@ if($profileAdmin->getAccountStatus() != "verified"){
             <!-- number of users -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Users </p>
-                <p class="card-v1-detail"> 1245 </p>
+                <p class="card-v1-detail"> <?= sizeof($userList) ?> </p>
             </div>
 
             <!-- number of contributors -->
             <div class="card-v1">
                 <p class="card-v1-title"> Contributors </p>
-                <p class="card-v1-detail"> 207 </p>
+                <p class="card-v1-detail"> - </p>
             </div>
         </section>
 
@@ -86,19 +96,10 @@ if($profileAdmin->getAccountStatus() != "verified"){
                 <i class="fa fa-filter" id="filter-icon"></i>
 
                 <!-- account state -->
-                <select class="form-select" aria-label="Default select example">
-                    <option value="0" selected hidden> Account State </option>
-                    <option value="1"> All </option>
-                    <option value="2"> Active </option>
-                    <option value="3"> Inactive </option>
-                </select>
-
-                <!-- contribution -->
-                <select class="form-select" aria-label="Default select example">
-                    <option value="0" selected hidden> Contribution </option>
-                    <option value="1"> All </option>
-                    <option value="2"> Contributor </option>
-                    <option value="3"> Not-contributor </option>
+                <select class="form-select" id="user-account-state-select" aria-label="Default select example">
+                    <option value="all" selected> All account state </option>
+                    <option value="verified"> Verified </option>
+                    <option value="unverified"> Unverified </option>
                 </select>
 
                 <!-- clear filter -->
@@ -115,13 +116,9 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <p class="f-reset"> Clear Search </p>
                     <i class="fa fa-multiply"></i>
                 </div>
-
-                <div class="search-container">
-                    <input type="text" placeholder="search user">
-                    <div class="search-icon-div">
-                        <i class="fa fa-search"> </i>
-                    </div>
-                </div>
+                <form action="/bookrack/admin/users" method="POST">
+                    <input type="search" name="search-content" class="form-control" placeholder="search user">
+                </form>
             </div>
         </section>
 
@@ -144,71 +141,63 @@ if($profileAdmin->getAccountStatus() != "verified"){
             </thead>
 
             <!-- table data -->
-            <tbody>
-                <!-- dummy data -->
-                <tr class="active-user-row contributor-row">
-                    <th scope="row"> 1 </th>
-                    <td> 124745 </td>
-                    <td> Bishal Tamang </td>
-                    <td> 2001-01-01 </td>
-                    <td> Male </td>
-                    <td> bishal@gmail.com </td>
-                    <td> 9845678415 </td>
-                    <td> Kathmandu </td>
-                    <td> Active </td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/user-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-
-                <tr class="active-user-row not-contributor-row">
-                    <th scope="row"> 2 </th>
-                    <td> 456789 </td>
-                    <td> Rupak Dangi </td>
-                    <td> 2002-02-02 </td>
-                    <td> Male </td>
-                    <td> rupak@gmail.com </td>
-                    <td> 9852645899 </td>
-                    <td> Bhaktapur </td>
-                    <td> Inactive </td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/user-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-
-                <tr class="inactive-user-row contributor-row">
-                    <th scope="row"> 3 </th>
-                    <td> 159482 </td>
-                    <td> Shristi Pradhan </td>
-                    <td> 2003-03-03 </td>
-                    <td> Female </td>
-                    <td> shristi@gmail.com </td>
-                    <td> 9858574859 </td>
-                    <td> Lalitpur </td>
-                    <td> Active </td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/user-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-            </tbody>
+            <?php
+            if (sizeof($userList) > 0) {
+                ?>
+                <tbody>
+                    <?php
+                    $serial = 1;
+                    foreach ($userList as $key => $user) {
+                        ?>
+                        <tr
+                            class="user-tr <?= ($user['account_status'] == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+                            <th scope="row"> <?= $serial++ ?> </th>
+                            <td> <?= $key ?> </td>
+                            <td> <?= getPascalCaseString($user['name']['first']) . " " . getPascalCaseString($user['name']['last']) ?>
+                            </td>
+                            <td> <?= $user['dob'] ?> </td>
+                            <td>
+                                <?php
+                                if ($user['gender'] == 0)
+                                    echo "Male";
+                                elseif ($user['gender'] == 1)
+                                    echo "Female";
+                                else
+                                    echo "Others";
+                                ?>
+                            </td>
+                            <td> <?= $user['email'] ?> </td>
+                            <td> <?= $user['contact'] ?> </td>
+                            <td> <?= getPascalCaseString($user['address']['location']) . ", " . $districtArray[$user['address']['district']] ?>
+                            </td>
+                            <td> <?= getPascalCaseString($user['account_status']) ?> </td>
+                            <td>
+                                <abbr title="Show full details">
+                                    <a href="/bookrack/admin/user-details/<?= $key ?>">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </abbr>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
+                <?php
+            }
+            ?>
 
             <!-- table footer -->
             <tfoot id="table-foot">
-                <tr>
-                    <td colspan="10"> No users found! </td>
-                </tr>
+                <?php
+                if (sizeof($userList) == 0) {
+                    ?>
+                    <tr>
+                        <td colspan="10"> No users found! </td>
+                    </tr>
+                    <?php
+                }
+                ?>
             </tfoot>
         </table>
     </main>
@@ -223,6 +212,39 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
     <!-- bootstrap js :: local file -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.js"> </script>
+
+    <!-- current file script -->
+    <script>
+        var accountStateSelect = $("#user-account-state-select");
+        const clearFilter = $("#clear-filter");
+
+        clearFilter.hide();
+
+        clearFilter.click(function () {
+            accountStateSelect.val("all");
+            filter();
+        });
+
+        accountStateSelect.change(function () {
+            var accountType = accountStateSelect.val();
+            filter();
+        });
+
+        filter = () => {
+            $('.user-tr').show();
+            if (accountStateSelect.val() == "verified") {
+                $('.unverified-user-tr').hide();
+            } else if (accountStateSelect.val() == "unverified") {
+                $('.verified-user-tr').hide();
+            }
+
+            if (accountStateSelect.val() != "all") {
+                clearFilter.show();
+            }else{
+                clearFilter.hide();
+            }
+        }
+    </script>
 </body>
 
 </html>

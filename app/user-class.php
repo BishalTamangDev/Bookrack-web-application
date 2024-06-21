@@ -4,15 +4,12 @@ require_once __DIR__ . '/../../bookrack/app/connection.php';
 
 class User
 {
-    // user properties
     private $userId;
 
     private $name = [
         "first" => "",
         "last" => "",
     ];
-    // private $firstName;
-    // private $lastName;
     private $email;
     private $password;
     private $contact;
@@ -23,8 +20,6 @@ class User
         "district" => "",
         "location" => ""
     ];
-    // private $addressDistrict;
-    // private $addressLocation;
     private $profilePicture;
 
     private $kyc = [
@@ -32,14 +27,8 @@ class User
         "front" => "",
         "back" => ""
     ];
-    // private $documentType;
-
-    // private $kycFront;
-    // private $kycBack;
     private $joinedDate;
     private $accountStatus;
-
-    //  $userId, $firstName, $lastName, $email $password,$contact,$dob,$gender,$addressDistrict,$addressLocation,$profilePicture,$kycFront,$kycBack,$joinedDate,$accountStatus
 
     // Constructor
     public function __construct()
@@ -50,8 +39,6 @@ class User
             "first" => "",
             "last" => ""
         ];
-        // $this->firstName = "";
-        // $this->lastName = "";
         $this->email = "";
         $this->password = "";
         $this->contact = "";
@@ -61,17 +48,12 @@ class User
             "district" => "",
             "location" => "",
         ];
-        // $this->addressDistrict = "";
-        // $this->addressLocation = "";
         $this->profilePicture = "";
         $this->kyc = [
             "document_type" => "",
             "front" => "",
             "back" => ""
         ];
-        // $this->documentType = "";
-        // $this->kycFront = "";
-        // $this->kycBack = "";
         $this->joinedDate = "";
         $this->accountStatus = "";
     }
@@ -83,8 +65,6 @@ class User
             "first" => $firstName,
             "last" => $lastName,
         ];
-        // $this->firstName = $firstName;
-        // $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
         $this->contact = $contact;
@@ -94,17 +74,12 @@ class User
             "district" => $addressDistrict,
             "location" => $addressLocation,
         ];
-        // $this->addressDistrict = $addressDistrict;
-        // $this->addressLocation = $addressLocation;
         $this->profilePicture = $profilePicture;
         $this->kyc = [
             "document_type" => $documentType,
             "front" => $kycFront,
             "back" => $kycBack
         ];
-        // $this->documentType = $documentType;
-        // $this->kycFront = $kycFront;
-        // $this->kycBack = $kycBack;
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
     }
@@ -318,7 +293,7 @@ class User
         $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setUser($_SESSION['bookrack-user-id'], $response['name']['first'], $response['name']['last'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address']['district'], $response['address']['location'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'], $response['account_status']);
+            $this->setUser($userId, $response['name']['first'], $response['name']['last'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address']['district'], $response['address']['location'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'], $response['account_status']);
             return true;
         } else {
             return false;
@@ -436,11 +411,19 @@ class User
         return $kycBackUrl;
     }
 
-
-
     // update profile details
     public function updateProfile()
     {
 
+    }
+
+    // fetch all users
+    public function fetchAllUsers(){
+        global $database;
+
+        // fetching all users
+        $response = $database->getReference("users")->getSnapshot()->getValue();
+
+        return $response;
     }
 }

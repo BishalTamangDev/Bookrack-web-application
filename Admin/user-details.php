@@ -21,6 +21,17 @@ $profileAdmin->fetch($profileAdmin->getId());
 if($profileAdmin->getAccountStatus() != "verified"){
     header("Location: /bookrack/admin/profile");
 }
+
+// including user class
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
+$selectedUser = new User();
+$userObj = new User();
+
+$status = $selectedUser->fetch($userId);
+if(!$status){
+    header("Location: /bookrack/admin/users");
+}
+$selectedUser->setUserId($userId);
 ?>
 
 <!DOCTYPE html>
@@ -77,16 +88,21 @@ if($profileAdmin->getAccountStatus() != "verified"){
             <div class="d-flex flex-column pt-2 gap-1 details">
                 <!-- name -->
                 <div class="name">
-                    <h5 class="fw-bold"> Rupak Dangi </h5>
+                    <h5 class="fw-bold"> <?=getPascalCaseString($selectedUser->getFirstName())." ".getPascalCaseString($selectedUser->getLastName())?> </h5>
                 </div>
 
                 <!-- all details -->
                 <div class="d-flex flex-row flex-wrap gap-5 all-details">
                     <!-- email, gender, dob -->
                     <div class="d-flex flex-column gap-2 email-gender-dob">
-                        <p class="f-reset"> rupak@gmail.com </p>
-                        <p class="f-reset"> Male </p>
-                        <p class="f-reset"> 0000-00-00 </p>
+                        <p class="f-reset"> <?=$selectedUser->getEmail()?> </p>
+                        <p class="f-reset"> <?php
+                                if($selectedUser->getGender() == 0) echo "Male";
+                                elseif($selectedUser->getGender() == 1) echo "Female";
+                                else echo "Others";
+                                ?>
+                            </p>
+                        <p class="f-reset"> <?=$selectedUser->getDob()?> </p>
                     </div>
 
                     <!-- contact, address -->
@@ -109,7 +125,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                             </div>
 
                             <div class="data">
-                                <p class="f-reset"> Balkot, Bhaktapur </p>
+                                <p class="f-reset"> <?=getPascalCaseString($selectedUser->getAddressLocation()).", ".$districtArray[$selectedUser->getAddressDistrict()]?> </p>
                             </div>
                         </div>
                     </div>
@@ -119,7 +135,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                         <!-- rent -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded rent">
                             <div class="data">
-                                <p class="f-reset fw-bold fs-3"> 15 </p>
+                                <p class="f-reset fw-bold fs-3"> <?="-"?> </p>
                             </div>
                             <div class="title">
                                 <p class="f-reset fs-6"> Books Rented </p>
@@ -129,7 +145,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                         <!-- contribution -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded contribution">
                             <div class="data">
-                                <p class="f-reset fw-bold fs-3"> 21 </p>
+                                <p class="f-reset fw-bold fs-3"> <?="-"?> </p>
                             </div>
                             <div class="title">
                                 <p class="f-reset fs-6"> Book Contribution </p>

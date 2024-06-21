@@ -36,7 +36,6 @@ if (isset($_SESSION['bookrack-admin-id'])) {
     <!-- local css -->
     <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/signin.css">
 </head>
 
@@ -56,9 +55,9 @@ if (isset($_SESSION['bookrack-admin-id'])) {
             </div>
 
             <!-- bottom content -->
-            <div class="d-flex flex-column flex-lg-row gap-1 gap-lg-5 content">
+            <div class="d-flex flex-column flex-lg-row gap-1 gap-lg-5 p-1 content">
                 <!-- signin content -->
-                <div class="d-nones w-100 d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
+                <div class="d-nones d-flex flex-column gap-4 w-100 gap-md-4 py-4 pb-0 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1 fw-bold"> Admin Sign Up </p>
                         <p class="f-reset text-secondary note"> To keep connected with us please login awith your
@@ -72,7 +71,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                         <?php
                         if(isset($_SESSION['status'])){
                             ?>
-                            <p class="m-0 <?=$_SESSION['status']? "text-success" : "text-danger"?>"> <?=$_SESSION['status-message']?> </p>
+                            <p class="m-0 mb-2 <?=$_SESSION['status']? "text-success" : "text-danger"?>"> <?=$_SESSION['status-message']?> </p>
                             <?php
                         }
                         ?>
@@ -83,7 +82,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="admin-email"
+                                <input type="email" name="email" class="form-control" id="admin-email" value="<?php if(isset($_SESSION['temp-email'])) echo $_SESSION['temp-email'];?>"
                                     placeholder="someone@gmail.com" aria-label="admin email address"
                                     aria-describedby="admin email address" required>
                                 <label for="admin-email">Email address</label>
@@ -91,12 +90,12 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                         </div>
 
                         <!-- password -->
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-1">
                             <span class="input-group-text px-4">
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="admin-password"
+                                <input type="password" name="password" class="form-control" id="admin-password" value="<?php if(isset($_SESSION['temp-password'])) echo $_SESSION['temp-password'];?>"
                                     placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="admin-password"> Password </label>
@@ -118,6 +117,9 @@ if (isset($_SESSION['bookrack-admin-id'])) {
     <?php
     unset($_SESSION['status']);
     unset($_SESSION['status-message']);
+
+    unset($_SESSION['temp-email']);
+    unset($_SESSION['temp-password']);
     ?>
 
     <!-- jquery -->

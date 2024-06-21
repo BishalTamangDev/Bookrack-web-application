@@ -215,7 +215,13 @@ elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPat
         } elseif ($arr[2] == "signup") {
             include 'admin/signup.php';
         } elseif ($arr[2] == "user-details") {
-            include 'admin/user-details.php';
+            $arr = explode('/', $router);
+            if(isset($arr[3]) && $arr[3] != ""){
+                $userId = $arr[3];
+                include 'admin/user-details.php';
+            }else{
+                include 'admin/users.php';
+            }
         } elseif ($arr[2] == "users") {
             include 'admin/users.php';
         } else {
