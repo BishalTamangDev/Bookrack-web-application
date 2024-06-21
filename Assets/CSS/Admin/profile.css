@@ -1,0 +1,11 @@
+.kyc-container .front-side, .kyc-container .back-side {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .kyc-container .front-side, .kyc-container .back-side {
+    max-width: 400px;
+  }
+}/*# sourceMappingURL=profile.css.map */

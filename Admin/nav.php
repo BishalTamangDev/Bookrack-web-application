@@ -5,9 +5,17 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-admin-id'])){
+if (!isset($_SESSION['bookrack-admin-id'])) {
     header("Location: /bookrack/admin/signin");
 }
+
+require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/../../bookrack/app/functions.php';
+
+$asideAdmin = new Admin();
+
+$asideAdmin->setId($_SESSION['bookrack-admin-id']);
+$asideAdmin->fetch($_SESSION['bookrack-admin-id']);
 ?>
 
 <!DOCTYPE html>
@@ -47,12 +55,22 @@ if(!isset($_SESSION['bookrack-admin-id'])){
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
                 <div class="profile-photo rounded-circle">
-                    <img src="/bookrack/assets/images/user-2.jpg" alt="" id="admin-profile-photo">
+                    <img src="<?php if($asideAdmin->getProfilePicture() != "") {
+                         echo $asideAdmin->getProfilePictureImageUrl();
+                    }else{
+                        echo '/bookrack/assets/images/blank-user.jpg';
+                    }?>" alt="" id="admin-profile-photo" loading="lazy">
                 </div>
 
                 <!-- profile detail -->
                 <div class="d-flex flex-column align-items-center profile-details">
-                    <p class="f-reset" id="username"> Bishal Tamang </p>
+                    <p class="f-reset" id="username"> 
+                        <?php
+                        if($asideAdmin->getFirstName() != ""){
+                            echo getPascalCaseString($asideAdmin->getFirstName());
+                        } 
+                        ?>
+                    </p>
                     <p class="f-reset" id="email-address"> admin@gmail.com </p>
                 </div>
             </div>
@@ -69,6 +87,18 @@ if(!isset($_SESSION['bookrack-admin-id'])){
                         <span class="d-none d-lg-block"> Dashboard </span>
                     </li>
 
+                    <!-- profile -->
+                    <li onclick="window.location.href='/bookrack/admin/profile'">
+                        <i class="fa fa-user nav-icon"></i>
+                        <span class="d-none d-lg-block"> My Profile </span>
+                    </li>
+
+                    <!-- notification -->
+                    <li onclick="window.location.href='/bookrack/admin/notification'">
+                        <i class="fa-regular fa-bell nav-icon"></i>
+                        <span class="d-none d-lg-block"> Notification </span>
+                    </li>
+
                     <!-- users -->
                     <li onclick="window.location.href='/bookrack/admin/users'">
                         <i class="fa fa-users nav-icon"></i>
@@ -83,11 +113,6 @@ if(!isset($_SESSION['bookrack-admin-id'])){
 
                     </li>
 
-                    <!-- notification -->
-                    <li onclick="window.location.href='/bookrack/admin/notification'">
-                        <i class="fa-regular fa-bell nav-icon"></i>
-                        <span class="d-none d-lg-block"> Notification </span>
-                    </li>
 
                     <!-- offers -->
                     <li onclick="window.location.href='/bookrack/admin/book-offers'">

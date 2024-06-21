@@ -8,7 +8,21 @@ if (session_status() == PHP_SESSION_NONE) {
 if(!isset($_SESSION['bookrack-admin-id'])){
     header("Location: /bookrack/admin/signin");
 }
+
+// fetching the admin profile details
+require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/../../bookrack/app/functions.php';
+
+$profileAdmin = new Admin();
+
+$profileAdmin->setId($_SESSION['bookrack-admin-id']);
+$profileAdmin->fetch($profileAdmin->getId());
+
+if($profileAdmin->getAccountStatus() != "verified"){
+    header("Location: /bookrack/admin/profile");
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

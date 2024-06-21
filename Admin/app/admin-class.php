@@ -314,6 +314,62 @@ class Admin
         return $profilePictureUrl;
     }
 
+    public function getKycFrontUrl()
+    {
+        global $bucket;
+
+        $kycFrontUrl = "blank";
+
+        if ($this->getKycFront() != "") {
+            $prefix = 'kyc/';
+            $options = [
+                'prefix' => $prefix,
+                'delimiter' => '/'
+            ];
+
+            $objects = $bucket->objects($options);
+
+            foreach ($objects as $object) {
+                // Check if the object's name (filename) matches the filename we are looking for
+                if ($object->name() === $prefix . $this->getKycFront()) {
+                    // Generate a signed URL valid until tomorrow for the matched object
+                    $kycFrontUrl = $object->signedUrl(new DateTime('tomorrow'));
+                    break; // Exit the loop once we find the matching filename
+                }
+            }
+        }
+
+        return $kycFrontUrl;
+    }
+
+    public function getKycBackUrl()
+    {
+        global $bucket;
+
+        $kycBackUrl = "blank";
+
+        if ($this->getKycBack() != "") {
+            $prefix = 'kyc/';
+            $options = [
+                'prefix' => $prefix,
+                'delimiter' => '/'
+            ];
+
+            $objects = $bucket->objects($options);
+
+            foreach ($objects as $object) {
+                // Check if the object's name (filename) matches the filename we are looking for
+                if ($object->name() === $prefix . $this->getKycBack()) {
+                    // Generate a signed URL valid until tomorrow for the matched object
+                    $kycBackUrl = $object->signedUrl(new DateTime('tomorrow'));
+                    break; // Exit the loop once we find the matching filename
+                }
+            }
+        }
+
+        return $kycBackUrl;
+    }
+
     // update profile details
     public function updateProfile()
     {

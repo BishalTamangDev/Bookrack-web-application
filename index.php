@@ -14,7 +14,7 @@ $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/bookrack', '', $request);
 
 // realtime database connection file
-include __DIR__.'/../bookrack/app/connection.php';
+include __DIR__ . '/../bookrack/app/connection.php';
 
 // echo "Index request: ".$request."<br/>";
 // echo "Index router: ".$router."<br/>";
@@ -24,7 +24,7 @@ date_default_timezone_set("Asia/Kathmandu");
 
 $profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
 
-$adminPagesPattern = '/admin\/(book-details|book-offer-details|book-offers|book-request-details|book-requests|books|dashboard|index|nav|notification|rent|signin|signup|user-details|users)/i';
+$adminPagesPattern = '/admin\/(profile|book-details|book-offer-details|book-offers|book-request-details|book-requests|books|dashboard|index|nav|notification|rent|signin|signup|user-details|users)/i';
 
 $tab = "";
 
@@ -44,13 +44,13 @@ elseif ($router == '/home' || $router == '/home/' || preg_match('/home\?/i', $ro
 
 
 // add book || edit book
-elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-book\/(add|edit)/i',$router)) {
+elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-book\/(add|edit)/i', $router)) {
     $task = "add";
 
     $arr = explode('/', $router);
 
-    if(isset($arr[2])){
-        if($arr[2] == "edit"){
+    if (isset($arr[2])) {
+        if ($arr[2] == "edit") {
             $task = "edit";
         }
     }
@@ -113,7 +113,7 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
         } elseif (preg_match('/kyc/', $arr[2])) { // wishlist
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
-        }elseif (preg_match('/wishlist/', $arr[2])) { // wishlist
+        } elseif (preg_match('/wishlist/', $arr[2])) { // wishlist
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
         } elseif (preg_match('/requested-books/', $arr[2])) { // requested-books
@@ -132,12 +132,12 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
 
 
 // signin
-elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|authentication)/i", $router) ) {
+elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|authentication)/i", $router)) {
     $arr = explode('/', $router);
 
-    if(isset($arr[2]) && $arr[2] == "authentication"){
-        include __DIR__.'/../bookrack/app/authentication.php';
-    }else{
+    if (isset($arr[2]) && $arr[2] == "authentication") {
+        include __DIR__ . '/../bookrack/app/authentication.php';
+    } else {
         include 'signin.php';
     }
 }
@@ -155,77 +155,77 @@ elseif ($router == '/signup' || $router == '/signup/' || preg_match("/signup\/(e
                 $tab = $arr[2];
             }
             include 'signup.php';
-        }else if($arr[2] == "authentication"){
-            include __DIR__.'/../bookrack/app/authentication.php';
+        } else if ($arr[2] == "authentication") {
+            include __DIR__ . '/../bookrack/app/authentication.php';
         }
-    }else{
+    } else {
         include 'signup.php';
     }
 }
 
 // signout
-elseif ($router == '/signout' || $router == '/signout/'){
+elseif ($router == '/signout' || $router == '/signout/') {
     include 'signout.php';
 }
 
 
 // admin
 elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
-    // print_r($router);
     $arr = explode('/', $router);
-    // print_r($arr);
 
-    switch ($arr[2]) {
-        case "book-details":
+
+    if (isset($arr[2])) {    
+        // profile page
+        if ($arr[2] == "profile"){
+            $tab = "view";
+            if(isset($arr[3])){
+                if($arr[3] ==""){
+                    include 'admin/profile.php';
+                }elseif (in_array($arr[3], ["","view","edit","document", "password"])) {
+                    $tab = $arr[3] != ""?  $arr[3] : "view";
+                    include 'admin/profile.php';
+                }else{
+                    include '404.php';
+                }
+            }else{
+                include 'admin/profile.php';
+            }
+        }elseif ($arr[2] == "book-details") {
             include 'admin/book-details.php';
-            break;
-        case "book-offer-details":
+        } elseif ($arr[2] == "book-offer-details") {
             include 'admin/book-offer-details.php';
-            break;
-        case "book-offers":
+        } elseif ($arr[2] == "book-offers") {
             include 'admin/book-offers.php';
-            break;
-        case "book-request-details":
+        } elseif ($arr[2] == "book-request-details") {
             include 'admin/book-request-details.php';
-            break;
-        case "book-requests":
+        } elseif ($arr[2] == "book-requests") {
             include 'admin/book-requests.php';
-            break;
-        case "books":
+        } elseif ($arr[2] == "books") {
             include 'admin/books.php';
-            break;
-        case "dashboard":
+        } elseif ($arr[2] == "dashboard") {
             include 'admin/dashboard.php';
-            break;
-        case "nav":
+        } elseif ($arr[2] == "nav") {
             include 'admin/nav.php';
-            break;
-        case "notification":
+        } elseif ($arr[2] == "notification") {
             include 'admin/notification.php';
-            break;
-        case "rent":
+        } elseif ($arr[2] == "rent") {
             include 'admin/rent.php';
-            break;
-        case "signin":
+        } elseif ($arr[2] == "signin") {
             include 'admin/signin.php';
-            break;
-        case "signup":
+        } elseif ($arr[2] == "signup") {
             include 'admin/signup.php';
-            break;
-        case "user-details":
+        } elseif ($arr[2] == "user-details") {
             include 'admin/user-details.php';
-            break;
-        case "users":
+        } elseif ($arr[2] == "users") {
             include 'admin/users.php';
-            break;
-        default:
+        } else {
             include 'admin/index.php';
-            break;
+        }
+    }else{
+        include 'admin/dashboard.php';
     }
-}
-
-
-// default page
+}       
+ // default page
 else {
     include '404.php';
 }

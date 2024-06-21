@@ -86,7 +86,7 @@ if (isset($_POST['update-profile-btn'])) {
             $response = $database->getReference("users/{$newUser->getUserId()}")->update($properties);
             $status = 1;
         } catch (Exception $e) {
-            $status = 1;
+            $status = 0;
         }
     }
 

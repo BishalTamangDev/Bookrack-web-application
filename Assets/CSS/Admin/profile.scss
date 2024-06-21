@@ -1,0 +1,15 @@
+.kyc-container{
+    .front-side, .back-side{
+        width: 100%;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+    }   
+}
+
+@media (min-width: 768px){
+    .kyc-container{
+    .front-side, .back-side{
+            max-width: 400px;
+        }
+    }
+}
