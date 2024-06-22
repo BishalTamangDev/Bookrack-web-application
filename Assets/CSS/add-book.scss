@@ -16,15 +16,56 @@
             // left
             .book-details {
                 padding: 14px;
-                input{
+
+                input {
                     border: 1px solid rgb(202, 202, 202);
+                }
+
+                .description {
+                    textarea {
+                        max-height: 200px;
+                        height: 150px;
+                        border: 1px solid rgb(202, 202, 202);
                     }
-                    .description {
-                        textarea {
-                            overflow-y: scroll;
-                            resize: none;
-                            height: 150px;
-                            border: 1px solid rgb(202, 202, 202);
+                }
+
+                .genre {
+                    position: relative;
+
+                    .genre-top {
+                        .action {
+                            height: fit-content;
+                        }
+                    }
+
+                    .genre-container {
+                        height: 200px;
+                        height: 0;
+                        overflow-y: scroll;
+
+                        .form-check{
+                            display: flex;
+                            flex-direction: row;
+                        }
+                    }
+                    
+                    /* For webkit-based browsers */
+                    ::-webkit-scrollbar {
+                        width: 6px;
+                        /* Adjust the width as needed */
+                    }
+
+                    ::-webkit-scrollbar-thumb {
+                        background: #888;
+                        /* Color of the scrollbar thumb */
+                        border-radius: 10px;
+                        /* Roundness of the scrollbar thumb */
+                    }
+
+
+                    ::-webkit-scrollbar-track {
+                        background: #f1f1f1;
+                        /* Color of the scrollbar track */
                     }
                 }
             }
@@ -39,7 +80,7 @@
                         width: 100%;
                         gap: 0.7rem;
 
-                        label{
+                        label {
                             font-size: 1.2rem;
                         }
 

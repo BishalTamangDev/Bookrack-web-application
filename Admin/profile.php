@@ -229,7 +229,7 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                             <label for="contact"> Contact </label>
                             <input type="text" name="contact" class="form-control" id="contact" value="<?php if ($profileAdmin->getContact() != '')
                                 echo $profileAdmin->getContact(); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> minlength="10" maxlength="15" required>
+                                      echo "disabled"; ?> minlength="10" maxlength="10" required>
                         </div>
                     </div>
 
@@ -383,6 +383,33 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
 
     <!-- bootstrap js :: local file -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+
+    <!-- edit profile script -->
+    <script>
+        // first name
+        $('#first-name').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+
+        // last name
+        $('#last-name').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+
+        // contact name
+        $('#contact').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

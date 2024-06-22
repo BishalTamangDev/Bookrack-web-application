@@ -1100,6 +1100,33 @@ if (!$userFound) {
     <!-- bootstrap js :: local file -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
+    <!-- edit profile script -->
+    <script>
+        // first name
+        $('#edit-profile-first-name').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+
+        // last name
+        $('#edit-profile-last-name').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+
+        // contact name
+        $('#edit-profile-contact').keydown(function(){
+            var asciiValue = event.keyCode || event.which;
+            if(asciiValue == 32){
+                event.preventDefault();
+            }
+        });
+    </script>
+
     <!-- my books script -->
     <script>
         // my books

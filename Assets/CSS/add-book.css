@@ -19,10 +19,40 @@
   border: 1px solid rgb(202, 202, 202);
 }
 .main .add-book-section .add-book-form .book-details .description textarea {
-  overflow-y: scroll;
-  resize: none;
+  max-height: 200px;
   height: 150px;
   border: 1px solid rgb(202, 202, 202);
+}
+.main .add-book-section .add-book-form .book-details .genre {
+  position: relative;
+  /* For webkit-based browsers */
+}
+.main .add-book-section .add-book-form .book-details .genre .genre-top .action {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.main .add-book-section .add-book-form .book-details .genre .genre-container {
+  height: 200px;
+  height: 0;
+  overflow-y: scroll;
+}
+.main .add-book-section .add-book-form .book-details .genre .genre-container .form-check {
+  display: flex;
+  flex-direction: row;
+}
+.main .add-book-section .add-book-form .book-details .genre ::-webkit-scrollbar {
+  width: 6px;
+  /* Adjust the width as needed */
+}
+.main .add-book-section .add-book-form .book-details .genre ::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Color of the scrollbar thumb */
+  border-radius: 10px;
+  /* Roundness of the scrollbar thumb */
+}
+.main .add-book-section .add-book-form .book-details .genre ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Color of the scrollbar track */
 }
 .main .add-book-section .add-book-form .right {
   height: -moz-fit-content;
