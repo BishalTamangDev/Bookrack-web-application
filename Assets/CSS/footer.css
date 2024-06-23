@@ -1,7 +1,8 @@
 .footer {
   width: 100%;
   padding-top: 2rem;
-  background-color: whitesmoke;
+  color: white;
+  background-color: #03151d;
 }
 .footer .footer-container {
   gap: 2rem;
@@ -46,7 +47,7 @@
 }
 .footer .footer-container .main-footer .main-footer-content-section ul li a {
   font-size: 1.15rem;
-  color: black;
+  color: white;
 }
 .footer .footer-container .main-footer .main-footer-content-section ul li a:hover {
   color: var(--brand-color);
@@ -73,8 +74,17 @@
 .footer .footer-container .main-footer .mobile-app-section .content-container .content p:nth-child(even) {
   font-size: 12px;
 }
-.footer .footer-container .payment-partner-section img {
-  width: 90px;
+.footer .footer-container .payment-partner-section .partner-container {
+  height: 38px;
+}
+.footer .footer-container .payment-partner-section .partner-container img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  background-color: white;
+}
+.footer .copyright-section {
+  color: black;
+  background-color: white;
 }
 
 @media (min-width: 352px) {

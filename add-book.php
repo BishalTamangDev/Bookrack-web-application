@@ -327,6 +327,8 @@ if (!$userFound) {
         </section>
     </main>
 
+    <!-- footer -->
+    <?php include 'footer.php';?>
 
     <!-- unset sesstion status & status message -->
     <?php

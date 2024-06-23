@@ -2,12 +2,14 @@
 .footer {
     width: 100%;
     padding-top: 2rem;
-    background-color: whitesmoke;
+    color: white;
+    background-color: #03151d;
 
     .footer-container {
         gap: 2rem;
         overflow: hidden;
 
+        // main footer
         .main-footer {
             gap: 2rem;
 
@@ -62,7 +64,7 @@
 
                         a {
                             font-size: 1.15rem;
-                            color: black;
+                            color: white;
 
                             &:hover {
                                 color: var(--brand-color);
@@ -107,10 +109,19 @@
 
         // payment partner
         .payment-partner-section {
-            img {
-                width: 90px;
+            .partner-container{
+                height: 38px;                
+                img {
+                    object-fit: cover;
+                    background-color: white;
+                }
             }
         }
+    }
+
+    .copyright-section{
+        color: black;
+        background-color: white;
     }
 }
 

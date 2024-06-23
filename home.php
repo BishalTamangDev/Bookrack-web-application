@@ -189,57 +189,6 @@ $bookList = $bookObj->fetchAllBooks();
                 </div>
             </section>
 
-            <!-- trending book section -->
-            <section class="d-flex flex-column gap-3 section trending-book-section">
-                <p class="m-0 fw-bold heading text-secondary fs-4"> Trending Books </p>
-                <!-- trending book container -->
-                <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-
-                    <?php
-                    foreach ($bookList as $key => $book) {
-                        $bookObj->setCoverPhoto($book['photo']['cover']);
-                        ?>
-                        <div class="book-container">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
-                            </div>
-
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title">
-                                    <p class="book-title"> <?=$book['title']?> </p>
-                                    <a href="#">
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </a>
-                                </div>
-
-                                <!-- book purpose -->
-                                <p class="book-purpose"> <?=$book['purpose']?> </p>
-
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> Set in the American South during the 1930s, this classic
-                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price"> <?= getFormattedPrice($book['price']['offer'])?> </p>
-                                </div>
-
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More
-                                </button>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </section>
-
             <!-- all books section -->
             <section class="d-flex flex-column gap-3 section all-books-section">
                 <div class="d-flex justify-content-between align-items-center heading">
@@ -263,14 +212,17 @@ $bookList = $bookObj->fetchAllBooks();
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
-                                <div class="book-title"> <?= $book['title'] ?> </p>
+                                <div class="book-title">
+                                    <p>
+                                        <?= $book['title'] ?>
+                                    </p>
                                     <a href="#">
                                         <i class="fa-regular fa-bookmark"></i>
                                     </a>
                                 </div>
 
                                 <!-- book purpose -->
-                                <p class="book-purpose"> <?= $book['purpose'] ?> </p>
+                                <p class="book-purpose"> <?= getPascalCaseString($book['purpose'])?> </p>
 
                                 <!-- book description -->
                                 <div class="book-description-container">
@@ -327,6 +279,8 @@ $bookList = $bookObj->fetchAllBooks();
             <!-- pagination -->
         </article>
     </main>
+
+    <?php include 'footer.php';?>
 
     <!-- jquery -->
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>

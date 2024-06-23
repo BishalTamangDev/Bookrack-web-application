@@ -28,7 +28,7 @@ if (isset($_POST['admin-signup-btn'])) {
     if ($emailExists) {
         $_SESSION['status'] = false;
         $_SESSION['status-message'] = "This email address is already in use.";
-        header("Location: /bookrack/admin/signup");
+        header("Location: /bookrack/admin/admin-signup");
     } else {
         $accountCreated = $admin->register();
 
@@ -40,11 +40,11 @@ if (isset($_POST['admin-signup-btn'])) {
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
 
-            header("Location: /bookrack/admin/signin");
+            header("Location: /bookrack/admin/admin-signin");
         } else {
             $_SESSION['status'] = false;
             $_SESSION['status-message'] = "Signup failed.";
-            header("Location: /bookrack/admin/signup");
+            header("Location: /bookrack/admin/admin-signup");
         }
     }
 
@@ -83,18 +83,18 @@ if (isset($_POST['admin-signin-btn'])) {
             unset($_SESSION['temp-password']);
             
             // redirect to homepage
-            header("Location: /bookrack/admin/dashboard");
+            header("Location: /bookrack/admin/admin-dashboard");
         } else {
             // password not verified
             $_SESSION['status'] = false;
             $_SESSION['status-message'] = "Invalid password!";
-            header("Location: /bookrack/admin/signin");
+            header("Location: /bookrack/admin/admin-signin");
         }
     } else {
         // email not found
         $_SESSION['status'] = false;
         $_SESSION['status-message'] = "This email address has not been registered yet.";
-        header("Location: /bookrack/admin/signin");
+        header("Location: /bookrack/admin/admin-signin");
     }
 
     exit();

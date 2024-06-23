@@ -36,10 +36,13 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-
+            
             .book-title {
                 font-size: 1.2rem;
                 font-weight: bold;
+                p{
+                    font-weight: bold;
+                }
             }
 
             i {

@@ -1018,6 +1018,9 @@ $bookObj = new Book();
         </article>
     </main>
 
+    <!-- footer -->
+    <?php include 'footer.php';?>
+
     <?php
     // unset session status & status
     unset($_SESSION['status']);

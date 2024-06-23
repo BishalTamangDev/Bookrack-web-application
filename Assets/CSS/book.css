@@ -38,6 +38,9 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+.book-container .book-details .book-title .book-title p {
+  font-weight: bold;
+}
 .book-container .book-details .book-title i {
   color: black;
   cursor: pointer;
