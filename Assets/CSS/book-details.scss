@@ -53,13 +53,7 @@
                     .genre {
                         padding: 8px 12px;
                         text-align: center;
-                        background-color: black;
                         border-radius: 6px;
-
-                        p {
-                            margin: 0;
-                            color: white;
-                        }
                     }
                 }
             }
@@ -72,10 +66,6 @@
                         border-radius: 6px;
                         border: 1px solid rgb(223, 223, 223);
                         background-color: white;
-
-                        p {
-                            margin: 0;
-                        }
                     }
                 }
             }
@@ -94,13 +84,8 @@
                         background-color: whitesmoke;
                     }
 
-                    p {
-                        margin: 0;
-                    }
-
                     .title {
                         min-width: 25%;
-                        font-weight: bold;
                     }
                 }
             }

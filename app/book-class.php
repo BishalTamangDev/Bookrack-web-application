@@ -7,6 +7,7 @@ class Book
     private $bookId;
     private $title;
     private $description;
+    private $language;
     private $genre;
     private $author;
     private $isbn;
@@ -38,6 +39,7 @@ class Book
         $this->bookId = "";
         $this->title = "";
         $this->description = "";
+        $this->language = "";
         $this->genre = array();
         $this->author = array();
         $this->isbn = "";
@@ -65,12 +67,13 @@ class Book
         $this->ownerId = "";
     }
 
-    public function setBook($bookId, $ownerId, $title, $description, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status)
+    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status)
     {
         $this->bookId = $bookId;
         $this->ownerId = $ownerId;
         $this->title = $title;
         $this->description = $description;
+        $this->language = $language;
         $this->genre = $genre;
         $this->author = $author;
         $this->isbn = $isbn;
@@ -116,6 +119,11 @@ class Book
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getLanguage()
+    {
+        return $this->language;
     }
 
     public function getGenre()
@@ -219,6 +227,9 @@ class Book
     public function setGenre($genre)
     {
         $this->genre = $genre;
+    }public function setLanguage($language)
+    {
+        $this->genre = $language;
     }
 
     public function setAuthor($author)
@@ -293,7 +304,7 @@ class Book
     }
 
 
-    // ($bookId, $title, $description, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status) {
+    // ($bookId, $title, $description,$language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status) {
 
     // book registration
     public function register()
@@ -304,12 +315,13 @@ class Book
             'owner_id' => $this->getOwnerId(),
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
+            'language' => $this->getLanguage(),
             'genre' => $this->getGenre(),
             'author' => $this->getAuthor(),
             'isbn' => $this->getIsbn(),
             'purpose' => $this->getPurpose(),
             'publisher' => $this->getPublisher(),
-            'pulication' => $this->getPublication(),
+            'publication' => $this->getPublication(),
             'edition' => $this->getEdition(),
             'price' => [
                 'actual' => $this->getActualPrice(),
@@ -344,7 +356,7 @@ class Book
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price']['actual'], $response['price']['offer'], $response['photo']['cover'], $response['photo']['price'], $response['photo']['isbn'], $response['date']['offer'], $response['date']['approval'], $response['status']);
+            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price']['actual'], $response['price']['offer'], $response['photo']['cover'], $response['photo']['price'], $response['photo']['isbn'], $response['date']['offer'], $response['date']['approval'], $response['status']);
             return true;
         } else {
             return false;
@@ -395,7 +407,7 @@ class Book
         $objects = $bucket->objects($options);
 
         foreach ($objects as $object) {
-            if ($object->name() === $prefix . $this->getpricePhoto()) {
+            if ($object->name() === $prefix . $this->getPricePhoto()) {
                 $pricePhotoUrl = $object->signedUrl(new DateTime('tomorrow'));
                 break; 
             }
@@ -434,10 +446,19 @@ class Book
     public function fetchAllBooks()
     {
         global $database;
+        $query = $database->getReference("books");
+        $snapshot = $query->getSnapshot();
+        $response = $snapshot->getValue();
+        return $response;
+    }
 
-        // fetching all books
-        $response = $database->getReference("books")->getSnapshot()->getValue();
-
+    // fetch user's books
+    public function fetchBookByUserId($userId){
+        global $database;
+        // $query = $database->getReference("books");
+        $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
+        $snapshot = $query->getSnapshot();
+        $response = $snapshot->getValue();        
         return $response;
     }
 }

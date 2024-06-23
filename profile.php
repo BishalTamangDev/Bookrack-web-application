@@ -10,6 +10,8 @@ if (!isset($_SESSION['bookrack-user-id'])) {
 }
 
 require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/../bookrack/app/book-class.php';
+
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
 $profileUser = new User();
@@ -22,6 +24,8 @@ $userFound = $profileUser->fetch($profileUser->getUserId());
 if (!$userFound) {
     header("Location: /bookrack/signout");
 }
+
+$bookObj = new Book();
 ?>
 
 <!DOCTYPE html>
@@ -151,8 +155,12 @@ if (!$userFound) {
                             <span>Books offered</span>
                         </div>
 
+                        <?php
+                        $offeredBookCount = count($bookObj->fetchBookByUserId($profileUser->getUserId()));
+                        ?>
+                        
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?= "-" ?> </p>
+                            <p class="f-reset fw-bold"> <?=$offeredBookCount?> </p>
                         </div>
                     </div>
 
@@ -693,6 +701,7 @@ if (!$userFound) {
 
                 <!-- my books -->
                 <?php if ($tab == "my-books") {
+                    
                     ?>
                     <div class="d-flex flex-column gap-4 my-book-content">
                         <!-- my book filter -->
@@ -716,116 +725,46 @@ if (!$userFound) {
 
                         <!-- my books container-->
                         <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                            <!-- book container :: dummy data 1 -->
+                        <?php
+                        $bookList = $bookObj->fetchBookByUserId($profileUser->getUserId());
+                        foreach($bookList as $key => $book){
+                            $bookObj->setCoverPhoto($book['photo']['cover']);
+                            $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
+                            ?>
                             <div class="book-container my-book my-book-active">
                                 <!-- book image -->
                                 <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                    <img src="<?=$coverPhotoUrl?>" alt="">
                                 </div>
 
                                 <!-- book details -->
                                 <div class="book-details">
                                     <!-- book title -->
                                     <div class="book-title">
-                                        <p class="book-title"> To Kill a Mockingbird </p>
+                                        <p class="book-title"> <?=$book['title']?> </p>
                                         <i class="fa-regular fa-bookmark"></i>
                                     </div>
 
                                     <!-- book purpose -->
-                                    <p class="book-purpose"> Renting </p>
+                                    <p class="book-purpose"> <?=getPascalCaseString($book['purpose'])?> </p>
 
                                     <!-- book description -->
                                     <div class="book-description-container">
-                                        <p class="book-description"> Set in the American South during the 1930s, this
-                                            classic
-                                            novel explores themes of racial injustice and moral growth through the eyes of
-                                            Scout
-                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                        <p class="book-description"> <?=$book['description']?> </p>
                                     </div>
 
                                     <!-- book price -->
                                     <div class="book-price">
-                                        <p class="book-price"> NRs. 85 </p>
+                                        <p class="book-price"> <?=getFormattedPrice($book['price']['offer'])?> </p>
                                     </div>
 
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More
                                     </button>
                                 </div>
                             </div>
-
-                            <!-- book container :: dummy data 2 -->
-                            <div class="book-container my-book my-book-inactive">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-2.png" alt="">
-                                </div>
-
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title">
-                                        <p class="book-title"> Don't Look Back </p>
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> Selling </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> Set in the American South during the 1930s, this
-                                            classic
-                                            novel explores themes of racial injustice and moral growth through the eyes of
-                                            Scout
-                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price"> NRs. 170 </p>
-                                    </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- book container :: dummy data 3 -->
-                            <div class="book-container my-book my-book-sold-out">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-3.jpg" alt="">
-                                </div>
-
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title">
-                                        <p class="book-title"> Intuition </p>
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> Selling </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> Set in the American South during the 1930s, this
-                                            classic
-                                            novel explores themes of racial injustice and moral growth through the eyes of
-                                            Scout
-                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price"> NRs. 170 </p>
-                                    </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                    </button>
-                                </div>
-                            </div>
+                            <?php
+                        }
+                        ?>
                         </div>
 
                         <!-- add book -->

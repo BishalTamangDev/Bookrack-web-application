@@ -24,7 +24,7 @@ date_default_timezone_set("Asia/Kathmandu");
 
 $profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
 
-$adminPagesPattern = '/admin\/(profile|book-details|book-offer-details|book-offers|book-request-details|book-requests|books|dashboard|index|nav|notification|rent|signin|signup|user-details|users)/i';
+$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-offer-details|admin-book-offers|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
 
 $tab = "";
 
@@ -59,8 +59,15 @@ elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-bo
 
 
 // book details
-elseif ($router == '/book-details' || $router == '/book-details/') {
-    include 'book-details.php';
+elseif ($router == '/book-details' || $router == '/book-details/' || preg_match('/^\/book-details\/-[A-Za-z0-9_-]+/', $router)) {
+    $arr = explode('/', $router);
+
+    if (isset($arr[2]) && $arr[2] != "") {
+        $bookId = $arr[2];
+        include 'book-details.php';
+    } else {
+        include '404.php';
+    }
 }
 
 
@@ -171,67 +178,61 @@ elseif ($router == '/signout' || $router == '/signout/') {
 
 // admin
 elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
-    $arr = explode('/', $router);
+    if (preg_match($adminPagesPattern, $router)) {
+        $arr = explode('/', $router);
 
-
-    if (isset($arr[2])) {    
-        // profile page
-        if ($arr[2] == "profile"){
+        // dashboard
+        if (preg_match('/admin-dashboard$/', $arr[2])) {
+            include 'admin/dashboard.php';
+        } elseif (preg_match('/admin-profile$/', $arr[2])) {
+            // profile
             $tab = "view";
-            if(isset($arr[3])){
-                if($arr[3] ==""){
+            if (isset($arr[3])) {
+                if ($arr[3] == "") {
                     include 'admin/profile.php';
-                }elseif (in_array($arr[3], ["","view","edit","document", "password"])) {
-                    $tab = $arr[3] != ""?  $arr[3] : "view";
+                } elseif (in_array($arr[3], ["", "view", "edit", "document", "password"])) {
+                    $tab = $arr[3] != "" ? $arr[3] : "view";
                     include 'admin/profile.php';
-                }else{
+                } else {
                     include '404.php';
                 }
-            }else{
+            } else {
                 include 'admin/profile.php';
             }
-        }elseif ($arr[2] == "book-details") {
-            include 'admin/book-details.php';
-        } elseif ($arr[2] == "book-offer-details") {
-            include 'admin/book-offer-details.php';
-        } elseif ($arr[2] == "book-offers") {
-            include 'admin/book-offers.php';
-        } elseif ($arr[2] == "book-request-details") {
-            include 'admin/book-request-details.php';
-        } elseif ($arr[2] == "book-requests") {
-            include 'admin/book-requests.php';
-        } elseif ($arr[2] == "books") {
-            include 'admin/books.php';
-        } elseif ($arr[2] == "dashboard") {
-            include 'admin/dashboard.php';
-        } elseif ($arr[2] == "nav") {
-            include 'admin/nav.php';
-        } elseif ($arr[2] == "notification") {
+        } elseif ((preg_match('/admin-notification$/', $arr[2]))) {
             include 'admin/notification.php';
-        } elseif ($arr[2] == "rent") {
-            include 'admin/rent.php';
-        } elseif ($arr[2] == "signin") {
-            include 'admin/signin.php';
-        } elseif ($arr[2] == "signup") {
-            include 'admin/signup.php';
-        } elseif ($arr[2] == "user-details") {
-            $arr = explode('/', $router);
-            if(isset($arr[3]) && $arr[3] != ""){
-                $userId = $arr[3];
-                include 'admin/user-details.php';
-            }else{
-                include 'admin/users.php';
-            }
-        } elseif ($arr[2] == "users") {
+        } elseif ((preg_match('/admin-users$/', $arr[2]))) {
             include 'admin/users.php';
+        } elseif (preg_match('/admin-user-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
+            $userId = $arr[3];
+            include 'admin/user-details.php';
+        } elseif ((preg_match('/admin-books$/', $arr[2]))) {
+            include 'admin/books.php';
+        } elseif (preg_match('/admin-book-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
+            $bookId = $arr[3];
+            include 'admin/book-details.php';
+        } elseif ((preg_match('/admin-book-offers$/', $arr[2]))) {
+            include 'admin/book-offers.php';
+        } elseif ((preg_match('/admin-offer-details$/', $arr[2]))) {
+            include 'admin/book-offer-details.php';
+        } elseif ((preg_match('/admin-book-requests$/', $arr[2]))) {
+            include 'admin/book-requests.php';
+        } elseif ((preg_match('/admin-request-details$/', $arr[2]))) {
+            include 'admin/book-request-details.php';
+        } elseif ((preg_match('/admin-rent-history$/', $arr[2]))) {
+            include 'admin/rent.php';
+        }elseif ((preg_match('/admin-signin$/', $arr[2]))) {
+            include 'admin/signin.php';
+        }elseif ((preg_match('/admin-signup$/', $arr[2]))) {
+            include 'admin/signup.php';
         } else {
-            include 'admin/index.php';
+            include '404.php';
         }
-    }else{
+    } else {
         include 'admin/dashboard.php';
     }
-}       
- // default page
+}
+// default page
 else {
     include '404.php';
 }

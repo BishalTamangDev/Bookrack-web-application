@@ -8,8 +8,15 @@ if (session_status() == PHP_SESSION_NONE) {
 if(isset($_SESSION['bookrack-user-id'])){
     header("Location: /bookrack/home");
 }elseif(isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/dashboard");
+    header("Location: /bookrack/admin/admin-dashboard");
 }
+
+require_once __DIR__ . '/../bookrack/app/functions.php';
+require_once __DIR__ . '/../bookrack/app/book-class.php';
+
+$bookObj = new Book();
+
+$bookList = $bookObj->fetchAllBooks();
 ?>
 
 <!DOCTYPE html>
@@ -97,73 +104,48 @@ if(isset($_SESSION['bookrack-user-id'])){
             <p class="f-reset fw-bold fs-1 title title"> Trending Books </p>
 
             <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                <!-- book container :: dummy data 1 -->
-                <div class="book-container">
-                    <!-- book image -->
-                    <div class="book-image">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                    </div>
-
-                    <!-- book details -->
-                    <div class="book-details">
-                        <!-- book title -->
-                        <div class="book-title">
-                            <p class="book-title"> To Kill a Mockingbird </p>
-                            <i class="fa-regular fa-bookmark"></i>
+                <?php
+                if(sizeof($bookList) > 0){
+                    foreach($bookList as $key => $book){
+                        $bookObj->setCoverPhoto($book['photo']['cover']);
+                        ?>
+                        <div class="book-container">
+                            <!-- book image -->
+                            <div class="book-image">
+                                <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
+                            </div>
+    
+                            <!-- book details -->
+                            <div class="book-details">
+                                <!-- book title -->
+                                <div class="book-title">
+                                    <p class="book-title"> <?=$book['title']?> </p>
+                                </div>
+    
+                                <!-- book purpose -->
+                                <p class="book-purpose"> <?=getPascalCaseString($book['purpose'])?> </p>
+    
+                                <!-- book description -->
+                                <div class="book-description-container">
+                                    <p class="book-description"> <?=$book['description']?> </p>
+                                </div>
+    
+                                <!-- book price -->
+                                <div class="book-price">
+                                    <p class="book-price"> <?=getFormattedPrice($book['price']['offer'])?> </p>
+                                </div>
+    
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More </button>
+                            </div>
                         </div>
+                        <?php
+                    }
+                    ?>
+                    <?php
+                }else{
 
-                        <!-- book purpose -->
-                        <p class="book-purpose"> Renting </p>
-
-                        <!-- book description -->
-                        <div class="book-description-container">
-                            <p class="book-description"> Set in the American South during the 1930s, this classic
-                                novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                Finch, a young girl whose father, Atticus Finch, is ... </p>
-                        </div>
-
-                        <!-- book price -->
-                        <div class="book-price">
-                            <p class="book-price"> NRs. 85 </p>
-                        </div>
-
-                        <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
-                    </div>
-                </div>
-
-                <!-- book container :: dummy data 2 -->
-                <div class="book-container">
-                    <!-- book image -->
-                    <div class="book-image">
-                        <img src="/bookrack/assets/images/cover-2.png" alt="">
-                    </div>
-
-                    <!-- book details -->
-                    <div class="book-details">
-                        <!-- book title -->
-                        <div class="book-title">
-                            <p class="book-title"> Don't Look Back </p>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-
-                        <!-- book purpose -->
-                        <p class="book-purpose"> Selling </p>
-
-                        <!-- book description -->
-                        <div class="book-description-container">
-                            <p class="book-description"> Set in the American South during the 1930s, this classic
-                                novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                Finch, a young girl whose father, Atticus Finch, is ... </p>
-                        </div>
-
-                        <!-- book price -->
-                        <div class="book-price">
-                            <p class="book-price"> NRs. 170 </p>
-                        </div>
-
-                        <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
-                    </div>
-                </div>
+                }
+                ?>
             </div>
         </section>
 
@@ -230,147 +212,17 @@ if(isset($_SESSION['bookrack-user-id'])){
             <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent
                 them instantly. </p>
 
-            <div class="d-flex flex-row flex-wrap container gap-3 genre-container">
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Adventure</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Art & Photography</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Biography</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Chick Lit</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Children’s</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Classics</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Contemporary</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Cookbooks</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Dystopian</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Drama</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Essays</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Fairy Tales & Folklore</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Fantasy</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Graphic Novels</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Guide / How-to</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Health & Fitness</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Historical Fiction</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">History</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Horror</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Humor</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Humor & Satire</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Journalism</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">LGBTQ+</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Literary Fiction</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Magical Realism</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Memoir & Autobiography</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Motivational</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Mystery</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">New Adult (NA)</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Parenting & Families</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Paranormal Romance</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Philosophy</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Poetry</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Politics</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Religion & Spirituality</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Romance</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Science</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Science Fiction</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Self-Help</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Short Stories</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Thriller</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Travel</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">True Crime</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Western</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Women’s Fiction</p>
-                </div>
-                <div class="d-flex flex-row genre-card">
-                    <p class="genre-title">Young Adult (YA)</p>
-                </div>
+            <div class="d-flex flex-row flex-wrap container gap-2 genre-container">
+                <?php 
+                foreach($genreArray as $genre){
+                    ?>
+                    <div class="d-flex flex-row genre-card">
+                        <p class="genre-title"> <?=$genre?> </p>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
-
         </section>
     </main>
 

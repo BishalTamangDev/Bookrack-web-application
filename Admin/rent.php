@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+if (!isset($_SESSION['bookrack-admin-id'])) {
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
@@ -18,8 +18,8 @@ $profileAdmin = new Admin();
 $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
-if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+if ($profileAdmin->getAccountStatus() != "verified") {
+    header("Location: /bookrack/admin/admin-profile");
 }
 ?>
 
@@ -151,12 +151,12 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <td> 978-1-84356-028-9 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="/bookrack/admin/book-details"> To Kill a Mockingbird </a>
+                            <a href="/bookrack/admin/admin-book-details"> To Kill a Mockingbird </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="/bookrack/admin/user-details"> Bishal Tamang </a>
+                            <a href="/bookrack/admin/admin-user-details"> Bishal Tamang </a>
                         </abbr>
                     </td>
                     <td> 0000-00-00 </td>
@@ -177,12 +177,12 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <td> 978-0-596-52068-7 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="/bookrack/admin/book-details"> 1984 </a>
+                            <a href="/bookrack/admin/admin-book-details"> 1984 </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="/bookrack/admin/user-details"> Rupak Dangi </a>
+                            <a href="/bookrack/admin/admin-user-details"> Rupak Dangi </a>
                         </abbr>
                     </td>
                     <td> 2222-22-22 </td>
@@ -203,12 +203,12 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <td> 978-3-16-148410-0 </td>
                     <td>
                         <abbr title="Show book details">
-                            <a href="/bookrack/admin/book-details"> The Great Gatsby </a>
+                            <a href="/bookrack/admin/admin-book-details"> The Great Gatsby </a>
                         </abbr>
                     </td>
                     <td>
                         <abbr title="Show user details">
-                            <a href="/bookrack/admin/user-details"> Shristi Pradhan </a>
+                            <a href="/bookrack/admin/admin-user-details"> Shristi Pradhan </a>
                         </abbr>
                     </td>
                     <td> 3333-33-33 </td>

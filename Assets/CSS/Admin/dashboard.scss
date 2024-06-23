@@ -134,6 +134,9 @@
                 }
 
                 .genre {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
                     p {
                         font-size: 12px;
                     }

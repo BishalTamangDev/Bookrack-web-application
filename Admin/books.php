@@ -5,22 +5,39 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+if (!isset($_SESSION['bookrack-admin-id'])) {
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
 
+// profile admin object
 $profileAdmin = new Admin();
 
 $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
-if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+if ($profileAdmin->getAccountStatus() != "verified") {
+    header("Location: /bookrack/admin/admin-profile");
 }
+
+require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/../../bookrack/app/book-class.php';
+
+// user object
+$userObj = new User();
+
+// book object
+$bookObj = new Book();
+
+// fetching all books
+$bookList = $bookObj->fetchAllBooks();
+
+// book count
+$allBookCount = count($bookObj->fetchAllBooks());
+$rentBookCount = 0;
 ?>
 
 <!DOCTYPE html>
@@ -67,13 +84,13 @@ if($profileAdmin->getAccountStatus() != "verified"){
             <!-- number of books -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Books </p>
-                <p class="card-v1-detail"> 1245 </p>
+                <p class="card-v1-detail"> <?= $allBookCount ?> </p>
             </div>
 
             <!-- number of books on rent -->
             <div class="card-v1">
                 <p class="card-v1-title"> Books on Rent </p>
-                <p class="card-v1-detail"> 207 </p>
+                <p class="card-v1-detail"> <?= $rentBookCount ?> </p>
             </div>
         </section>
 
@@ -93,22 +110,23 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
                 <!-- genre -->
                 <select class="form-select" aria-label="select">
-                    <option value="0" selected hidden> Genre </option>
-                    <option value="1"> All </option>
-                    <option value="2"> Genre 1 </option>
-                    <option value="3"> Genre 2 </option>
-                    <option value="4"> Genre 3 </option>
-                    <option value="5"> Genre 4 </option>
-                    <option value="6"> Genre 5 </option>
+                    <option value="0" selected hidden> All genre </option>
+                    <?php
+                    foreach ($genreArray as $genre) {
+                        ?>
+                        <option value="<?= $genre ?>"> <?= $genre ?> </option>
+                        <?php
+                    }
+                    ?>
                 </select>
 
                 <!-- language -->
                 <select class="form-select" aria-label="select">
-                    <option value="0" selected hidden> Language </option>
-                    <option value="1"> All </option>
-                    <option value="2"> English </option>
-                    <option value="3"> Nepali </option>
-                    <option value="4"> Hindi </option>
+                    <option value="0" selected hidden> All languages </option>
+                    <option value="chinese"> Chinese </option>
+                    <option value="english"> English </option>
+                    <option value="hindi"> Hindi </option>
+                    <option value="nepali"> Nepali </option>
                 </select>
 
                 <!-- clear filter -->
@@ -155,72 +173,54 @@ if($profileAdmin->getAccountStatus() != "verified"){
             </thead>
 
             <!-- body -->
-            <tbody>
-                <!-- dummy data -->
-                <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 1 </th>
-                    <td> 124745 </td>
-                    <td> 978-1-84356-028-9 </td>
-                    <td> To Kill a Mockingbird </td>
-                    <td>Fiction, Classic, Historical</td>
-                    <td>Harper Lee</td>
-                    <td>English</td>
-                    <td>Bishal Tamang</td>
-                    <td>On Rent</td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/book-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-
-                <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 2 </th>
-                    <td> 456789 </td>
-                    <td> 978-0-596-52068-7 </td>
-                    <td> 1984 </td>
-                    <td> Dystopian, Science Fiction, Political Fiction </td>
-                    <td> George Orwell </td>
-                    <td> English </td>
-                    <td> Rupak Dangi </td>
-                    <td> On rent </td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/book-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-
-                <tr class="book-row on-rent-row on-stock-row">
-                    <th scope="row"> 3 </th>
-                    <td> 159482 </td>
-                    <td> 978-3-16-148410-0 </td>
-                    <td> The Great Gatsby </td>
-                    <td> Fiction, Classic, Tragedy </td>
-                    <td> F. Scott Fitzgerald </td>
-                    <td> English </td>
-                    <td> Shristi Pradhan </td>
-                    <td> On stock </td>
-                    <td>
-                        <abbr title="Show full details">
-                            <a href="/bookrack/admin/book-details">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </abbr>
-                    </td>
-                </tr>
-            </tbody>
-
+            <?php
+            if ($allBookCount > 0) {
+                ?>
+                <tbody>
+                    <?php
+                    $serial = 1;
+                    foreach($bookList as $key => $book){
+                        ?>
+                        <tr class="book-row on-rent-row on-stock-row">
+                            <th scope="row"> <?=$serial++?> </th>
+                            <td> <?=$key?> </td>
+                            <td> <?=$book['isbn']?> </td>
+                            <td> <?=$book['title']?> </td>
+                            <td>
+                                <?php
+                                $count = 0;
+                                foreach($book['genre'] as $genre){
+                                    $count++;
+                                    echo $count != count($book['genre']) ? $genre.', ' : $genre;
+                                }
+                                ?>
+                            </td>
+                            <td> Harper Lee</td>
+                            <td> <?=$book['language']?></td>
+                            <td> <?=$book['owner_id']?></td>
+                            <td> <?="-"?></td>
+                            <td>
+                                <abbr title="Show full details">
+                                    <a href="/bookrack/admin/admin-book-details/<?=$key?>">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </abbr>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
+                <?php
+            }
+            ?>
             <!-- footer -->
             <tfoot id="table-foot">
                 <tr>
                     <td colspan="10"> No book found! </td>
                 </tr>
             </tfoot>
+
         </table>
     </main>
 

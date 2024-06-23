@@ -104,6 +104,11 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+.recently-arrived-books-container .recently-arrived-books-div .recently-arrived-book .detail .genre {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 .recently-arrived-books-container .recently-arrived-books-div .recently-arrived-book .detail .genre p {
   font-size: 12px;
 }

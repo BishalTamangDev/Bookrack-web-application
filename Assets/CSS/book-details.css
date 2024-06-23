@@ -31,21 +31,13 @@
 .main .book-detail-container .all-detail-container .genre-container .genre-list .genre {
   padding: 8px 12px;
   text-align: center;
-  background-color: black;
   border-radius: 6px;
-}
-.main .book-detail-container .all-detail-container .genre-container .genre-list .genre p {
-  margin: 0;
-  color: white;
 }
 .main .book-detail-container .all-detail-container .author-container .author-list .author {
   padding: 8px 12px;
   border-radius: 6px;
   border: 1px solid rgb(223, 223, 223);
   background-color: white;
-}
-.main .book-detail-container .all-detail-container .author-container .author-list .author p {
-  margin: 0;
 }
 .main .book-detail-container .all-detail-container .misc-container .misc-div {
   padding: 8px 4px;
@@ -58,12 +50,8 @@
 .main .book-detail-container .all-detail-container .misc-container .misc-div:hover {
   background-color: whitesmoke;
 }
-.main .book-detail-container .all-detail-container .misc-container .misc-div p {
-  margin: 0;
-}
 .main .book-detail-container .all-detail-container .misc-container .misc-div .title {
   min-width: 25%;
-  font-weight: bold;
 }
 .main .book-detail-container .all-detail-container .operation-container {
   gap: 1rem;

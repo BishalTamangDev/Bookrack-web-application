@@ -114,9 +114,19 @@ img{
 .table{
     width: 100%;
 
+    thead{
+        tr{
+            th{
+                vertical-align: top;
+            }
+        }
+    }
+
     tbody{
         tr{
             th, td{
+                vertical-align: top;
+
                 abbr{
                     text-decoration: none;
                 }

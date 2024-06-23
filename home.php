@@ -5,9 +5,32 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-user-id'])){
+if (!isset($_SESSION['bookrack-user-id'])) {
     header("Location: /bookrack/");
 }
+
+require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/../bookrack/app/functions.php';
+
+// user object
+$profileUser = new User();
+
+// set user id
+$profileUser->setUserId($_SESSION['bookrack-user-id']);
+
+// get user details
+$userFound = $profileUser->fetch($profileUser->getUserId());
+
+if (!$userFound) {
+    header("Location: /bookrack/signout");
+}
+
+// book obj 
+$bookObj = new Book();
+
+// fetching all books
+$bookList = $bookObj->fetchAllBooks();
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +79,7 @@ if(!isset($_SESSION['bookrack-user-id'])){
             <section class="filter-section">
                 <!-- heading -->
                 <section class="d-flex flex-row justify-content-between align-items-center row-heading">
-                    <p class="f-reset fw-bold text-secondary"> Filters </p>
+                    <p class="m-0 fw-bold text-secondary"> Filters </p>
 
                     <div class="d-flex flex-row align-items-center gap-2 icon-container">
                         <i class="fa fa-filter d-none d-lg-block text-secondary"></i>
@@ -79,13 +102,13 @@ if(!isset($_SESSION['bookrack-user-id'])){
 
                             <div class="d-flex gap-2 align-items-center">
                                 <!-- min price -->
-                                <input type="number" name="min-price" class="form-control" id="min-price"
+                                <input type="number" name="min-price" class="form-control" id="min-price" min="0"
                                     aria-describedby="min price" placeholder="Min">
 
-                                <p class="f-reset fw-bold"> - </p>
+                                <p class="m-0 fw-bold"> - </p>
 
                                 <!-- max price -->
-                                <input type="number" name="max-price" class="form-control" id="max-price"
+                                <input type="number" name="max-price" class="form-control" id="max-price" min="0"
                                     aria-describedby="max price" placeholder="Max">
                             </div>
                         </div>
@@ -100,9 +123,9 @@ if(!isset($_SESSION['bookrack-user-id'])){
 
                             <select class="form-select form-select-md" name="purpose" id="purpose"
                                 aria-label="Small select example">
-                                <option value="all"> All </option>
-                                <option value="renting"> Rent </option>
-                                <option value="selling"> Buy </option>
+                                <option value="all" selected> All </option>
+                                <option value="renting"> Renting </option>
+                                <option value="buy/sell"> Buy/Sell </option>
                             </select>
                         </div>
 
@@ -116,12 +139,14 @@ if(!isset($_SESSION['bookrack-user-id'])){
 
                             <select class="form-select form-select-md" name="genre" id="genre"
                                 aria-label="Small select example">
-                                <option selected hidden value="all"> All genre </option>
-                                <option value="genre1"> Genre 1 </option>
-                                <option value="genre2"> Genre 2 </option>
-                                <option value="genre3"> Genre 3 </option>
-                                <option value="genre4"> Genre 4 </option>
-                                <option value="genre5"> Genre 5 </option>
+                                <option value="all" selected hidden> All genre </option>
+                                <?php
+                                foreach($genreArray as $genre){
+                                    ?>
+                                    <option value="<?=$genre?>"> <?=$genre?> </option>
+                                    <?php
+                                }
+                                ?>
                             </select>
                         </div>
 
@@ -140,189 +165,130 @@ if(!isset($_SESSION['bookrack-user-id'])){
         <!-- article -->
         <article class="article bg-md-success bg-sm-danger">
             <!-- top genre  -->
-            <section class="d-flex flex-row gap-4 flex-wrap align-items-center top-genre-section">
-                <p class="f-reset fs-5"> Top Genre </p>
+            <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
+                <p class="m-0 fs-5"> Top Genre </p>
 
+                <?php
+                $genreList = [];
+                foreach($bookList as $key => $book){
+                    $genreList = $book['genre'];
+                }
+                ?>
+
+                <!-- fetch all the genres -->
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container">
-                    <div class="genre">
-                        <p class="f-reset text-secondary"> Genre 1 </p>
-                    </div>
-
-                    <div class="genre">
-                        <p class="f-reset text-secondary"> Genre 2 </p>
-                    </div>
-
-                    <div class="genre">
-                        <p class="f-reset text-secondary"> Genre 3 </p>
-                    </div>
-
-                    <div class="genre">
-                        <p class="f-reset text-secondary"> Genre 4 </p>
-                    </div>
+                    <?php
+                    foreach($genreList as $genre){
+                        ?>
+                        <div class="genre">
+                            <p class="m-0 text-secondary"> <?=$genre?> </p>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </section>
 
             <!-- trending book section -->
             <section class="d-flex flex-column gap-3 section trending-book-section">
-                <p class="f-reset fw-bold heading text-secondary fs-4"> Trending Books </p>
+                <p class="m-0 fw-bold heading text-secondary fs-4"> Trending Books </p>
                 <!-- trending book container -->
                 <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                    <!-- book container :: dummy data 1 -->
-                    <div class="book-container">
-                        <!-- book image -->
-                        <div class="book-image">
-                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+
+                    <?php
+                    foreach ($bookList as $key => $book) {
+                        $bookObj->setCoverPhoto($book['photo']['cover']);
+                        ?>
+                        <div class="book-container">
+                            <!-- book image -->
+                            <div class="book-image">
+                                <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
+                            </div>
+
+                            <!-- book details -->
+                            <div class="book-details">
+                                <!-- book title -->
+                                <div class="book-title">
+                                    <p class="book-title"> <?=$book['title']?> </p>
+                                    <a href="#">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </a>
+                                </div>
+
+                                <!-- book purpose -->
+                                <p class="book-purpose"> <?=$book['purpose']?> </p>
+
+                                <!-- book description -->
+                                <div class="book-description-container">
+                                    <p class="book-description"> Set in the American South during the 1930s, this classic
+                                        novel explores themes of racial injustice and moral growth through the eyes of Scout
+                                        Finch, a young girl whose father, Atticus Finch, is ... </p>
+                                </div>
+
+                                <!-- book price -->
+                                <div class="book-price">
+                                    <p class="book-price"> <?= getFormattedPrice($book['price']['offer'])?> </p>
+                                </div>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More
+                                </button>
+                            </div>
                         </div>
-
-                        <!-- book details -->
-                        <div class="book-details">
-                            <!-- book title -->
-                            <div class="book-title">
-                                <p class="book-title"> To Kill a Mockingbird </p>
-                                <a href="#">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </a>
-                            </div>
-
-                            <!-- book purpose -->
-                            <p class="book-purpose"> Renting </p>
-
-                            <!-- book description -->
-                            <div class="book-description-container">
-                                <p class="book-description"> Set in the American South during the 1930s, this classic
-                                    novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                    Finch, a young girl whose father, Atticus Finch, is ... </p>
-                            </div>
-
-                            <!-- book price -->
-                            <div class="book-price">
-                                <p class="book-price"> NRs. 85 </p>
-                            </div>
-
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- book container :: dummy data 2 -->
-                    <div class="book-container">
-                        <!-- book image -->
-                        <div class="book-image">
-                            <img src="/bookrack/assets/images/cover-2.png" alt="">
-                        </div>
-
-                        <!-- book details -->
-                        <div class="book-details">
-                            <!-- book title -->
-                            <div class="book-title">
-                                <p class="book-title"> Don't Look Back </p>
-                                <a href="#">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </a>
-                            </div>
-
-                            <!-- book purpose -->
-                            <p class="book-purpose"> Selling </p>
-
-                            <!-- book description -->
-                            <div class="book-description-container">
-                                <p class="book-description"> Set in the American South during the 1930s, this classic
-                                    novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                    Finch, a young girl whose father, Atticus Finch, is ... </p>
-                            </div>
-
-                            <!-- book price -->
-                            <div class="book-price">
-                                <p class="book-price"> NRs. 170 </p>
-                            </div>
-
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                            </button>
-                        </div>
-                    </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </section>
 
             <!-- all books section -->
             <section class="d-flex flex-column gap-3 section all-books-section">
                 <div class="d-flex justify-content-between align-items-center heading">
-                    <p class="f-reset fw-bold heading text-secondary fs-4"> All Books </p>
+                    <p class="m-0 fw-bold heading text-secondary fs-4"> All Books </p>
                     <i class="fa fa-filter text-secondary pointer" id="filter-show-trigger-2"></i>
                 </div>
 
                 <!-- all book container -->
                 <div class="d-flex flex-row flex-wrap gap-3 all-book-container">
-                    <!-- book container :: dummy data 1 -->
-                    <div class="book-container">
-                        <!-- book image -->
-                        <div class="book-image">
-                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                    <?php
+                    foreach ($bookList as $key => $book) {
+                        $bookObj->setCoverPhoto($book['photo']['cover']);
+                        ?>
+                        <div class="book-container">
+                            <!-- book image -->
+                            <div class="book-image">
+                                <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt=""> -->
+                                <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="" loading="lazy">
+                            </div>
+
+                            <!-- book details -->
+                            <div class="book-details">
+                                <!-- book title -->
+                                <div class="book-title"> <?= $book['title'] ?> </p>
+                                    <a href="#">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                    </a>
+                                </div>
+
+                                <!-- book purpose -->
+                                <p class="book-purpose"> <?= $book['purpose'] ?> </p>
+
+                                <!-- book description -->
+                                <div class="book-description-container">
+                                    <p class="book-description"> <?= $book['description'] ?> </p>
+                                </div>
+
+                                <!-- book price -->
+                                <div class="book-price">
+                                    <p class="book-price"> <?= getFormattedPrice($book['price']['offer']) ?> </p>
+                                </div>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>'"> Show
+                                    More </button>
+                            </div>
                         </div>
-
-                        <!-- book details -->
-                        <div class="book-details">
-                            <!-- book title -->
-                            <div class="book-title">
-                                <p class="book-title"> To Kill a Mockingbird </p>
-                                <a href="#">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </a>
-                            </div>
-
-                            <!-- book purpose -->
-                            <p class="book-purpose"> Renting </p>
-
-                            <!-- book description -->
-                            <div class="book-description-container">
-                                <p class="book-description"> Set in the American South during the 1930s, this classic
-                                    novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                    Finch, a young girl whose father, Atticus Finch, is ... </p>
-                            </div>
-
-                            <!-- book price -->
-                            <div class="book-price">
-                                <p class="book-price"> NRs. 85 </p>
-                            </div>
-
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
-                        </div>
-                    </div>
-
-                    <!-- book container :: dummy data 2 -->
-                    <div class="book-container">
-                        <!-- book image -->
-                        <div class="book-image">
-                            <img src="/bookrack/assets/images/cover-2.png" alt="">
-                        </div>
-
-                        <!-- book details -->
-                        <div class="book-details">
-                            <!-- book title -->
-                            <div class="book-title">
-                                <p class="book-title"> Don't Look Back </p>
-                                <a href="#">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </a>
-                            </div>
-
-                            <!-- book purpose -->
-                            <p class="book-purpose"> Selling </p>
-
-                            <!-- book description -->
-                            <div class="book-description-container">
-                                <p class="book-description"> Set in the American South during the 1930s, this classic
-                                    novel explores themes of racial injustice and moral growth through the eyes of Scout
-                                    Finch, a young girl whose father, Atticus Finch, is ... </p>
-                            </div>
-
-                            <!-- book price -->
-                            <div class="book-price">
-                                <p class="book-price"> NRs. 170 </p>
-                            </div>
-
-                            <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More </button>
-                        </div>
-                    </div>
+                        <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- pagination -->

@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (isset($_SESSION['bookrack-admin-id'])) {
-    header("Location: /bookrack/admin/dashboard");
+    header("Location: /bookrack/admin/admin-dashboard");
 }
 ?>
 
@@ -50,7 +50,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                 <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="/bookrack/admin/signin">
+                <a href="/bookrack/admin/admin-signin">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -73,7 +73,8 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                         if (isset($_SESSION['status'])) {
                             ?>
                             <p class="m-0 mb-2 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
-                                <?= $_SESSION['status-message'] ?> </p>
+                                <?= $_SESSION['status-message'] ?>
+                            </p>
                             <?php
                         }
                         ?>
@@ -100,12 +101,11 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="admin-password"
-                                    value="<?php
-                                    if (isset($_SESSION['temp-password'])) {
-                                        echo $_SESSION['temp-password'];
-                                    }
-                                    ?>" placeholder="********" aria-label="password" aria-describedby="password"
+                                <input type="password" name="password" class="form-control" id="admin-password" value="<?php
+                                if (isset($_SESSION['temp-password'])) {
+                                    echo $_SESSION['temp-password'];
+                                }
+                                ?>" placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="admin-password">Password</label>
                             </div>
@@ -125,7 +125,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                         <div class="d-flex flex-row flex-wrap gap-3 action">
                             <button type="submit" class="btn" name="admin-signin-btn" id="signin-btn"> Signin Now
                             </button>
-                            <a href="/bookrack/admin/signup" class="btn"> Create Account </a>
+                            <a href="/bookrack/admin/admin-signup" class="btn"> Create Account </a>
                         </div>
                     </form>
                 </div>

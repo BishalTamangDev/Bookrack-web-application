@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
@@ -19,7 +19,7 @@ $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
 if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+    header("Location: /bookrack/admin/admin-profile");
 }
 ?>
 

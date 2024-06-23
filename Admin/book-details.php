@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
@@ -19,8 +19,25 @@ $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
 if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+    header("Location: /bookrack/admin/admin-profile");
 }
+
+require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/../../bookrack/app/book-class.php';
+
+// user object
+$userObj = new User();
+
+// book object
+$bookObj = new Book();
+$bookObj->setId($bookId);
+$bookFound = $bookObj->fetch($bookId);
+
+if(!$bookFound){
+    header("Location: /bookrack/admin/admin-dashbaord");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +48,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Book Details </title>
+    <title> Book Details : <?=$bookObj->getTitle()?> </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -64,7 +81,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
         <!-- heading & rating -->
         <section class="d-flex flex-column heading-rating">
             <!-- heading -->
-            <p class="page-heading"> The Tales of Two Cities </p>
+            <p class="page-heading"> <?=$bookObj->getTitle()?> </p>
 
             <!-- rating -->
             <div class="d-flex flex-row align-items-center gap-2 rating-count">
@@ -77,7 +94,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                 </div>
 
                 <div class="count">
-                    <p class="f-reset"> (89) </p>
+                    <p class="f-reset"> (<?="-"?>) </p>
                 </div>
             </div>
         </section>
@@ -91,9 +108,9 @@ if($profileAdmin->getAccountStatus() != "verified"){
                 </div>
 
                 <div class="d-flex flex-column flex-lg-row gap-2 bottom">
-                    <img src="/bookrack/assets/images/cover-2.png" alt="">
-                    <img src="/bookrack/assets/images/cover-3.jpg" alt="">
-                    <img src="/bookrack/assets/images/isbn-1.jpg" alt="">
+                    <img src="<?=$bookObj->getCoverPhotoUrl();?>" alt="Cover page photo">
+                    <img src="<?=$bookObj->getPricePhotoUrl();?>" alt="Price page photo">
+                    <img src="<?=$bookObj->getIsbnPhotoUrl();?>" alt="Isbn page photo">
                 </div>
             </div>
 
@@ -104,22 +121,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <!-- description -->
                     <div class="d-flex flex-column desciption-div">
                         <p class="f-reset fw-bold fs-5"> Description </p>
-                        <p class="f-reset fs-6">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat distinctio veritatis qui
-                            voluptatum cumque quo recusandae et sapiente vel laudantium dolorum, asperiores ut
-                            illum! Adipisci commodi voluptatum id maiores natus doloremque incidunt est eum, placeat
-                            debitis accusantium, sint sapiente. Tempore quidem doloribus iure nihil autem, nulla,
-                            laborum excepturi dicta molestias in consequuntur reprehenderit placeat quaerat aut
-                            distinctio est voluptatibus necessitatibus numquam voluptate veniam iste. Suscipit fugit
-                            voluptatibus similique veritatis ab doloribus nostrum, eligendi magni perspiciatis sunt
-                            sit velit? Deleniti in perspiciatis est culpa soluta voluptates dolores quis asperiores
-                            cumque, vitae ea tenetur laborum voluptate voluptas, fugiat odit! Illo laudantium est
-                            explicabo, velit rerum porro deleniti odio incidunt impedit fugiat, quaerat quidem nam
-                            quas ducimus dignissimos cupiditate eveniet. Laboriosam repudiandae commodi harum
-                            repellendus facilis dolor corporis saepe vel ducimus neque nisi, ratione nemo sint
-                            dolore officiis ipsum nihil optio eaque reprehenderit ipsa beatae explicabo a voluptatum
-                            dolorum. Ratione cupiditate culpa temporibus.
-                        </p>
+                        <p class="f-reset fs-6"> <?=$bookObj->getDescription()?> </p>
                     </div>
 
                     <!-- genre -->
@@ -127,13 +129,15 @@ if($profileAdmin->getAccountStatus() != "verified"){
                         <p class="f-reset fw-bold fs-5"> Genre </p>
 
                         <div class="d-flex flex-row gap-2 genre-list">
-                            <div class="genre">
-                                <p class="f-reset"> Science-Fiction </p>
-                            </div>
-
-                            <div class="genre">
-                                <p class="f-reset"> Thriller </p>
-                            </div>
+                            <?php
+                            foreach($bookObj->getGenre() as $genre){
+                                ?>
+                                <div class="genre">
+                                    <p class="m-0"> <?=$genre?> </p>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
 
@@ -142,36 +146,50 @@ if($profileAdmin->getAccountStatus() != "verified"){
                         <p class="f-reset fw-bold fs-5"> Author[s] </p>
 
                         <div class="d-flex flex-row gap-2 author-list">
-                            <div class="author">
-                                <p class="f-reset"> Bishal Tamang </p>
-                            </div>
-
-                            <div class="author">
-                                <p class="f-reset"> Rupak Dangi </p>
-                            </div>
-
-                            <div class="author">
-                                <p class="f-reset"> Shristi Pradhan </p>
-                            </div>
+                            <?php
+                            foreach($bookObj->getAuthor() as $author){
+                                ?>
+                                <div class="author">
+                                    <p class="f-reset"> <?=$author?> </p>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
 
                     <!-- edition -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Edition </p>
-                        <p class="f-reset fs-6"> 5 <sup>th</sup> </p>
+                        <p class="f-reset fs-6"> <?=$bookObj->getEdition()?><sup><?php
+                            $remainder = $bookObj->getEdition() % 10;
+
+                            switch ($remainder) {
+                                case 1;
+                                    echo "st";
+                                    break;
+                                case 2;
+                                    echo "nd";
+                                    break;
+                                case 3:
+                                    echo "rd";
+                                    break;
+                                default:
+                                    echo "th";
+                            }
+                            ?></sup> </p>
                     </div>
 
                     <!-- publisher -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Publisher </p>
-                        <p class="f-reset fs-6"> Gibraltar's Mediterranean Restaurant </p>
+                        <p class="f-reset fs-6"> <?=$bookObj->getPublisher()?> </p>
                     </div>
 
-                    <!-- publication-date -->
-                    <div class="d-flex flex-row d-none gap-3 edition-div">
-                        <p class="f-reset fw-bold fs-5"> Publication Date </p>
-                        <p class="f-reset fs-6"> May 9, 2017 </p>
+                    <!-- publication -->
+                    <div class="d-flex flex-row gap-3 edition-div">
+                        <p class="f-reset fw-bold fs-5"> Publication </p>
+                        <p class="f-reset fs-6"> <?=$bookObj->getPublication()?> </p>
                     </div>
                 </div>
 
@@ -184,7 +202,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
                     <div class="d-flex flex-column gap-3 px-3 pt-3 surface-bottom">
                         <!-- book id -->
-                        <p class="f-reset fw-bold"> #8457145236 </p>
+                        <p class="f-reset fw-bold"> <?=$bookObj->getId()?> </p>
 
                         <!-- language -->
                         <div class="d-flex flex-row language">
@@ -193,7 +211,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                             </div>
 
                             <div class="right">
-                                <p class="f-reset fw-bold"> English </p>
+                                <p class="f-reset fw-bold"> <?=getPascalCaseString($bookObj->getLanguage())?> </p>
                             </div>
                         </div>
 
@@ -204,7 +222,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                             </div>
 
                             <div class="right">
-                                <p class="f-reset fw-bold text-success"> NRs. 170.00 </p>
+                                <p class="f-reset fw-bold text-success"> <?= getFormattedPrice($bookObj->getOfferPrice())?> </p>
                             </div>
                         </div>
 
@@ -214,9 +232,18 @@ if($profileAdmin->getAccountStatus() != "verified"){
                                 <p class="f-reset fw-bold"> Owner </p>
                             </div>
 
+                            <?php
+                            $userObj->setUserId($bookObj->getOwnerId());
+                            $userObj->fetch($bookObj->getOwnerId());
+                            ?>
+
                             <div class="right">
                                 <abbr title="Show owner details">
-                                    <p class="f-reset fw-bold pointer"> Rupak Dangi </p>
+                                    <p class="f-reset fw-bold pointer">
+                                        <a href="/bookrack/admin/admin-user-details/<?=$userObj->getUserId()?>" class="text-dark">
+                                            <?=getFormattedName($userObj->getFirstName(), $userObj->getLastName())?>
+                                        </a>
+                                    </p>
                                 </abbr>
                             </div>
                         </div>

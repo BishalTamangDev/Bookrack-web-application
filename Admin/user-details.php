@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+if (!isset($_SESSION['bookrack-admin-id'])) {
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
@@ -18,20 +18,25 @@ $profileAdmin = new Admin();
 $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
-if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+if ($profileAdmin->getAccountStatus() != "verified") {
+    header("Location: /bookrack/admin/admin-profile");
 }
 
 // including user class
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/../../bookrack/app/book-class.php';
+
 $selectedUser = new User();
 $userObj = new User();
+$bookObj = new Book();
 
 $status = $selectedUser->fetch($userId);
-if(!$status){
-    header("Location: /bookrack/admin/users");
+if (!$status) {
+    header("Location: /bookrack/admin/admin-users");
 }
 $selectedUser->setUserId($userId);
+
+$bookList = $bookObj->fetchBookByUserId($userId);
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +47,7 @@ $selectedUser->setUserId($userId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> User Detail </title>
+    <title> User Detail : <?= getFormattedName($selectedUser->getFirstName(), $selectedUser->getLastName()) ?> </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -73,36 +78,35 @@ $selectedUser->setUserId($userId);
     <!-- main content -->
     <main class="main">
         <!-- heading -->
-        <p class="fw-bold page-heading"> User Details </p>
+        <p class="fw-bold page-heading">
+            <?= getFormattedName($selectedUser->getFirstName(), $selectedUser->getLastName()) ?> </p>
 
         <!-- user detail -->
         <section class="section d-flex flex-column flex-lg-row gap-5 user-detail-div">
             <!-- photo section -->
             <div class="photo-account-status">
                 <div class="photo-div">
-                    <img src="/bookrack/assets/images/user-1.png" alt="profile picture">
+                    <img src="<?= $selectedUser->getProfilePictureImageUrl(); ?>" alt="profile picture">
                 </div>
             </div>
 
             <!-- details -->
             <div class="d-flex flex-column pt-2 gap-1 details">
-                <!-- name -->
-                <div class="name">
-                    <h5 class="fw-bold"> <?=getPascalCaseString($selectedUser->getFirstName())." ".getPascalCaseString($selectedUser->getLastName())?> </h5>
-                </div>
-
                 <!-- all details -->
                 <div class="d-flex flex-row flex-wrap gap-5 all-details">
                     <!-- email, gender, dob -->
                     <div class="d-flex flex-column gap-2 email-gender-dob">
-                        <p class="f-reset"> <?=$selectedUser->getEmail()?> </p>
+                        <p class="f-reset"> <?= $selectedUser->getEmail() ?> </p>
                         <p class="f-reset"> <?php
-                                if($selectedUser->getGender() == 0) echo "Male";
-                                elseif($selectedUser->getGender() == 1) echo "Female";
-                                else echo "Others";
-                                ?>
-                            </p>
-                        <p class="f-reset"> <?=$selectedUser->getDob()?> </p>
+                        if ($selectedUser->getGender() == 0)
+                            echo "Male";
+                        elseif ($selectedUser->getGender() == 1)
+                            echo "Female";
+                        else
+                            echo "Others";
+                        ?>
+                        </p>
+                        <p class="f-reset"> <?= $selectedUser->getDob() ?> </p>
                     </div>
 
                     <!-- contact, address -->
@@ -125,7 +129,9 @@ $selectedUser->setUserId($userId);
                             </div>
 
                             <div class="data">
-                                <p class="f-reset"> <?=getPascalCaseString($selectedUser->getAddressLocation()).", ".$districtArray[$selectedUser->getAddressDistrict()]?> </p>
+                                <p class="f-reset">
+                                    <?= getPascalCaseString($selectedUser->getAddressLocation()) . ", " . $districtArray[$selectedUser->getAddressDistrict()] ?>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -135,7 +141,7 @@ $selectedUser->setUserId($userId);
                         <!-- rent -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded rent">
                             <div class="data">
-                                <p class="f-reset fw-bold fs-3"> <?="-"?> </p>
+                                <p class="f-reset fw-bold fs-3"> <?= "-" ?> </p>
                             </div>
                             <div class="title">
                                 <p class="f-reset fs-6"> Books Rented </p>
@@ -145,7 +151,7 @@ $selectedUser->setUserId($userId);
                         <!-- contribution -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded contribution">
                             <div class="data">
-                                <p class="f-reset fw-bold fs-3"> <?="-"?> </p>
+                                <p class="f-reset fw-bold fs-3"> <?= count($bookList) ?> </p>
                             </div>
                             <div class="title">
                                 <p class="f-reset fs-6"> Book Contribution </p>
@@ -160,41 +166,31 @@ $selectedUser->setUserId($userId);
         <h6 class="section fw-bold text-danger"> Contributed Books </h6>
 
         <section class="d-flex flex-row flex-wrap contributed-book-container">
-            <!-- contributed book 1 -->
-            <div class="contributed-book">
-                <div class="image-div">
-                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                </div>
+            <?php
+            foreach ($bookList as $key => $book) {
+                $bookObj->setCoverPhoto($book['photo']['cover']);
+                ?>
+                <div class="contributed-book">
+                    <div class="image-div">
+                        <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="">
+                    </div>
 
-                <div class="detail-div">
-                    <p class="title"> The Black Universe </p>
-                    <p class="genre"> Action </p>
+                    <div class="detail-div">
+                        <p class="title"> <?= $book['title'] ?> </p>
+                        <div class="d-flex flex-row flex-wrap genre">
+                            <?php
+                            foreach ($book['genre'] as $genre) {
+                                ?>
+                                <p class="genre"> <?= $genre ?></p>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <!-- contributed book 2 -->
-            <div class="contributed-book">
-                <div class="image-div">
-                    <img src="/bookrack/assets/images/cover-2.png" alt="">
-                </div>
-
-                <div class="detail-div">
-                    <p class="title"> The Black Universe </p>
-                    <p class="genre"> Action, Thriller </p>
-                </div>
-            </div>
-
-            <!-- contributed book 3 -->
-            <div class="contributed-book">
-                <div class="image-div">
-                    <img src="/bookrack/assets/images/cover-3.jpg" alt="">
-                </div>
-
-                <div class="detail-div">
-                    <p class="title"> Intuition </p>
-                    <p class="genre"> Suspense </p>
-                </div>
-            </div>
+                <?php
+            }
+            ?>
         </section>
 
         <h6 class="section fw-bold text-danger"> Rent History </h6>

@@ -5,13 +5,14 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+
+
 if(!isset($_SESSION['bookrack-admin-id'])){
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
 
@@ -19,8 +20,15 @@ $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
 if($profileAdmin->getAccountStatus() != "verified"){
-    header("Location: /bookrack/admin/profile");
+    header("Location: /bookrack/admin/admin-profile");
 }
+
+require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/../../bookrack/app/book-class.php';
+
+$userObj = new User();
+$bookObj = new Book();
 ?>
 
 
@@ -68,24 +76,31 @@ if($profileAdmin->getAccountStatus() != "verified"){
         <section
             class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
             <div class="count-card">
+                <?php
+                // count the number of users
+                $userCount = count($userObj->fetchAllUsers());
+
+                // count the number of book
+                $bookCount = count($bookObj->fetchAllBooks());
+                ?>
                 <!-- cards -->
                 <div class="card-container">
                     <!-- number of users -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Users </p>
-                        <p class="card-v1-detail"> 1245 </p>
+                        <p class="card-v1-detail"> <?=$userCount?> </p>
                     </div>
 
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
-                        <p class="card-v1-detail"> 5000 </p>
+                        <p class="card-v1-detail"> <?=$bookCount?> </p>
                     </div>
 
                     <!-- number of books on rent -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books on Rent </p>
-                        <p class="card-v1-detail"> 27 </p>
+                        <p class="card-v1-detail"> <?="-"?> </p>
                     </div>
 
                 </div>
@@ -162,7 +177,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
                             <tr>
                                 <td colspan="4">
-                                    <a href="/bookrack/admin/book-offers"> Show all offers </a>
+                                    <a href="/bookrack/admin/admin-book-offers"> Show all offers </a>
                                 </td>
                             </tr>
                         </tfoot>
@@ -206,7 +221,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                             </tr>
                             <tr>
                                 <td colspan="9">
-                                    <a href="/bookrack/admin/book-requests"> Show all requests </a>
+                                    <a href="/bookrack/admin/admin-book-requests"> Show all requests </a>
                                 </td>
                             </tr>
                         </tfoot>
@@ -224,24 +239,44 @@ if($profileAdmin->getAccountStatus() != "verified"){
             <p class="f-reset text-danger"> No books found! </p>
 
             <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
-                <!-- book 1 -->
-                <div class="recently-arrived-book" onclick="window.location.href='book-details.php'">
-                    <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                    </div>
+                <?php
+                $bookList = $bookObj->fetchAllBooks();
 
-                    <div class="detail">
-                        <div class="title">
-                            <p> The Black Universe </p>
+                foreach($bookList as $key => $book){
+                    $bookObj->setCoverPhoto($book['photo']['cover']);
+                    ?>
+                    <div class="recently-arrived-book" onclick="window.location.href='/bookrack/admin/admin-book-details/<?=$key?>'">
+                        <div class="image-div">
+                            <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
                         </div>
-                        <div class="genre">
-                            <p> Action </p>
+
+                        <div class="detail">
+                            <div class="title">
+                                <p> <?=$book['title']?> </p>
+                            </div>
+
+                            <div class="genre">
+                                <?php
+                                $count = 0;
+                                foreach($book['genre'] as $genre){
+                                    $count++;
+                                    ?>
+                                    <p> 
+                                        <?php 
+                                        echo ($count != count($book['genre'])) ? $genre.", " : $genre;?> 
+                                    </p>
+                                    <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
             </div>
 
-            <a href="/bookrack/admin/books" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show
+            <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show
                 all </a>
 
         </section>
@@ -266,7 +301,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
                     <div class="detail-div">
                         <!-- title -->
                         <div class="title-div">
-                            <a href="/bookrack/admin/book-details">
+                            <a href="/bookrack/admin/admin-book-details">
                                 The Black Universe
                             </a>
                         </div>
@@ -284,7 +319,7 @@ if($profileAdmin->getAccountStatus() != "verified"){
 
                         <!-- contact -->
                         <div class="contact-div">
-                            <a href="/bookrack/admin/user-details" class="btn">Contact Reader</a>
+                            <a href="/bookrack/admin/admin-user-details" class="btn">Contact Reader</a>
                         </div>
                     </div>
                 </div>

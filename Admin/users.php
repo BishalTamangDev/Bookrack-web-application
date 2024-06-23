@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['bookrack-admin-id'])) {
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 // fetching the admin profile details
@@ -19,7 +19,7 @@ $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
 if ($profileAdmin->getAccountStatus() != "verified") {
-    header("Location: /bookrack/admin/profile");
+    header("Location: /bookrack/admin/admin-profile");
 }
 
 // including user class
@@ -116,7 +116,7 @@ $userObj = new User();
                     <p class="f-reset"> Clear Search </p>
                     <i class="fa fa-multiply"></i>
                 </div>
-                <form action="/bookrack/admin/users" method="POST">
+                <form action="/bookrack/admin/admin-users" method="POST">
                     <input type="search" name="search-content" class="form-control" placeholder="search user">
                 </form>
             </div>
@@ -173,7 +173,7 @@ $userObj = new User();
                             <td> <?= getPascalCaseString($user['account_status']) ?> </td>
                             <td>
                                 <abbr title="Show full details">
-                                    <a href="/bookrack/admin/user-details/<?= $key ?>">
+                                    <a href="/bookrack/admin/admin-user-details/<?= $key ?>">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </abbr>
@@ -240,7 +240,7 @@ $userObj = new User();
 
             if (accountStateSelect.val() != "all") {
                 clearFilter.show();
-            }else{
+            } else {
                 clearFilter.hide();
             }
         }

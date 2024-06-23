@@ -5,7 +5,25 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if(!isset($_SESSION['bookrack-user-id'])){
+if (!isset($_SESSION['bookrack-user-id'])) {
+    header("Location: /bookrack/home");
+}
+
+if (!isset($bookId) || $bookId == "") {
+    header("Location: /bookrack/home");
+}
+
+// fetch book details
+require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/../bookrack/app/functions.php';
+
+$book = new Book();
+
+$book->setId($bookId);
+
+$bookFound = $book->fetch($book->getId());
+
+if (!$bookFound) {
     header("Location: /bookrack/home");
 }
 ?>
@@ -18,7 +36,7 @@ if(!isset($_SESSION['bookrack-user-id'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Home </title>
+    <title> <?= $book->getTitle() ?> </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -43,14 +61,16 @@ if(!isset($_SESSION['bookrack-user-id'])){
 
 <body>
     <!-- header -->
-    <?php include 'header.php';?>
+    <?php
+    include 'header.php';
+    ?>
 
     <!-- main -->
     <main class="d-flex flex-column gap-3 pb-5 container main">
         <!-- title, rating, count -->
         <section class="d-flex flex-column title-rating-count-container">
             <!-- book title -->
-            <p class="f-reset fw-bold fs-3"> The Black Universe </p>
+            <p class="f-reset fw-bold fs-3"> <?= $book->getTitle() ?> </p>
 
             <!-- rating & count-->
             <div class="d-flex flex-row gap-2 align-items-center rating-count-container">
@@ -64,7 +84,7 @@ if(!isset($_SESSION['bookrack-user-id'])){
                 </div>
 
                 <!-- count -->
-                <p class="f-reset count-container"> (89) </p>
+                <p class="f-reset count-container"> (<?= "-" ?>) </p>
             </div>
         </section>
 
@@ -74,7 +94,8 @@ if(!isset($_SESSION['bookrack-user-id'])){
                 <!-- top image -->
                 <div class="d-flex flex-row top">
                     <div class="book-image">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
+                        <img src="<?=$book->getCoverPhotoUrl()?>" alt="" loading="lazy">
+                        <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy"> -->
                     </div>
                 </div>
 
@@ -83,21 +104,24 @@ if(!isset($_SESSION['bookrack-user-id'])){
                     <!-- cover -->
                     <div class="book-image">
                         <abbr title="cover page">
-                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
+                            <img src="<?=$book->getCoverPhotoUrl()?>" alt="" loading="lazy">
+                            <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
 
                     <!-- price page -->
                     <div class="book-image">
                         <abbr title="price page">
-                            <img src="/bookrack/assets/images/book-3.jpg" alt="" loading="lazy">
+                            <img src="<?=$book->getPricePhotoUrl()?>" alt="" loading="lazy">
+                            <!-- <img src="/bookrack/assets/images/book-3.jpg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
 
                     <!-- ISBN page -->
                     <div class="book-image">
                         <abbr title="isbn page">
-                            <img src="/bookrack/assets/images/ISBN-1.jpg" alt="" loading="lazy">
+                            <img src="<?=$book->getIsbnPhotoUrl()?>" alt="" loading="lazy">
+                            <!-- <img src="/bookrack/assets/images/ISBN-1.jpg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
                 </div>
@@ -119,13 +143,7 @@ if(!isset($_SESSION['bookrack-user-id'])){
                     <!-- description container -->
                     <div class="description-container">
                         <!-- description -->
-                        <p class="f-reset">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam doloribus, perspiciatis
-                            harum nostrum doloremque aspernatur error fugit saepe esse nobis distinctio ipsum corrupti
-                            totam pariatur excepturi natus at amet, repellat architecto aperiam laborum. Officia
-                            voluptatum sequi numquam! Laboriosam in, illo explicabo tenetur modi minima vero
-                            voluptatibus totam repellendus nulla dolorum.
-                        </p>
+                        <p class="f-reset"> <?= $book->getDescription() ?> </p>
                     </div>
                 </div>
 
@@ -135,22 +153,18 @@ if(!isset($_SESSION['bookrack-user-id'])){
                     <p class="p f-reset fw-bold fs-4 text-secondary"> Genre </p>
 
                     <!-- genre list -->
-                    <div class="d-flex flex-row gap-2 align-items-center flex-wrap genre-list">
-                        <div class="genre">
-                            <p> Lorem ipsum dolor sit. </p>
-                        </div>
+                    <div class="d-flex flex-row gap-2 align-items-cente flex-wrap genre-list">
+                        <?php
+                        $genreArray = $book->getGenre();
 
-                        <div class="genre">
-                            <p> Genre 2 </p>
-                        </div>
-
-                        <div class="genre">
-                            <p> Genre 3 </p>
-                        </div>
-
-                        <div class="genre">
-                            <p> Lorem, ipsum. </p>
-                        </div>
+                        foreach ($genreArray as $genre) {
+                            ?>
+                            <div class="bg-dark genre">
+                                <p class="m-0 text-white"> <?= $genre ?> </p>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -161,21 +175,17 @@ if(!isset($_SESSION['bookrack-user-id'])){
 
                     <!-- author list -->
                     <div class="d-flex flex-row gap-2 align-items-center flex-wrap author-list">
-                        <div class="author">
-                            <p> Author 1 </p>
-                        </div>
+                        <?php
+                        $authorArray = $book->getAuthor();
 
-                        <div class="author">
-                            <p> Lorem, ipsum dolor. </p>
-                        </div>
-
-                        <div class="author">
-                            <p> Author 3 </p>
-                        </div>
-
-                        <div class="author">
-                            <p> Lorem, ipsum. </p>
-                        </div>
+                        foreach ($authorArray as $author) {
+                            ?>
+                            <div class="author">
+                                <p class="m-0"> <?= $author ?> </p>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -184,75 +194,97 @@ if(!isset($_SESSION['bookrack-user-id'])){
                     <!-- edition -->
                     <div class="misc-div">
                         <div class="title">
-                            <p> Edition </p>
+                            <p class="m-0 fw-bold"> Edition </p>
                         </div>
                         <div class="data">
-                            <p> 5<sup>th</sup></p>
-                        </div>
-                    </div>
+                            <p class="m-0"><?= $book->getEdition() ?><sup><?php
+                            $remainder = $book->getEdition() % 10;
 
-                    <!-- price -->
-                    <div class="misc-div">
-                        <div class="title">
-                            <p> Price </p>
-                        </div>
-                        <div class="data">
-                            <p class="text-success fw-bold"> NRs. 140</p>
-                        </div>
-                    </div>
-
-                    <!-- owner -->
-                    <div class="misc-div">
-                        <div class="title">
-                            <p> Owner </p>
-                        </div>
-                        <div class="data">
-                            <p> Rupak Dangi </p>
+                            switch ($remainder) {
+                                case 1;
+                                    echo "st";
+                                    break;
+                                case 2;
+                                    echo "nd";
+                                    break;
+                                case 3:
+                                    echo "rd";
+                                    break;
+                                default:
+                                    echo "th";
+                            }
+                            ?></sup></p>
                         </div>
                     </div>
 
                     <!-- publisher -->
                     <div class="misc-div">
                         <div class="title">
-                            <p> Publisher </p>
+                            <p class="m-0"> Publisher </p>
                         </div>
                         <div class="data">
-                            <p> Marvin McKinney </p>
+                            <p class="m-0"> <?= $book->getPublisher() ?> </p>
+                        </div>
+                    </div>
+
+                    <!-- Publication -->
+                    <div class="misc-div">
+                        <div class="title">
+                            <p class="m-0"> Publication </p>
+                        </div>
+                        <div class="data">
+                            <p class="m-0"> <?= $book->getPublication() ?> </p>
+                        </div>
+                    </div>
+
+                    <!-- price -->
+                    <div class="misc-div">
+                        <div class="title">
+                            <p class="m-0"> Price </p>
+                        </div>
+                        <div class="data">
+                            <p class="m-0 text-success fw-bold"><?= getFormattedPrice($book->getOfferPrice()) ?> </p>
                         </div>
                     </div>
 
                     <!-- ISBN -->
                     <div class="misc-div">
                         <div class="title">
-                            <p> ISBN </p>
+                            <p class="m-0"> ISBN </p>
                         </div>
                         <div class="data">
-                            <p>978-84356-028-9</p>
+                            <p class="m-0"> <?= $book->getIsbn() ?> </p>
                         </div>
                     </div>
 
                     <!-- language -->
                     <div class="misc-div">
                         <div class="title">
-                            <p> Language </p>
+                            <p class="m-0"> Language </p>
                         </div>
                         <div class="data">
-                            <p> English </p>
+                            <p class="m-0"> <?= getPascalCaseString($book->getLanguage()) ?> </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- action -->
-                <div class="d-flex flex-wrap flex-md-row operation-container">
-                    <!-- request button -->
-                    <a href="" class="btn" id="request-btn"> REQUEST NOW </a>
-                    
-                    <!-- wishlist -->
-                    <a href="" class="btn" id="wishlist-btn"><i class="fa fa-bookmark"></i>Add to wishlist</a>
-                    
-                    <!-- add to cart -->
-                    <a href="" class="btn" id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                </div>
+                <?php
+                if ($book->getOwnerId() != $_SESSION['bookrack-user-id']) {
+                    ?>
+                    <div class="d-flex flex-wrap flex-md-row operation-container">
+                        <!-- request button -->
+                        <a href="" class="btn" id="request-btn"> REQUEST NOW </a>
+
+                        <!-- wishlist -->
+                        <a href="" class="btn" id="wishlist-btn"><i class="fa fa-bookmark"></i>Add to wishlist</a>
+
+                        <!-- add to cart -->
+                        <a href="" class="btn" id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
         </section>
     </main>
@@ -263,7 +295,9 @@ if(!isset($_SESSION['bookrack-user-id'])){
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
 
     <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <!-- bootstrap js :: local file -->
     <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>

@@ -26,7 +26,6 @@ if (isset($_POST['add-book-btn'])) {
     // Encode genre array to JSON
     $jsonGenreArray = json_encode($genreArray);
 
-
     // arthor
     $authorArray = $_POST['book-author'];
     $jsonAuthorArray = json_encode($authorArray);
@@ -52,6 +51,7 @@ if (isset($_POST['add-book-btn'])) {
     // echo "<br/><br/> Purpose     : ".$purpose;
     // echo "<br/><br/> Publisher   : ".$publisher;
     // echo "<br/><br/> Publication : ".$publication;
+    // echo "<br/><br/> Language    : ".$language;
     // echo "<br/><br/> Edition     : ".$edition;
     // echo "<br/><br/> ActualPrice : ".$actualPrice;
     // echo "<br/><br/> OfferPrice  : ".$offerPrice;
@@ -66,6 +66,7 @@ if (isset($_POST['add-book-btn'])) {
         $book->setOwnerId($_SESSION['bookrack-user-id']);
         $book->setTitle($title);
         $book->setDescription($description);
+        $book->setLanguage($language);
         $book->setGenre($genreArray);
         $book->setAuthor($authorArray);
         $book->setIsbn($isbn);
@@ -75,11 +76,6 @@ if (isset($_POST['add-book-btn'])) {
         $book->setEdition($edition);
         $book->setActualPrice($actualPrice);
         $book->setOfferPrice($offerPrice);
-
-        // extract photos details
-        $book->setCoverPhoto($_FILES['book-cover-photo']);
-        $book->setPricePhoto($_FILES['book-price-photo']);
-        $book->setIsbnPhoto($_FILES['book-isbn-photo']);
 
         // cover photo
         $fileTmpPathCover = $_FILES['book-cover-photo']['tmp_name'];
@@ -112,6 +108,7 @@ if (isset($_POST['add-book-btn'])) {
         // echo "<br/><br/> Owner ID         : " . $book->getOwnerId();
         // echo "<br/><br/> Title            : " . $book->getTitle();
         // echo "<br/><br/> Description      : " . $book->getDescription();
+        // echo "<br/><br/> Language         : " . $book->getLanguage();
 
         // echo "<br/><br/> Genre            : ";
         // print_r($book->getGenre());

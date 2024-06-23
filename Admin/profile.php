@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['bookrack-admin-id'])) {
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
@@ -66,14 +66,14 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                 <div class="d-flex flex-row gap-3 align-items-center action">
                     <!-- reset -->
                     <abbr title="Reset form">
-                        <a href="/bookrack/admin/profile/<?= $tab ?>" class="text-secondary">
+                        <a href="/bookrack/admin/admin-profile/<?= $tab ?>" class="text-secondary">
                             <i class="fa fa-undo fs-5"></i>
                         </a>
                     </abbr>
 
                     <!-- cancel -->
                     <abbr title="Cancel">
-                        <a href="/bookrack/admin/profile" class="text-secondary">
+                        <a href="/bookrack/admin/admin-profile" class="text-secondary">
                             <i class="fa fa-multiply fs-3"></i>
                         </a>
                     </abbr>
@@ -99,17 +99,17 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
         if ($tab == "view") {
             ?>
             <div class="d-flex flex-row gap-2 action">
-                <a href="/bookrack/admin/profile/edit"
+                <a href="/bookrack/admin/admin-profile/edit"
                     class="d-flex flex-row gap-1 btn btn-outline-secondary align-items-center">
                     <i class="fa fa-edit"></i>
                     <p class="m-0"> Edit profile </p>
                 </a>
 
                 <?php
-                
-                if($profileAdmin->getAccountStatus() != "verified"){
+
+                if ($profileAdmin->getAccountStatus() != "verified") {
                     ?>
-                    <a href="/bookrack/admin/profile/document"
+                    <a href="/bookrack/admin/admin-profile/document"
                         class="d-flex flex-row gap-1 btn btn-outline-secondary align-items-center">
                         <i class="fa fa-upload"></i>
                         <p class="m-0"> Upload KYC </p>
@@ -148,7 +148,8 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                         ?>
                         <div class="d-flex flex-column gap-3">
                             <label for="profile-picture"> Change profile picture </label>
-                            <input type="file" name="profile-picture" class="form-control" accept="image/*" id="profile-picture">
+                            <input type="file" name="profile-picture" class="form-control" accept="image/*"
+                                id="profile-picture">
                         </div>
                         <?php
                     }
@@ -340,14 +341,16 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
-                            <p class="m-0 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>"> KYC has been submitted. </p>
+                            <p class="m-0 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>"> KYC has been submitted.
+                            </p>
                             <?php
                         }
                         ?>
 
                         <div class="d-flex flex-column gap-2 w-100">
                             <label for="kyc-front"> Front side </label>
-                            <input type="file" name="kyc-front" class="form-control" id="kyc-front" accept="image/*" required>
+                            <input type="file" name="kyc-front" class="form-control" id="kyc-front" accept="image/*"
+                                required>
                         </div>
 
                         <div class="d-flex flex-column gap-2 w-100">
@@ -387,25 +390,25 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
     <!-- edit profile script -->
     <script>
         // first name
-        $('#first-name').keydown(function(){
+        $('#first-name').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });
 
         // last name
-        $('#last-name').keydown(function(){
+        $('#last-name').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });
 
         // contact name
-        $('#contact').keydown(function(){
+        $('#contact').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });

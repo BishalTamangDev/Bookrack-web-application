@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['bookrack-admin-id'])) {
-    header("Location: /bookrack/admin/signin");
+    header("Location: /bookrack/admin/admin-signin");
 }
 
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
@@ -82,31 +82,31 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
             <nav class="nav px-lg-2">
                 <ul class="d-flex flex-column p-0">
                     <!-- dashboard -->
-                    <li onclick="window.location.href='/bookrack/admin/dashboard'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-dashboard'">
                         <i class="fa-brands fa-windows nav-icon"></i>
                         <span class="d-none d-lg-block"> Dashboard </span>
                     </li>
 
                     <!-- profile -->
-                    <li onclick="window.location.href='/bookrack/admin/profile'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-profile'">
                         <i class="fa fa-user nav-icon"></i>
                         <span class="d-none d-lg-block"> My Profile </span>
                     </li>
 
                     <!-- notification -->
-                    <li onclick="window.location.href='/bookrack/admin/notification'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-notification'">
                         <i class="fa-regular fa-bell nav-icon"></i>
                         <span class="d-none d-lg-block"> Notification </span>
                     </li>
 
                     <!-- users -->
-                    <li onclick="window.location.href='/bookrack/admin/users'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-users'">
                         <i class="fa fa-users nav-icon"></i>
                         <span class="d-none d-lg-block"> Users </span>
                     </li>
 
                     <!-- books -->
-                    <li onclick="window.location.href='/bookrack/admin/books'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-books'">
 
                         <i class="fa fa-book nav-icon"></i>
                         <span class="d-none d-lg-block"> Books </span>
@@ -115,19 +115,19 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
 
 
                     <!-- offers -->
-                    <li onclick="window.location.href='/bookrack/admin/book-offers'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-book-offers'">
                         <i class="fa fa-hands nav-icon"></i>
                         <span class="d-none d-lg-block"> Offers </span>
                     </li>
 
                     <!-- request -->
-                    <li onclick="window.location.href='/bookrack/admin/book-requests'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-book-requests'">
                         <i class="fa-solid fa-comment-dots nav-icon"></i>
                         <span class="d-none d-lg-block"> Requests </span>
                     </li>
 
                     <!-- request -->
-                    <li onclick="window.location.href='/bookrack/admin/rent'">
+                    <li onclick="window.location.href='/bookrack/admin/admin-rent-history'">
                         <i class="fa-regular fa-note-sticky nav-icon"></i>
                         <span class="d-none d-lg-block"> Rent History </span>
                     </li>

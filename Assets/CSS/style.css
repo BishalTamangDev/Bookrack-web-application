@@ -101,6 +101,12 @@ img {
 .table {
   width: 100%;
 }
+.table thead tr th {
+  vertical-align: top;
+}
+.table tbody tr th, .table tbody tr td {
+  vertical-align: top;
+}
 .table tbody tr th abbr, .table tbody tr td abbr {
   text-decoration: none;
 }
