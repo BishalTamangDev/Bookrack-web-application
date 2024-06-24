@@ -14,6 +14,7 @@ if(isset($_SESSION['bookrack-user-id'])){
 require_once __DIR__ . '/../bookrack/app/functions.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 
+
 $bookObj = new Book();
 
 $bookList = $bookObj->fetchAllBooks();
@@ -54,30 +55,38 @@ $bookList = $bookObj->fetchAllBooks();
 <body>
     <!-- header -->
     <header class="header w-100 border-bottom">
-        <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
+        <div class="container d-flex flex-row py-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
                 onclick="window.location.href='/bookrack/landing'">
                 <img src="/bookrack/assets/brand/bookrack-logo-black.png" alt="">
-                <h3 class="f-reset fw-bold"> Bookrack </h3>
+                <h3 class="m-0 fw-bold"> Bookrack </h3>
             </div>
 
-            <!-- menu bar -->
-            <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
+            <div class="nav-container" id="menu">
+                <nav class="d-flex gap-2 nav" id="main-nav-menu">
+                    <!-- close close -->
+                    <div class="justify-content-end px-5 py-4 close close-nav-div">
+                        <i class="fa fa-multiply pointer fs-3" id="close-nav-menu"></i>
+                        <!-- <p class="m-0 fs-1 fw-bold pointer" id="close-nav-menu"> + </p> -->
+                    </div>
 
-            <div class="d-flex flex-column flex-md-row gap-3 p-4 p-md-0 align-items-center search-signin" id="menu">
-                <!-- close menu -->
-                <div class="d-flex d-md-none justify-content-end container p-3 close" id="close-menu">
-                    <i class="fa fa-multiply pointer fs-3"></i>
-                </div>
+                    <ul class="d-flex">
+                        <li><a href="#trending-book-section"> Trending Books </a></li>
+                        <li><a href="#service-section"> Services </a></li>
+                        <li><a href="#genre-section"> Genres </a></li>
+                    </ul>
+                    
+                    <div class="signin-div">
+                        <a href="/bookrack/signin" class="btn text-white py-2 px-4"> Signin </a>
+                    </div>
+                </nav>
+            </div>
 
-                <!-- search -->
-                <form class="search-form">
-                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2">
-                </form>
-
-                <!-- signin -->
-                <a href="/bookrack/signin" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
+            <!-- menu and sign in button -->
+            <div class="d-flex flex-row align-items-center menu-signin">
+                <i class="fa fa-bars fs-3 pointer" id="open-nav-menu"></i>
+                <a href="/bookrack/signin" class="btn text-white py-2 px-4"> Signin </a>
             </div>
         </div>
     </header>
@@ -85,21 +94,27 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- main -->
     <main class="main">
         <!-- landing section -->
-        <section class="section container d-flex flex-row align-items-center landing-section">
-            <div class="d-flex flex-column m-auto landing-detail">
-                <p class="f-reset title"> Share Your Favourite Reads with <br> The World </p>
-                <p class="f-reset detail">
-                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and
-                    discovering books that ignite your imagination, inspire your dreams, and expand your horizons.
-                    Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
-                    Bookrack is here to connect you with a world of literary wonders.
-                </p>
-                <a href="/bookrack/signup" class="btn btn-warning text-light"> JOIN NOW </a>
+        <section class="container d-flex flex-column-reverse gap-5 flex-md-row mt-5 landing-container">
+            <div class="d-flex flex-column w-100 w-md-75 mt-5 detail">
+                    <p class="m-0 fw-bold heading">
+                        Share Your Favorite Reads With The World
+                    </p>
+
+                    <p class="m-0 fs-4 mt-5 text-secondary description">
+                        Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and discovering books that ignite your imagination, inspire your dreams, and expand your horizons. 
+                    </p>
+
+                    <a href="/bookrack/signup" class="btn join-btn mt-4 text-white px-4 py-2"> JOIN NOW </a>
             </div>
+
+            <!-- landing image -->
+             <div class="w-100 w-md-25 image-container">
+                <img src="/bookrack/assets/images/reading.svg" alt="">
+             </div>
         </section>
 
         <!-- trending books -->
-        <section class="section container d-flex flex-column gap-5 trending-book-section">
+        <section class="section container d-flex flex-column gap-5 trending-book-section" id="trending-book-section">
             <p class="f-reset fw-bold fs-1 title title"> Trending Books </p>
 
             <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
@@ -149,7 +164,7 @@ $bookList = $bookObj->fetchAllBooks();
         </section>
 
         <!-- application features section -->
-        <section class="section container d-flex flex-column gap-5 feature-section">
+        <section class="section container d-flex flex-column gap-5 feature-section" id="service-section">
             <!-- title -->
             <p class="f-reset fw-bold fs-1 title title"> What do we offer? </p>
 
@@ -206,7 +221,7 @@ $bookList = $bookObj->fetchAllBooks();
         </section>
 
         <!-- genre section -->
-        <section class="section container d-flex flex-column gap-4 genre-section">
+        <section class="section container d-flex flex-column gap-4 genre-section" id="genre-section">
             <p class="f-reset fw-bold fs-1 title title"> Genres </p>
             <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent
                 them instantly. </p>
@@ -243,8 +258,8 @@ $bookList = $bookObj->fetchAllBooks();
     <script>
         var menuState = false;
         const menu = document.getElementById("menu");
-        const openMenu = document.getElementById("open-menu");
-        const closeMenu = document.getElementById("close-menu");
+        const openMenu = document.getElementById("open-nav-menu");
+        const closeMenu = document.getElementById("close-nav-menu");
 
         // open menu
         openMenu.addEventListener('click', function () {
@@ -262,18 +277,16 @@ $bookList = $bookObj->fetchAllBooks();
         widthCheck = () => {
             if (window.innerWidth < 768) {
                 if (!menuState) {
-                    menu.style = "right: -100%; transition: 0s";
+                    // menu.style = "right: -100%; transition: 0s";
                 } else {
-                    menu.style = "right: 0; transition: 0.4s";
+                    // menu.style = "right: 0; transition: 0.4s";
                 }
             }
         }
 
         window.addEventListener('resize', widthCheck);
 
-        window.onload = () => {
-            widthCheck();
-        }
+        widthCheck();
     </script>
 </body>
 

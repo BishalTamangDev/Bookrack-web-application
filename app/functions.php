@@ -159,8 +159,13 @@ $genreArray = array(
 );
 
 
-// function to delete images form storage bucket
+// function to check the internet connection status
+function getInternetConnectionState(){
+    return false;
+}
+
 function deleteFileFromStorageBucket($folder, $filename)
+// function to delete images form storage bucket
 {
     $status = false;
     global $bucket;

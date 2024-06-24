@@ -1,12 +1,9 @@
 .main {
-  background-image: url("/bookrack/assets/images/free.jpg");
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
   width: 100%;
   height: 100%;
   margin-top: 0;
   overflow: scroll;
+  background-color: whitesmoke;
 }
 .main::-webkit-scrollbar {
   display: none;
