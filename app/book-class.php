@@ -16,7 +16,7 @@ class Book
     private $publication;
     private $edition;
     private $price = [
-        "actutal" => "",
+        "actual" => "",
         "offer" => "",
     ];
 
@@ -48,7 +48,7 @@ class Book
         $this->publication = "";
         $this->edition = "";
         $this->price = [
-            "actutal" => "",
+            "actual" => "",
             "offer" => "",
         ];
 
@@ -63,7 +63,7 @@ class Book
             "approval" => "",
         ];
 
-        $this->status = "";
+        $this->status = "verified";
         $this->ownerId = "";
     }
 
@@ -82,7 +82,7 @@ class Book
         $this->publication = $publication;
         $this->edition = $edition;
         $this->price = [
-            "actutal" => $actualPrice,
+            "actual" => $actualPrice,
             "offer" => $offerPrice
         ];
 
@@ -163,12 +163,12 @@ class Book
 
     public function getActualPrice()
     {
-        return $this->price["actual"];
+        return $this->price['actual'];
     }
 
     public function getOfferPrice()
     {
-        return $this->price["offer"];
+        return $this->price['offer'];
 
     }
 

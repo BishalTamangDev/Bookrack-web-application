@@ -257,6 +257,7 @@ function getArrayIndexValue($dataToBeSearched, $which){
 // formatted price
 function getFormattedPrice($price)
 {
+    $price = round($price);
     $x = strval($price);
 
     $digitCount = strlen($x);

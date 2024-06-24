@@ -17,11 +17,11 @@ if (!isset($bookId) || $bookId == "") {
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
-$book = new Book();
+$selectedBook = new Book();
 
-$book->setId($bookId);
+$selectedBook->setId($bookId);
 
-$bookFound = $book->fetch($book->getId());
+$bookFound = $selectedBook->fetch($selectedBook->getId());
 
 if (!$bookFound) {
     header("Location: /bookrack/home");
@@ -36,7 +36,7 @@ if (!$bookFound) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> <?= $book->getTitle() ?> </title>
+    <title> <?= $selectedBook->getTitle() ?> </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -70,7 +70,7 @@ if (!$bookFound) {
         <!-- title, rating, count -->
         <section class="d-flex flex-column title-rating-count-container">
             <!-- book title -->
-            <p class="f-reset fw-bold fs-3"> <?= $book->getTitle() ?> </p>
+            <p class="f-reset fw-bold fs-3"> <?= $selectedBook->getTitle() ?> </p>
 
             <!-- rating & count-->
             <div class="d-flex flex-row gap-2 align-items-center rating-count-container">
@@ -94,7 +94,7 @@ if (!$bookFound) {
                 <!-- top image -->
                 <div class="d-flex flex-row top">
                     <div class="book-image">
-                        <img src="<?=$book->getCoverPhotoUrl()?>" alt="" loading="lazy">
+                        <img src="<?=$selectedBook->getCoverPhotoUrl()?>" alt="" loading="lazy">
                         <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy"> -->
                     </div>
                 </div>
@@ -104,7 +104,7 @@ if (!$bookFound) {
                     <!-- cover -->
                     <div class="book-image">
                         <abbr title="cover page">
-                            <img src="<?=$book->getCoverPhotoUrl()?>" alt="" loading="lazy">
+                            <img src="<?=$selectedBook->getCoverPhotoUrl()?>" alt="" loading="lazy">
                             <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
@@ -112,7 +112,7 @@ if (!$bookFound) {
                     <!-- price page -->
                     <div class="book-image">
                         <abbr title="price page">
-                            <img src="<?=$book->getPricePhotoUrl()?>" alt="" loading="lazy">
+                            <img src="<?=$selectedBook->getPricePhotoUrl()?>" alt="" loading="lazy">
                             <!-- <img src="/bookrack/assets/images/book-3.jpg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
@@ -120,7 +120,7 @@ if (!$bookFound) {
                     <!-- ISBN page -->
                     <div class="book-image">
                         <abbr title="isbn page">
-                            <img src="<?=$book->getIsbnPhotoUrl()?>" alt="" loading="lazy">
+                            <img src="<?=$selectedBook->getIsbnPhotoUrl()?>" alt="" loading="lazy">
                             <!-- <img src="/bookrack/assets/images/ISBN-1.jpg" alt="" loading="lazy"> -->
                         </abbr>
                     </div>
@@ -136,14 +136,25 @@ if (!$bookFound) {
                         <p class="p f-reset fw-bold fs-4 text-secondary"> Description </p>
 
                         <div class="d-flex flex-row align-items-center bg-success px-3 availability-div">
-                            <p class="f-reset text-light"> Available for Rent </p>
+                            <?php
+                            $purpose = $selectedBook->getPurpose(); 
+                            if( $purpose == "renting"){
+                                ?>
+                                <p class="f-reset text-light"> Available for Rent </p>
+                                <?php
+                            }elseif($purpose == "buy/sell"){
+                                ?>
+                                <p class="f-reset text-light"> Available for Buy/Sell </p>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
 
                     <!-- description container -->
                     <div class="description-container">
                         <!-- description -->
-                        <p class="f-reset"> <?= $book->getDescription() ?> </p>
+                        <p class="f-reset"> <?= $selectedBook->getDescription() ?> </p>
                     </div>
                 </div>
 
@@ -155,7 +166,7 @@ if (!$bookFound) {
                     <!-- genre list -->
                     <div class="d-flex flex-row gap-2 align-items-cente flex-wrap genre-list">
                         <?php
-                        $genreArray = $book->getGenre();
+                        $genreArray = $selectedBook->getGenre();
 
                         foreach ($genreArray as $genre) {
                             ?>
@@ -176,7 +187,7 @@ if (!$bookFound) {
                     <!-- author list -->
                     <div class="d-flex flex-row gap-2 align-items-center flex-wrap author-list">
                         <?php
-                        $authorArray = $book->getAuthor();
+                        $authorArray = $selectedBook->getAuthor();
 
                         foreach ($authorArray as $author) {
                             ?>
@@ -197,8 +208,8 @@ if (!$bookFound) {
                             <p class="m-0 fw-bold"> Edition </p>
                         </div>
                         <div class="data">
-                            <p class="m-0"><?= $book->getEdition() ?><sup><?php
-                            $remainder = $book->getEdition() % 10;
+                            <p class="m-0"><?= $selectedBook->getEdition() ?><sup><?php
+                            $remainder = $selectedBook->getEdition() % 10;
 
                             switch ($remainder) {
                                 case 1;
@@ -223,7 +234,7 @@ if (!$bookFound) {
                             <p class="m-0"> Publisher </p>
                         </div>
                         <div class="data">
-                            <p class="m-0"> <?= $book->getPublisher() ?> </p>
+                            <p class="m-0"> <?= $selectedBook->getPublisher() ?> </p>
                         </div>
                     </div>
 
@@ -233,7 +244,7 @@ if (!$bookFound) {
                             <p class="m-0"> Publication </p>
                         </div>
                         <div class="data">
-                            <p class="m-0"> <?= $book->getPublication() ?> </p>
+                            <p class="m-0"> <?= $selectedBook->getPublication() ?> </p>
                         </div>
                     </div>
 
@@ -243,7 +254,18 @@ if (!$bookFound) {
                             <p class="m-0"> Price </p>
                         </div>
                         <div class="data">
-                            <p class="m-0 text-success fw-bold"><?= getFormattedPrice($book->getOfferPrice()) ?> </p>
+                            <p class="m-0 text-success fw-bold">
+                                <?php
+                                if($selectedBook->getPurpose() == "renting"){
+                                    $actualPrice = $selectedBook->getActualPrice();
+                                    $rent = $actualPrice * 0.25;
+                                    echo getFormattedPrice($rent)." /week";
+                                }elseif($selectedBook->getPurpose() == "buy/sell") {
+
+                                }
+                                getFormattedPrice($selectedBook->getOfferPrice());
+                                ?>
+                            </p>
                         </div>
                     </div>
 
@@ -253,7 +275,7 @@ if (!$bookFound) {
                             <p class="m-0"> ISBN </p>
                         </div>
                         <div class="data">
-                            <p class="m-0"> <?= $book->getIsbn() ?> </p>
+                            <p class="m-0"> <?= $selectedBook->getIsbn() ?> </p>
                         </div>
                     </div>
 
@@ -263,18 +285,18 @@ if (!$bookFound) {
                             <p class="m-0"> Language </p>
                         </div>
                         <div class="data">
-                            <p class="m-0"> <?= getPascalCaseString($book->getLanguage()) ?> </p>
+                            <p class="m-0"> <?= getPascalCaseString($selectedBook->getLanguage()) ?> </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- action -->
                 <?php
-                if ($book->getOwnerId() != $_SESSION['bookrack-user-id']) {
+                if ($selectedBook->getOwnerId() != $_SESSION['bookrack-user-id']) {
                     ?>
                     <div class="d-flex flex-wrap flex-md-row operation-container">
                         <!-- request button -->
-                        <a href="" class="btn" id="request-btn"> REQUEST NOW </a>
+                        <!-- <a href="" class="btn" id="request-btn"> REQUEST NOW </a> -->
 
                         <!-- wishlist -->
                         <a href="" class="btn" id="wishlist-btn"><i class="fa fa-bookmark"></i>Add to wishlist</a>
@@ -304,30 +326,7 @@ if (!$bookFound) {
 
     <!-- js :: current file -->
     <script>
-        const openMenu = document.getElementById("open-menu");
-        const closeMenu = document.getElementById("close-menu");
 
-        // menu
-        const menu = document.getElementById("menu");
-
-        openMenu.addEventListener('click', function () {
-            menu.style = "right: 0; transition: .4s";
-        });
-
-        closeMenu.addEventListener('click', function () {
-            menu.style = "right: -100%; transition: .4s";
-        });
-
-        // device width changing
-        widthCheck = () => {
-        }
-
-        window.addEventListener('resize', widthCheck);
-
-
-        window.onload = () => {
-            widthCheck();
-        }
     </script>
 </body>
 

@@ -70,7 +70,7 @@ if (!$userFound) {
             if ($profileUser->getAccountStatus() != "verified") {
                 ?>
                 <div class="alert alert-danger m-0" role="alert">
-                    Your account is not verivied yet in order to add book. Try updating your details inclusing documents.
+                    Your account is not verified yet in order to add book. Try updating your details inclusing documents.
                 </div>
                 <?php
             }
@@ -267,10 +267,10 @@ if (!$userFound) {
                         </div>
 
                         <!-- offer price -->
-                        <div class="d-flex flex-column gap-2 actual-price ">
+                        <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price"
-                                aria-describedby="offer price" placeholder="" min="1" required>
+                                aria-describedby="offer price" placeholder="" min="1" value="0" required>
                         </div>
                     </div>
                 </div>
@@ -328,7 +328,7 @@ if (!$userFound) {
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php';?>
+    <?php include 'footer.php'; ?>
 
     <!-- unset sesstion status & status message -->
     <?php
@@ -354,7 +354,10 @@ if (!$userFound) {
             if (asciiValue == 32)
                 event.preventDefault();
         });
+    </script>
 
+    <!-- genre script -->
+    <script>
         var genreState = true;
         // genre trigger
         $('#genre-trigger').click(function () {
@@ -480,6 +483,42 @@ if (!$userFound) {
         removeAuthorContainer = (fieldContainerId) => {
             $('#' + fieldContainerId).remove();
         }
+    </script>
+
+    <!-- book purpose script -->
+    <script>
+        const bookPurposeSelect = $('#book-purpose');
+        const offerPriceField = $('#book-offer-price');
+        const offerPriceDiv = $('#offer-price-div');
+        
+        offerPriceDiv.removeClass('d-flex').addClass('d-none');
+        
+        bookPurposeSelect.on('change', function(){
+            var purpose =  bookPurposeSelect.val();
+            
+            console.clear();
+            console.log("Purpose : ", purpose);
+            
+            if(bookPurposeSelect.val() == 'buy/sell'){
+                offerPriceDiv.show();
+                console.log("Show");
+                offerPriceDiv.removeClass('d-none').addClass('d-flex');
+            }else{
+                offerPriceDiv.hide();
+                console.log("Hide");
+                offerPriceDiv.removeClass('d-flex').addClass('d-none');
+            }
+        });
+
+        offerPriceField.on('focus', function(){
+            if(offerPriceField.val() == 0){
+                offerPriceField.val('');
+            }
+        }).on('focusout', function(){
+            if(offerPriceField.val() == ''){
+                offerPriceField.val('0');
+            }
+        });
     </script>
 </body>
 
