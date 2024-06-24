@@ -1,7 +1,7 @@
 .footer {
   width: 100%;
-  padding-top: 2rem;
-  background-color: whitesmoke;
+  color: white;
+  background-color: black;
 }
 .footer .footer-container {
   gap: 2rem;
@@ -12,6 +12,7 @@
 }
 .footer .footer-container .main-footer .footer-title {
   font-size: 1.3rem;
+  color: grey;
 }
 .footer .footer-container .main-footer .physical-location-section {
   row-gap: 6px;
@@ -46,7 +47,7 @@
 }
 .footer .footer-container .main-footer .main-footer-content-section ul li a {
   font-size: 1.15rem;
-  color: black;
+  color: white;
 }
 .footer .footer-container .main-footer .main-footer-content-section ul li a:hover {
   color: var(--brand-color);
@@ -57,7 +58,7 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
-  background-color: black;
+  background-color: grey;
   align-items: center;
 }
 .footer .footer-container .main-footer .mobile-app-section .content-container .content i,
@@ -73,8 +74,18 @@
 .footer .footer-container .main-footer .mobile-app-section .content-container .content p:nth-child(even) {
   font-size: 12px;
 }
-.footer .footer-container .payment-partner-section img {
+.footer .footer-container .payment-partner-section {
+  width: 100%;
+}
+.footer .footer-container .payment-partner-section .payment-partner .partner-container {
   width: 90px;
+}
+.footer .footer-container .payment-partner-section .payment-partner .partner-container img {
+  width: 100%;
+}
+.footer .copyright-section {
+  color: black;
+  background-color: white;
 }
 
 @media (min-width: 352px) {

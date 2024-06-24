@@ -34,30 +34,38 @@
 <body>
     <!-- header -->
     <header class="header w-100 border-bottom">
-        <div class="container d-flex flex-row p-3 align-items-center justify-content-between header-container">
+        <div class="container d-flex flex-row py-3 align-items-center justify-content-between header-container">
             <!-- logo -->
             <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
                 onclick="window.location.href='/index.html'">
                 <img src="/assets/brand/bookrack-logo-black.png" alt="">
-                <h3 class="f-reset fw-bold"> Bookrack </h3>
+                <h3 class="m-0 fw-bold"> Bookrack </h3>
             </div>
 
-            <!-- menu bar -->
-            <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
+            <div class="nav-container" id="menu">
+                <nav class="d-flex gap-2 nav" id="main-nav-menu">
+                    <!-- close close -->
+                    <div class="justify-content-end px-5 py-4 close close-nav-div">
+                        <i class="fa fa-multiply pointer fs-3" id="close-nav-menu"></i>
+                        <!-- <p class="m-0 fs-1 fw-bold pointer" id="close-nav-menu"> + </p> -->
+                    </div>
 
-            <div class="d-flex flex-column flex-md-row gap-3 p-4 p-md-0 align-items-center search-signin" id="menu">
-                <!-- close menu -->
-                <div class="d-flex d-md-none justify-content-end container p-3 close" id="close-menu">
-                    <i class="fa fa-multiply pointer fs-3"></i>
-                </div>
+                    <ul class="d-flex">
+                        <li><a href="#trending-book-section"> Trending Books </a></li>
+                        <li><a href="#service-section"> Services </a></li>
+                        <li><a href="#genre-section"> Genres </a></li>
+                    </ul>
+                    
+                    <div class="signin-div">
+                        <a href="/signin.html" class="btn text-white py-2 px-4"> Signin </a>
+                    </div>
+                </nav>
+            </div>
 
-                <!-- search -->
-                <form action="" class="search-form">
-                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2">
-                </form>
-
-                <!-- signin -->
-                <a href="/signin.html" class="btn rounded px-md-3 px-5 py-2 signin-btn"> Signin </a>
+            <!-- menu and sign in button -->
+            <div class="d-flex flex-row align-items-center menu-signin">
+                <i class="fa fa-bars fs-3 pointer" id="open-nav-menu"></i>
+                <a href="/signin.html" class="btn text-white py-2 px-4"> Signin </a>
             </div>
         </div>
     </header>
@@ -66,22 +74,28 @@
     <!-- main -->
     <main class="main">
         <!-- landing section -->
-        <section class="section container d-flex flex-row align-items-center landing-section">
-            <div class="d-flex flex-column m-auto landing-detail">
-                <p class="f-reset title"> Share Your Favourite Reads with <br> The World </p>
-                <p class="f-reset detail">
-                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and
-                    discovering books that ignite your imagination, inspire your dreams, and expand your horizons.
-                    Whether you're a passionate reader, an aspiring writer, or simply looking for your next great read,
-                    Bookrack is here to connect you with a world of literary wonders.
-                </p>
-                <a href="/signup.html" class="btn btn-warning text-light"> JOIN NOW </a>
+        <section class="container d-flex flex-column-reverse gap-5 flex-md-row mt-5 landing-container">
+            <div class="d-flex flex-column w-100 w-md-75 mt-5 detail">
+                    <p class="m-0 fw-bold heading">
+                        Share Your Favorite Reads With The World
+                    </p>
+
+                    <p class="m-0 fs-4 mt-5 text-secondary description">
+                        Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and discovering books that ignite your imagination, inspire your dreams, and expand your horizons. 
+                    </p>
+
+                    <a href="signup.html" class="btn join-btn mt-4 text-white px-4 py-2"> JOIN NOW </a>
             </div>
+
+            <!-- landing image -->
+             <div class="w-100 w-md-25 image-container">
+                <img src="/assets/images/reading.svg" alt="">
+             </div>
         </section>
 
         <!-- trending books -->
-        <section class="section container d-flex flex-column gap-5 trending-book-section">
-            <p class="f-reset fw-bold fs-1 title title"> Trending Books </p>
+        <section class="section container d-flex flex-column gap-5 trending-book-section" id="trending-book-section">
+            <p class="m-0 fw-bold fs-1 title title"> Trending Books </p>
 
             <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                 <!-- book container :: dummy data 1 -->
@@ -155,9 +169,9 @@
         </section>
 
         <!-- application features section -->
-        <section class="section container d-flex flex-column gap-5 feature-section">
+        <section class="section container d-flex flex-column gap-5 feature-section" id="service-section">
             <!-- title -->
-            <p class="f-reset fw-bold fs-1 title title"> What do we offer? </p>
+            <p class="m-0 fw-bold fs-1 title title"> What do we offer? </p>
 
             <!-- feature cards -->
             <div class="d-flex flex-row gap-5 justify-content-between feature-card-container">
@@ -211,9 +225,9 @@
         </section>
 
         <!-- genre section -->
-        <section class="section container d-flex flex-column gap-4 genre-section">
-            <p class="f-reset fw-bold fs-1 title title"> Genres </p>
-            <p class="f-reset fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent
+        <section class="section container d-flex flex-column gap-4 genre-section" id="genre-section">
+            <p class="m-0 fw-bold fs-1 title title"> Genres </p>
+            <p class="m-0 fs-5"> We provide books of wide range of genre. Feel free to explore those books and rent
                 them instantly. </p>
 
             <div class="d-flex flex-row flex-wrap container gap-3 genre-container">
@@ -361,14 +375,14 @@
     </main>
 
     <!-- footer -->
-    <footer class="d-flex flex-column gap-4 section footer">
+    <footer class="d-flex flex-column gap-4 m-0 section footer">
         <div class="d-flex flex-column container footer-container">
             <!-- main footer -->
-            <div class="d-flex flex-row justify-content-lg-between flex-wrap main-footer">
+            <div class="d-flex flex-row justify-content-lg-between flex-wrap pt-4 main-footer">
                 <!-- physical location -->
                 <div class="d-flex flex-column physical-location-section">
                     <!-- title -->
-                    <p class="f-reset fw-bold footer-title"> Our Physical Location </p>
+                    <p class="m-0 fw-bold footer-title"> Our Physical Location </p>
                     <!-- content -->
                     <div class="d-flex flex-row gap-3 content">
                         <div class="left">
@@ -376,8 +390,8 @@
                         </div>
 
                         <div class="d-flex flex-column right">
-                            <p class="f-reset shop-name"> Bookrack Book Shop </p>
-                            <p class="f-reset shop-location"> Bansbari, Kathmandu </p>
+                            <p class="m-0 shop-name"> Bookrack Book Shop </p>
+                            <p class="m-0 shop-location"> Bansbari, Kathmandu </p>
                         </div>
                     </div>
                 </div>
@@ -385,7 +399,7 @@
                 <!-- quick links -->
                 <div class="main-footer-content-section">
                     <!-- title -->
-                    <p class="f-reset fw-bold footer-title"> Quick Links </p>
+                    <p class="m-0 fw-bold footer-title"> Quick Links </p>
 
                     <!-- content -->
                     <div class="d-flex flex-row content">
@@ -402,7 +416,7 @@
                 <!-- about -->
                 <div class="main-footer-content-section">
                     <!-- title -->
-                    <p class="f-reset fw-bold footer-title"> About Us </p>
+                    <p class="m-0 fw-bold footer-title"> About Us </p>
                     <!-- content -->
                     <div class="d-flex flex-row gap-2 content">
                         <ul>
@@ -417,7 +431,7 @@
                 <!-- popular genres -->
                 <div class="main-footer-content-section">
                     <!-- title -->
-                    <p class="f-reset fw-bold footer-title"> Popular Genres </p>
+                    <p class="m-0 fw-bold footer-title"> Popular Genres </p>
                     <!-- content -->
                     <div class="d-flex flex-row gap-2 content">
                         <ul>
@@ -433,7 +447,7 @@
                 <!-- mobile application -->
                 <div class="d-flex flex-column mobile-app-section gap-2">
                     <!-- title -->
-                    <p class="f-reset fw-bold footer-title"> Get Bookrack in <br> Your Pocket </p>
+                    <p class="m-0 fw-bold footer-title"> Get Bookrack in <br> Your Pocket </p>
                     <!-- content -->
                     <div class="d-flex flex-column gap-2 content-container">
                         <!-- android -->
@@ -442,8 +456,8 @@
                                 <i class="fa-brands fa-google-play"></i>
                             </div>
                             <div class="right">
-                                <p class="f-reset"> GET IT ON </p>
-                                <p class="f-reset"> Google Play </p>
+                                <p class="m-0"> GET IT ON </p>
+                                <p class="m-0"> Google Play </p>
                             </div>
                         </div>
 
@@ -453,8 +467,8 @@
                                 <i class="fa-brands fa-apple text-light"></i>
                             </div>
                             <div class="right">
-                                <p class="f-reset"> GET IT ON </p>
-                                <p class="f-reset"> App Store </p>
+                                <p class="m-0"> GET IT ON </p>
+                                <p class="m-0"> App Store </p>
                             </div>
                         </div>
                     </div>
@@ -464,20 +478,20 @@
             <!-- social media connection -->
             <div class="d-flex flex-column social-media-section align-items-center gap-3">
                 <div class="top">
-                    <p class="f-reset"> Connect us on </p>
+                    <p class="m-0"> Connect us on </p>
                 </div>
 
-                <div class="d-flex flex-row gap-2 bottom">
-                    <a href="">
-                        <i class="fa-brands fa-facebook-square fs-3 text-dark" id="facebook-icon"></i>
+                <div class="d-flex flex-row gap-3 bottom">
+                    <a>
+                        <i class="fa-brands fa-facebook-square fs-3 text-white" id="facebook-icon"></i>
                     </a>
 
-                    <a href="">
-                        <i class="fa-brands fa-instagram-square fs-3 text-dark" id="instagram-icon"></i>
+                    <a>
+                        <i class="fa-brands fa-instagram-square fs-3 text-white" id="instagram-icon"></i>
                     </a>
 
-                    <a href="">
-                        <i class="fa-brands fa-twitter-square fs-3 text-dark" id="x-icon"></i>
+                    <a>
+                        <i class="fa-brands fa-twitter-square fs-3 text-white" id="x-icon"></i>
                     </a>
                 </div>
             </div>
@@ -486,18 +500,18 @@
             <div class="d-flex flex-column payment-partner-section align-items-center gap-2">
                 <!-- payment partner -->
                 <!-- esewa -->
-                <div class="d-flex flex-row payment-partner align-items-center gap-3">
-                    <p class="f-reset fs-5"> Our payment partner </p>
-                    <div class="partner-container px-2 border border-1 rounded">
+                <div class="d-flex flex-row align-items-center gap-3 payment-partner">
+                    <p class="m-0 fs-5"> Our payment partner </p>
+                    <div class="partner-container border border-1 rounded">
                         <img src="/assets/icons/esewa-logo.webp" alt="">
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- copyright section -->
-            <div class="d-flex flex-column copyright-section align-items-center mb-4">
-                <p class="f-reset"> © Copyright protected by Bookrack, 2024️ </p>
-            </div>
+        <!-- copyright section -->
+        <div class="d-flex flex-column copyright-section mt-2 py-3 align-items-center">
+            <p class="m-0"> © Copyright protected by Bookrack, 2024️ </p>
         </div>
     </footer>
 
@@ -516,8 +530,8 @@
     <script>
         var menuState = false;
         const menu = document.getElementById("menu");
-        const openMenu = document.getElementById("open-menu");
-        const closeMenu = document.getElementById("close-menu");
+        const openMenu = document.getElementById("open-nav-menu");
+        const closeMenu = document.getElementById("close-nav-menu");
 
         // open menu
         openMenu.addEventListener('click', function () {
@@ -535,9 +549,9 @@
         widthCheck = () => {
             if (window.innerWidth < 768) {
                 if (!menuState) {
-                    menu.style = "right: -100%; transition: 0s";
+                    // menu.style = "right: -100%; transition: 0s";
                 } else {
-                    menu.style = "right: 0; transition: 0.4s";
+                    // menu.style = "right: 0; transition: 0.4s";
                 }
             }
         }
