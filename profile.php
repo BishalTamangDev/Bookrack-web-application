@@ -9,8 +9,11 @@ if (!isset($_SESSION['bookrack-user-id'])) {
     header("Location: /bookrack/");
 }
 
+$url = "profile";
+
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
@@ -36,7 +39,24 @@ $bookObj = new Book();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> My Profile </title>
+    <title>
+        <?php
+        if ($tab == "edit-profile")
+            echo "Edit profile";
+        elseif ($tab == "kyc")
+            echo "KYC";
+        elseif ($tab == "my-books")
+            echo "My books";
+        elseif ($tab == "wishlist")
+            echo "Wishlist";
+        elseif ($tab == "requested-books")
+            echo "Requested books";
+        elseif ($tab == "earning")
+            echo "Earning";
+        else
+            echo "My profile";
+        ?>
+    </title>
 
     <!-- favicon -->
     <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
@@ -158,9 +178,9 @@ $bookObj = new Book();
                         <?php
                         $offeredBookCount = count($bookObj->fetchBookByUserId($profileUser->getUserId()));
                         ?>
-                        
+
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?=$offeredBookCount?> </p>
+                            <p class="f-reset fw-bold"> <?= $offeredBookCount ?> </p>
                         </div>
                     </div>
 
@@ -469,14 +489,14 @@ $bookObj = new Book();
                         if ($profileUser->getAccountStatus() == "pending") {
                             ?>
                             <hr>
-                            <p class="m-0 text-secondary text-danger fst-italic"> 
-                            <?php
-                            if($profileUser->getDocumentType() == ""){
-                                echo " You haven't submitted your kyc document yet. Submit now in order to use our services.";
-                            }else{
-                                echo "Your documents are on hold to be verified.";
-                            }
-                            ?>
+                            <p class="m-0 text-secondary text-danger fst-italic">
+                                <?php
+                                if ($profileUser->getDocumentType() == "") {
+                                    echo " You haven't submitted your kyc document yet. Submit now in order to use our services.";
+                                } else {
+                                    echo "Your documents are on hold to be verified.";
+                                }
+                                ?>
                             </p>
                             <?php
                         }
@@ -485,9 +505,9 @@ $bookObj = new Book();
 
                         <?php
                         if ($profileUser->getAccountStatus() == "verified") {
-                        ?>
+                            ?>
                             <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
-                        <?php
+                            <?php
                         }
                         ?>
 
@@ -509,10 +529,11 @@ $bookObj = new Book();
 
                         <!-- existing kyc documents -->
                         <?php
-                        if($profileUser->getAccountStatus() == "verified" || $profileUser->getDocumentType() != ""){
+                        if ($profileUser->getAccountStatus() == "verified" || $profileUser->getDocumentType() != "") {
                             ?>
                             <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
-                                <p class="m-0 fs-5"> Document type : <?=getPascalCaseString($profileUser->getDocumentType())?> </p>
+                                <p class="m-0 fs-5"> Document type : <?= getPascalCaseString($profileUser->getDocumentType()) ?>
+                                </p>
 
                                 <div class="d-flex flex-row gap-4 documents">
                                     <!-- kyc front side -->
@@ -565,13 +586,13 @@ $bookObj = new Book();
                                     ?>
                                 </div>
                             </div>
-                        <?php
+                            <?php
                         }
                         ?>
 
                         <!-- hide this form if kyc is already verified -->
                         <?php
-                        if ($profileUser->getAccountStatus() != "verified" && $profileUser->getDocumentType() == ""){
+                        if ($profileUser->getAccountStatus() != "verified" && $profileUser->getDocumentType() == "") {
                             ?>
                             <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-2 w-100 kyc-form"
                                 id="kyc-form" enctype="multipart/form-data">
@@ -641,16 +662,16 @@ $bookObj = new Book();
                         <form method="POST" action="/bookrack/app/password-change.php"
                             class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
                             <?php
-                                // status message
-                                if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
-                                    ?>
-                                    <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
-                                        <?= $_SESSION['status-message'] ?>
-                                    </p>
-                                    <?php
-                                }
+                            // status message
+                            if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
                                 ?>
-                                
+                                <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
+                                    <?= $_SESSION['status-message'] ?>
+                                </p>
+                                <?php
+                            }
+                            ?>
+
                             <!-- old password -->
                             <div class="form-floating">
                                 <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
@@ -701,7 +722,7 @@ $bookObj = new Book();
 
                 <!-- my books -->
                 <?php if ($tab == "my-books") {
-                    
+
                     ?>
                     <div class="d-flex flex-column gap-4 my-book-content">
                         <!-- my book filter -->
@@ -725,46 +746,47 @@ $bookObj = new Book();
 
                         <!-- my books container-->
                         <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                        <?php
-                        $bookList = $bookObj->fetchBookByUserId($profileUser->getUserId());
-                        foreach($bookList as $key => $book){
-                            $bookObj->setCoverPhoto($book['photo']['cover']);
-                            $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
-                            ?>
-                            <div class="book-container my-book my-book-active">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <img src="<?=$coverPhotoUrl?>" alt="">
-                                </div>
-
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title">
-                                        <p class="book-title"> <?=$book['title']?> </p>
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> <?=getPascalCaseString($book['purpose'])?> </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> <?=$book['description']?> </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price"> <?=getFormattedPrice($book['price']['offer'])?> </p>
-                                    </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More
-                                    </button>
-                                </div>
-                            </div>
                             <?php
-                        }
-                        ?>
+                            $bookList = $bookObj->fetchBookByUserId($profileUser->getUserId());
+                            foreach ($bookList as $key => $book) {
+                                $bookObj->setCoverPhoto($book['photo']['cover']);
+                                $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
+                                ?>
+                                <div class="book-container my-book my-book-active">
+                                    <!-- book image -->
+                                    <div class="book-image">
+                                        <img src="<?= $coverPhotoUrl ?>" alt="">
+                                    </div>
+
+                                    <!-- book details -->
+                                    <div class="book-details">
+                                        <!-- book title -->
+                                        <div class="book-title">
+                                            <p class="book-title"> <?= $book['title'] ?> </p>
+                                            <i class="fa-regular fa-bookmark"></i>
+                                        </div>
+
+                                        <!-- book purpose -->
+                                        <p class="book-purpose"> <?= getPascalCaseString($book['purpose']) ?> </p>
+
+                                        <!-- book description -->
+                                        <div class="book-description-container">
+                                            <p class="book-description"> <?= $book['description'] ?> </p>
+                                        </div>
+
+                                        <!-- book price -->
+                                        <div class="book-price">
+                                            <p class="book-price"> <?= getFormattedPrice($book['price']['offer']) ?> </p>
+                                        </div>
+
+                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>'">
+                                            Show More
+                                        </button>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
 
                         <!-- add book -->
@@ -781,93 +803,92 @@ $bookObj = new Book();
                 }
                 ?>
 
-
                 <!-- wishlist -->
                 <?php
                 if ($tab == "wishlist") {
                     ?>
                     <!-- my books container-->
                     <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
-                        <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
-                            <!-- book container :: dummy data 1 -->
-                            <div class="book-container">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                                </div>
+                        <?php
+                        $wishlist = new Wishlist();
+                        $wishlist->setUserId($profileUser->getUserId());
+                        $userWishlist = $wishlist->fetchWishlist();
+                        ?>
+                        <?php
+                        if (sizeof($userWishlist) > 0) {
+                            ?>
+                            <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
+                                <?php
+                                foreach ($userWishlist as $wishedBookId) {
+                                    $bookObj->fetch($wishedBookId);
+                                    $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
+                                    ?>
+                                    <div class="book-container">
+                                        <!-- book image -->
+                                        <div class="book-image">
+                                            <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt=""> -->
+                                            <img src="<?= $coverPhotoUrl ?>" alt="book photo">
+                                        </div>
 
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title">
-                                        <p class="book-title"> To Kill a Mockingbird </p>
-                                        <i class="fa-regular fa-bookmark"></i>
+                                        <!-- book details -->
+                                        <div class="book-details">
+                                            <!-- book title -->
+                                            <div class="book-title-wishlist">
+                                                <p class="book-title"> <?= $bookObj->getTitle() ?> </p>
+
+                                                <div class="wishlist">
+                                                    <a
+                                                        href="/bookrack/app/wishlist-code.php?book-id=<?= $wishedBookId ?>&ref_url=<?= $url ?>">
+
+                                                        <?php
+                                                        if (in_array($wishedBookId, $userWishlist)) {
+                                                            ?>
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <!-- book purpose -->
+                                            <p class="book-purpose"> <?= getPascalCaseString($bookObj->getPurpose()) ?> </p>
+
+                                            <!-- book description -->
+                                            <div class="book-description-container">
+                                                <p class="book-description"> <?= getPascalCaseString($bookObj->getDescription()) ?>
+                                                </p>
+                                            </div>
+
+                                            <!-- book price -->
+                                            <div class="book-price">
+                                                <p class="book-price"> <?= getFormattedPrice($bookObj->getOfferPrice()) ?> </p>
+                                            </div>
+
+                                            <button class="btn"
+                                                onclick="window.location.href='/bookrack/book-details/<?= $wishedBookId ?>'"> Show
+                                                More
+                                            </button>
+                                        </div>
                                     </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> Renting </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> Set in the American South during the 1930s, this
-                                            classic
-                                            novel explores themes of racial injustice and moral growth through the eyes of
-                                            Scout
-                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price"> NRs. 85 </p>
-                                    </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                    </button>
-                                </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
-
-                            <!-- book container :: dummy data 2 -->
-                            <div class="book-container">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-2.png" alt="">
-                                </div>
-
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title">
-                                        <p class="book-title"> Don't Look Back </p>
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> Selling </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> Set in the American South during the 1930s, this
-                                            classic
-                                            novel explores themes of racial injustice and moral growth through the eyes of
-                                            Scout
-                                            Finch, a young girl whose father, Atticus Finch, is ... </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price"> NRs. 170 </p>
-                                    </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details'"> Show More
-                                    </button>
-                                </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="empty-div">
+                                <img src="/bookrack/assets/icons/empty.svg" alt="">
+                                <p class="empty-message"> Your wishlist is empty! </p>
                             </div>
-                        </div>
-
-                        <div class="empty-div">
-                            <img src="/bookrack/assets/icons/empty.svg" alt="">
-                            <p class="empty-message"> Your wishlist is empty! </p>
-                        </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                     <?php
                 }
@@ -1019,7 +1040,7 @@ $bookObj = new Book();
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php';?>
+    <?php include 'footer.php'; ?>
 
     <?php
     // unset session status & status
@@ -1045,25 +1066,25 @@ $bookObj = new Book();
     <!-- edit profile script -->
     <script>
         // first name
-        $('#edit-profile-first-name').keydown(function(){
+        $('#edit-profile-first-name').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });
 
         // last name
-        $('#edit-profile-last-name').keydown(function(){
+        $('#edit-profile-last-name').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });
 
         // contact name
-        $('#edit-profile-contact').keydown(function(){
+        $('#edit-profile-contact').keydown(function () {
             var asciiValue = event.keyCode || event.which;
-            if(asciiValue == 32){
+            if (asciiValue == 32) {
                 event.preventDefault();
             }
         });

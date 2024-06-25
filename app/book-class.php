@@ -452,6 +452,20 @@ class Book
         return $response;
     }
 
+    public function fetchUserBookId($userId){
+        $list = array();
+        global $database;
+        $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
+        $snapshot = $query->getSnapshot();
+        $response = $snapshot->getValue();
+
+        if($response)
+            foreach($response as $key => $res)
+                $list [] = $key;
+
+        return $list;
+    }
+
     // fetch user's books
     public function fetchBookByUserId($userId){
         global $database;

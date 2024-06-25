@@ -93,7 +93,7 @@ $districtArray = array(
     "Udayapur",
     "West Rukum",
     "Dhawalagiri (formerly Mustang)"
-);     
+);
 
 $genreArray = array(
     "Adventure",
@@ -160,7 +160,8 @@ $genreArray = array(
 
 
 // function to check the internet connection status
-function getInternetConnectionState(){
+function getInternetConnectionState()
+{
     return false;
 }
 
@@ -170,11 +171,11 @@ function deleteFileFromStorageBucket($folder, $filename)
     $status = false;
     global $bucket;
 
-    if($folder == "users"){
+    if ($folder == "users") {
         $prefix = 'users/';
-    }elseif($folder == "kyc"){
+    } elseif ($folder == "kyc") {
         $prefix = 'kyc/';
-    }else{
+    } else {
         $prefix = '';
     }
 
@@ -210,21 +211,23 @@ function sanitizeEmail($email)
     return str_replace(['.', '@'], [',', ':'], $email);
 }
 //  formatted full name
-function getFormattedName($first, $last){
+function getFormattedName($first, $last)
+{
     $first = trim(strtolower($first));
     $last = trim(strtolower($last));
-    
+
     $first[0] = strtoupper($first[0]);
     $last[0] = strtoupper($last[0]);
 
-    $fullName = $first." ".$last;
-    
+    $fullName = $first . " " . $last;
+
     return $fullName;
 }
 
 
 // pascal case string
-function getPascalCaseString($str){
+function getPascalCaseString($str)
+{
     $finalString = trim(strtolower($str));
     $finalString[0] = strtoupper($finalString[0]);
 
@@ -235,23 +238,25 @@ function getPascalCaseString($str){
     return $finalString;
 }
 
-function getLowerCaseString($str){
+function getLowerCaseString($str)
+{
     $str = trim(strtolower($str));
     return $str;
 }
 
 // get array index value
-function getArrayIndexValue($dataToBeSearched, $which){
+function getArrayIndexValue($dataToBeSearched, $which)
+{
     global $districtArray;
 
-    if($which == "district"){
+    if ($which == "district") {
         $index = array_search($dataToBeSearched, $districtArray);
-    }else{
+    } else {
         $index = "";
     }
 
     return $index;
-} 
+}
 
 
 // formatted price
@@ -265,29 +270,29 @@ function getFormattedPrice($price)
 
     switch ($digitCount) {
         case 4:
-            $formattedPrice = 'NRs. ' . $x[0] . "," . $x[1] . $x[2] . $x[3];
+            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . $x[3];
             break;
         case 5:
-            $formattedPrice = 'NRs. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . $x[4];
+            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . $x[4];
             break;
         case 6:
-            $formattedPrice = 'NRs. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . $x[5];
+            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . $x[5];
             break;
         case 7:
-            $formattedPrice = 'NRs. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . $x[6];
+            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . $x[6];
             break;
         case 8:
-            $formattedPrice = 'NRs. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . $x[7];
+            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . $x[7];
             break;
         case 9:
-            $formattedPrice = 'NRs. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . "," . $x[6] . $x[7] . $x[8];
+            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . "," . $x[6] . $x[7] . $x[8];
             break;
         case 10:
-            $formattedPrice = 'NRs. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . "," . $x[7] . $x[8] . $x[9];
+            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . "," . $x[7] . $x[8] . $x[9];
             break;
         default:
-            $formattedPrice = 'NRs. ' . $x;
+            $formattedPrice = 'NPR. ' . $x;
     }
 
-    return $formattedPrice;
+    return $formattedPrice . ".00";
 }

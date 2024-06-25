@@ -9,8 +9,11 @@ if (!isset($_SESSION['bookrack-user-id'])) {
     header("Location: /bookrack/");
 }
 
+$url = "home";
+
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
 // user object
@@ -31,6 +34,16 @@ $bookObj = new Book();
 
 // fetching all books
 $bookList = $bookObj->fetchAllBooks();
+
+// fetch user's book
+$userBookList = $bookObj->fetchUserBookId($profileUser->getUserId());
+
+// wishlist object
+$wishlist = new Wishlist();
+
+$wishlist->setUserId($profileUser->getUserId());
+
+$userWishlist = $wishlist->fetchWishlist();
 ?>
 
 <!DOCTYPE html>
@@ -141,9 +154,9 @@ $bookList = $bookObj->fetchAllBooks();
                                 aria-label="Small select example">
                                 <option value="all" selected hidden> All genre </option>
                                 <?php
-                                foreach($genreArray as $genre){
+                                foreach ($genreArray as $genre) {
                                     ?>
-                                    <option value="<?=$genre?>"> <?=$genre?> </option>
+                                    <option value="<?= $genre ?>"> <?= $genre ?> </option>
                                     <?php
                                 }
                                 ?>
@@ -170,7 +183,7 @@ $bookList = $bookObj->fetchAllBooks();
 
                 <?php
                 $genreList = [];
-                foreach($bookList as $key => $book){
+                foreach ($bookList as $key => $book) {
                     $genreList = $book['genre'];
                 }
                 ?>
@@ -178,10 +191,10 @@ $bookList = $bookObj->fetchAllBooks();
                 <!-- fetch all the genres -->
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container">
                     <?php
-                    foreach($genreList as $genre){
+                    foreach ($genreList as $genre) {
                         ?>
                         <div class="genre">
-                            <p class="m-0 text-secondary"> <?=$genre?> </p>
+                            <p class="m-0 text-secondary"> <?= $genre ?> </p>
                         </div>
                         <?php
                     }
@@ -212,17 +225,36 @@ $bookList = $bookObj->fetchAllBooks();
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
-                                <div class="book-title">
-                                    <p>
+                                <div class="book-title-wishlist">
+                                    <p class="book-title">
                                         <?= $book['title'] ?>
                                     </p>
-                                    <a href="#">
-                                        <i class="fa-regular fa-bookmark"></i>
-                                    </a>
+
+                                    <?php
+                                    if (!in_array($key, $userBookList)) {
+                                        ?>
+                                        <div class="wishlist">
+                                            <a href="/bookrack/app/wishlist-code.php?book-id=<?= $key ?>&ref_url=<?= $url ?>">
+                                                <?php
+                                                if (in_array($key, $userWishlist)) {
+                                                    ?>
+                                                    <i class="fa-solid fa-bookmark"></i>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <i class="fa-regular fa-bookmark"></i>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </a>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
                                 <!-- book purpose -->
-                                <p class="book-purpose"> <?= getPascalCaseString($book['purpose'])?> </p>
+                                <p class="book-purpose"> <?= getPascalCaseString($book['purpose']) ?> </p>
 
                                 <!-- book description -->
                                 <div class="book-description-container">
@@ -231,10 +263,20 @@ $bookList = $bookObj->fetchAllBooks();
 
                                 <!-- book price -->
                                 <div class="book-price">
-                                    <p class="book-price"> <?= getFormattedPrice($book['price']['offer']) ?> </p>
+                                    <p class="book-price">
+                                        <?php
+                                        if ($book['purpose'] == "renting") {
+                                            $actualPrice = $book['price']['actual'];
+                                            $rent = $actualPrice * 0.25;
+                                            echo getFormattedPrice($rent) . " /week";
+                                        } elseif ($book['purpose'] == "buy/sell") {
+
+                                        }
+                                        ?>
                                 </div>
 
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>'"> Show
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>/'">
+                                    Show
                                     More </button>
                             </div>
                         </div>
@@ -274,13 +316,10 @@ $bookList = $bookObj->fetchAllBooks();
                     </div>
                 </div>
             </section>
-
-
-            <!-- pagination -->
         </article>
     </main>
 
-    <?php include 'footer.php';?>
+    <?php include 'footer.php'; ?>
 
     <!-- jquery -->
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>

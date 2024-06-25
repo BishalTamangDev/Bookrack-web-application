@@ -13,9 +13,17 @@ if (!isset($bookId) || $bookId == "") {
     header("Location: /bookrack/home");
 }
 
+$url = "book-details";
+
 // fetch book details
+require_once __DIR__ . '/../bookrack/app/user-class.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
+
+$profileUser = new User();
+$profileUser->setUserId($_SESSION['bookrack-user-id']);
+$profileUser->fetch($_SESSION['bookrack-user-id']);
 
 $selectedBook = new Book();
 
@@ -26,6 +34,10 @@ $bookFound = $selectedBook->fetch($selectedBook->getId());
 if (!$bookFound) {
     header("Location: /bookrack/home");
 }
+
+$wishlist = new Wishlist();
+$wishlist->setUserId($profileUser->getUserId());
+$userWishlist = $wishlist->fetchWishlist();
 ?>
 
 <!DOCTYPE html>
@@ -231,7 +243,7 @@ if (!$bookFound) {
                     <!-- publisher -->
                     <div class="misc-div">
                         <div class="title">
-                            <p class="m-0"> Publisher </p>
+                            <p class="m-0 fw-bold"> Publisher </p>
                         </div>
                         <div class="data">
                             <p class="m-0"> <?= $selectedBook->getPublisher() ?> </p>
@@ -241,7 +253,7 @@ if (!$bookFound) {
                     <!-- Publication -->
                     <div class="misc-div">
                         <div class="title">
-                            <p class="m-0"> Publication </p>
+                            <p class="m-0 fw-bold"> Publication </p>
                         </div>
                         <div class="data">
                             <p class="m-0"> <?= $selectedBook->getPublication() ?> </p>
@@ -251,7 +263,7 @@ if (!$bookFound) {
                     <!-- price -->
                     <div class="misc-div">
                         <div class="title">
-                            <p class="m-0"> Price </p>
+                            <p class="m-0 fw-bold"> Price </p>
                         </div>
                         <div class="data">
                             <p class="m-0 text-success fw-bold">
@@ -272,7 +284,7 @@ if (!$bookFound) {
                     <!-- ISBN -->
                     <div class="misc-div">
                         <div class="title">
-                            <p class="m-0"> ISBN </p>
+                            <p class="m-0 fw-bold"> ISBN </p>
                         </div>
                         <div class="data">
                             <p class="m-0"> <?= $selectedBook->getIsbn() ?> </p>
@@ -282,7 +294,7 @@ if (!$bookFound) {
                     <!-- language -->
                     <div class="misc-div">
                         <div class="title">
-                            <p class="m-0"> Language </p>
+                            <p class="m-0 fw-bold"> Language </p>
                         </div>
                         <div class="data">
                             <p class="m-0"> <?= getPascalCaseString($selectedBook->getLanguage()) ?> </p>
@@ -299,7 +311,19 @@ if (!$bookFound) {
                         <!-- <a href="" class="btn" id="request-btn"> REQUEST NOW </a> -->
 
                         <!-- wishlist -->
-                        <a href="" class="btn" id="wishlist-btn"><i class="fa fa-bookmark"></i>Add to wishlist</a>
+                        <a href="/bookrack/app/wishlist-code.php?book-id=<?= $bookId ?>&ref_url=<?= $url ?>" class="btn" id="wishlist-btn">
+                            <?php
+                            if(in_array($selectedBook->getId(),$userWishlist)){
+                                ?>
+                                <i class="fa-solid fa-bookmark"></i> Remove from wishlist
+                                <?php
+                            }else{
+                                ?>
+                                <i class="fa-regular fa-bookmark"></i> Add to wishlist
+                                <?php
+                            }
+                            ?>
+                        </a>
 
                         <!-- add to cart -->
                         <a href="" class="btn" id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -312,6 +336,7 @@ if (!$bookFound) {
     </main>
 
     <!-- footer -->
+    <?php include 'footer.php';?>
 
     <!-- jquery -->
     <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>

@@ -177,7 +177,7 @@ $headerProfile->fetch($_SESSION['bookrack-user-id']);
         // device width changing
         widthCheck = () => {
             if (window.innerWidth < 768) {
-                profileMenuState = true;
+                // profileMenuState = true;
             } else {
                 profileMenuState = false;
             }

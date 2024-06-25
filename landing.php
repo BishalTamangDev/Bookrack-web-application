@@ -17,6 +17,7 @@ require_once __DIR__ . '/../bookrack/app/book-class.php';
 
 $bookObj = new Book();
 
+// fetch all books
 $bookList = $bookObj->fetchAllBooks();
 ?>
 
@@ -132,7 +133,7 @@ $bookList = $bookObj->fetchAllBooks();
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
-                                <div class="book-title">
+                                <div class="book-title-wishlist">
                                     <p class="book-title"> <?=$book['title']?> </p>
                                 </div>
     

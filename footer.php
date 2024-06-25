@@ -154,15 +154,15 @@ $footerBookObj = new Book();
                 </div>
 
                 <div class="d-flex flex-row gap-3 bottom">
-                    <a href="">
+                    <a class="pointer">
                         <i class="fa-brands fa-facebook-square fs-3 text-light" id="facebook-icon"></i>
                     </a>
 
-                    <a href="">
+                    <a class="pointer">
                         <i class="fa-brands fa-instagram-square fs-3 text-light" id="instagram-icon"></i>
                     </a>
 
-                    <a href="">
+                    <a class="pointer">
                         <i class="fa-brands fa-twitter-square fs-3 text-light" id="x-icon"></i>
                     </a>
                 </div>
