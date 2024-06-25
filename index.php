@@ -65,7 +65,11 @@ elseif ($router == '/book-details' || $router == '/book-details/' || preg_match(
 
     if (isset($arr[2]) && $arr[2] != "") {
         $bookId = $arr[2];
-        include 'book-details.php';
+        if(isset($_SESSION['bookrack-user-id'])){
+            include 'book-details.php';
+        }else{
+            include 'book-details-unsigned.php';
+        }
     } else {
         include '404.php';
     }

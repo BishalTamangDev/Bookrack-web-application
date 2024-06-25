@@ -179,29 +179,29 @@ $rentBookCount = 0;
                 <tbody>
                     <?php
                     $serial = 1;
-                    foreach($bookList as $key => $book){
+                    foreach ($bookList as $key => $book) {
                         ?>
                         <tr class="book-row on-rent-row on-stock-row">
-                            <th scope="row"> <?=$serial++?> </th>
-                            <td> <?=$key?> </td>
-                            <td> <?=$book['isbn']?> </td>
-                            <td> <?=$book['title']?> </td>
+                            <th scope="row"> <?= $serial++ ?> </th>
+                            <td> <?= $key ?> </td>
+                            <td> <?= $book['isbn'] ?> </td>
+                            <td> <?= $book['title'] ?> </td>
                             <td>
                                 <?php
                                 $count = 0;
-                                foreach($book['genre'] as $genre){
+                                foreach ($book['genre'] as $genre) {
                                     $count++;
-                                    echo $count != count($book['genre']) ? $genre.', ' : $genre;
+                                    echo $count != count($book['genre']) ? $genre . ', ' : $genre;
                                 }
                                 ?>
                             </td>
                             <td> Harper Lee</td>
-                            <td> <?=$book['language']?></td>
-                            <td> <?=$book['owner_id']?></td>
-                            <td> <?="-"?></td>
+                            <td> <?= $book['language'] ?></td>
+                            <td> <?= $book['owner_id'] ?></td>
+                            <td> <?= "-" ?></td>
                             <td>
                                 <abbr title="Show full details">
-                                    <a href="/bookrack/admin/admin-book-details/<?=$key?>">
+                                    <a href="/bookrack/admin/admin-book-details/<?= $key ?>">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </abbr>
@@ -224,16 +224,8 @@ $rentBookCount = 0;
         </table>
     </main>
 
-    <!-- jquery -->
-    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
-
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap js :: local file -->
-    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <!-- jquery, bootstrap [cdn + local] -->
+    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
 </body>
 
 </html>

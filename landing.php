@@ -55,42 +55,7 @@ $bookList = $bookObj->fetchAllBooks();
 
 <body>
     <!-- header -->
-    <header class="header w-100 border-bottom">
-        <div class="container d-flex flex-row py-3 align-items-center justify-content-between header-container">
-            <!-- logo -->
-            <div class="d-flex flex-row gap-2 align-items-center header-logo pointer"
-                onclick="window.location.href='/bookrack/landing'">
-                <img src="/bookrack/assets/brand/bookrack-logo-black.png" alt="">
-                <h3 class="m-0 fw-bold"> Bookrack </h3>
-            </div>
-
-            <div class="nav-container" id="menu">
-                <nav class="d-flex gap-2 nav" id="main-nav-menu">
-                    <!-- close close -->
-                    <div class="justify-content-end px-5 py-4 close close-nav-div">
-                        <i class="fa fa-multiply pointer fs-3" id="close-nav-menu"></i>
-                        <!-- <p class="m-0 fs-1 fw-bold pointer" id="close-nav-menu"> + </p> -->
-                    </div>
-
-                    <ul class="d-flex">
-                        <li><a href="#trending-book-section"> Trending Books </a></li>
-                        <li><a href="#service-section"> Services </a></li>
-                        <li><a href="#genre-section"> Genres </a></li>
-                    </ul>
-                    
-                    <div class="signin-div">
-                        <a href="/bookrack/signin" class="btn text-white py-2 px-4"> Signin </a>
-                    </div>
-                </nav>
-            </div>
-
-            <!-- menu and sign in button -->
-            <div class="d-flex flex-row align-items-center menu-signin">
-                <i class="fa fa-bars fs-3 pointer" id="open-nav-menu"></i>
-                <a href="/bookrack/signin" class="btn text-white py-2 px-4"> Signin </a>
-            </div>
-        </div>
-    </header>
+    <?php include 'header-unsigned.php'; ?>
 
     <!-- main -->
     <main class="main">
@@ -150,7 +115,7 @@ $bookList = $bookObj->fetchAllBooks();
                                     <p class="book-price"> <?=getFormattedPrice($book['price']['offer'])?> </p>
                                 </div>
     
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?=$key?>'"> Show More </button>
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>/'"> Show More </button>
                             </div>
                         </div>
                         <?php
@@ -242,53 +207,10 @@ $bookList = $bookObj->fetchAllBooks();
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php';?>
+    <?php include_once 'footer.php';?>
 
-    <!-- jquery -->
-    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
-
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap js :: local file -->
-    <script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
-
-    <!-- js :: current file -->
-    <script>
-        var menuState = false;
-        const menu = document.getElementById("menu");
-        const openMenu = document.getElementById("open-nav-menu");
-        const closeMenu = document.getElementById("close-nav-menu");
-
-        // open menu
-        openMenu.addEventListener('click', function () {
-            menuState = !menuState;
-            menu.style = "right: 0; transition: .4s";
-        });
-
-        // close menu
-        closeMenu.addEventListener('click', function () {
-            menuState = !menuState;
-            menu.style = "right: -100%; transition: .4s";
-        });
-
-        // device width changing
-        widthCheck = () => {
-            if (window.innerWidth < 768) {
-                if (!menuState) {
-                    // menu.style = "right: -100%; transition: 0s";
-                } else {
-                    // menu.style = "right: 0; transition: 0.4s";
-                }
-            }
-        }
-
-        window.addEventListener('resize', widthCheck);
-
-        widthCheck();
-    </script>
+    <!-- jquery, bootstrap [cdn + local] -->
+    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php';?>
 </body>
 
 </html>

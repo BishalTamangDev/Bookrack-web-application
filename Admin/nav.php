@@ -55,20 +55,20 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
                 <div class="profile-photo rounded-circle">
-                    <img src="<?php if($asideAdmin->getProfilePicture() != "") {
-                         echo $asideAdmin->getProfilePictureImageUrl();
-                    }else{
+                    <img src="<?php if ($asideAdmin->getProfilePicture() != "") {
+                        echo $asideAdmin->getProfilePictureImageUrl();
+                    } else {
                         echo '/bookrack/assets/images/blank-user.jpg';
-                    }?>" alt="" id="admin-profile-photo" loading="lazy">
+                    } ?>" alt="" id="admin-profile-photo" loading="lazy">
                 </div>
 
                 <!-- profile detail -->
                 <div class="d-flex flex-column align-items-center profile-details">
-                    <p class="f-reset" id="username"> 
+                    <p class="f-reset" id="username">
                         <?php
-                        if($asideAdmin->getFirstName() != ""){
+                        if ($asideAdmin->getFirstName() != "") {
                             echo getPascalCaseString($asideAdmin->getFirstName());
-                        } 
+                        }
                         ?>
                     </p>
                     <p class="f-reset" id="email-address"> admin@gmail.com </p>
@@ -142,13 +142,8 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
         </div>
     </aside>
 
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap local file :: backup-->
-    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <!-- jquery, bootstrap [cdn + local] -->
+    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
 </body>
 
 </html>

@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
 
-if(!isset($_SESSION['bookrack-admin-id'])){
+if (!isset($_SESSION['bookrack-admin-id'])) {
     header("Location: /bookrack/admin/admin-signin");
 }
 
@@ -19,7 +19,7 @@ $profileAdmin = new Admin();
 $profileAdmin->setId($_SESSION['bookrack-admin-id']);
 $profileAdmin->fetch($profileAdmin->getId());
 
-if($profileAdmin->getAccountStatus() != "verified"){
+if ($profileAdmin->getAccountStatus() != "verified") {
     header("Location: /bookrack/admin/admin-profile");
 }
 
@@ -88,19 +88,19 @@ $bookObj = new Book();
                     <!-- number of users -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Users </p>
-                        <p class="card-v1-detail"> <?=$userCount?> </p>
+                        <p class="card-v1-detail"> <?= $userCount ?> </p>
                     </div>
 
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
-                        <p class="card-v1-detail"> <?=$bookCount?> </p>
+                        <p class="card-v1-detail"> <?= $bookCount ?> </p>
                     </div>
 
                     <!-- number of books on rent -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books on Rent </p>
-                        <p class="card-v1-detail"> <?="-"?> </p>
+                        <p class="card-v1-detail"> <?= "-" ?> </p>
                     </div>
 
                 </div>
@@ -242,28 +242,29 @@ $bookObj = new Book();
                 <?php
                 $bookList = $bookObj->fetchAllBooks();
 
-                foreach($bookList as $key => $book){
+                foreach ($bookList as $key => $book) {
                     $bookObj->setCoverPhoto($book['photo']['cover']);
                     ?>
-                    <div class="recently-arrived-book" onclick="window.location.href='/bookrack/admin/admin-book-details/<?=$key?>'">
+                    <div class="recently-arrived-book"
+                        onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $key ?>'">
                         <div class="image-div">
-                            <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
+                            <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="">
                         </div>
 
                         <div class="detail">
                             <div class="title">
-                                <p> <?=$book['title']?> </p>
+                                <p> <?= $book['title'] ?> </p>
                             </div>
 
                             <div class="genre">
                                 <?php
                                 $count = 0;
-                                foreach($book['genre'] as $genre){
+                                foreach ($book['genre'] as $genre) {
                                     $count++;
                                     ?>
-                                    <p> 
-                                        <?php 
-                                        echo ($count != count($book['genre'])) ? $genre.", " : $genre;?> 
+                                    <p>
+                                        <?php
+                                        echo ($count != count($book['genre'])) ? $genre . ", " : $genre; ?>
                                     </p>
                                     <?php
                                 }
@@ -276,7 +277,8 @@ $bookObj = new Book();
                 ?>
             </div>
 
-            <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show
+            <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added">
+                Show
                 all </a>
 
         </section>
@@ -423,16 +425,8 @@ $bookObj = new Book();
         </section>
     </main>
 
-    <!-- jquery -->
-    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"> </script>
-
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap js :: local file -->
-    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <!-- jquery, bootstrap [cdn + local] -->
+    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
 </body>
 
 </html>
