@@ -1,33 +1,30 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
+
+$url = "users";
+$adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
+$profileAdmin->fetch($adminId);
 
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($profileAdmin->getId());
-
-if ($profileAdmin->getAccountStatus() != "verified") {
+if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
-}
 
 // including user class
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
 $userObj = new User();
 
+// fetch all users
+$userList = $userObj->fetchAllUsers();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -39,39 +36,19 @@ $userObj = new User();
     <!-- title -->
     <title> Users </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/users.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
-        <!-- fetch all users -->
-        <?php
-        $userList = $userObj->fetchAllUsers();
-        ?>
-
         <!-- heading -->
         <p class="fw-bold page-heading"> Users </p>
 
@@ -153,7 +130,7 @@ $userObj = new User();
                             class="user-tr <?= ($user['account_status'] == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
                             <th scope="row"> <?= $serial++ ?> </th>
                             <td> <?= $key ?> </td>
-                            <td> <?= getPascalCaseString($user['name']['first']) . " " . getPascalCaseString($user['name']['last']) ?>
+                            <td> <?= ucfirst($user['name']['first']) . " " . ucfirst($user['name']['last']) ?>
                             </td>
                             <td> <?= $user['dob'] ?> </td>
                             <td>
@@ -168,9 +145,9 @@ $userObj = new User();
                             </td>
                             <td> <?= $user['email'] ?> </td>
                             <td> <?= $user['contact'] ?> </td>
-                            <td> <?= getPascalCaseString($user['address']['location']) . ", " . $districtArray[$user['address']['district']] ?>
+                            <td> <?= ucfirst($user['address']['location']) . ", " . $districtArray[$user['address']['district']] ?>
                             </td>
-                            <td> <?= getPascalCaseString($user['account_status']) ?> </td>
+                            <td> <?= ucfirst($user['account_status']) ?> </td>
                             <td>
                                 <abbr title="Show full details">
                                     <a href="/bookrack/admin/admin-user-details/<?= $key ?>">
@@ -203,7 +180,7 @@ $userObj = new User();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 
     <!-- current file script -->
     <script>

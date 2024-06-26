@@ -1,27 +1,21 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-
-
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
+
+$url = "dashboard";
+$adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 
 $profileAdmin = new Admin();
+$profileAdmin->fetch($adminId);
 
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($profileAdmin->getId());
-
-if ($profileAdmin->getAccountStatus() != "verified") {
+if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
-}
 
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
@@ -29,8 +23,10 @@ require_once __DIR__ . '/../../bookrack/app/book-class.php';
 
 $userObj = new User();
 $bookObj = new Book();
-?>
 
+$userList = $userObj->fetchAllUsers();
+$bookList = $bookObj->fetchAllBooks();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,59 +38,36 @@ $bookObj = new Book();
     <!-- title -->
     <title> Dashboard </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/dashboard.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <main class="main">
-        <!-- heading -->
         <p class="page-heading"> Dashboard </p>
 
         <!-- card & new users -->
         <section
             class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
             <div class="count-card">
-                <?php
-                // count the number of users
-                $userCount = count($userObj->fetchAllUsers());
-
-                // count the number of book
-                $bookCount = count($bookObj->fetchAllBooks());
-                ?>
                 <!-- cards -->
                 <div class="card-container">
                     <!-- number of users -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Users </p>
-                        <p class="card-v1-detail"> <?= $userCount ?> </p>
+                        <p class="card-v1-detail"> <?= sizeof($userList); ?> </p>
                     </div>
 
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
-                        <p class="card-v1-detail"> <?= $bookCount ?> </p>
+                        <p class="card-v1-detail"> <?= sizeof($bookList) ?> </p>
                     </div>
 
                     <!-- number of books on rent -->
@@ -102,7 +75,6 @@ $bookObj = new Book();
                         <p class="card-v1-title"> Books on Rent </p>
                         <p class="card-v1-detail"> <?= "-" ?> </p>
                     </div>
-
                 </div>
             </div>
 
@@ -154,7 +126,6 @@ $bookObj = new Book();
 
                         <!-- table data -->
                         <tbody>
-                            <!-- dummy data -->
                             <tr>
                                 <td>
                                     <div class="offer-book-image-container">
@@ -240,31 +211,28 @@ $bookObj = new Book();
 
             <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
                 <?php
-                $bookList = $bookObj->fetchAllBooks();
-
-                foreach ($bookList as $key => $book) {
-                    $bookObj->setCoverPhoto($book['photo']['cover']);
+                foreach ($bookList as $book) {
                     ?>
                     <div class="recently-arrived-book"
-                        onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $key ?>'">
+                        onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $book->getId() ?>'">
                         <div class="image-div">
-                            <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="">
+                            <img src="<?= $book->photoUrl['cover'] ?>" alt="book cover photo" loading="laxy">
                         </div>
 
                         <div class="detail">
                             <div class="title">
-                                <p> <?= $book['title'] ?> </p>
+                                <p> <?= ucWords($book->title) ?> </p>
                             </div>
 
                             <div class="genre">
                                 <?php
                                 $count = 0;
-                                foreach ($book['genre'] as $genre) {
+                                foreach ($book->genre as $genre) {
                                     $count++;
                                     ?>
                                     <p>
                                         <?php
-                                        echo ($count != count($book['genre'])) ? $genre . ", " : $genre; ?>
+                                        echo ($count != count($book->genre)) ? $genre . ", " : $genre; ?>
                                     </p>
                                     <?php
                                 }
@@ -278,9 +246,7 @@ $bookObj = new Book();
             </div>
 
             <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added">
-                Show
-                all </a>
-
+                Show all </a>
         </section>
 
         <!-- rent ending -->
@@ -426,7 +392,7 @@ $bookObj = new Book();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>

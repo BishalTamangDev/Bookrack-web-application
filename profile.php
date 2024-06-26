@@ -5,29 +5,25 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-}
+
+$userId = $_SESSION['bookrack-user-id'];
 
 $url = "profile";
 
-require_once __DIR__ . '/../bookrack/app/user-class.php';
-require_once __DIR__ . '/../bookrack/app/book-class.php';
-require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
-
 require_once __DIR__ . '/../bookrack/app/functions.php';
+require_once __DIR__ . '/../bookrack/app/user-class.php';
 
 $profileUser = new User();
 
-$profileUser->setUserId($_SESSION['bookrack-user-id']);
-
 // get user details
-$userFound = $profileUser->fetch($profileUser->getUserId());
+$userFound = $profileUser->fetch($userId);
 
-if (!$userFound) {
+if (!$userFound)
     header("Location: /bookrack/signout");
-}
 
+require_once __DIR__ . '/../bookrack/app/book-class.php';
 $bookObj = new Book();
 ?>
 
@@ -41,41 +37,34 @@ $bookObj = new Book();
     <!-- title -->
     <title>
         <?php
-        if ($tab == "edit-profile")
-            echo "Edit profile";
-        elseif ($tab == "kyc")
-            echo "KYC";
-        elseif ($tab == "my-books")
-            echo "My books";
-        elseif ($tab == "wishlist")
-            echo "Wishlist";
-        elseif ($tab == "requested-books")
-            echo "Requested books";
-        elseif ($tab == "earning")
-            echo "Earning";
-        else
-            echo "My profile";
+        switch($tab){
+            case "edit-profile":
+                echo "Edit profile";
+                break;
+            case"kyc":
+                echo "KYC";
+                break;
+            case "my-books":
+                echo "My books";
+                break;
+            case "wishlist":
+                echo "Wishlist";
+                break;
+            case "requested-books":
+                echo "Requested books";
+                break;
+            case "earning":
+                echo "Earning";
+                break;
+            default:
+                echo "My profile";
+        }
         ?>
     </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
-
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
     <link rel="stylesheet" href="/bookrack/assets/css/profile.css">
 </head>
@@ -96,7 +85,7 @@ $bookObj = new Book();
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
-                        if ($profileUser->getProfilePicture() == "") {
+                        if ($profileUser->profilePicture == "") {
                             ?>
                             <img src="/bookrack/assets/images/blank-user.jpg" alt="profile picture">
                             <?php
@@ -110,10 +99,10 @@ $bookObj = new Book();
 
                     <div class="d-flex flex-row gap-2 align-items-center profile name-status">
                         <p class="m-0 text-secondary">
-                            <?php echo $profileUser->getFirstName() == "" ? $profileUser->getEmail() : getPascalCaseString($profileUser->getFirstName()) . " " . getPascalCaseString($profileUser->getLastName()); ?>
+                            <?php echo $profileUser->name['first'] == "" ? $profileUser->email : ucfirst($profileUser->name['first']) . " " . ucfirst($profileUser->name['last']); ?>
                         </p>
                         <?php
-                        if ($profileUser->getAccountStatus() == "verified") {
+                        if ($profileUser->accountStatus == "verified") {
                             ?>
                             <div class="status-div bg-success"></div>
                             <?php
@@ -136,14 +125,17 @@ $bookObj = new Book();
                         </div>
                         <div class="data-div">
                             <p class="f-reset">
-                                <?php echo $profileUser->getAddressLocation() != "" ? getPascalCaseString($profileUser->getAddressLocation()) . ", " . $districtArray[$profileUser->getAddressDistrict()] : "-"; ?>
+                                <?php 
+                                $addressDistrict = $profileUser->getAddressDistrict();
+                                $addressLocation = $profileUser->getAddressLocation();
+                                echo $addressLocation != "" ? ucfirst($addressLocation) . ", " . $districtArray[$addressDistrict] : "-"; ?>
                             </p>
                         </div>
                     </div>
 
                     <?php
                     // extract only the date from joined date
-                    $fullDateTime = $profileUser->getJoinedDate();
+                    $fullDateTime = $profileUser->joinedDate;
                     $dateTime = new DateTime($fullDateTime);
                     $dateOnly = $dateTime->format('Y-m-d');
                     ?>
@@ -155,7 +147,7 @@ $bookObj = new Book();
                             <span> Member since </span>
                         </div>
                         <div class="data-div">
-                            <p class="f-reset"> <?php echo $profileUser->getJoinedDate() != "" ? $dateOnly : "-"; ?>
+                            <p class="f-reset"> <?php echo $profileUser->joinedDate != "" ? $dateOnly : "-"; ?>
                             </p>
                         </div>
                     </div>
@@ -175,12 +167,8 @@ $bookObj = new Book();
                             <span>Books offered</span>
                         </div>
 
-                        <?php
-                        $offeredBookCount = count($bookObj->fetchBookByUserId($profileUser->getUserId()));
-                        ?>
-
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?= $offeredBookCount ?> </p>
+                            <p class="f-reset fw-bold"> <?= count($bookObj->fetchBookByUserId($userId)) ?> </p>
                         </div>
                     </div>
 
@@ -188,7 +176,7 @@ $bookObj = new Book();
                     <div class="d-flex flex-row profile-detail">
                         <div class="title-div">
                             <i class="fa fa-none"></i>
-                            <span>Books consumed </span>
+                            <span> Books consumed </span>
                         </div>
 
                         <div class="data-div">
@@ -206,7 +194,7 @@ $bookObj = new Book();
         <article class="article bg-md-success mb-4 bg-sm-danger">
             <!-- account state notification note div -->
             <?php
-            if ($profileUser->getAccountStatus() != "verified") {
+            if ($profileUser->accountStatus != "verified") {
                 ?>
                 <div class="alert alert-danger mb-4" role="alert">
                     Your account is still not verified. Make sure you have provided all your details. If you have provided
@@ -318,7 +306,7 @@ $bookObj = new Book();
                             </div>
 
                             <!-- user id -->
-                            <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
+                            <input type="hidden" name="user-id" id="user-id" value="<?= $userId ?>">
 
                             <!-- profile picture -->
                             <?php
@@ -339,16 +327,16 @@ $bookObj = new Book();
                             <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                                 <div class="flex-grow-1 first-name-div">
                                     <label for="edit-profile-first-name" class="form-label">First name </label>
-                                    <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->getFirstName() != "")
-                                        echo getPascalCaseString($profileUser->getFirstName()); ?>"
+                                    <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
+                                        echo ucfirst($profileUser->name['first']); ?>"
                                         name="edit-profile-first-name" aria-describedby="first name" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
 
                                 <div class="flex-grow-1 last-name-div">
                                     <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->getLastName() != "")
-                                        echo getPascalCaseString($profileUser->getLastName()); ?>"
+                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['first'] != "")
+                                        echo ucfirst($profileUser->name['last']); ?>"
                                         name="edit-profile-last-name" aria-describedby="last name" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
@@ -371,7 +359,7 @@ $bookObj = new Book();
                                         aria-label="Default select example" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                         <?php
-                                        if ($profileUser->getGender() == "") {
+                                        if ($profileUser->gender == "") {
                                             ?>
                                             <option value="" selected hidden>Select gender</option>
                                             <?php
@@ -379,11 +367,11 @@ $bookObj = new Book();
                                             ?>
                                             <option value="<?= $profileUser->getGender() ?>" selected hidden>
                                                 <?php
-                                                if ($profileUser->getGender() == 0) {
+                                                if ($profileUser->gender == 0) {
                                                     echo "Male";
-                                                } elseif ($profileUser->getGender() == 1) {
+                                                } elseif ($profileUser->gender == 1) {
                                                     echo "Female";
-                                                } elseif ($profileUser->getGender() == 1) {
+                                                } elseif ($profileUser->gender == 2) {
                                                     echo "Others";
                                                 } else {
                                                     echo "Select gender";
@@ -406,7 +394,7 @@ $bookObj = new Book();
                                 <div class="w-100 w-md-50 email-div">
                                     <label for="edit-profile-email" class="form-label"> Email address </label>
                                     <input type="text" class="form-control" id="edit-profile-email"
-                                        value="<?= $profileUser->getEmail() ?>" name="edit-profile-email"
+                                        value="<?= $profileUser->email ?>" name="edit-profile-email"
                                         aria-describedby="email" disabled>
                                 </div>
 
@@ -458,7 +446,7 @@ $bookObj = new Book();
                                 <div class="w-100 w-md-50 location-div">
                                     <label for="edit-profile-location" class="form-label"> Location </label>
                                     <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
-                                        echo getPascalCaseString($profileUser->getAddressLocation()); ?>"
+                                        echo ucfirst($profileUser->getAddressLocation()); ?>"
                                         name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
@@ -486,7 +474,7 @@ $bookObj = new Book();
                     ?>
                     <div class="d-flex flex-column gap-1 kyc-section">
                         <?php
-                        if ($profileUser->getAccountStatus() == "pending") {
+                        if ($profileUser->accountStatus == "pending") {
                             ?>
                             <hr>
                             <p class="m-0 text-secondary text-danger fst-italic">
@@ -504,7 +492,7 @@ $bookObj = new Book();
                         <hr>
 
                         <?php
-                        if ($profileUser->getAccountStatus() == "verified") {
+                        if ($profileUser->accountStatus == "verified") {
                             ?>
                             <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
                             <?php
@@ -529,10 +517,10 @@ $bookObj = new Book();
 
                         <!-- existing kyc documents -->
                         <?php
-                        if ($profileUser->getAccountStatus() == "verified" || $profileUser->getDocumentType() != "") {
+                        if ($profileUser->accountStatus == "verified" || $profileUser->getDocumentType() != "") {
                             ?>
                             <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
-                                <p class="m-0 fs-5"> Document type : <?= getPascalCaseString($profileUser->getDocumentType()) ?>
+                                <p class="m-0 fs-5"> Document type : <?= ucfirst($profileUser->getDocumentType()) ?>
                                 </p>
 
                                 <div class="d-flex flex-row gap-4 documents">
@@ -592,7 +580,7 @@ $bookObj = new Book();
 
                         <!-- hide this form if kyc is already verified -->
                         <?php
-                        if ($profileUser->getAccountStatus() != "verified" && $profileUser->getDocumentType() == "") {
+                        if ($profileUser->accountStatus != "verified" && $profileUser->getDocumentType() == "") {
                             ?>
                             <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-2 w-100 kyc-form"
                                 id="kyc-form" enctype="multipart/form-data">
@@ -722,7 +710,6 @@ $bookObj = new Book();
 
                 <!-- my books -->
                 <?php if ($tab == "my-books") {
-
                     ?>
                     <div class="d-flex flex-column gap-4 my-book-content">
                         <!-- my book filter -->
@@ -748,35 +735,42 @@ $bookObj = new Book();
                         <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                             <?php
                             $bookList = $bookObj->fetchBookByUserId($profileUser->getUserId());
-                            foreach ($bookList as $key => $book) {
-                                $bookObj->setCoverPhoto($book['photo']['cover']);
-                                $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
+                            foreach ($bookList as $book) {
                                 ?>
                                 <div class="book-container my-book my-book-active">
                                     <!-- book image -->
                                     <div class="book-image">
-                                        <img src="<?= $coverPhotoUrl ?>" alt="">
+                                        <img src="<?= $book->photoUrl['cover'] ?>" alt="">
                                     </div>
 
                                     <!-- book details -->
                                     <div class="book-details">
                                         <!-- book title -->
-                                        <div class="book-title">
-                                            <p class="book-title"> <?= $book['title'] ?> </p>
-                                            <i class="fa-regular fa-bookmark"></i>
+                                        <div class="book-title-wishlist">
+                                            <p class="book-title"> <?= ucwords($book->title) ?> </p>
                                         </div>
 
                                         <!-- book purpose -->
-                                        <p class="book-purpose"> <?= getPascalCaseString($book['purpose']) ?> </p>
+                                        <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
 
                                         <!-- book description -->
                                         <div class="book-description-container">
-                                            <p class="book-description"> <?= $book['description'] ?> </p>
+                                            <p class="book-description"> <?= ucfirst($book->description) ?> </p>
                                         </div>
 
                                         <!-- book price -->
                                         <div class="book-price">
-                                            <p class="book-price"> <?= getFormattedPrice($book['price']['offer']) ?> </p>
+                                            <p class="book-price">
+                                                <?php
+                                                if($book->purpose == "renting"){
+                                                    $rent = 0.20 * $book->price['actual'];
+                                                    echo "NPR." . number_format($rent, 2) . "/week";
+                                                }else{
+                                                    $price = $book->price['offer'];
+                                                    echo "NPR." . number_format($price, 2);
+                                                }
+                                                ?>
+                                            </p>
                                         </div>
 
                                         <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>'">
@@ -806,11 +800,12 @@ $bookObj = new Book();
                 <!-- wishlist -->
                 <?php
                 if ($tab == "wishlist") {
+                    require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
+                    $wishlist = new Wishlist();
                     ?>
                     <!-- my books container-->
                     <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
                         <?php
-                        $wishlist = new Wishlist();
                         $wishlist->setUserId($profileUser->getUserId());
                         $userWishlist = $wishlist->fetchWishlist();
                         ?>
@@ -821,20 +816,19 @@ $bookObj = new Book();
                                 <?php
                                 foreach ($userWishlist as $wishedBookId) {
                                     $bookObj->fetch($wishedBookId);
-                                    $coverPhotoUrl = $bookObj->getCoverPhotoUrl();
                                     ?>
                                     <div class="book-container">
                                         <!-- book image -->
                                         <div class="book-image">
                                             <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt=""> -->
-                                            <img src="<?= $coverPhotoUrl ?>" alt="book photo">
+                                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo">
                                         </div>
 
                                         <!-- book details -->
                                         <div class="book-details">
                                             <!-- book title -->
                                             <div class="book-title-wishlist">
-                                                <p class="book-title"> <?= $bookObj->getTitle() ?> </p>
+                                                <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
 
                                                 <div class="wishlist">
                                                     <a
@@ -856,17 +850,27 @@ $bookObj = new Book();
                                             </div>
 
                                             <!-- book purpose -->
-                                            <p class="book-purpose"> <?= getPascalCaseString($bookObj->getPurpose()) ?> </p>
+                                            <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
 
                                             <!-- book description -->
                                             <div class="book-description-container">
-                                                <p class="book-description"> <?= getPascalCaseString($bookObj->getDescription()) ?>
+                                                <p class="book-description"> <?= ucfirst($bookObj->description) ?>
                                                 </p>
                                             </div>
 
                                             <!-- book price -->
                                             <div class="book-price">
-                                                <p class="book-price"> <?= getFormattedPrice($bookObj->getOfferPrice()) ?> </p>
+                                                <p class="book-price">
+                                                <?php
+                                                if ($bookObj->purpose == "renting") {
+                                                    $rent = 0.20 * $bookObj->price['actual'];
+                                                    echo "NPR." . number_format($rent, 2) . "/week";
+                                                } else {
+                                                    $price = $bookObj->price['offer'];
+                                                    echo "NPR." . number_format($price, 2);
+                                                }
+                                                ?>
+                                                </p>
                                             </div>
 
                                             <button class="btn"
@@ -966,7 +970,6 @@ $bookObj = new Book();
                 }
                 ?>
 
-
                 <!-- earning -->
                 <?php
                 if ($tab == "earning") {
@@ -1049,7 +1052,7 @@ $bookObj = new Book();
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php'; ?>
+    <?php require_once __DIR__ . '/../bookrack/app/js-include.php'; ?>
 
     <!-- edit profile script -->
     <script>

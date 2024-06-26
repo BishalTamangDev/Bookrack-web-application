@@ -1,22 +1,20 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if(isset($_SESSION['bookrack-user-id'])){
+if(!isset($url))
+    $url = "landing";
+
+if (isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}elseif(isset($_SESSION['bookrack-admin-id'])){
+elseif (isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
-}
 
 require_once __DIR__ . '/../bookrack/app/functions.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 
 $bookObj = new Book();
 
-// fetch all books
 $bookList = $bookObj->fetchAllBooks();
 ?>
 
@@ -30,26 +28,10 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- title -->
     <title> Bookrack </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/landing.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
-
+    <link rel="stylesheet" href="/bookrack/assets/css/header-unsigned.css">
 </head>
 
 <body>
@@ -71,11 +53,11 @@ $bookList = $bookObj->fetchAllBooks();
                     </div>
 
                     <ul class="d-flex">
-                        <li><a href="/bookrack/landing/#trending-book-section"> Trending Books </a></li>
-                        <li><a href="/bookrack/landing/#service-section"> Services </a></li>
-                        <li><a href="/bookrack/landing/#genre-section"> Genres </a></li>
+                            <li> <a href="<?=$url == 'landing' ? '#trending-book-section' : '/bookrack/landing/#trending-book-section'?>"> Trending Books </a> </li>
+                            <li> <a href="<?=$url == 'landing' ? '#service-section' : '/bookrack/landing/#service-section'?>"> Services </a> </li>
+                            <li> <a href="<?=$url == 'landing' ? '#genre-section' : '/bookrack/landing/#genre-section'?>"> Genres </a>
                     </ul>
-                    
+
                     <div class="signin-div">
                         <a href="/bookrack/signin" class="btn text-white py-2 px-4"> Signin </a>
                     </div>
@@ -91,7 +73,7 @@ $bookList = $bookObj->fetchAllBooks();
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php';?>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 
     <!-- js :: current file -->
     <script>

@@ -1,26 +1,22 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
+
+$url = "user-details";
+$adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
+$profileAdmin->fetch($adminId);
 
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($profileAdmin->getId());
-
-if ($profileAdmin->getAccountStatus() != "verified") {
+if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
-}
 
 // including user class
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
@@ -31,9 +27,10 @@ $userObj = new User();
 $bookObj = new Book();
 
 $status = $selectedUser->fetch($userId);
-if (!$status) {
+
+if (!$status)
     header("Location: /bookrack/admin/admin-users");
-}
+
 $selectedUser->setUserId($userId);
 
 $bookList = $bookObj->fetchBookByUserId($userId);
@@ -47,39 +44,26 @@ $bookList = $bookObj->fetchBookByUserId($userId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> User Detail : <?= getFormattedName($selectedUser->getFirstName(), $selectedUser->getLastName()) ?> </title>
+    <title> User Detail : <?= ucfirst($selectedUser->getFirstName()) . " " . ucfirst($selectedUser->getLastName()) ?>
+    </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/user-details.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading -->
         <p class="fw-bold page-heading">
-            <?= getFormattedName($selectedUser->getFirstName(), $selectedUser->getLastName()) ?> </p>
+            <?= ucfirst($selectedUser->getFirstName()), ucfirst($selectedUser->getLastName()) ?>
+        </p>
 
         <!-- user detail -->
         <section class="section d-flex flex-column flex-lg-row gap-5 user-detail-div">
@@ -130,7 +114,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
 
                             <div class="data">
                                 <p class="f-reset">
-                                    <?= getPascalCaseString($selectedUser->getAddressLocation()) . ", " . $districtArray[$selectedUser->getAddressDistrict()] ?>
+                                    <?= ucfirst($selectedUser->getAddressLocation()) . ", " . $districtArray[$selectedUser->getAddressDistrict()] ?>
                                 </p>
                             </div>
                         </div>
@@ -151,7 +135,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
                         <!-- contribution -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded contribution">
                             <div class="data">
-                                <p class="f-reset fw-bold fs-3"> <?= count($bookList) ?> </p>
+                                <p class="f-reset fw-bold fs-3"> <?= sizeof($bookList) ?> </p>
                             </div>
                             <div class="title">
                                 <p class="f-reset fs-6"> Book Contribution </p>
@@ -167,19 +151,18 @@ $bookList = $bookObj->fetchBookByUserId($userId);
 
         <section class="d-flex flex-row flex-wrap contributed-book-container">
             <?php
-            foreach ($bookList as $key => $book) {
-                $bookObj->setCoverPhoto($book['photo']['cover']);
+            foreach ($bookList as $book) {
                 ?>
                 <div class="contributed-book">
                     <div class="image-div">
-                        <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="">
+                        <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="laxy">
                     </div>
 
                     <div class="detail-div">
-                        <p class="title"> <?= $book['title'] ?> </p>
+                        <p class="title"> <?= ucWords($book->title) ?> </p>
                         <div class="d-flex flex-row flex-wrap genre">
                             <?php
-                            foreach ($book['genre'] as $genre) {
+                            foreach ($book->genre as $genre) {
                                 ?>
                                 <p class="genre"> <?= $genre ?></p>
                                 <?php
@@ -257,7 +240,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php';?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>

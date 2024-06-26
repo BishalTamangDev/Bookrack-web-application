@@ -69,14 +69,10 @@ class Wishlist
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();
 
-        // check if wishlist has been initiated or not
-        foreach($response as $key => $res){
-            if(isset($res['list'])){
-                foreach($res['list'] as $listBookId){
+        foreach($response as $key => $res)
+            if(isset($res['list']))
+                foreach($res['list'] as $listBookId)
                     $list [] = $listBookId;
-                }
-            }
-        }
 
         return $list;
     }

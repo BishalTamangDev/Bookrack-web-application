@@ -5,34 +5,40 @@ require_once __DIR__ . '/../../bookrack/app/connection.php';
 class Book
 {
     private $bookId;
-    private $title;
-    private $description;
-    private $language;
-    private $genre;
-    private $author;
-    private $isbn;
-    private $purpose;
-    private $publisher;
-    private $publication;
-    private $edition;
-    private $price = [
+    public $title;
+    public $description;
+    public $language;
+    public $genre;
+    public $author;
+    public $isbn;
+    public $purpose;
+    public $publisher;
+    public $publication;
+    public $edition;
+    public $price = [
         "actual" => "",
         "offer" => "",
     ];
 
-    private $photo = [
+    public $photo = [
         "cover" => "",
         "price" => "",
         "isbn" => "",
     ];
 
-    private $date = [
+    public $photoUrl = [
+        "cover" => "",
+        "price" => "",
+        "isbn" => "",
+    ];
+
+    public $date = [
         "offer" => "",
         "approval" => "",
     ];
 
     private $ownerId;
-    private $status;
+    public $status;
 
     public function __construct()
     {
@@ -58,6 +64,12 @@ class Book
             "isbn" => "",
         ];
 
+        $photoUrl = [
+            "cover" => "empty",
+            "price" => "empty",
+            "isbn" => "empty",
+        ];
+
         $this->date = [
             "offer" => "",
             "approval" => "",
@@ -67,7 +79,7 @@ class Book
         $this->ownerId = "";
     }
 
-    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status)
+    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $price, $photo, $date, $status)
     {
         $this->bookId = $bookId;
         $this->ownerId = $ownerId;
@@ -82,19 +94,19 @@ class Book
         $this->publication = $publication;
         $this->edition = $edition;
         $this->price = [
-            "actual" => $actualPrice,
-            "offer" => $offerPrice
+            "actual" => $price['actual'],
+            "offer" => $price['offer']
         ];
 
         $this->photo = [
-            "cover" => $coverPhoto,
-            "price" => $pricePhoto,
-            "isbn" => $isbnPhoto
+            "cover" => $photo['cover'],
+            "price" => $photo['price'],
+            "isbn" => $photo['isbn']
         ];
 
         $this->date = [
-            "offer" => $offerDate,
-            "approval" => $approvalDate
+            "offer" => $date['offer'],
+            "approval" => $date['approval']
         ];
 
         $this->status = $status;
@@ -303,9 +315,6 @@ class Book
         $this->status = $status;
     }
 
-
-    // ($bookId, $title, $description,$language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $actualPrice, $offerPrice, $coverPhoto, $pricePhoto, $isbnPhoto, $offerDate, $approvalDate, $status) {
-
     // book registration
     public function register()
     {
@@ -356,10 +365,44 @@ class Book
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price']['actual'], $response['price']['offer'], $response['photo']['cover'], $response['photo']['price'], $response['photo']['isbn'], $response['date']['offer'], $response['date']['approval'], $response['status']);
+            // $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price']['actual'], $response['price']['offer'], $response['photo']['cover'], $response['photo']['price'], $response['photo']['isbn'], $response['date']['offer'], $response['date']['approval'], $response['status']);
+            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status']);
+            
+            // fetch photo urls
+            $this->getPhotoUrls();
+
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function getPhotoUrls(){
+        global $bucket;
+
+        $coverPhotoFound = false;
+        $pricePhotoFound = false;
+        $isbnPhotoFound = false;
+
+        $prefix = 'books/';
+        $options = [
+            'prefix' => $prefix,
+            'delimiter' => '/'
+        ];
+
+        $objects = $bucket->objects($options);
+
+        foreach ($objects as $object) {
+            if (!$coverPhotoFound && $object->name() === $prefix . $this->photo['cover']) {
+                $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
+                $coverPhotoFound = true;
+            }elseif(!$pricePhotoFound && $object->name() === $prefix . $this->photo['price']){
+                $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
+                $pricePhotoFound = true;
+            }elseif(!$isbnPhotoFound && $object->name() === $prefix . $this->photo['isbn']){
+                $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
+                $isbnPhotoFound = true;
+            }
         }
     }
 
@@ -446,15 +489,26 @@ class Book
     public function fetchAllBooks()
     {
         global $database;
+
+        $list = array();
+
         $query = $database->getReference("books");
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();
-        return $response;
+
+        $temp = new Book();
+        
+        foreach($response as $key =>$res){
+            $temp->fetch($key);
+            $list [] = $temp;
+        }
+
+        return $list;
     }
 
     public function fetchUserBookId($userId){
-        $list = array();
         global $database;
+        $list = array();
         $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();
@@ -469,10 +523,19 @@ class Book
     // fetch user's books
     public function fetchBookByUserId($userId){
         global $database;
-        // $query = $database->getReference("books");
+        $list = array();
+
         $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();        
-        return $response;
+
+        $temp = new Book();
+        
+        foreach($response as $key =>$res){
+            $temp->fetch($key);
+            $list [] = $temp;
+        }
+
+        return $list;
     }
 }

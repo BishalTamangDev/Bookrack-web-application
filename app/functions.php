@@ -158,13 +158,6 @@ $genreArray = array(
     "Young Adult (YA)"
 );
 
-
-// function to check the internet connection status
-function getInternetConnectionState()
-{
-    return false;
-}
-
 function deleteFileFromStorageBucket($folder, $filename)
 // function to delete images form storage bucket
 {
@@ -210,39 +203,6 @@ function sanitizeEmail($email)
 {
     return str_replace(['.', '@'], [',', ':'], $email);
 }
-//  formatted full name
-function getFormattedName($first, $last)
-{
-    $first = trim(strtolower($first));
-    $last = trim(strtolower($last));
-
-    $first[0] = strtoupper($first[0]);
-    $last[0] = strtoupper($last[0]);
-
-    $fullName = $first . " " . $last;
-
-    return $fullName;
-}
-
-
-// pascal case string
-function getPascalCaseString($str)
-{
-    $finalString = trim(strtolower($str));
-    $finalString[0] = strtoupper($finalString[0]);
-
-    if ($finalString == 'null') {
-        $finalString = "";
-    }
-
-    return $finalString;
-}
-
-function getLowerCaseString($str)
-{
-    $str = trim(strtolower($str));
-    return $str;
-}
 
 // get array index value
 function getArrayIndexValue($dataToBeSearched, $which)
@@ -256,43 +216,4 @@ function getArrayIndexValue($dataToBeSearched, $which)
     }
 
     return $index;
-}
-
-
-// formatted price
-function getFormattedPrice($price)
-{
-    $price = round($price);
-    $x = strval($price);
-
-    $digitCount = strlen($x);
-    $formattedPrice = "";
-
-    switch ($digitCount) {
-        case 4:
-            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . $x[3];
-            break;
-        case 5:
-            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . $x[4];
-            break;
-        case 6:
-            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . $x[5];
-            break;
-        case 7:
-            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . $x[6];
-            break;
-        case 8:
-            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . $x[7];
-            break;
-        case 9:
-            $formattedPrice = 'NPR. ' . $x[0] . $x[1] . "," . $x[2] . $x[3] . "," . $x[4] . $x[5] . "," . $x[6] . $x[7] . $x[8];
-            break;
-        case 10:
-            $formattedPrice = 'NPR. ' . $x[0] . "," . $x[1] . $x[2] . "," . $x[3] . $x[4] . "," . $x[5] . $x[6] . "," . $x[7] . $x[8] . $x[9];
-            break;
-        default:
-            $formattedPrice = 'NPR. ' . $x;
-    }
-
-    return $formattedPrice . ".00";
 }

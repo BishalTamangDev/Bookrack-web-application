@@ -1,13 +1,22 @@
 <?php
 
 // starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}
+
+$userId = $_SESSION['bookrack-user-id'];
+$url = "cart";
+
+require_once __DIR__ . '/../bookrack/app/user-class.php';
+$profileUser = new User();
+
+$userExists = $profileUser->fetch($userId);
+
+if (!$userExists)
+    header("Location: /bookrack/signin");
 
 if (!isset($tab)) {
     $tab = "current";
@@ -400,10 +409,7 @@ if (!isset($tab)) {
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php'; ?>
-
-    <!-- js :: current file -->
-    <script></script>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>

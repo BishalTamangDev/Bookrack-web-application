@@ -1,21 +1,18 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
+
+$url = "profile";
+$adminId = $_SESSION['bookrack-admin-id'];
 
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
-
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($_SESSION['bookrack-admin-id']);
+$profileAdmin->fetch($adminId);
 ?>
 
 <!DOCTYPE html>
@@ -28,32 +25,16 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
     <!-- title -->
     <title> My Profile </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
-
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/dashboard.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/profile.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <main class="d-flex flex-column gap-3 main">
         <!-- heading -->
@@ -161,7 +142,7 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                         <div class="d-flex flex-column gap-2 w-100 first-name">
                             <label for="first-name"> First name </label>
                             <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->getFirstName() != '')
-                                echo getPascalCaseString($profileAdmin->getFirstName()); ?>" <?php if ($tab != "edit")
+                                echo ucfirst($profileAdmin->getFirstName()); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?> required>
                         </div>
 
@@ -169,7 +150,7 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="last-name"> Last name </label>
                             <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->getLastName() != '')
-                                echo getPascalCaseString($profileAdmin->getLastName()); ?>" <?php if ($tab != "edit")
+                                echo ucfirst($profileAdmin->getLastName()); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?> required>
                         </div>
                     </div>
@@ -377,7 +358,7 @@ $profileAdmin->fetch($_SESSION['bookrack-admin-id']);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 
     <!-- edit profile script -->
     <script>

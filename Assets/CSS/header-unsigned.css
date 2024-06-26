@@ -1,0 +1,114 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--fixed-z-index);
+  background-color: white;
+}
+.header .header-container {
+  position: relative;
+  margin: auto;
+  background-color: white;
+}
+.header .header-container .header-logo img {
+  height: 3rem;
+}
+.header .header-container .header-logo h3 {
+  font-family: "poppins";
+}
+.header .header-container .nav-container {
+  position: fixed;
+  top: 0;
+  right: -100vw;
+  width: 100vw;
+  height: 100vh;
+}
+.header .header-container .nav-container .nav {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  float: right;
+  height: 100vh;
+  background-color: white;
+  box-shadow: -4px 0 8px rgb(184, 184, 184);
+}
+.header .header-container .nav-container .nav .close-nav-div {
+  text-align: right;
+}
+.header .header-container .nav-container .nav ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+.header .header-container .nav-container .nav ul li {
+  padding: 1rem;
+  padding-right: 8rem;
+  padding-left: 2rem;
+}
+.header .header-container .nav-container .nav ul li a {
+  font-size: 1.3rem;
+  color: black;
+}
+.header .header-container .nav-container .nav ul li a:hover {
+  color: rgb(31, 31, 31);
+}
+.header .header-container .nav-container .nav .signin-div {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.header .header-container .nav-container .nav .signin-div .btn {
+  background-color: var(--brand-color);
+}
+.header .header-container .menu-signin #open-nav-menu {
+  display: flex;
+}
+.header .header-container .menu-signin .btn {
+  display: none;
+  background-color: var(--brand-color);
+}
+
+@media (min-width: 992px) {
+  .header .header-container .nav-container {
+    position: initial;
+    top: initial;
+    right: initial;
+    width: initial;
+    width: 65%;
+    height: initial;
+    background-color: initial;
+  }
+  .header .header-container .nav-container .nav {
+    flex-direction: row;
+    width: initial;
+    max-width: initial;
+    float: initial;
+    height: initial;
+    background-color: initial;
+    align-items: center;
+    box-shadow: initial;
+  }
+  .header .header-container .nav-container .nav .close-nav-div {
+    display: none;
+    background-color: red;
+  }
+  .header .header-container .nav-container .nav ul {
+    flex-direction: row;
+    gap: 3rem;
+  }
+  .header .header-container .nav-container .nav ul li {
+    padding: initial;
+    padding-right: initial;
+    padding-left: initial;
+  }
+  .header .header-container .nav-container .nav .signin-div {
+    display: none;
+  }
+  .header .header-container .menu-signin #open-nav-menu {
+    display: none;
+  }
+  .header .header-container .menu-signin .btn {
+    display: initial;
+  }
+}/*# sourceMappingURL=header-unsigned.css.map */

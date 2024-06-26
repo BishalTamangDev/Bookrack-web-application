@@ -1,0 +1,147 @@
+// header
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--fixed-z-index);
+    background-color: white;
+
+    .header-container {
+        position: relative;
+        margin: auto;
+        background-color: white;
+
+        .header-logo {
+            img {
+                height: 3rem;
+            }
+
+            h3 {
+                font-family: 'poppins';
+            }
+        }
+
+        .nav-container {
+            position: fixed;
+            top: 0;
+            right: -100vw;
+            width: 100vw;
+            height: 100vh;
+
+            .nav {
+                display: flex;
+                flex-direction: column;
+                width: 280px;
+                float: right;
+                height: 100vh;
+                background-color: white;
+                box-shadow: -4px 0 8px rgb(184, 184, 184);
+
+                .close-nav-div {
+                    text-align: right;
+                }
+
+                ul {
+                    list-style-type: none;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        padding: 1rem;
+                        padding-right: 8rem;
+                        padding-left: 2rem;
+
+                        a {
+                            font-size: 1.3rem;
+                            color: black;
+
+                            &:hover {
+                                color: rgb(31, 31, 31);
+                            }
+                        }
+                    }
+                }
+
+                .signin-div {
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+
+                    .btn {
+                        background-color: var(--brand-color);
+                    }
+                }
+            }
+        }
+
+        .menu-signin {
+            #open-nav-menu {
+                display: flex;
+            }
+
+            .btn {
+                display: none;
+                background-color: var(--brand-color);
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .header {
+        .header-container {
+            .nav-container {
+                position: initial;
+                top: initial;
+                right: initial;
+                width: initial;
+                width: 65%;
+                height: initial;
+                background-color: initial;
+
+                .nav {
+                    flex-direction: row;
+                    width: initial;
+                    max-width: initial;
+                    float: initial;
+                    height: initial;
+                    background-color: initial;
+                    align-items: center;
+                    box-shadow: initial;
+
+
+                    .close-nav-div {
+                        display: none;
+                        background-color: red;
+                    }
+
+                    ul {
+                        flex-direction: row;
+                        gap: 3rem;
+
+                        li {
+                            padding: initial;
+                            padding-right: initial;
+                            padding-left: initial;
+                        }
+                    }
+
+                    .signin-div {
+                        display: none;
+                    }
+                }
+            }
+
+            .menu-signin {
+                #open-nav-menu {
+                    display: none;
+                }
+
+                .btn {
+                    display: initial;
+                }
+            }
+        }
+    }
+}

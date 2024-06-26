@@ -1,26 +1,22 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if(!isset($_SESSION['bookrack-admin-id'])){
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
 
-// fetching the admin profile details
+$url = "book-details";
+$adminId = $_SESSION['bookrack-admin-id'];
+
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
+// fetching the admin profile details
 $profileAdmin = new Admin();
+$profileAdmin->fetch($adminId);
 
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($profileAdmin->getId());
-
-if($profileAdmin->getAccountStatus() != "verified"){
+if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
-}
 
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
@@ -31,13 +27,10 @@ $userObj = new User();
 
 // book object
 $bookObj = new Book();
-$bookObj->setId($bookId);
 $bookFound = $bookObj->fetch($bookId);
 
-if(!$bookFound){
+if (!$bookFound)
     header("Location: /bookrack/admin/admin-dashbaord");
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -48,23 +41,11 @@ if(!$bookFound){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Book Details : <?=$bookObj->getTitle()?> </title>
+    <title> <?= ucWords($bookObj->title) ?> </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/book-detail.css">
@@ -72,16 +53,14 @@ if(!$bookFound){
 
 <body>
     <!-- aside :: nav -->
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
         <!-- heading & rating -->
         <section class="d-flex flex-column heading-rating">
             <!-- heading -->
-            <p class="page-heading"> <?=$bookObj->getTitle()?> </p>
+            <p class="page-heading"> <?= ucWords($bookObj->title) ?> </p>
 
             <!-- rating -->
             <div class="d-flex flex-row align-items-center gap-2 rating-count">
@@ -94,7 +73,7 @@ if(!$bookFound){
                 </div>
 
                 <div class="count">
-                    <p class="f-reset"> (<?="-"?>) </p>
+                    <p class="f-reset"> (<?= "-" ?>) </p>
                 </div>
             </div>
         </section>
@@ -104,13 +83,13 @@ if(!$bookFound){
             <!-- book photos -->
             <div class="d-flex flex-row flex-lg-column gap-2 book-photo-div">
                 <div class="d-flex flex-row top">
-                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                    <img src="<?= $bookObj->photoUrl['cover']; ?>" alt="Cover page photo" loading="lazy">
                 </div>
 
                 <div class="d-flex flex-column flex-lg-row gap-2 bottom">
-                    <img src="<?=$bookObj->getCoverPhotoUrl();?>" alt="Cover page photo">
-                    <img src="<?=$bookObj->getPricePhotoUrl();?>" alt="Price page photo">
-                    <img src="<?=$bookObj->getIsbnPhotoUrl();?>" alt="Isbn page photo">
+                    <img src="<?= $bookObj->photoUrl['cover']; ?>" alt="Cover page photo" loading="lazy">
+                    <img src="<?= $bookObj->photoUrl['price']; ?>" alt="Price page photo" loading="lazy">
+                    <img src="<?= $bookObj->photoUrl['isbn']; ?>" alt="Isbn page photo" loading="lazy">
                 </div>
             </div>
 
@@ -121,7 +100,7 @@ if(!$bookFound){
                     <!-- description -->
                     <div class="d-flex flex-column desciption-div">
                         <p class="f-reset fw-bold fs-5"> Description </p>
-                        <p class="f-reset fs-6"> <?=$bookObj->getDescription()?> </p>
+                        <p class="f-reset fs-6"> <?= ucfirst($bookObj->description) ?> </p>
                     </div>
 
                     <!-- genre -->
@@ -130,10 +109,10 @@ if(!$bookFound){
 
                         <div class="d-flex flex-row gap-2 genre-list">
                             <?php
-                            foreach($bookObj->getGenre() as $genre){
+                            foreach ($bookObj->genre as $genre) {
                                 ?>
                                 <div class="genre">
-                                    <p class="m-0"> <?=$genre?> </p>
+                                    <p class="m-0"> <?= $genre ?> </p>
                                 </div>
                                 <?php
                             }
@@ -147,10 +126,10 @@ if(!$bookFound){
 
                         <div class="d-flex flex-row gap-2 author-list">
                             <?php
-                            foreach($bookObj->getAuthor() as $author){
+                            foreach ($bookObj->author as $author) {
                                 ?>
                                 <div class="author">
-                                    <p class="f-reset"> <?=$author?> </p>
+                                    <p class="f-reset"> <?= ucwords($author) ?> </p>
                                 </div>
                                 <?php
                             }
@@ -161,35 +140,35 @@ if(!$bookFound){
                     <!-- edition -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Edition </p>
-                        <p class="f-reset fs-6"> <?=$bookObj->getEdition()?><sup><?php
-                            $remainder = $bookObj->getEdition() % 10;
+                        <p class="f-reset fs-6"> <?= $bookObj->edition ?><sup><?php
+                          $remainder = $bookObj->edition % 10;
 
-                            switch ($remainder) {
-                                case 1;
-                                    echo "st";
-                                    break;
-                                case 2;
-                                    echo "nd";
-                                    break;
-                                case 3:
-                                    echo "rd";
-                                    break;
-                                default:
-                                    echo "th";
-                            }
-                            ?></sup> </p>
+                          switch ($remainder) {
+                              case 1;
+                                  echo "st";
+                                  break;
+                              case 2;
+                                  echo "nd";
+                                  break;
+                              case 3:
+                                  echo "rd";
+                                  break;
+                              default:
+                                  echo "th";
+                          }
+                          ?></sup> </p>
                     </div>
 
                     <!-- publisher -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Publisher </p>
-                        <p class="f-reset fs-6"> <?=$bookObj->getPublisher()?> </p>
+                        <p class="f-reset fs-6"> <?= ucFirst($bookObj->publisher) ?> </p>
                     </div>
 
                     <!-- publication -->
                     <div class="d-flex flex-row gap-3 edition-div">
                         <p class="f-reset fw-bold fs-5"> Publication </p>
-                        <p class="f-reset fs-6"> <?=$bookObj->getPublication()?> </p>
+                        <p class="f-reset fs-6"> <?= ucFirst($bookObj->publication) ?> </p>
                     </div>
                 </div>
 
@@ -202,7 +181,7 @@ if(!$bookFound){
 
                     <div class="d-flex flex-column gap-3 px-3 pt-3 surface-bottom">
                         <!-- book id -->
-                        <p class="f-reset fw-bold"> <?=$bookObj->getId()?> </p>
+                        <p class="f-reset fw-bold"> <?= $bookObj->getId() ?> </p>
 
                         <!-- language -->
                         <div class="d-flex flex-row language">
@@ -211,7 +190,7 @@ if(!$bookFound){
                             </div>
 
                             <div class="right">
-                                <p class="f-reset fw-bold"> <?=getPascalCaseString($bookObj->getLanguage())?> </p>
+                                <p class="f-reset fw-bold"> <?= ucFirst($bookObj->language) ?> </p>
                             </div>
                         </div>
 
@@ -222,7 +201,9 @@ if(!$bookFound){
                             </div>
 
                             <div class="right">
-                                <p class="f-reset fw-bold text-success"> <?= getFormattedPrice($bookObj->getOfferPrice())?> </p>
+                                <p class="f-reset fw-bold text-success">
+                                    <?= number_format($bookObj->price['actual'], 2) ?>
+                                </p>
                             </div>
                         </div>
 
@@ -233,15 +214,15 @@ if(!$bookFound){
                             </div>
 
                             <?php
-                            $userObj->setUserId($bookObj->getOwnerId());
                             $userObj->fetch($bookObj->getOwnerId());
                             ?>
 
                             <div class="right">
                                 <abbr title="Show owner details">
                                     <p class="f-reset fw-bold pointer">
-                                        <a href="/bookrack/admin/admin-user-details/<?=$userObj->getUserId()?>" class="text-dark">
-                                            <?=getFormattedName($userObj->getFirstName(), $userObj->getLastName())?>
+                                        <a href="/bookrack/admin/admin-user-details/<?= $userObj->getUserId() ?>"
+                                            class="text-dark">
+                                            <?= ucfirst($userObj->name['first']) . " " . ucfirst($userObj->name['last']) ?>
                                         </a>
                                     </p>
                                 </abbr>
@@ -317,7 +298,7 @@ if(!$bookFound){
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php';?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>

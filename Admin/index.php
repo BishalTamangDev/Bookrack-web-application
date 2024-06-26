@@ -1,12 +1,8 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE) 
     session_start();
-}
 
-if(isset($_SESSION['bookrack-admin-id'])){
+if(isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
-}else{
+else
     header("Location: /bookrack/admin/admin-signin");
-}

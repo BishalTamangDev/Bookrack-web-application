@@ -5,43 +5,37 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-}
+else
+    $userId = $_SESSION['bookrack-user-id'];
 
 $url = "home";
 
-require_once __DIR__ . '/../bookrack/app/user-class.php';
-require_once __DIR__ . '/../bookrack/app/book-class.php';
-require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
-// user object
+require_once __DIR__ . '/../bookrack/app/user-class.php';
 $profileUser = new User();
 
-// set user id
-$profileUser->setUserId($_SESSION['bookrack-user-id']);
-
 // get user details
-$userFound = $profileUser->fetch($profileUser->getUserId());
+$userFound = $profileUser->fetch($userId);
 
-if (!$userFound) {
+if (!$userFound)
     header("Location: /bookrack/signout");
-}
 
 // book obj 
+require_once __DIR__ . '/../bookrack/app/book-class.php';
 $bookObj = new Book();
-
-// fetching all books
 $bookList = $bookObj->fetchAllBooks();
 
 // fetch user's book
-$userBookList = $bookObj->fetchUserBookId($profileUser->getUserId());
+$userBookIdList = $bookObj->fetchUserBookId($userId);
 
 // wishlist object
+require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 $wishlist = new Wishlist();
 
-$wishlist->setUserId($profileUser->getUserId());
+$wishlist->setUserId($userId);
 
 $userWishlist = $wishlist->fetchWishlist();
 ?>
@@ -56,24 +50,9 @@ $userWishlist = $wishlist->fetchWishlist();
     <!-- title -->
     <title> Home </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
     <link rel="stylesheet" href="/bookrack/assets/css/home.css">
 </head>
@@ -99,9 +78,7 @@ $userWishlist = $wishlist->fetchWishlist();
                         <i class="fa fa-multiply fs-3 d-lg-none text-secondary pointer" id="filter-hide-trigger"></i>
                     </div>
                 </section>
-
                 <hr>
-
                 <!-- filter parameters -->
                 <section class="mt-3 filter-parameter-section">
                     <form method="GET" class="d-flex flex-column gap-3" id="filter-form">
@@ -184,7 +161,7 @@ $userWishlist = $wishlist->fetchWishlist();
                 <?php
                 $genreList = [];
                 foreach ($bookList as $key => $book) {
-                    $genreList = $book['genre'];
+                    $genreList = $book->genre;
                 }
                 ?>
 
@@ -212,14 +189,13 @@ $userWishlist = $wishlist->fetchWishlist();
                 <!-- all book container -->
                 <div class="d-flex flex-row flex-wrap gap-3 all-book-container">
                     <?php
-                    foreach ($bookList as $key => $book) {
-                        $bookObj->setCoverPhoto($book['photo']['cover']);
+                    foreach ($bookList as $book) {
+                        $bookId = $book->getId();
                         ?>
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt=""> -->
-                                <img src="<?= $bookObj->getCoverPhotoUrl() ?>" alt="" loading="lazy">
+                                <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
                             </div>
 
                             <!-- book details -->
@@ -227,16 +203,16 @@ $userWishlist = $wishlist->fetchWishlist();
                                 <!-- book title -->
                                 <div class="book-title-wishlist">
                                     <p class="book-title">
-                                        <?= $book['title'] ?>
+                                        <?= ucwords($book->title) ?>
                                     </p>
 
                                     <?php
-                                    if (!in_array($key, $userBookList)) {
+                                    if (!in_array($bookId, $userBookIdList)) {
                                         ?>
                                         <div class="wishlist">
-                                            <a href="/bookrack/app/wishlist-code.php?book-id=<?= $key ?>&ref_url=<?= $url ?>">
+                                            <a href="/bookrack/app/wishlist-code.php?book-id=<?= $book->getId() ?>&ref_url=<?= $url ?>">
                                                 <?php
-                                                if (in_array($key, $userWishlist)) {
+                                                if (in_array($bookId, $userWishlist)) {
                                                     ?>
                                                     <i class="fa-solid fa-bookmark"></i>
                                                     <?php
@@ -254,30 +230,28 @@ $userWishlist = $wishlist->fetchWishlist();
                                 </div>
 
                                 <!-- book purpose -->
-                                <p class="book-purpose"> <?= getPascalCaseString($book['purpose']) ?> </p>
+                                <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
 
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> <?= $book['description'] ?> </p>
+                                    <p class="book-description"> <?= ucfirst($book->description) ?> </p>
                                 </div>
 
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price">
                                         <?php
-                                        if ($book['purpose'] == "renting") {
-                                            $actualPrice = $book['price']['actual'];
-                                            $rent = $actualPrice * 0.25;
-                                            echo getFormattedPrice($rent) . " /week";
-                                        } elseif ($book['purpose'] == "buy/sell") {
-
+                                        if ($book->purpose == "renting") {
+                                            $rent = $book->price['actual'] * 0.20;
+                                            echo "NPR." . number_format($rent, 2) . "/week";
+                                        } elseif ($book->purpose == "buy/sell") {
+                                            $price = $book->price['offer'];
+                                            echo "NPR." . number_format($price, 2);
                                         }
                                         ?>
                                 </div>
 
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>/'">
-                                    Show
-                                    More </button>
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookId ?>'"> Show More </button>
                             </div>
                         </div>
                         <?php
@@ -323,29 +297,31 @@ $userWishlist = $wishlist->fetchWishlist();
     <?php include 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php';?>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 
-    <!-- js :: current file -->
     <script>
         // filter
         var filterTriggerState = false;
-        const aside = document.getElementById("aside");
-        const showFilter = document.getElementById("filter-show-trigger-2");
-        const hideFilter = document.getElementById("filter-hide-trigger");
+        const aside = $('#aside');
+        const showFilter = $('#filter-show-trigger-2');
+        const hideFilter = $('#filter-hide-trigger');
 
         // filter
-        showFilter.addEventListener('click', function () {
+        showFilter.on('click', function () {
             aside.style = "display:block";
             filterTriggerState = !filterTriggerState;
         });
 
-        hideFilter.addEventListener('click', function () {
+        hideFilter.on('click', function () {
             aside.style = "display:none";
             filterTriggerState = !filterTriggerState;
         });
 
         // device width changing
         homeWidthCheck = () => {
+            console.clear();
+            console.log(window.innerWidth);
+
             if (window.innerWidth < 1188) {
                 // filter
                 if (!filterTriggerState) {

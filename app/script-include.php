@@ -7,4 +7,4 @@
     crossorigin="anonymous"></script>
 
 <!-- bootstrap js :: local file -->
-<script src="assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+<script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>

@@ -1,19 +1,21 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 // redirect to the landing page if no signed in
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-}
+
+$userId = $_SESSION['bookrack-user-id'];
 
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 
 $headerProfile = new User();
 
-$headerProfile->fetch($_SESSION['bookrack-user-id']);
+$userExists = $headerProfile->fetch($userId);
 
+if(!$userExists)
+    header("Location: /bookrack/signin");
 ?>
 
 <!DOCTYPE html>

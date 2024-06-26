@@ -1,13 +1,9 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if(!isset($_SESSION['bookrack-user-id'])){
+if(!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}
 ?>
 
 <!DOCTYPE html>

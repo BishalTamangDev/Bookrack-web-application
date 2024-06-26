@@ -1,26 +1,22 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
-}
+
+$url = "books";
+$adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
 require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 
 // profile admin object
 $profileAdmin = new Admin();
+$profileAdmin->fetch($adminId);
 
-$profileAdmin->setId($_SESSION['bookrack-admin-id']);
-$profileAdmin->fetch($profileAdmin->getId());
-
-if ($profileAdmin->getAccountStatus() != "verified") {
+if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
-}
 
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
@@ -36,7 +32,6 @@ $bookObj = new Book();
 $bookList = $bookObj->fetchAllBooks();
 
 // book count
-$allBookCount = count($bookObj->fetchAllBooks());
 $rentBookCount = 0;
 ?>
 
@@ -50,29 +45,14 @@ $rentBookCount = 0;
     <!-- title -->
     <title> Books </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.css">
+    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
 </head>
 
 <body>
-    <?php
-    include 'nav.php';
-    ?>
+    <?php include 'nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
@@ -84,7 +64,7 @@ $rentBookCount = 0;
             <!-- number of books -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Books </p>
-                <p class="card-v1-detail"> <?= $allBookCount ?> </p>
+                <p class="card-v1-detail"> <?= sizeof($bookList) ?> </p>
             </div>
 
             <!-- number of books on rent -->
@@ -179,29 +159,30 @@ $rentBookCount = 0;
                 <tbody>
                     <?php
                     $serial = 1;
-                    foreach ($bookList as $key => $book) {
+                    foreach ($bookList as $book) {
+                        $bookId = $book->getId();
                         ?>
                         <tr class="book-row on-rent-row on-stock-row">
                             <th scope="row"> <?= $serial++ ?> </th>
-                            <td> <?= $key ?> </td>
-                            <td> <?= $book['isbn'] ?> </td>
-                            <td> <?= $book['title'] ?> </td>
+                            <td> <?= $bookId ?> </td>
+                            <td> <?= $book->isbn ?> </td>
+                            <td> <?= ucWords($book->title) ?> </td>
                             <td>
                                 <?php
                                 $count = 0;
-                                foreach ($book['genre'] as $genre) {
+                                foreach ($book->genre as $genre) {
                                     $count++;
-                                    echo $count != count($book['genre']) ? $genre . ', ' : $genre;
+                                    echo $count != count($book->genre) ? $genre . ', ' : $genre;
                                 }
                                 ?>
                             </td>
                             <td> Harper Lee</td>
-                            <td> <?= $book['language'] ?></td>
-                            <td> <?= $book['owner_id'] ?></td>
+                            <td> <?= ucfirst($book->language) ?></td>
+                            <td> <?= $book->getOwnerId() ?></td>
                             <td> <?= "-" ?></td>
                             <td>
                                 <abbr title="Show full details">
-                                    <a href="/bookrack/admin/admin-book-details/<?= $key ?>">
+                                    <a href="/bookrack/admin/admin-book-details/<?= $bookId ?>">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </abbr>
@@ -225,7 +206,7 @@ $rentBookCount = 0;
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/jquery-js-bootstrap-include.php'; ?>
+    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>

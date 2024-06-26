@@ -6,29 +6,29 @@ class User
 {
     private $userId;
 
-    private $name = [
+    public $name = [
         "first" => "",
         "last" => "",
     ];
-    private $email;
+    public $email;
     private $password;
     private $contact;
     private $dob;
-    private $gender;
+    public $gender;
 
     private $address = [
         "district" => "",
         "location" => ""
     ];
-    private $profilePicture;
+    public $profilePicture;
 
     private $kyc = [
         "document_type" => "",
         "front" => "",
         "back" => ""
     ];
-    private $joinedDate;
-    private $accountStatus;
+    public $joinedDate;
+    public $accountStatus;
 
     // Constructor
     public function __construct()
@@ -58,12 +58,12 @@ class User
         $this->accountStatus = "";
     }
 
-    public function setUser($userId, $firstName, $lastName, $email, $password, $contact, $dob, $gender, $addressDistrict, $addressLocation, $profilePicture, $documentType, $kycFront, $kycBack, $joinedDate, $accountStatus)
+    public function setUser($userId, $name, $email, $password, $contact, $dob, $gender, $address, $profilePicture, $kyc, $joinedDate, $accountStatus)
     {
         $this->userId = $userId;
         $this->name = [
-            "first" => $firstName,
-            "last" => $lastName,
+            "first" => $name['first'],
+            "last" => $name['last'],
         ];
         $this->email = $email;
         $this->password = $password;
@@ -71,14 +71,14 @@ class User
         $this->dob = $dob;
         $this->gender = $gender;
         $this->address = [
-            "district" => $addressDistrict,
-            "location" => $addressLocation,
+            "district" => $address['district'],
+            "location" => $address['location'],
         ];
         $this->profilePicture = $profilePicture;
         $this->kyc = [
-            "document_type" => $documentType,
-            "front" => $kycFront,
-            "back" => $kycBack
+            "document_type" => $kyc['document_type'],
+            "front" => $kyc['front'],
+            "back" => $kyc['back']
         ];
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
@@ -257,12 +257,12 @@ class User
 
         $postData = [
             'name' => [
-                'first' => $this->getFirstName(),
-                'last' => $this->getLastName(),
+                'first' => $this->name['first'],
+                'last' => $this->name['last'],
             ],
             'dob' => $this->getDob(),
-            'gender' => $this->getGender(),
-            'email' => $this->getEmail(),
+            'gender' => $this->gender,
+            'email' => $this->email,
             'password' => $this->getPassword(),
             'contact' => $this->getContact(),
             'address' => [
@@ -293,7 +293,7 @@ class User
         $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setUser($userId, $response['name']['first'], $response['name']['last'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address']['district'], $response['address']['location'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'], $response['account_status']);
+            $this->setUser($userId, $response['name'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address'], $response['profile_picture'], $response['kyc'], $response['joined_date'], $response['account_status']);
             return true;
         } else {
             return false;
@@ -418,7 +418,8 @@ class User
     }
 
     // fetch all users
-    public function fetchAllUsers(){
+    public function fetchAllUsers()
+    {
         global $database;
 
         // fetching all users

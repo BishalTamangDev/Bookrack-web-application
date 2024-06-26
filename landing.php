@@ -1,23 +1,17 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if(isset($_SESSION['bookrack-user-id'])){
+if (isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}elseif(isset($_SESSION['bookrack-admin-id'])){
+elseif (isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
-}
 
-require_once __DIR__ . '/../bookrack/app/functions.php';
+$url = "landing";
+
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 
-
 $bookObj = new Book();
-
-// fetch all books
 $bookList = $bookObj->fetchAllBooks();
 ?>
 
@@ -31,30 +25,13 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- title -->
     <title> Bookrack </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
-
-    <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
     <link rel="stylesheet" href="/bookrack/assets/css/landing.css">
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
-
 </head>
 
 <body>
-    <!-- header -->
     <?php include 'header-unsigned.php'; ?>
 
     <!-- main -->
@@ -62,21 +39,22 @@ $bookList = $bookObj->fetchAllBooks();
         <!-- landing section -->
         <section class="container d-flex flex-column-reverse gap-5 flex-md-row mt-5 landing-container">
             <div class="d-flex flex-column w-100 w-md-75 mt-5 detail">
-                    <p class="m-0 fw-bold heading">
-                        Share Your Favorite Reads With The World
-                    </p>
+                <p class="m-0 fw-bold heading">
+                    Share Your Favorite Reads With The World
+                </p>
 
-                    <p class="m-0 fs-4 mt-5 text-secondary description">
-                        Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and discovering books that ignite your imagination, inspire your dreams, and expand your horizons. 
-                    </p>
+                <p class="m-0 fs-4 mt-5 text-secondary description">
+                    Discover a community where book lovers unite! Bookrack is your go-to platform for sharing and
+                    discovering books that ignite your imagination, inspire your dreams, and expand your horizons.
+                </p>
 
-                    <a href="/bookrack/signup" class="btn join-btn mt-4 text-white px-4 py-2"> JOIN NOW </a>
+                <a href="/bookrack/signup" class="btn join-btn mt-4 text-white px-4 py-2"> JOIN NOW </a>
             </div>
 
             <!-- landing image -->
-             <div class="w-100 w-md-25 image-container">
+            <div class="w-100 w-md-25 image-container">
                 <img src="/bookrack/assets/images/reading.svg" alt="">
-             </div>
+            </div>
         </section>
 
         <!-- trending books -->
@@ -85,45 +63,53 @@ $bookList = $bookObj->fetchAllBooks();
 
             <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                 <?php
-                if(sizeof($bookList) > 0){
-                    foreach($bookList as $key => $book){
-                        $bookObj->setCoverPhoto($book['photo']['cover']);
+                if (sizeof($bookList) > 0) {
+                    foreach ($bookList as $book) {
                         ?>
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="<?=$bookObj->getCoverPhotoUrl()?>" alt="">
+                                <img src="<?= $book->photoUrl['cover'] ?>" alt="">
                             </div>
-    
+
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
                                 <div class="book-title-wishlist">
-                                    <p class="book-title"> <?=$book['title']?> </p>
+                                    <p class="book-title"> <?= ucwords($book->title) ?> </p>
                                 </div>
-    
+
                                 <!-- book purpose -->
-                                <p class="book-purpose"> <?=getPascalCaseString($book['purpose'])?> </p>
-    
+                                <p class="book-purpose"> <?= ucwords($book->purpose) ?> </p>
+
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> <?=$book['description']?> </p>
+                                    <p class="book-description"> <?= ucfirst($book->description) ?> </p>
                                 </div>
-    
+
                                 <!-- book price -->
                                 <div class="book-price">
-                                    <p class="book-price"> <?=getFormattedPrice($book['price']['offer'])?> </p>
+                                    <p class="book-price">
+                                        <?php
+                                        if ($book->purpose == 'renting') {
+                                            $rent = 0.20 * $book->price['actual'];
+                                            echo "NPR." . number_format($rent, 2) . "/week";
+                                        } else {
+                                            echo "NPR." . number_format($book->price['offer'], 2);
+                                        }
+                                        ?>
+                                    </p>
                                 </div>
-    
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>/'"> Show More </button>
+
+                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'"> Show More </button>
                             </div>
                         </div>
                         <?php
                     }
                     ?>
                     <?php
-                }else{
-
+                } else {
+                    echo "Empty!";
                 }
                 ?>
             </div>
@@ -193,11 +179,11 @@ $bookList = $bookObj->fetchAllBooks();
                 them instantly. </p>
 
             <div class="d-flex flex-row flex-wrap container gap-2 genre-container">
-                <?php 
-                foreach($genreArray as $genre){
+                <?php
+                foreach ($genreArray as $genre) {
                     ?>
                     <div class="d-flex flex-row genre-card">
-                        <p class="genre-title"> <?=$genre?> </p>
+                        <p class="genre-title"> <?= $genre ?> </p>
                     </div>
                     <?php
                 }
@@ -207,10 +193,10 @@ $bookList = $bookObj->fetchAllBooks();
     </main>
 
     <!-- footer -->
-    <?php include_once 'footer.php';?>
+    <?php include_once 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/jquery-js-bootstrap-include.php';?>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 </body>
 
 </html>
