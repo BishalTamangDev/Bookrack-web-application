@@ -75,6 +75,20 @@
   background-color: var(--brand-color);
 }
 
+.landing-container .detail .heading {
+  font-size: 4rem;
+  line-height: 4.5rem;
+  transform: scaleY(1.3);
+}
+.landing-container .detail .btn {
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: var(--brand-color);
+}
+.landing-container .image-container img {
+  width: 100%;
+}
+
 @media (min-width: 992px) {
   .header .header-container .nav-container {
     position: initial;
