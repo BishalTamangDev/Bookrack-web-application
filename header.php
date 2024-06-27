@@ -6,16 +6,17 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-$userId = $_SESSION['bookrack-user-id'];
+if (!isset($userId))
+    $userId = $_SESSION['bookrack-user-id'];
 
 require_once __DIR__ . '/../bookrack/app/user-class.php';
+if (!isset($profileUser)) {
+    $profileUser = new User();
+    $userExists = $profileUser->fetch($userId);
 
-$headerProfile = new User();
-
-$userExists = $headerProfile->fetch($userId);
-
-if(!$userExists)
-    header("Location: /bookrack/signin");
+    if (!$userExists)
+        header("Location: /bookrack/signin");
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,21 +29,9 @@ if(!$userExists)
     <!-- title -->
     <title> Header </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
     <link rel="stylesheet" href="/bookrack/assets/css/header.css">
 </head>
 
@@ -67,7 +56,7 @@ if(!$userExists)
                 </div>
 
                 <!-- search -->
-                <form action="" class="search-form">
+                <form class="search-form">
                     <input type="search" name="search-content" id="search" placeholder="search here" class="p-2"
                         required>
                 </form>
@@ -97,13 +86,13 @@ if(!$userExists)
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
                         <?php
-                        if ($headerProfile->getProfilePicture() != "") {
+                        if ($profileUser->profilePictureUrl != "") {
                             ?>
-                            <img src="<?= $headerProfile->getProfilePictureImageUrl() ?>" alt="" class="pointer">
+                            <img src="<?= $profileUser->profilePictureUrl ?>" alt="" class="pointer" loading="lazy">
                             <?php
                         } else {
                             ?>
-                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer">
+                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer" loading="lazy">
                             <?php
                         }
                         ?>
@@ -129,17 +118,8 @@ if(!$userExists)
         </div>
     </header>
 
-
-    <!-- jquery -->
-    <script src="/bookrack/assets/js/jquery-3.7.1.min.js"></script>
-
-    <!-- bootstrap js :: cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-    <!-- bootstrap js :: local file -->
-    <script src="/bookrack/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
+    <!-- jquery, bootstrap [cdn + local] -->
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 
     <script>
         // menu

@@ -6,17 +6,18 @@ class Admin
 {
     private $adminId;
 
-    private $name = [
+    public $name = [
         "first" => "",
         "last" => ""
     ];
 
-    private $gender;
+    public $gender;
+    public $email;
     private $dob;
-    private $email;
     private $password;
     private $contact;
-    private $profilePicture;
+    public $profilePicture;
+    public $profilePictureUrl;
 
     private $kyc = [
         "docyment_type" => "",
@@ -24,9 +25,13 @@ class Admin
         "back" => "",
     ];
 
+    public $kycUrl = [
+        "front" => "",
+        "back" => "",
+    ];
+
     private $joinedDate;
     private $accountStatus;
-    
 
     // Constructor
     public function __construct()
@@ -42,6 +47,7 @@ class Admin
         $this->password = "";
         $this->contact = "";
         $this->profilePicture = "";
+        $this->profilePictureUrl = "";
 
         $this->kyc = [
             "document_type" => "",
@@ -53,12 +59,12 @@ class Admin
     }
 
 
-    public function setAdmin($adminId, $firstName, $lastName, $gender, $dob, $email, $password, $contact, $profilePicture, $documentType, $kycFront, $kycBack, $joinedDate, $accountStatus)
+    public function setAdmin($adminId, $name, $gender, $dob, $email, $password, $contact, $profilePicture, $kyc, $joinedDate, $accountStatus)
     {
         $this->adminId = $adminId;
         $this->name = [
-            "first" => $firstName,
-            "last" => $lastName,
+            "first" => $name['first'],
+            "last" => $name['last'],
         ];
         $this->gender = $gender;
         $this->dob = $dob;
@@ -67,9 +73,9 @@ class Admin
         $this->contact = $contact;
         $this->profilePicture = $profilePicture;
         $this->kyc = [
-            "document_type" => $documentType,
-            "front" => $kycFront,
-            "back" => $kycBack
+            "document_type" => $kyc['document_type'],
+            "front" => $kyc['front'],
+            "back" => $kyc['back']
         ];
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
@@ -84,12 +90,17 @@ class Admin
 
     public function getFirstName()
     {
-        return $this->name["first"];
+        return ucfirst($this->name['first']);
     }
 
     public function getLastName()
     {
-        return $this->name["last"];
+        return ucfirst($this->name["last"]);
+    }
+
+    public function getFullName()
+    {
+        return ucWords($this->name['first'].' '.$this->name["last"]);
     }
 
     public function getGender()
@@ -120,6 +131,11 @@ class Admin
     public function getProfilePicture()
     {
         return $this->profilePicture;
+    }
+
+    public function getProfilePictureUrl()
+    {
+        return $this->profilePictureUrl;
     }
 
     public function getKycDocumentType(){
@@ -245,20 +261,20 @@ class Admin
 
 
     // fetch admin details from the database
-    function fetch($adminId)
+    public function fetch($adminId)
     {
         global $database;
-
         $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setAdmin($adminId, $response['name']['first'], $response['name']['last'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['contact'], $response['profile_picture'], $response['kyc']['document_type'], $response['kyc']['front'], $response['kyc']['back'], $response['joined_date'] , $response['account_status']);
+            $this->setAdmin($adminId, $response['name'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['contact'], $response['profile_picture'], $response['kyc'], $response['joined_date'] , $response['account_status']);
+            // set profile picture url
+            $this->setProfilePictureUrl();
             return true;
         } else {
             return false;
         }
     }
-
 
     // authentication
     public function checkEmailExistence()
@@ -266,7 +282,7 @@ class Admin
         global $database;
 
         // fetching all admins
-        $response = $database->getReference("admins")->getSnapshot()->getValue();
+        $response = $database->getReference('admins')->getSnapshot()->getValue();
 
         // checking for the existence of email address
         $emailExists = false;
@@ -284,95 +300,43 @@ class Admin
     public function verifyPassword()
     {
         global $database;
-        $response = $database->getReference("admins")->getChild($this->getId())->getSnapshot()->getValue();
+        $response = $database->getReference("admins")->getChild($this->adminId)->getSnapshot()->getValue();
         return password_verify($this->getPassword(), $response['password']) ? true : false;
     }
 
-    public function getProfilePictureImageUrl()
+    public function setProfilePictureUrl()
     {
         global $bucket;
-
-        $profilePictureUrl = "/bookrack/assets/images/blank-user.jpg";
 
         $prefix = 'admins/';
-        $options = [
-            'prefix' => $prefix,
-            'delimiter' => '/'
-        ];
+        $objectName = $prefix . $this->profilePicture;
 
-        $objects = $bucket->objects($options);
+        $object = $bucket->object($objectName);
 
-        foreach ($objects as $object) {
-            // Check if the object's name (filename) matches the filename we are looking for
-            if ($object->name() === $prefix . $this->getProfilePicture()) {
-                // Generate a signed URL valid until tomorrow for the matched object
-                $profilePictureUrl = $object->signedUrl(new DateTime('tomorrow'));
-                break; // Exit the loop once we find the matching filename
-            }
-        }
-
-        return $profilePictureUrl;
+        if($object->exists())
+            $this->profilePictureUrl = $object->signedUrl(new DateTime('tomorrow'));
+        else
+            $this->profilePictureUrl = null;
     }
 
-    public function getKycFrontUrl()
+    public function setKycUrl()
     {
         global $bucket;
-
-        $kycFrontUrl = "blank";
 
         if ($this->getKycFront() != "") {
             $prefix = 'kyc/';
-            $options = [
-                'prefix' => $prefix,
-                'delimiter' => '/'
-            ];
 
-            $objects = $bucket->objects($options);
+            $objectName = $prefix . $this->kyc['front'];
+            $object = $bucket->object($objectName);
 
-            foreach ($objects as $object) {
-                // Check if the object's name (filename) matches the filename we are looking for
-                if ($object->name() === $prefix . $this->getKycFront()) {
-                    // Generate a signed URL valid until tomorrow for the matched object
-                    $kycFrontUrl = $object->signedUrl(new DateTime('tomorrow'));
-                    break; // Exit the loop once we find the matching filename
-                }
-            }
+            if($object->exists())
+                $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
+
+            $objectName = $prefix . $this->kyc['back'];
+            $object = $bucket->object($objectName);
+
+            if($object->exists())
+                $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
         }
-
-        return $kycFrontUrl;
-    }
-
-    public function getKycBackUrl()
-    {
-        global $bucket;
-
-        $kycBackUrl = "blank";
-
-        if ($this->getKycBack() != "") {
-            $prefix = 'kyc/';
-            $options = [
-                'prefix' => $prefix,
-                'delimiter' => '/'
-            ];
-
-            $objects = $bucket->objects($options);
-
-            foreach ($objects as $object) {
-                // Check if the object's name (filename) matches the filename we are looking for
-                if ($object->name() === $prefix . $this->getKycBack()) {
-                    // Generate a signed URL valid until tomorrow for the matched object
-                    $kycBackUrl = $object->signedUrl(new DateTime('tomorrow'));
-                    break; // Exit the loop once we find the matching filename
-                }
-            }
-        }
-
-        return $kycBackUrl;
-    }
-
-    // update profile details
-    public function updateProfile()
-    {
-
     }
 }

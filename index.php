@@ -25,7 +25,7 @@ date_default_timezone_set("Asia/Kathmandu");
 
 $profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
 
-$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-offer-details|admin-book-offers|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
+$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
 
 $tab = "";
 
@@ -65,9 +65,9 @@ elseif ($router == '/book-details' || $router == '/book-details/' || preg_match(
 
     if (isset($arr[2]) && $arr[2] != "") {
         $bookId = $arr[2];
-        if(isset($_SESSION['bookrack-user-id'])){
+        if (isset($_SESSION['bookrack-user-id'])) {
             include 'book-details.php';
-        }else{
+        } else {
             include 'book-details-unsigned.php';
         }
     } else {
@@ -216,19 +216,15 @@ elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPat
         } elseif (preg_match('/admin-book-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
             $bookId = $arr[3];
             include 'admin/book-details.php';
-        } elseif ((preg_match('/admin-book-offers$/', $arr[2]))) {
-            include 'admin/book-offers.php';
-        } elseif ((preg_match('/admin-offer-details$/', $arr[2]))) {
-            include 'admin/book-offer-details.php';
         } elseif ((preg_match('/admin-book-requests$/', $arr[2]))) {
             include 'admin/book-requests.php';
         } elseif ((preg_match('/admin-request-details$/', $arr[2]))) {
             include 'admin/book-request-details.php';
         } elseif ((preg_match('/admin-rent-history$/', $arr[2]))) {
             include 'admin/rent.php';
-        }elseif ((preg_match('/admin-signin$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-signin$/', $arr[2]))) {
             include 'admin/signin.php';
-        }elseif ((preg_match('/admin-signup$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-signup$/', $arr[2]))) {
             include 'admin/signup.php';
         } else {
             include '404.php';

@@ -1,12 +1,9 @@
 <?php
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-}
 
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
@@ -50,7 +47,7 @@ if (isset($_POST['upload-kyc-btn'])) {
         $properties['kyc']['front'] = $newFileName1;
         $properties['kyc']['back'] = "";
 
-        try{
+        try {
             // upload birth certificate
             $bucket->upload(fopen($fileTmpPath1, 'r'), ['name' => $filePath1]);
             try {
@@ -60,14 +57,14 @@ if (isset($_POST['upload-kyc-btn'])) {
             } catch (Exception $e) {
                 $_SESSION['status'] = false;
             }
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $_SESSION['status'] = false;
         }
-        
+
         // in case photo uploaded, delete the existing kyc document
         if ($_SESSION['status'] == true) {
             // delete previous front kyc
-            if($oldFileFront != ""){
+            if ($oldFileFront != "") {
                 $temp = deleteFileFromStorageBucket("kyc", $oldFileFront);
             }
         }
@@ -94,7 +91,7 @@ if (isset($_POST['upload-kyc-btn'])) {
             $properties['kyc']['back'] = $newFileName2;
 
 
-            try{
+            try {
                 // upload citizenship
                 $bucket->upload(fopen($fileTmpPath1, 'r'), ['name' => $filePath1]);
                 $bucket->upload(fopen($fileTmpPath2, 'r'), ['name' => $filePath2]);
@@ -106,19 +103,19 @@ if (isset($_POST['upload-kyc-btn'])) {
                 } catch (Exception $e) {
                     $_SESSION['status'] = false;
                 }
-            } catch(Exception $e){
+            } catch (Exception $e) {
                 $_SESSION['status'] = false;
             }
-            
+
             // in case photo uploaded, delete the existing kyc document
             if ($_SESSION['status'] == true) {
                 // delete previous kyc front
-                if($oldFileFront != ""){
+                if ($oldFileFront != "") {
                     $temp = deleteFileFromStorageBucket("kyc", $oldFileFront);
                 }
 
                 // delete prvious kyc back
-                if($oldFileBack != ""){
+                if ($oldFileBack != "") {
                     $temp = deleteFileFromStorageBucket("kyc", $oldFileBack);
                 }
             }

@@ -13,7 +13,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 // for checking the exception
 use PHPMailer\PHPMailer\Exception;
 
-
 // variables
 $districtArray = array(
     "Achham",
@@ -188,7 +187,6 @@ function deleteFileFromStorageBucket($folder, $filename)
             break; // Exit the loop once we find and delete the matching filename
         }
     }
-
     return $status;
 }
 

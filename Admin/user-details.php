@@ -13,7 +13,10 @@ require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->fetch($adminId);
+
+if(!$adminExists)
+    header("Location: /bookrack/admin/signin");
 
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
@@ -23,12 +26,11 @@ require_once __DIR__ . '/../../bookrack/app/user-class.php';
 require_once __DIR__ . '/../../bookrack/app/book-class.php';
 
 $selectedUser = new User();
-$userObj = new User();
 $bookObj = new Book();
 
-$status = $selectedUser->fetch($userId);
+$userExists = $selectedUser->fetch($userId);
 
-if (!$status)
+if (!$userExists)
     header("Location: /bookrack/admin/admin-users");
 
 $selectedUser->setUserId($userId);
@@ -44,7 +46,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> User Detail : <?= ucfirst($selectedUser->getFirstName()) . " " . ucfirst($selectedUser->getLastName()) ?>
+    <title> User Detail : <?= $selectedUser->getFullName() ?>
     </title>
 
     <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
@@ -62,7 +64,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
     <main class="main">
         <!-- heading -->
         <p class="fw-bold page-heading">
-            <?= ucfirst($selectedUser->getFirstName()), ucfirst($selectedUser->getLastName()) ?>
+            <?= $selectedUser->getFullName() ?>
         </p>
 
         <!-- user detail -->
@@ -70,7 +72,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
             <!-- photo section -->
             <div class="photo-account-status">
                 <div class="photo-div">
-                    <img src="<?= $selectedUser->getProfilePictureImageUrl(); ?>" alt="profile picture">
+                    <img src="<?= $selectedUser->profilePictureUrl; ?>" alt="profile picture">
                 </div>
             </div>
 
@@ -80,17 +82,17 @@ $bookList = $bookObj->fetchBookByUserId($userId);
                 <div class="d-flex flex-row flex-wrap gap-5 all-details">
                     <!-- email, gender, dob -->
                     <div class="d-flex flex-column gap-2 email-gender-dob">
-                        <p class="f-reset"> <?= $selectedUser->getEmail() ?> </p>
-                        <p class="f-reset"> <?php
-                        if ($selectedUser->getGender() == 0)
+                        <p class="f-reset"> Email: <?= $selectedUser->email ?> </p>
+                        <p class="f-reset"> Gender :  <?php
+                        if ($selectedUser->gender == 0)
                             echo "Male";
-                        elseif ($selectedUser->getGender() == 1)
+                        elseif ($selectedUser->gender == 1)
                             echo "Female";
                         else
                             echo "Others";
                         ?>
                         </p>
-                        <p class="f-reset"> <?= $selectedUser->getDob() ?> </p>
+                        <p class="f-reset"> Birth Date : <?= $selectedUser->getDob() ?> </p>
                     </div>
 
                     <!-- contact, address -->
@@ -102,7 +104,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
                             </div>
 
                             <div class="data">
-                                <p class="f-reset"> 9874521459 </p>
+                                <p class="f-reset"> <?=$selectedUser->getContact()?> </p>
                             </div>
                         </div>
 
@@ -114,7 +116,7 @@ $bookList = $bookObj->fetchBookByUserId($userId);
 
                             <div class="data">
                                 <p class="f-reset">
-                                    <?= ucfirst($selectedUser->getAddressLocation()) . ", " . $districtArray[$selectedUser->getAddressDistrict()] ?>
+                                    <?= $selectedUser->getFullAddress() ?>
                                 </p>
                             </div>
                         </div>
@@ -155,16 +157,16 @@ $bookList = $bookObj->fetchBookByUserId($userId);
                 ?>
                 <div class="contributed-book">
                     <div class="image-div">
-                        <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="laxy">
+                        <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
                     </div>
 
                     <div class="detail-div">
-                        <p class="title"> <?= ucWords($book->title) ?> </p>
+                        <p class="title fw-bold"> <?= ucWords($book->title) ?> </p>
                         <div class="d-flex flex-row flex-wrap genre">
                             <?php
                             foreach ($book->genre as $genre) {
                                 ?>
-                                <p class="genre"> <?= $genre ?></p>
+                                <p class="genre"> <?= $genre.', ' ?></p>
                                 <?php
                             }
                             ?>

@@ -1,6 +1,4 @@
 <?php
-
-// starting the session
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
@@ -15,10 +13,6 @@ require_once __DIR__ . '/../bookrack/app/user-class.php';
 require_once __DIR__ . '/../bookrack/app/functions.php';
 
 $profileUser = new User();
-
-$profileUser->setUserId($userId);
-
-// get user details
 $userExists = $profileUser->fetch($userId);
 
 if (!$userExists)
@@ -50,7 +44,7 @@ if (!$userExists)
         <section class="d-flex flex-column gap-4 section add-book-section">
             <!-- alert for unverified account -->
             <?php
-            if ($profileUser->getAccountStatus() != "verified") {
+            if ($profileUser->accountStatus != "verified") {
                 ?>
                 <div class="alert alert-danger m-0" role="alert">
                     Your account is not verified yet in order to add book. Try updating your details inclusing documents.
@@ -295,7 +289,7 @@ if (!$userExists)
                         <?php
                         if ($task == "add") {
                             ?>
-                            <button type="submit" name="add-book-btn" class="btn p-2" <?php if ($profileUser->getAccountStatus() != "verified")
+                            <button type="submit" name="add-book-btn" class="btn p-2" <?php if ($profileUser->accountStatus != "verified")
                                 echo "disabled"; ?>> Add Now </button>
                             <?php
                         } else {

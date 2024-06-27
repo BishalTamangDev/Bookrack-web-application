@@ -1,9 +1,6 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 if(isset($_POST['update-password-btn'])){
     // check for same new password

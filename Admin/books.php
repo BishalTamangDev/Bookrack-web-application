@@ -13,7 +13,10 @@ require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 
 // profile admin object
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+!$adminExists = $profileAdmin->fetch($adminId);
+
+if (!$adminExists)
+    header("Location: /bookrack/admin/signin");
 
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
@@ -154,7 +157,7 @@ $rentBookCount = 0;
 
             <!-- body -->
             <?php
-            if ($allBookCount > 0) {
+            if (sizeof($bookList) > 0) {
                 ?>
                 <tbody>
                     <?php
@@ -176,10 +179,11 @@ $rentBookCount = 0;
                                 }
                                 ?>
                             </td>
-                            <td> Harper Lee</td>
+                            <td> <?php foreach ($book->author as $author)
+                                echo ucWords($author) . ', '; ?> </td>
                             <td> <?= ucfirst($book->language) ?></td>
                             <td> <?= $book->getOwnerId() ?></td>
-                            <td> <?= "-" ?></td>
+                            <td> <?= $book->status ?></td>
                             <td>
                                 <abbr title="Show full details">
                                     <a href="/bookrack/admin/admin-book-details/<?= $bookId ?>">

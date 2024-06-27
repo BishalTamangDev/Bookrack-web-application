@@ -15,7 +15,6 @@ require_once __DIR__ . '/../bookrack/app/functions.php';
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 
 $profileUser = new User();
-
 $userExists = $profileUser->fetch($userId);
 
 if (!$userExists)
@@ -23,10 +22,7 @@ if (!$userExists)
 
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 $selectedBook = new Book();
-
-$selectedBook->setId($bookId);
-
-$bookExists = $selectedBook->fetch($selectedBook->getId());
+$bookExists = $selectedBook->fetch($bookId);
 
 require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 $wishlist = new Wishlist();
@@ -42,8 +38,7 @@ $userWishlist = $wishlist->fetchWishlist();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> <?php
-    echo $bookExists ? ucWords($selectedBook->title) : "Book details" ?> </title>
+    <title> <?= $bookExists ? ucWords($selectedBook->title) : "Book details" ?> </title>
 
     <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
@@ -53,9 +48,7 @@ $userWishlist = $wishlist->fetchWishlist();
 
 <body>
     <!-- header -->
-    <?php
-    include 'header.php';
-    ?>
+    <?php include 'header.php'; ?>
 
     <!-- main -->
     <?php
@@ -178,9 +171,7 @@ $userWishlist = $wishlist->fetchWishlist();
                         <!-- author list -->
                         <div class="d-flex flex-row gap-2 align-items-center flex-wrap author-list">
                             <?php
-                            $authorArray = $selectedBook->author;
-
-                            foreach ($authorArray as $author) {
+                            foreach ($selectedBook->author as $author) {
                                 ?>
                                 <div class="author">
                                     <p class="m-0"> <?= ucWords($author) ?> </p>
@@ -282,7 +273,7 @@ $userWishlist = $wishlist->fetchWishlist();
 
                     <!-- action -->
                     <?php
-                    if ($selectedBook->getOwnerId() != $_SESSION['bookrack-user-id']) {
+                    if ($selectedBook->getOwnerId() != $userId) {
                         ?>
                         <div class="d-flex flex-wrap flex-md-row operation-container">
                             <!-- request button -->
@@ -292,7 +283,7 @@ $userWishlist = $wishlist->fetchWishlist();
                             <a href="/bookrack/app/wishlist-code.php?book-id=<?= $bookId ?>&ref_url=<?= $url ?>" class="btn"
                                 id="wishlist-btn">
                                 <?php
-                                if (in_array($selectedBook->getId(), $userWishlist)) {
+                                if (in_array($bookId, $userWishlist)) {
                                     ?>
                                     <i class="fa-solid fa-bookmark"></i> Remove from wishlist
                                     <?php
@@ -316,12 +307,12 @@ $userWishlist = $wishlist->fetchWishlist();
         <?php
     } else {
         ?>
-<main class="d-flex flex-column gap-3 pb-5 container main">
+        <main class="d-flex flex-column gap-3 pb-5 container main">
             <!-- title, rating, count -->
             <section class="d-flex flex-column title-rating-count-container">
                 <h1> Book Not Found! </h1>
             </section>
-</main>
+        </main>
         <?php
     }
     ?>

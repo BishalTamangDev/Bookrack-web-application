@@ -1,7 +1,5 @@
 .main {
-  background-image: url("/bookrack/assets/images/free.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: whitesmoke;
   width: 100%;
   height: 100vh;
   margin-top: 0;

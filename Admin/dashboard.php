@@ -46,7 +46,6 @@ $bookList = $bookObj->fetchAllBooks();
 </head>
 
 <body>
-    <!-- aside :: nav -->
     <?php include 'nav.php'; ?>
 
     <main class="main">
@@ -262,7 +261,7 @@ $bookList = $bookObj->fetchAllBooks();
                 <div class="rent-ending">
                     <!-- image -->
                     <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                     </div>
 
                     <!-- detail -->
@@ -308,7 +307,7 @@ $bookList = $bookObj->fetchAllBooks();
                 <!-- review 1 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                     </div>
 
                     <div class="detail-div">
@@ -325,11 +324,11 @@ $bookList = $bookObj->fetchAllBooks();
                         </div>
 
                         <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/half-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -337,7 +336,7 @@ $bookList = $bookObj->fetchAllBooks();
                 <!-- review 2 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                     </div>
 
                     <div class="detail-div">
@@ -352,9 +351,9 @@ $bookList = $bookObj->fetchAllBooks();
                         </div>
 
                         <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -362,7 +361,7 @@ $bookList = $bookObj->fetchAllBooks();
                 <!-- review 3 -->
                 <div class="book-review">
                     <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-3.jpg" alt="">
+                        <img src="/bookrack/assets/images/cover-3.jpg" alt="" loading="lazy">
                     </div>
 
                     <div class="detail-div">
@@ -379,9 +378,9 @@ $bookList = $bookObj->fetchAllBooks();
                         </div>
 
                         <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="">
-                            <img src="/bookrack/assets/icons/half-rating.png" alt="">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
+                            <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>

@@ -1,26 +1,21 @@
 <?php
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/");
-}
 
-if(isset($_POST['admin-update-profile-btn'])){
+$adminId = $_SESSION['bookrack-admin-id'];
+
+if (isset($_POST['admin-update-profile-btn'])) {
     $status = false;
-    
+
     require_once __DIR__ . '/admin-class.php';
     require_once __DIR__ . '/../../../bookrack/app/functions.php';
 
-    $tempAdmin = new Admin();
-
-    // set admin id
-    $tempAdmin->setId($_SESSION['bookrack-admin-id']);
-    
     // fetch admin details
-    $status = $tempAdmin->fetch($_SESSION['bookrack-admin-id']);
+    $tempAdmin = new Admin();
+    $status = $tempAdmin->fetch($adminId);
 
     // get form values
     $hasProfilePhoto = (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
@@ -33,15 +28,15 @@ if(isset($_POST['admin-update-profile-btn'])){
     // set properties to be updated
     $properties = [
         'name' => [
-            'first' => getLowerCaseString($firstName),
-            'last' => getLowerCaseString($lastName),
+            'first' => strtolower($firstName),
+            'last' => strtolower($lastName),
         ],
         'gender' => $gender,
         'dob' => $dob,
         'contact' => $contact
     ];
 
-    if($hasProfilePhoto){
+    if ($hasProfilePhoto) {
         // getting previous profile picture
         $oldProfilePictureFileName = $tempAdmin->getProfilePicture();
 
@@ -69,24 +64,24 @@ if(isset($_POST['admin-update-profile-btn'])){
             $status = false;
         }
 
-         // in case photo uploaded
-         if ($status) {
+        // in case photo uploaded
+        if ($status) {
             // delete previous profile picture
             $temp = deleteFileFromStorageBucket("admins", $oldProfilePictureFileName);
         }
-    }else{
+    } else {
 
-        
-        try{
+
+        try {
             $response = $database->getReference("admins/{$tempAdmin->getId()}")->update($properties);
             $status = true;
-        }catch(Exception $e){
+        } catch (Exception $e) {
         }
     }
 
     $_SESSION['status'] = $status ? true : false;
     $_SESSION['status-message'] = $status ? "Profile updated successfully." : "Profile updation failed.";
-    
+
     header("Location: /bookrack/admin/profile");
 }
 

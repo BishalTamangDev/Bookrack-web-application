@@ -5,7 +5,6 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
 
-
 $url = "notification";
 $adminId = $_SESSION['bookrack-admin-id'];
 
@@ -65,7 +64,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
                 <!-- notification icon -->
                 <div class="icon-div">
                     <div class="notification-icon-div">
-                        <img src="/bookrack/assets/icons/Notification/new-user.png" alt="">
+                        <img src="/bookrack/assets/icons/Notification/new-user.png" alt="" loading="lazy">
                     </div>
                 </div>
 
@@ -99,7 +98,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
                 <!-- notification icon -->
                 <div class="icon-div">
                     <div class="notification-icon-div">
-                        <img src="/bookrack/assets/icons/Notification/book-offer.png" alt="">
+                        <img src="/bookrack/assets/icons/Notification/book-offer.png" alt="" loading="lazy">
                     </div>
                 </div>
 

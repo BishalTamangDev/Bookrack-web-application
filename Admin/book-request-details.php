@@ -13,7 +13,10 @@ require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->fetch($adminId);
+
+if (!$adminExists)
+    header("Location: /bookrack/admin/signin");
 
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");

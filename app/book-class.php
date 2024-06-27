@@ -361,104 +361,36 @@ class Book
     function fetch($id)
     {
         global $database;
-
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
-
         if ($response) {
-            // $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price']['actual'], $response['price']['offer'], $response['photo']['cover'], $response['photo']['price'], $response['photo']['isbn'], $response['date']['offer'], $response['date']['approval'], $response['status']);
             $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status']);
-            
-            // fetch photo urls
-            $this->getPhotoUrls();
-
+            $this->setPhotoUrls();
             return true;
         } else {
             return false;
         }
     }
 
-    public function getPhotoUrls(){
+    public function setPhotoUrls(){
         global $bucket;
 
-        $coverPhotoFound = false;
-        $pricePhotoFound = false;
-        $isbnPhotoFound = false;
-
         $prefix = 'books/';
-        $options = [
-            'prefix' => $prefix,
-            'delimiter' => '/'
-        ];
 
-        $objects = $bucket->objects($options);
-
-        foreach ($objects as $object) {
-            if (!$coverPhotoFound && $object->name() === $prefix . $this->photo['cover']) {
-                $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
-                $coverPhotoFound = true;
-            }elseif(!$pricePhotoFound && $object->name() === $prefix . $this->photo['price']){
-                $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
-                $pricePhotoFound = true;
-            }elseif(!$isbnPhotoFound && $object->name() === $prefix . $this->photo['isbn']){
-                $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
-                $isbnPhotoFound = true;
-            }
-        }
+        $objectName = $prefix . $this->photo['cover'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
+    
+        $objectName = $prefix . $this->photo['price'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
+        
+        $objectName = $prefix . $this->photo['isbn'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
     }
-
-    // get cover photo url
-    public function getCoverPhotoUrl()
-    {
-        global $bucket;
-
-        $coverPhotoUrl = "/bookrack/assets/images/blank-user.jpg";
-
-        $prefix = 'books/';
-        $options = [
-            'prefix' => $prefix,
-            'delimiter' => '/'
-        ];
-
-        $objects = $bucket->objects($options);
-
-        foreach ($objects as $object) {
-            // Check if the object's name (filename) matches the filename we are looking for
-            if ($object->name() === $prefix . $this->getCoverPhoto()) {
-                // Generate a signed URL valid until tomorrow for the matched object
-                $coverPhotoUrl = $object->signedUrl(new DateTime('tomorrow'));
-                break; // Exit the loop once we find the matching filename
-            }
-        }
-
-        return $coverPhotoUrl;
-    }
-
-
-    // get price photo url
-    public function getPricePhotoUrl()
-    {
-        global $bucket;
-
-        $pricePhotoUrl = "/bookrack/assets/images/blank-user.jpg";
-
-        $prefix = 'books/';
-        $options = [
-            'prefix' => $prefix,
-            'delimiter' => '/'
-        ];
-
-        $objects = $bucket->objects($options);
-
-        foreach ($objects as $object) {
-            if ($object->name() === $prefix . $this->getPricePhoto()) {
-                $pricePhotoUrl = $object->signedUrl(new DateTime('tomorrow'));
-                break; 
-            }
-        }
-
-        return $pricePhotoUrl;
-    }
-
 
     // get isbn photo url
     public function getIsbnPhotoUrl()
@@ -489,20 +421,13 @@ class Book
     public function fetchAllBooks()
     {
         global $database;
-
         $list = array();
-
-        $query = $database->getReference("books");
-        $snapshot = $query->getSnapshot();
-        $response = $snapshot->getValue();
-
-        $temp = new Book();
-        
+        $response = $database->getReference("books")->getSnapshot()->getValue();
         foreach($response as $key =>$res){
+            $temp = new Book();
             $temp->fetch($key);
             $list [] = $temp;
         }
-
         return $list;
     }
 

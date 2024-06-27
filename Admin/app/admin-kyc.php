@@ -1,27 +1,19 @@
 <?php
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-admin-id'])) {
+if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin");
-}
+
+$adminId = $_SESSION['bookrack-admin-id'];
 
 require_once __DIR__ . '/../../../bookrack/app/functions.php';
-
 require_once __DIR__ . '/../../../bookrack/admin/app/admin-class.php';
 
 if (isset($_POST['admin-upload-kyc-btn'])) {
     $status = false;
-
     $tempAdmin = new Admin();
-
-    // set admin id
-    $tempAdmin->setId($_SESSION['bookrack-admin-id']);
-    
-    // fetch user details
-    $tempAdmin->fetch($tempAdmin->getId());
+    $tempAdmin->fetch($adminId);
 
     // getting the form details
     $hasKycFront = (isset($_FILES['kyc-front']) && $_FILES['kyc-front']['error'] === UPLOAD_ERR_OK) ? 1 : 0;

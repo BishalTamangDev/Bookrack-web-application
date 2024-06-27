@@ -1,20 +1,16 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-}
 
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 require_once __DIR__ . '/../../bookrack/app/user-class.php';
 
 if (isset($_POST['update-profile-btn'])) {
-    $status = 0;
+    $status = false;
 
     $newUser = new User();
 
@@ -33,18 +29,18 @@ if (isset($_POST['update-profile-btn'])) {
     $newUser->setAddressDistrict($_POST['edit-profile-district']);
     $newUser->setAddressLocation($_POST['edit-profile-location']);
 
-    
+
     $properties = [
         'name' => [
-            'first' => getLowerCaseString($newUser->getFirstName()),
-            'last' => getLowerCaseString($newUser->getLastName()),
+            'first' => strtolower($newUser->getFirstName()),
+            'last' => strtolower($newUser->getLastName()),
         ],
         'gender' => $newUser->getGender(),
         'dob' => $newUser->getDob(),
         'contact' => $newUser->getContact(),
         'address' => [
             'district' => $newUser->getAddressDistrict(),
-            'location' => getLowerCaseString($newUser->getAddressLocation())
+            'location' => strtolower($newUser->getAddressLocation())
         ],
     ];
 
@@ -68,12 +64,12 @@ if (isset($_POST['update-profile-btn'])) {
 
             try {
                 $response = $database->getReference("users/{$newUser->getUserId()}")->update($properties);
-                $status = 1;
+                $status = true;
             } catch (Exception $e) {
-                $status = 0;
+                $status = false;
             }
         } catch (Exception $e) {
-            $status = 0;
+            $status = false;
         }
 
         // in case photo uploaded
@@ -84,9 +80,9 @@ if (isset($_POST['update-profile-btn'])) {
     } else {
         try {
             $response = $database->getReference("users/{$newUser->getUserId()}")->update($properties);
-            $status = 1;
+            $status = true;
         } catch (Exception $e) {
-            $status = 0;
+            $status = false;
         }
     }
 

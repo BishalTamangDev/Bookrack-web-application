@@ -1,9 +1,6 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 require_once __DIR__ . '/../../bookrack/app/connection.php';
 
@@ -28,8 +25,8 @@ if (isset($_POST['signup-btn'])) {
     $user->setPassword($hashedPassword);
 
     // for retaining form value after submission
-    $_SESSION['temp-email'] =  $_POST['email'];
-    $_SESSION['temp-password'] =  $_POST['password'];
+    $_SESSION['temp-email'] = $_POST['email'];
+    $_SESSION['temp-password'] = $_POST['password'];
 
     // checking the existence of provided email address
     $emailExists = $user->checkEmailExistence();
@@ -44,7 +41,7 @@ if (isset($_POST['signup-btn'])) {
         if ($accountCreated) {
             $_SESSION['status'] = true;
             $_SESSION['status-message'] = "Signup successfully.";
-            
+
             // unset temporary data
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
@@ -56,7 +53,6 @@ if (isset($_POST['signup-btn'])) {
             header("Location: /bookrack/signup");
         }
     }
-
     exit();
 }
 
@@ -71,8 +67,8 @@ if (isset($_POST['signin-btn'])) {
     $user->setPassword($_POST['password']);
 
     // for retaining form values after submission
-    $_SESSION['temp-email'] =  $_POST['email'];
-    $_SESSION['temp-password'] =  $_POST['password'];
+    $_SESSION['temp-email'] = $_POST['email'];
+    $_SESSION['temp-password'] = $_POST['password'];
 
     // checking the existence of provided email address
     $emailExists = $user->checkEmailExistence();
@@ -87,11 +83,11 @@ if (isset($_POST['signin-btn'])) {
 
             unset($_SESSION['status']);
             unset($_SESSION['status-message']);
-            
+
             // unsetting the form values 
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
-            
+
             // redirect to homepage
             header("Location: /bookrack/home");
         } else {
@@ -106,16 +102,8 @@ if (isset($_POST['signin-btn'])) {
         $_SESSION['status-message'] = "This email address has not been registered yet.";
         header("Location: /bookrack/signin");
     }
-
     exit();
 }
-
-
-
-
-
-
-
 
 // signup auth method
 if (isset($_POST['signup-auth-btn'])) {
@@ -176,6 +164,5 @@ if (isset($_POST['signin-auth-btn'])) {
         // $_SESSION['status'] = "An unexpected error occurred.";
         // header("Location: /bookrack/signin");
     }
-
     exit();
 }

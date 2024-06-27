@@ -13,7 +13,10 @@ require_once __DIR__ . '/../../bookrack/app/functions.php';
 
 // fetching the admin profile details
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->fetch($adminId);
+
+if (!$adminExists)
+    header("Location: /bookrack/admin/signin");
 
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
@@ -27,9 +30,9 @@ $userObj = new User();
 
 // book object
 $bookObj = new Book();
-$bookFound = $bookObj->fetch($bookId);
+$bookExists = $bookObj->fetch($bookId);
 
-if (!$bookFound)
+if (!$bookExists)
     header("Location: /bookrack/admin/admin-dashbaord");
 ?>
 
@@ -47,7 +50,6 @@ if (!$bookFound)
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/book-detail.css">
 </head>
 
@@ -65,15 +67,20 @@ if (!$bookFound)
             <!-- rating -->
             <div class="d-flex flex-row align-items-center gap-2 rating-count">
                 <div class="d-flex flex-row align-items-center gap-1 rating">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon">
-                    <img src="/bookrack/assets/icons/half-rating.png" alt="rating-star" class="rating-icon">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
+                        loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
+                        loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
+                        loading="lazy">
+                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
+                        loading="lazy">
+                    <img src="/bookrack/assets/icons/half-rating.png" alt="rating-star" class="rating-icon"
+                        loading="lazy">
                 </div>
 
                 <div class="count">
-                    <p class="f-reset"> (<?= "-" ?>) </p>
+                    <p class="f-reset"> (<?= "0" ?>) </p>
                 </div>
             </div>
         </section>
@@ -162,13 +169,13 @@ if (!$bookFound)
                     <!-- publisher -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Publisher </p>
-                        <p class="f-reset fs-6"> <?= ucFirst($bookObj->publisher) ?> </p>
+                        <p class="f-reset fs-6"> <?= ucWords($bookObj->publisher) ?> </p>
                     </div>
 
                     <!-- publication -->
                     <div class="d-flex flex-row gap-3 edition-div">
                         <p class="f-reset fw-bold fs-5"> Publication </p>
-                        <p class="f-reset fs-6"> <?= ucFirst($bookObj->publication) ?> </p>
+                        <p class="f-reset fs-6"> <?= ucWords($bookObj->publication) ?> </p>
                     </div>
                 </div>
 
@@ -213,9 +220,7 @@ if (!$bookFound)
                                 <p class="f-reset fw-bold"> Owner </p>
                             </div>
 
-                            <?php
-                            $userObj->fetch($bookObj->getOwnerId());
-                            ?>
+                            <?php $userObj->fetch($bookObj->getOwnerId()); ?>
 
                             <div class="right">
                                 <abbr title="Show owner details">
@@ -231,7 +236,7 @@ if (!$bookFound)
                     </div>
 
                     <!-- operation: edit/ remove -->
-                    <div class="d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
+                    <div class="d-none d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
                         <!-- delete operation -->
                         <div class="d-flex flex-row gap-2 align-items-center delete">
                             <i class="fa fa-trash"></i>

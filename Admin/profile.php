@@ -279,6 +279,8 @@ $profileAdmin->fetch($adminId);
                     </div>
                     <?php
 
+                }else{
+                    $profileAdmin->setKycUrl();
                 }
                 ?>
 
@@ -300,12 +302,12 @@ $profileAdmin->fetch($adminId);
                     <div class="d-flex flex-column flex-lg-row gap-3 w-100 mb-3 kyc-container">
                         <div class="d-flex flex-column gap-2 front-side">
                             <label for=""> Front side </label>
-                            <img src="<?= $profileAdmin->getKycFrontUrl() ?>" class="pointer" alt="" loading="lazy">
+                            <img src="<?= $profileAdmin->kycUrl['front'] ?>" class="pointer" alt="" loading="lazy">
                         </div>
 
                         <div class="d-flex flex-column gap-2 back-side">
                             <label for=""> Back side </label>
-                            <img src="<?= $profileAdmin->getKycBackUrl() ?>" class="pointer" alt="" loading="lazy">
+                            <img src="<?= $profileAdmin->kycUrl['back'] ?>" class="pointer" alt="" loading="lazy">
                         </div>
                     </div>
                     <?php

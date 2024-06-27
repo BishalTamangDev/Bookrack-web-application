@@ -1,11 +1,8 @@
 <?php
-// starting session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 require_once __DIR__ . '/../../../bookrack/app/connection.php';
-
 require_once __DIR__ . '/../../../bookrack/admin/app/admin-class.php';
 
 // signup table method
@@ -15,12 +12,11 @@ if (isset($_POST['admin-signup-btn'])) {
 
     // getting email && password
     $admin->setEmail($_POST['email']);
-    $hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $admin->setPassword($hashedPassword);
+    $admin->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
 
     // for retaining form value after submission
-    $_SESSION['temp-email'] =  $_POST['email'];
-    $_SESSION['temp-password'] =  $_POST['password'];
+    $_SESSION['temp-email'] = $_POST['email'];
+    $_SESSION['temp-password'] = $_POST['password'];
 
     // checking the existence of provided email address
     $emailExists = $admin->checkEmailExistence();
@@ -35,7 +31,7 @@ if (isset($_POST['admin-signup-btn'])) {
         if ($accountCreated) {
             $_SESSION['status'] = true;
             $_SESSION['status-message'] = "Signed up successfully.";
-            
+
             // unset temporary data
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
@@ -47,7 +43,6 @@ if (isset($_POST['admin-signup-btn'])) {
             header("Location: /bookrack/admin/admin-signup");
         }
     }
-
     exit();
 }
 
@@ -61,8 +56,8 @@ if (isset($_POST['admin-signin-btn'])) {
     $admin->setPassword($_POST['password']);
 
     // for retaining form values after submission
-    $_SESSION['temp-email'] =  $_POST['email'];
-    $_SESSION['temp-password'] =  $_POST['password'];
+    $_SESSION['temp-email'] = $_POST['email'];
+    $_SESSION['temp-password'] = $_POST['password'];
 
     // checking the existence of provided email address
     $emailExists = $admin->checkEmailExistence();
@@ -74,14 +69,14 @@ if (isset($_POST['admin-signin-btn'])) {
         if ($passwordVerified) {
             // setting admin key in the session
             $_SESSION['bookrack-admin-id'] = $admin->getId();
- 
+
             unset($_SESSION['status']);
             unset($_SESSION['status-message']);
-            
+
             // unsetting the form values 
             unset($_SESSION['temp-email']);
             unset($_SESSION['temp-password']);
-            
+
             // redirect to homepage
             header("Location: /bookrack/admin/admin-dashboard");
         } else {
@@ -96,6 +91,5 @@ if (isset($_POST['admin-signin-btn'])) {
         $_SESSION['status-message'] = "This email address has not been registered yet.";
         header("Location: /bookrack/admin/admin-signin");
     }
-
     exit();
 }

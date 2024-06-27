@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 
-$footerBookObj = new Book();
+if (!isset($bookObj))
+    $bookObj = new Book();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@ $footerBookObj = new Book();
     <!-- title -->
     <title> Footer </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php'?>
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
@@ -83,18 +84,18 @@ $footerBookObj = new Book();
                     <!-- content -->
                     <div class="d-flex flex-row gap-2 content">
                         <ul>
-                            <?php 
-                            $footerGenreList = [];
-                            $footerBookList = $footerBookObj->fetchAllBooks();
-
-                            foreach($footerBookList as $footerBook)
-                                foreach($footerBook->genre as $temp)
-                                    $footerGenreList[] = $temp;
+                            <?php
+                            if (!isset($genreList)) {
+                                $bookList = $bookObj->fetchAllBooks();
+                                foreach ($bookList as $key => $book)
+                                    $genreList = $book->genre;
+                            }
                             ?>
-                            <?php 
-                            foreach($footerGenreList as $footerGenre){
+
+                            <?php
+                            foreach ($genreList as $genre) {
                                 ?>
-                                <li><a href=""> <?=$footerGenre?> </a></li>
+                                <li> <?= $genre ?> </a></li>
                                 <?php
                             }
                             ?>
@@ -161,7 +162,7 @@ $footerBookObj = new Book();
                 <div class="d-flex flex-row align-items-center gap-3 payment-partner">
                     <p class="m-0 fs-5"> Our payment partner </p>
                     <div class="border border-1 rounded partner-container">
-                        <img src="/bookrack/assets/icons/esewa-logo.webp" alt="">
+                        <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -173,7 +174,7 @@ $footerBookObj = new Book();
         </div>
     </footer>
 
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'?>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php' ?>
 </body>
 
 </html>

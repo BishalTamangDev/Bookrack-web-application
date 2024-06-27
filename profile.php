@@ -1,9 +1,6 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
@@ -16,15 +13,14 @@ require_once __DIR__ . '/../bookrack/app/functions.php';
 require_once __DIR__ . '/../bookrack/app/user-class.php';
 
 $profileUser = new User();
+$userExists = $profileUser->fetch($userId);
 
-// get user details
-$userFound = $profileUser->fetch($userId);
-
-if (!$userFound)
+if (!$userExists)
     header("Location: /bookrack/signout");
 
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 $bookObj = new Book();
+$userBookList = $bookObj->fetchBookByUserId($userId);
 ?>
 
 <!DOCTYPE html>
@@ -37,11 +33,11 @@ $bookObj = new Book();
     <!-- title -->
     <title>
         <?php
-        switch($tab){
+        switch ($tab) {
             case "edit-profile":
                 echo "Edit profile";
                 break;
-            case"kyc":
+            case "kyc":
                 echo "KYC";
                 break;
             case "my-books":
@@ -63,7 +59,7 @@ $bookObj = new Book();
     </title>
 
     <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
-    
+
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
     <link rel="stylesheet" href="/bookrack/assets/css/profile.css">
@@ -72,8 +68,7 @@ $bookObj = new Book();
 <body>
     <!-- header -->
     <?php
-    include 'header.php';
-    ?>
+    include 'header.php'; ?>
 
     <!-- main -->
     <main class="d-flex d-column flex-lg-row gap-lg-4 container main">
@@ -85,13 +80,13 @@ $bookObj = new Book();
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
-                        if ($profileUser->profilePicture == "") {
+                        if ($profileUser->profilePicture != "") {
                             ?>
-                            <img src="/bookrack/assets/images/blank-user.jpg" alt="profile picture">
+                            <img src="<?= $profileUser->profilePictureUrl ?>" alt="profile picture" loading="lazy">
                             <?php
                         } else {
                             ?>
-                            <img src="<?= $profileUser->getProfilePictureImageUrl() ?>" alt="profile picture">
+                            <img src="/bookrack/assets/images/blank-user.jpg" alt="profile picture" loading="lazy">
                             <?php
                         }
                         ?>
@@ -99,7 +94,7 @@ $bookObj = new Book();
 
                     <div class="d-flex flex-row gap-2 align-items-center profile name-status">
                         <p class="m-0 text-secondary">
-                            <?php echo $profileUser->name['first'] == "" ? $profileUser->email : ucfirst($profileUser->name['first']) . " " . ucfirst($profileUser->name['last']); ?>
+                            <?php echo $profileUser->name['first'] == "" ? $profileUser->email : $profileUser->getFullName(); ?>
                         </p>
                         <?php
                         if ($profileUser->accountStatus == "verified") {
@@ -125,10 +120,8 @@ $bookObj = new Book();
                         </div>
                         <div class="data-div">
                             <p class="f-reset">
-                                <?php 
-                                $addressDistrict = $profileUser->getAddressDistrict();
-                                $addressLocation = $profileUser->getAddressLocation();
-                                echo $addressLocation != "" ? ucfirst($addressLocation) . ", " . $districtArray[$addressDistrict] : "-"; ?>
+                                <?php
+                                echo $profileUser->getAddressDistrict() != "" ? $profileUser->getFullAddress() : "-"; ?>
                             </p>
                         </div>
                     </div>
@@ -168,7 +161,7 @@ $bookObj = new Book();
                         </div>
 
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?= count($bookObj->fetchBookByUserId($userId)) ?> </p>
+                            <p class="f-reset fw-bold"> <?= sizeof($userBookList) ?> </p>
                         </div>
                     </div>
 
@@ -322,22 +315,21 @@ $bookObj = new Book();
                             }
                             ?>
 
-
                             <!-- name -->
                             <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                                 <div class="flex-grow-1 first-name-div">
                                     <label for="edit-profile-first-name" class="form-label">First name </label>
                                     <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
-                                        echo ucfirst($profileUser->name['first']); ?>"
-                                        name="edit-profile-first-name" aria-describedby="first name" <?php if ($tab == "view-profile")
+                                        echo ucfirst($profileUser->name['first']); ?>" name="edit-profile-first-name"
+                                        aria-describedby="first name" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
 
                                 <div class="flex-grow-1 last-name-div">
                                     <label for="edit-profile-last-name" class="form-label">Last name</label>
                                     <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['first'] != "")
-                                        echo ucfirst($profileUser->name['last']); ?>"
-                                        name="edit-profile-last-name" aria-describedby="last name" <?php if ($tab == "view-profile")
+                                        echo ucfirst($profileUser->name['last']); ?>" name="edit-profile-last-name"
+                                        aria-describedby="last name" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
                             </div>
@@ -365,7 +357,7 @@ $bookObj = new Book();
                                             <?php
                                         } else {
                                             ?>
-                                            <option value="<?= $profileUser->getGender() ?>" selected hidden>
+                                            <option value="<?= $profileUser->gender ?>" selected hidden>
                                                 <?php
                                                 if ($profileUser->gender == 0) {
                                                     echo "Male";
@@ -734,8 +726,7 @@ $bookObj = new Book();
                         <!-- my books container-->
                         <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                             <?php
-                            $bookList = $bookObj->fetchBookByUserId($profileUser->getUserId());
-                            foreach ($bookList as $book) {
+                            foreach ($userBookList as $book) {
                                 ?>
                                 <div class="book-container my-book my-book-active">
                                     <!-- book image -->
@@ -762,10 +753,10 @@ $bookObj = new Book();
                                         <div class="book-price">
                                             <p class="book-price">
                                                 <?php
-                                                if($book->purpose == "renting"){
+                                                if ($book->purpose == "renting") {
                                                     $rent = 0.20 * $book->price['actual'];
                                                     echo "NPR." . number_format($rent, 2) . "/week";
-                                                }else{
+                                                } else {
                                                     $price = $book->price['offer'];
                                                     echo "NPR." . number_format($price, 2);
                                                 }
@@ -792,7 +783,6 @@ $bookObj = new Book();
                             <p class="f-reset text-dark"> Add New Book </p>
                         </div>
                     </div>
-
                     <?php
                 }
                 ?>
@@ -806,7 +796,7 @@ $bookObj = new Book();
                     <!-- my books container-->
                     <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
                         <?php
-                        $wishlist->setUserId($profileUser->getUserId());
+                        $wishlist->setUserId($userId);
                         $userWishlist = $wishlist->fetchWishlist();
                         ?>
                         <?php
@@ -820,8 +810,7 @@ $bookObj = new Book();
                                     <div class="book-container">
                                         <!-- book image -->
                                         <div class="book-image">
-                                            <!-- <img src="/bookrack/assets/images/cover-1.jpeg" alt=""> -->
-                                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo">
+                                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo" loading="lazy">
                                         </div>
 
                                         <!-- book details -->
@@ -861,15 +850,15 @@ $bookObj = new Book();
                                             <!-- book price -->
                                             <div class="book-price">
                                                 <p class="book-price">
-                                                <?php
-                                                if ($bookObj->purpose == "renting") {
-                                                    $rent = 0.20 * $bookObj->price['actual'];
-                                                    echo "NPR." . number_format($rent, 2) . "/week";
-                                                } else {
-                                                    $price = $bookObj->price['offer'];
-                                                    echo "NPR." . number_format($price, 2);
-                                                }
-                                                ?>
+                                                    <?php
+                                                    if ($bookObj->purpose == "renting") {
+                                                        $rent = 0.20 * $bookObj->price['actual'];
+                                                        echo "NPR." . number_format($rent, 2) . "/week";
+                                                    } else {
+                                                        $price = $bookObj->price['offer'];
+                                                        echo "NPR." . number_format($price, 2);
+                                                    }
+                                                    ?>
                                                 </p>
                                             </div>
 
@@ -887,7 +876,7 @@ $bookObj = new Book();
                         } else {
                             ?>
                             <div class="empty-div">
-                                <img src="/bookrack/assets/icons/empty.svg" alt="">
+                                <img src="/bookrack/assets/icons/empty.svg" alt="" loading="lazy">
                                 <p class="empty-message"> Your wishlist is empty! </p>
                             </div>
                             <?php
@@ -1052,7 +1041,7 @@ $bookObj = new Book();
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/js-include.php'; ?>
+    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
 
     <!-- edit profile script -->
     <script>

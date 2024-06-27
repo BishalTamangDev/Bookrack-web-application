@@ -1,9 +1,6 @@
 <?php
-
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
@@ -13,14 +10,13 @@ else
 $url = "home";
 
 require_once __DIR__ . '/../bookrack/app/functions.php';
-
 require_once __DIR__ . '/../bookrack/app/user-class.php';
-$profileUser = new User();
 
 // get user details
-$userFound = $profileUser->fetch($userId);
+$profileUser = new User();
+$userExists = $profileUser->fetch($userId);
 
-if (!$userFound)
+if (!$userExists)
     header("Location: /bookrack/signout");
 
 // book obj 
@@ -34,9 +30,7 @@ $userBookIdList = $bookObj->fetchUserBookId($userId);
 // wishlist object
 require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
 $wishlist = new Wishlist();
-
 $wishlist->setUserId($userId);
-
 $userWishlist = $wishlist->fetchWishlist();
 ?>
 
@@ -160,9 +154,8 @@ $userWishlist = $wishlist->fetchWishlist();
 
                 <?php
                 $genreList = [];
-                foreach ($bookList as $key => $book) {
+                foreach ($bookList as $key => $book)
                     $genreList = $book->genre;
-                }
                 ?>
 
                 <!-- fetch all the genres -->

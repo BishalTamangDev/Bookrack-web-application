@@ -124,33 +124,34 @@ $userList = $userObj->fetchAllUsers();
                 <tbody>
                     <?php
                     $serial = 1;
-                    foreach ($userList as $key => $user) {
+                    foreach ($userList as $user) {
+                        $userId = $user->getUserId();
                         ?>
                         <tr
-                            class="user-tr <?= ($user['account_status'] == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+                            class="user-tr <?= ($user->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
                             <th scope="row"> <?= $serial++ ?> </th>
-                            <td> <?= $key ?> </td>
-                            <td> <?= ucfirst($user['name']['first']) . " " . ucfirst($user['name']['last']) ?>
+                            <td> <?= $userId ?> </td>
+                            <td> <?= $user->getFullName() ?>
                             </td>
-                            <td> <?= $user['dob'] ?> </td>
+                            <td> <?= $user->getDob() ?> </td>
                             <td>
                                 <?php
-                                if ($user['gender'] == 0)
+                                if ($user->gender == 0)
                                     echo "Male";
-                                elseif ($user['gender'] == 1)
+                                elseif ($user->gender == 1)
                                     echo "Female";
                                 else
                                     echo "Others";
                                 ?>
                             </td>
-                            <td> <?= $user['email'] ?> </td>
-                            <td> <?= $user['contact'] ?> </td>
-                            <td> <?= ucfirst($user['address']['location']) . ", " . $districtArray[$user['address']['district']] ?>
+                            <td> <?= $user->email ?> </td>
+                            <td> <?= $user->getContact() ?> </td>
+                            <td> <?= $user->getFullAddress() ?>
                             </td>
-                            <td> <?= ucfirst($user['account_status']) ?> </td>
+                            <td> <?= ucfirst($user->accountStatus) ?> </td>
                             <td>
                                 <abbr title="Show full details">
-                                    <a href="/bookrack/admin/admin-user-details/<?= $key ?>">
+                                    <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </abbr>

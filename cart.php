@@ -1,6 +1,4 @@
 <?php
-
-// starting the session
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
@@ -20,7 +18,7 @@ if (!$userExists)
 
 if (!isset($tab)) {
     $tab = "current";
-    header("Location: /bookrack/cart/current");
+    // header("Location: /bookrack/cart/current");
 }
 ?>
 
@@ -34,24 +32,9 @@ if (!isset($tab)) {
     <!-- title -->
     <title> Cart </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/navbar.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
     <link rel="stylesheet" href="/bookrack/assets/css/cart.css">
 </head>
 
@@ -88,7 +71,7 @@ if (!isset($tab)) {
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-received.png"
-                            alt="">
+                            alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Order Received </p>
                 </div>
@@ -96,7 +79,7 @@ if (!isset($tab)) {
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image"
-                            src="/bookrack/assets/icons/order-confirmed.png" alt="">
+                            src="/bookrack/assets/icons/order-confirmed.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Order Confirmed </p>
                 </div>
@@ -104,7 +87,7 @@ if (!isset($tab)) {
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-picked.png"
-                            alt="">
+                            alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Picked </p>
                 </div>
@@ -112,7 +95,7 @@ if (!isset($tab)) {
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-arrived.png"
-                            alt="">
+                            alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Arrived </p>
                 </div>
@@ -120,14 +103,14 @@ if (!isset($tab)) {
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-packed.png"
-                            alt="">
+                            alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Packed </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-shipped.png" alt="">
+                        <img class="status-image" src="/bookrack/assets/icons/order-shipped.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Shipped </p>
                 </div>
@@ -135,14 +118,14 @@ if (!isset($tab)) {
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt="">
+                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Delivered </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt="">
+                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Completed </p>
                 </div>
@@ -170,7 +153,7 @@ if (!isset($tab)) {
                                 <th scope="row">1</th>
                                 <td>
                                     <div class="book-image">
-                                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                                     </div>
                                 </td>
                                 <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
@@ -326,7 +309,7 @@ if (!isset($tab)) {
                 <div class="payment-partner-div">
                     <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
                         <p class="f-reset small"> Our payment partner </p>
-                        <img src="/bookrack/assets/icons/esewa-logo.webp" alt="">
+                        <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -356,7 +339,7 @@ if (!isset($tab)) {
                             <th scope="row">1</th>
                             <td>
                                 <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                                 </div>
                             </td>
                             <td class="title cursor" onclick="window.location.href='/bookrack/book-details'"> The Black
@@ -407,6 +390,9 @@ if (!isset($tab)) {
             </div>
         </section>
     </main>
+
+    <!-- footer -->
+    <?php include 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>

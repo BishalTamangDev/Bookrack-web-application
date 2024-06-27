@@ -5,13 +5,17 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
 
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+
 require_once __DIR__ . '/../../bookrack/app/functions.php';
 
-$asideAdmin = new Admin();
+if (!isset($adminId)) {
+    require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 
-$asideAdmin->setId($_SESSION['bookrack-admin-id']);
-$asideAdmin->fetch($_SESSION['bookrack-admin-id']);
+    $adminId = $_SESSION['bookrack-admin-id'];
+
+    $profileAdmin = new Admin();
+    $profileAdmin->fetch($adminId);
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +43,8 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
                 <div class="profile-photo rounded-circle">
-                    <img src="<?php if ($asideAdmin->getProfilePicture() != "") {
-                        echo $asideAdmin->getProfilePictureImageUrl();
+                    <img src="<?php if ($profileAdmin->profilePictureUrl != "") {
+                        echo $profileAdmin->profilePictureUrl;
                     } else {
                         echo '/bookrack/assets/images/blank-user.jpg';
                     } ?>" alt="" id="admin-profile-photo" loading="lazy">
@@ -50,11 +54,11 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
                 <div class="d-flex flex-column align-items-center profile-details">
                     <p class="f-reset" id="username">
                         <?php
-                        if ($asideAdmin->getFirstName() != "") 
-                            echo ucfirst($asideAdmin->getFirstName());
+                        if ($profileAdmin->name['first'] != "")
+                            echo ucfirst($profileAdmin->name['first']);
                         ?>
                     </p>
-                    <p class="f-reset" id="email-address"> admin@gmail.com </p>
+                    <p class="f-reset" id="email-address"> <?= $profileAdmin->email ?> </p>
                 </div>
             </div>
 
@@ -94,13 +98,6 @@ $asideAdmin->fetch($_SESSION['bookrack-admin-id']);
                         <i class="fa fa-book nav-icon"></i>
                         <span class="d-none d-lg-block"> Books </span>
 
-                    </li>
-
-
-                    <!-- offers -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-book-offers'">
-                        <i class="fa fa-hands nav-icon"></i>
-                        <span class="d-none d-lg-block"> Offers </span>
                     </li>
 
                     <!-- request -->
