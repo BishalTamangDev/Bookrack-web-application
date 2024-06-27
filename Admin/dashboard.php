@@ -103,103 +103,6 @@ $bookList = $bookObj->fetchAllBooks();
             </div>
         </section>
 
-        <!-- offer and request -->
-        <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
-            <!-- offer -->
-            <div class="w-100 w-md-50 offer-container">
-                <!-- heading -->
-                <p class="f-reset fs-5 fw-bold"> New Offers </p>
-
-                <div class="mt-3 offer-div">
-                    <!-- offer table -->
-                    <table class="table table-striped offer-table">
-                        <!-- table heading -->
-                        <thead>
-                            <tr>
-                                <th scope="col"> Book </th>
-                                <th scope="col"> Title </th>
-                                <th scope="col"> Provider </th>
-                                <th scope="col"> Price </th>
-                            </tr>
-                        </thead>
-
-                        <!-- table data -->
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="offer-book-image-container">
-                                        <div class="offer-book-div">
-                                            <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td> Intuition </td>
-                                <td> Rupak Dangi </td>
-                                <td> NRs. 140.00 </td>
-                            </tr>
-                        </tbody>
-
-                        <!-- table footer -->
-                        <tfoot id="table-foot">
-                            <tr class="empty-request-tr">
-                                <td colspan="4"> No new offers! </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="4">
-                                    <a href="/bookrack/admin/admin-book-offers"> Show all offers </a>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <!-- request -->
-            <div class="request-container w-100 w-md-50">
-                <!-- heading -->
-                <p class="f-reset fs-5 fw-bold"> New Requests </p>
-
-                <div class="mt-3 request-div">
-                    <!-- request table -->
-                    <table class="table table-striped request-table">
-                        <!-- table heading -->
-                        <thead>
-                            <tr>
-                                <th scope="col"> Title </th>
-                                <th scope="col"> Reader </th>
-                                <th scope="col"> Rent days </th>
-                                <th scope="col"> Price </th>
-                            </tr>
-                        </thead>
-
-                        <!-- table data -->
-                        <tbody>
-                            <!-- dummy data -->
-                            <tr>
-                                <td> Intuition </td>
-                                <td> Rupak Dangi </td>
-                                <td> 1 week </td>
-                                <td> NRs. 120.00 </td>
-                            </tr>
-                        </tbody>
-
-                        <!-- table footer -->
-                        <tfoot id="table-foot">
-                            <tr class="empty-request-tr">
-                                <td colspan="4"> No new request! </td>
-                            </tr>
-                            <tr>
-                                <td colspan="9">
-                                    <a href="/bookrack/admin/admin-book-requests"> Show all requests </a>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
-
         <!-- recently added books -->
         <section class="section d-flex flex-column gap-4 recently-arrived-books-container">
             <!-- heading -->
@@ -246,6 +149,53 @@ $bookList = $bookObj->fetchAllBooks();
 
             <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added">
                 Show all </a>
+        </section>
+
+        <!-- offer and request -->
+        <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
+            <!-- request -->
+            <div class="request-container w-50 w-md-50">
+                <!-- heading -->
+                <p class="f-reset fs-5 fw-bold"> New Requests </p>
+
+                <div class="mt-3 request-div">
+                    <!-- request table -->
+                    <table class="table table-striped request-table">
+                        <!-- table heading -->
+                        <thead>
+                            <tr>
+                                <th scope="col"> Title </th>
+                                <th scope="col"> Reader </th>
+                                <th scope="col"> Rent days </th>
+                                <th scope="col"> Price </th>
+                            </tr>
+                        </thead>
+
+                        <!-- table data -->
+                        <tbody>
+                            <!-- dummy data -->
+                            <tr>
+                                <td> Intuition </td>
+                                <td> Rupak Dangi </td>
+                                <td> 1 week </td>
+                                <td> NRs. 120.00 </td>
+                            </tr>
+                        </tbody>
+
+                        <!-- table footer -->
+                        <tfoot id="table-foot">
+                            <tr class="empty-request-tr">
+                                <td colspan="4"> No new request! </td>
+                            </tr>
+                            <tr>
+                                <td colspan="9">
+                                    <a href="/bookrack/admin/admin-book-requests"> Show all requests </a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <!-- rent ending -->
