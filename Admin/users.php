@@ -105,12 +105,12 @@ $userList = $userObj->fetchAllUsers();
             <thead>
                 <tr>
                     <th scope="col"> S.N. </th>
-                    <th scope="col"> User ID </th>
                     <th scope="col"> Name </th>
+                    <th scope="col"> User ID </th>
                     <th scope="col"> Date of Birth </th>
                     <th scope="col"> Gender </th>
                     <th scope="col"> Email Address </th>
-                    <th scope="col"> Contact </th>
+                    <th scope="col"> Phone Number </th>
                     <th scope="col"> Address </th>
                     <th scope="col"> Account State </th>
                     <th scope="col"> Action </th>
@@ -130,22 +130,37 @@ $userList = $userObj->fetchAllUsers();
                         <tr
                             class="user-tr <?= ($user->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
                             <th scope="row"> <?= $serial++ ?> </th>
-                            <td> <?= $userId ?> </td>
-                            <td> <?= $user->getFullName() ?>
+                            <td> 
+                                <?php 
+                                $fullName = $user->getFullName();
+                                echo $fullName != ' ' ? $fullName : "-";
+                                ?>
                             </td>
-                            <td> <?= $user->getDob() ?> </td>
+                            <td> <?= $userId ?> </td>
+                            <td> 
+                                <?php
+                                $dob = $user->getDob();
+                                echo $dob != '' ? $dob : "-";
+                                ?> </td>
                             <td>
                                 <?php
                                 if ($user->gender == 0)
                                     echo "Male";
                                 elseif ($user->gender == 1)
                                     echo "Female";
-                                else
+                                elseif ($user->gender == 2)
                                     echo "Others";
+                                else
+                                    echo "-";
                                 ?>
                             </td>
                             <td> <?= $user->email ?> </td>
-                            <td> <?= $user->getContact() ?> </td>
+                            <td> 
+                                <?php 
+                                $phoneNumber = $user->getPhoneNumber();
+                                echo $phoneNumber != "" ? $phoneNumber : "-";
+                                ?>
+                            </td>
                             <td> <?= $user->getFullAddress() ?>
                             </td>
                             <td> <?= ucfirst($user->accountStatus) ?> </td>

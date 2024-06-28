@@ -241,7 +241,7 @@ class Book
         $this->genre = $genre;
     }public function setLanguage($language)
     {
-        $this->genre = $language;
+        $this->language = $language;
     }
 
     public function setAuthor($author)
@@ -321,29 +321,29 @@ class Book
         global $database;
 
         $postData = [
-            'owner_id' => $this->getOwnerId(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
-            'language' => $this->getLanguage(),
-            'genre' => $this->getGenre(),
-            'author' => $this->getAuthor(),
-            'isbn' => $this->getIsbn(),
-            'purpose' => $this->getPurpose(),
-            'publisher' => $this->getPublisher(),
-            'publication' => $this->getPublication(),
-            'edition' => $this->getEdition(),
+            'owner_id' => $this->ownerId,
+            'title' => $this->title,
+            'description' => $this->description,
+            'language' => $this->language,
+            'genre' => $this->genre,
+            'author' => $this->author,
+            'isbn' => $this->isbn,
+            'purpose' => $this->purpose,
+            'publisher' => $this->publisher,
+            'publication' => $this->publication,
+            'edition' => $this->edition,
             'price' => [
-                'actual' => $this->getActualPrice(),
-                'offer' => $this->getOfferPrice()
+                'actual' => $this->price['actual'],
+                'offer' => $this->price['offer']
             ],
             'photo' => [
-                'cover' => $this->getCoverPhoto(),
-                'price' => $this->getPricePhoto(),
-                'isbn' => $this->getIsbnPhoto()
+                'cover' => $this->photo['cover'],
+                'price' => $this->photo['price'],
+                'isbn' => $this->photo['isbn']
             ],
             'date' => [
                 'offer' => date("Y:m:d H:i:s"),
-                'approval' => $this->getApprovalDate(),
+                'approval' => $this->date['approval'],
             ],
 
             'status' => "unverified"
@@ -423,10 +423,13 @@ class Book
         global $database;
         $list = array();
         $response = $database->getReference("books")->getSnapshot()->getValue();
-        foreach($response as $key =>$res){
-            $temp = new Book();
-            $temp->fetch($key);
-            $list [] = $temp;
+
+        if($response != null){
+            foreach($response as $key =>$res){
+                $temp = new Book();
+                $temp->fetch($key);
+                $list [] = $temp;
+            }
         }
         return $list;
     }
@@ -454,9 +457,9 @@ class Book
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();        
 
-        $temp = new Book();
         
         foreach($response as $key =>$res){
+            $temp = new Book();
             $temp->fetch($key);
             $list [] = $temp;
         }

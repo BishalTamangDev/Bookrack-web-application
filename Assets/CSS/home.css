@@ -1,7 +1,6 @@
 .aside {
   position: relative;
   display: none;
-  display: flex;
   flex-direction: column;
   position: fixed;
   top: 0;
@@ -23,6 +22,12 @@
   border: 1px solid rgb(226, 225, 225);
   padding: 1rem;
   background-color: white;
+}
+.aside .filter-section .row-heading .icon-container .filter-icon {
+  display: none;
+}
+.aside .filter-section .row-heading .icon-container #filter-hide-trigger {
+  display: block;
 }
 .aside .filter-section .filter-parameter-section .filter-parameter {
   display: flex;
@@ -78,7 +83,11 @@
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
-.article .pagination-container i, .article .pagination-container p {
+.article .all-books-section .heading #filter-show-trigger-2 {
+  display: block;
+}
+.article .pagination-container i,
+.article .pagination-container p {
   line-height: 30px;
 }
 .article .pagination-container .pagination-controller {
@@ -111,6 +120,7 @@
 }
 @media (min-width: 1188px) {
   .main .aside {
+    display: flex;
     position: initial;
     width: 20%;
     min-width: 240px;
@@ -123,7 +133,16 @@
     margin: initial;
     min-width: 240px;
   }
+  .main .aside .filter-section .row-heading .icon-container .filter-icon {
+    display: initial;
+  }
+  .main .aside .filter-section .row-heading .icon-container #filter-hide-trigger {
+    display: none;
+  }
   .main .aside .advertisement-section {
     display: block;
+  }
+  .main .article .all-books-section .heading #filter-show-trigger-2 {
+    display: none;
   }
 }/*# sourceMappingURL=home.css.map */

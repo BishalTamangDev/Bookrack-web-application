@@ -1,13 +1,10 @@
 <?php
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
 // if user is saved in the session, redirect to homepage
-if (isset($_SESSION['bookrack-user-id'])) {
+if (isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,15 +62,15 @@ if (isset($_SESSION['bookrack-user-id'])) {
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/signup/authentication" method="POST">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php" method="POST">
                         <!-- error message section -->
+                        <!-- status message section -->
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
-                            <p class="f-reset text-danger mb-3"> <?php echo $_SESSION['status-message']; ?> </p>
+                            <p class="f-reset <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>  mb-3">
+                                <?php echo $_SESSION['status-message'] ?> </p>
                             <?php
-                            unset($_SESSION['status']);
-                            unset($_SESSION['status-message']);
                         }
                         ?>
 
@@ -151,6 +148,11 @@ if (isset($_SESSION['bookrack-user-id'])) {
             </div>
         </div>
     </main>
+
+    <?php 
+    unset($_SESSION['status']);
+    unset($_SESSION['status-message']);
+    ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>

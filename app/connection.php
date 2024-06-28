@@ -14,6 +14,8 @@ $factory = (new Factory)->withServiceAccount('google-service-account.json')->wit
 
 // initializing the realtime database
 global $database;
+global $auth;
+
 $database = $factory->createDatabase();
 
 // cloud storage

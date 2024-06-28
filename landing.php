@@ -9,6 +9,7 @@ elseif (isset($_SESSION['bookrack-admin-id']))
 
 $url = "landing";
 
+require_once __DIR__ . '/../bookrack/app/functions.php';
 require_once __DIR__ . '/../bookrack/app/book-class.php';
 
 $bookObj = new Book();
@@ -101,7 +102,9 @@ $bookList = $bookObj->fetchAllBooks();
                                     </p>
                                 </div>
 
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'"> Show More </button>
+                                <button class="btn"
+                                    onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'"> Show More
+                                </button>
                             </div>
                         </div>
                         <?php
@@ -109,7 +112,9 @@ $bookList = $bookObj->fetchAllBooks();
                     ?>
                     <?php
                 } else {
-                    echo "Empty!";
+                    ?>
+                    <p class="m-0 text-danger"> Book hasn't been added yet! </p>
+                    <?php
                 }
                 ?>
             </div>

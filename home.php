@@ -68,8 +68,8 @@ $userWishlist = $wishlist->fetchWishlist();
                     <p class="m-0 fw-bold text-secondary"> Filters </p>
 
                     <div class="d-flex flex-row align-items-center gap-2 icon-container">
-                        <i class="fa fa-filter d-none d-lg-block text-secondary"></i>
-                        <i class="fa fa-multiply fs-3 d-lg-none text-secondary pointer" id="filter-hide-trigger"></i>
+                        <i class="fa fa-filter text-secondary filter-icon"></i>
+                        <i class="fa fa-multiply fs-3 text-secondary pointer" id="filter-hide-trigger"></i>
                     </div>
                 </section>
                 <hr>
@@ -161,11 +161,18 @@ $userWishlist = $wishlist->fetchWishlist();
                 <!-- fetch all the genres -->
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container">
                     <?php
-                    foreach ($genreList as $genre) {
+                    if (sizeof($genreList) > 0) {
+
+                        foreach ($genreList as $genre) {
+                            ?>
+                            <div class="genre">
+                                <p class="m-0 text-secondary"> <?= $genre ?> </p>
+                            </div>
+                            <?php
+                        }
+                    } else {
                         ?>
-                        <div class="genre">
-                            <p class="m-0 text-secondary"> <?= $genre ?> </p>
-                        </div>
+                        <p class="m-0 text-secondary"> No trending genre yet! </p>
                         <?php
                     }
                     ?>
@@ -182,71 +189,79 @@ $userWishlist = $wishlist->fetchWishlist();
                 <!-- all book container -->
                 <div class="d-flex flex-row flex-wrap gap-3 all-book-container">
                     <?php
-                    foreach ($bookList as $book) {
-                        $bookId = $book->getId();
-                        ?>
-                        <div class="book-container">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
-                            </div>
-
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title-wishlist">
-                                    <p class="book-title">
-                                        <?= ucwords($book->title) ?>
-                                    </p>
-
-                                    <?php
-                                    if (!in_array($bookId, $userBookIdList)) {
-                                        ?>
-                                        <div class="wishlist">
-                                            <a href="/bookrack/app/wishlist-code.php?book-id=<?= $book->getId() ?>&ref_url=<?= $url ?>">
-                                                <?php
-                                                if (in_array($bookId, $userWishlist)) {
-                                                    ?>
-                                                    <i class="fa-solid fa-bookmark"></i>
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <i class="fa-regular fa-bookmark"></i>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </a>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
+                    if (sizeof($bookList) > 0) {
+                        foreach ($bookList as $book) {
+                            $bookId = $book->getId();
+                            ?>
+                            <div class="book-container">
+                                <!-- book image -->
+                                <div class="book-image">
+                                    <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
                                 </div>
 
-                                <!-- book purpose -->
-                                <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
+                                <!-- book details -->
+                                <div class="book-details">
+                                    <!-- book title -->
+                                    <div class="book-title-wishlist">
+                                        <p class="book-title">
+                                            <?= ucwords($book->title) ?>
+                                        </p>
 
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> <?= ucfirst($book->description) ?> </p>
-                                </div>
-
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price">
                                         <?php
-                                        if ($book->purpose == "renting") {
-                                            $rent = $book->price['actual'] * 0.20;
-                                            echo "NPR." . number_format($rent, 2) . "/week";
-                                        } elseif ($book->purpose == "buy/sell") {
-                                            $price = $book->price['offer'];
-                                            echo "NPR." . number_format($price, 2);
+                                        if (!in_array($bookId, $userBookIdList)) {
+                                            ?>
+                                            <div class="wishlist">
+                                                <a
+                                                    href="/bookrack/app/wishlist-code.php?book-id=<?= $book->getId() ?>&ref_url=<?= $url ?>">
+                                                    <?php
+                                                    if (in_array($bookId, $userWishlist)) {
+                                                        ?>
+                                                        <i class="fa-solid fa-bookmark"></i>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <i class="fa-regular fa-bookmark"></i>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </a>
+                                            </div>
+                                            <?php
                                         }
                                         ?>
-                                </div>
+                                    </div>
 
-                                <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookId ?>'"> Show More </button>
+                                    <!-- book purpose -->
+                                    <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
+
+                                    <!-- book description -->
+                                    <div class="book-description-container">
+                                        <p class="book-description"> <?= ucfirst($book->description) ?> </p>
+                                    </div>
+
+                                    <!-- book price -->
+                                    <div class="book-price">
+                                        <p class="book-price">
+                                            <?php
+                                            if ($book->purpose == "renting") {
+                                                $rent = $book->price['actual'] * 0.20;
+                                                echo "NPR." . number_format($rent, 2) . "/week";
+                                            } elseif ($book->purpose == "buy/sell") {
+                                                $price = $book->price['offer'];
+                                                echo "NPR." . number_format($price, 2);
+                                            }
+                                            ?>
+                                    </div>
+
+                                    <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookId ?>'">
+                                        Show More </button>
+                                </div>
                             </div>
-                        </div>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <p class="m-0 text-danger"> No book has been added yet!</p>
                         <?php
                     }
                     ?>
@@ -301,38 +316,19 @@ $userWishlist = $wishlist->fetchWishlist();
 
         // filter
         showFilter.on('click', function () {
-            aside.style = "display:block";
+            console.log("Show filter");
+            aside.css({
+                'display': 'block'
+            });
             filterTriggerState = !filterTriggerState;
         });
 
         hideFilter.on('click', function () {
-            aside.style = "display:none";
+            aside.css({
+                'display': 'none'
+            });
             filterTriggerState = !filterTriggerState;
         });
-
-        // device width changing
-        homeWidthCheck = () => {
-            console.clear();
-            console.log(window.innerWidth);
-
-            if (window.innerWidth < 1188) {
-                // filter
-                if (!filterTriggerState) {
-                    aside.style.display = "none";
-                } else {
-                    aside.style.display = "flex";
-                }
-            }
-            if (window.innerWidth >= 1188) {
-                showFilter.style.display = "none";
-                aside.style.display = "flex";
-            } else {
-                showFilter.style.display = "block";
-            }
-        }
-
-        window.addEventListener('resize', homeWidthCheck);
-        homeWidthCheck();
     </script>
 </body>
 

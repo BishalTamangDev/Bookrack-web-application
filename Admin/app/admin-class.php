@@ -15,9 +15,9 @@ class Admin
     public $email;
     private $dob;
     private $password;
-    private $contact;
-    public $profilePicture;
-    public $profilePictureUrl;
+    private $phoneNumber;
+    public $photo;
+    public $photoUrl;
 
     private $kyc = [
         "docyment_type" => "",
@@ -45,9 +45,9 @@ class Admin
         $this->dob = "";
         $this->email = "";
         $this->password = "";
-        $this->contact = "";
-        $this->profilePicture = "";
-        $this->profilePictureUrl = "";
+        $this->phoneNumber = "";
+        $this->photo = "";
+        $this->photoUrl = "";
 
         $this->kyc = [
             "document_type" => "",
@@ -59,7 +59,7 @@ class Admin
     }
 
 
-    public function setAdmin($adminId, $name, $gender, $dob, $email, $password, $contact, $profilePicture, $kyc, $joinedDate, $accountStatus)
+    public function setAdmin($adminId, $name, $gender, $dob, $email, $password, $phoneNumber, $photo, $kyc, $joinedDate, $accountStatus)
     {
         $this->adminId = $adminId;
         $this->name = [
@@ -70,8 +70,8 @@ class Admin
         $this->dob = $dob;
         $this->email = $email;
         $this->password = $password;
-        $this->contact = $contact;
-        $this->profilePicture = $profilePicture;
+        $this->phoneNumber = $phoneNumber;
+        $this->photo = $photo;
         $this->kyc = [
             "document_type" => $kyc['document_type'],
             "front" => $kyc['front'],
@@ -123,19 +123,19 @@ class Admin
         return $this->password;
     }
 
-    public function getContact()
+    public function getPhoneNumber()
     {
-        return $this->contact;
+        return $this->phoneNumber;
     }
 
-    public function getProfilePicture()
+    public function getPhoto()
     {
-        return $this->profilePicture;
+        return $this->photo;
     }
 
-    public function getProfilePictureUrl()
+    public function getPhotoUrl()
     {
-        return $this->profilePictureUrl;
+        return $this->photoUrl;
     }
 
     public function getKycDocumentType(){
@@ -195,14 +195,14 @@ class Admin
         $this->password = $password;
     }
 
-    public function setContact($contact)
+    public function setPhoneNumber($phoneNumber)
     {
-        $this->contact = $contact;
+        $this->phoneNumber = $phoneNumber;
     }
 
-    public function setProfilePicture($profilePicture)
+    public function setPhoto($photo)
     {
-        $this->profilePicture = $profilePicture;
+        $this->photo = $photo;
     }
 
     public function setKycDocumentType($kycDocumentType)
@@ -236,19 +236,19 @@ class Admin
 
         $adminData = [
             'name' => [
-                'first' => $this->getFirstName(),
-                'last' => $this->getLastName(),
+                'first' => $this->name['first'],
+                'last' => $this->name['last'],
             ],
-            'gender' => $this->getGender(),
-            'dob' => $this->getDob(),
-            'email' => $this->getEmail(),
-            'password' => $this->getPassword(),
-            'contact' => $this->getContact(),
-            'profile_picture' => $this->getProfilePicture(),
+            'gender' => $this->gender,
+            'dob' => $this->dob,
+            'email' => $this->email,
+            'password' => $this->password,
+            'phoneNumber' => $this->phoneNumber,
+            'profile_picture' => $this->photo,
             'kyc' => [
-                'document_type' => $this->getKycDocumentType(),
-                'front' => $this->getKycFront(),
-                'back' => $this->getKycBack(),
+                'document_type' => $this->kyc['document_type'],
+                'front' => $this->kyc['first'],
+                'back' => $this->kyc['last'],
             ],
             'joined_date' => date("Y:m:d H:i:s"),
             'account_status' => 'pending',
@@ -267,9 +267,9 @@ class Admin
         $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
 
         if ($response) {
-            $this->setAdmin($adminId, $response['name'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['contact'], $response['profile_picture'], $response['kyc'], $response['joined_date'] , $response['account_status']);
+            $this->setAdmin($adminId, $response['name'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['phoneNumber'], $response['profile_picture'], $response['kyc'], $response['joined_date'] , $response['account_status']);
             // set profile picture url
-            $this->setProfilePictureUrl();
+            $this->setPhotoUrl();
             return true;
         } else {
             return false;
@@ -304,19 +304,19 @@ class Admin
         return password_verify($this->getPassword(), $response['password']) ? true : false;
     }
 
-    public function setProfilePictureUrl()
+    public function setPhotoUrl()
     {
         global $bucket;
 
         $prefix = 'admins/';
-        $objectName = $prefix . $this->profilePicture;
+        $objectName = $prefix . $this->photo;
 
         $object = $bucket->object($objectName);
 
         if($object->exists())
-            $this->profilePictureUrl = $object->signedUrl(new DateTime('tomorrow'));
+            $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
         else
-            $this->profilePictureUrl = null;
+            $this->photoUrl = null;
     }
 
     public function setKycUrl()

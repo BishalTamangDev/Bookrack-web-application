@@ -1,7 +1,6 @@
 .aside {
     position: relative;
     display: none;
-    display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
@@ -22,6 +21,18 @@
         border: 1px solid rgb(226, 225, 225);
         padding: 1rem;
         background-color: white;
+
+        .row-heading{
+            .icon-container{
+                .filter-icon{
+                    display: none;
+                }
+
+                #filter-hide-trigger{
+                    display: block;
+                }
+            }
+        }
 
         .filter-parameter-section {
             .filter-parameter {
@@ -59,7 +70,7 @@
         }
     }
 
-    .advertisement-section{
+    .advertisement-section {
         min-height: 100px;
         max-width: 240px;
         border-radius: 6px;
@@ -94,32 +105,45 @@
         column-gap: 1rem;
     }
 
-    .pagination-container{
-        i, p{
+    .all-books-section {
+        .heading {
+            #filter-show-trigger-2 {
+                display: block;
+            }
+        }
+    }
+
+    .pagination-container {
+
+        i,
+        p {
             line-height: 30px;
         }
-        .pagination-controller{
+
+        .pagination-controller {
             width: 30px;
             color: white;
-            cursor:pointer;
+            cursor: pointer;
             text-align: center;
             background-color: var(--brand-color);
         }
 
-        .pagination-stamp{
+        .pagination-stamp {
             width: 30px;
-            cursor:pointer;
+            cursor: pointer;
             text-align: center;
             border: 1px solid whitesmoke;
-            p{
+
+            p {
                 margin: 0;
             }
-            &:hover{
+
+            &:hover {
                 background-color: grey;
             }
         }
 
-        .active{
+        .active {
             background-color: rgb(163, 161, 161);
         }
     }
@@ -139,6 +163,7 @@
 @media (min-width: 1188px) {
     .main {
         .aside {
+            display: flex;
             position: initial;
             width: 20%;
             min-width: 240px;
@@ -150,10 +175,32 @@
             .filter-section {
                 margin: initial;
                 min-width: 240px;
+
+                .row-heading{
+                    .icon-container{
+                        .filter-icon{
+                            display: initial;
+                        }
+        
+                        #filter-hide-trigger{
+                            display: none;
+                        }
+                    }
+                }
             }
 
-            .advertisement-section{
+            .advertisement-section {
                 display: block;
+            }
+        }
+
+        .article {
+            .all-books-section {
+                .heading {
+                    #filter-show-trigger-2 {
+                        display: none;
+                    }
+                }
             }
         }
     }

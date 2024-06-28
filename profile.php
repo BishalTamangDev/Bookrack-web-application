@@ -80,9 +80,9 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
-                        if ($profileUser->profilePicture != "") {
+                        if ($profileUser->photo != "") {
                             ?>
-                            <img src="<?= $profileUser->profilePictureUrl ?>" alt="profile picture" loading="lazy">
+                            <img src="<?= $profileUser->photoUrl ?>" alt="profile picture" loading="lazy">
                             <?php
                         } else {
                             ?>
@@ -279,8 +279,15 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                             <p class="f-reset text-light"> Change Password </p>
                                         </div>
 
-                                        <p class="m-0 btn btn-outline-success p-2 px-3"
-                                            onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
+                                        <?php
+                                        if($profileUser->checkAccountVerificationEligibility()){
+                                            ?>
+                                            <p class="m-0 btn btn-outline-primary p-2 px-3" onclick="window.location.href=''"> Apply for Account Verification </p>
+                                            <?php
+                                        }
+                                        ?>
+                                        
+                                        <p class="m-0 btn btn-outline-success p-2 px-3" onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
                                     </div>
                                     <?php
                                 }
@@ -393,8 +400,8 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                 <!-- contact -->
                                 <div class="w-100 w-md-50 contact-div">
                                     <label for="edit-profile-contact" class="form-label"> Contact </label>
-                                    <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getContact() != "")
-                                        echo $profileUser->getContact(); ?>" name="edit-profile-contact"
+                                    <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getPhoneNumber() != "")
+                                        echo $profileUser->getPhoneNumber(); ?>" name="edit-profile-contact"
                                         aria-describedby="contact" <?php if ($tab == "view-profile")
                                             echo "disabled"; ?> required>
                                 </div>
@@ -493,16 +500,9 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
 
                         <?php
                         if (isset($_SESSION['status'])) {
-                            if ($_SESSION['status'] == true) {
-                                ?>
-                                <p class="m-0 text-success"> <?= $_SESSION['status-message'] ?> </p>
-                                <?php
-                            } else {
-                                ?>
-                                <p class="m-0 text-danger"> <?= $_SESSION['status-message'] ?> </p>
-                                <?php
-                            }
                             ?>
+                            <p class="m-0 <?= $_SESSION['status'] ? 'text-success' : 'text-danger' ?>">
+                                <?= $_SESSION['status-message'] ?> </p>
                             <?php
                         }
                         ?>
@@ -510,6 +510,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                         <!-- existing kyc documents -->
                         <?php
                         if ($profileUser->accountStatus == "verified" || $profileUser->getDocumentType() != "") {
+                            $profileUser->setKycFrontUrl();
                             ?>
                             <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
                                 <p class="m-0 fs-5"> Document type : <?= ucfirst($profileUser->getDocumentType()) ?>
@@ -520,13 +521,14 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                     <div class="w-25 d-flex flex-column gap-1 document">
                                         <?php
                                         if ($profileUser->getDocumentType() == "citizenship") {
+                                            $profileUser->setKycBackUrl();
                                             ?>
                                             <p class="m-0"> Front side </p>
                                             <?php
                                         }
                                         ?>
                                         <?php
-                                        if ($profileUser->getKycFrontUrl() != "blank") {
+                                        if ($profileUser->getKycFrontUrl() != "") {
                                             ?>
                                             <img src="<?= $profileUser->getKycFrontUrl() ?>" alt="kyc front picture">
                                             <?php
@@ -548,7 +550,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                         <div class="w-25 d-flex flex-column gap-1 document">
                                             <p class="m-0"> Back side </p>
                                             <?php
-                                            if ($profileUser->getKycBackUrl() != "blank") {
+                                            if ($profileUser->getKycBackUrl() != "") {
                                                 ?>
                                                 <img src="<?= $profileUser->getKycBackUrl() ?>" alt="kyc front picture">
                                                 <?php
@@ -586,8 +588,8 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                 <!-- kyc file inputs -->
                                 <div class="d-flex flex-column w-100 gap-3">
                                     <!-- document type -->
-                                    <div class="document-type w-25">
-                                        <select class="form-select form-select" name="document-type"
+                                    <div class="document-type w-100">
+                                        <select class="form-select form-select w-100 w-lg-50" name="document-type" id="document-type-select"
                                             aria-label="document type select" required>
                                             <option value="" selected hidden> Select the document type </option>
                                             <option value="1"> Birth Certificate </option>
@@ -596,13 +598,13 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                     </div>
 
                                     <!-- front side -->
-                                    <div class="front-side w-100">
+                                    <div class="front-side w-100" id="kyc-front-field">
                                         <label for="" class="form-label text-secondary"> Front Side </label>
                                         <input type="file" name="kyc-front" class="border rounded form-control" id="kyc-front"
                                             accept="image/*" required>
                                     </div>
 
-                                    <div class="back-side w-100">
+                                    <div class="back-side w-100" id="kyc-back-field">
                                         <!-- backside -->
                                         <label for="" class="form-label text-secondary"> Back Side </label>
                                         <input type="file" name="kyc-back" class="border rounded form-control" id="kyc-back"
@@ -658,7 +660,6 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                 if (isset($_SESSION['temp-old-password'])) {
                                     echo $_SESSION['temp-old-password'];
                                 }
-                                unset($_SESSION['temp-old-password']);
                                 ?>" placeholder="" minlength="8" required>
                                 <label for="old-password"> Old password </label>
                             </div>
@@ -669,7 +670,6 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                 if (isset($_SESSION['temp-new-password'])) {
                                     echo $_SESSION['temp-new-password'];
                                 }
-                                unset($_SESSION['temp-new-password']);
                                 ?>" placeholder="" minlength="8" required>
                                 <label for="new-password"> New password </label>
                             </div>
@@ -680,7 +680,6 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                 if (isset($_SESSION['temp-new-password-confirmation'])) {
                                     echo $_SESSION['temp-new-password-confirmation'];
                                 }
-                                unset($_SESSION['temp-new-password-confirmation']);
                                 ?>" name="new-password-confirmation" placeholder="" minlength="8" required>
                                 <label for="new-password-confirmation"> New password confirmation </label>
                             </div>
@@ -1038,6 +1037,10 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
     // unset session status & status
     unset($_SESSION['status']);
     unset($_SESSION['status-message']);
+
+    unset($_SESSION['temp-old-password']);
+    unset($_SESSION['temp-new-password']);
+    unset($_SESSION['temp-new-password-confirmation']);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
@@ -1068,6 +1071,19 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                 event.preventDefault();
             }
         });
+    </script>
+
+    <!-- kyc script -->
+    <script>
+        const kycTypeSelect = $('#document-type-select');
+        const kycBackField = $('#kyc-back-field');
+
+        kycTypeSelect.on('change', function () {
+            if (kycTypeSelect.val() == 1)
+                kycBackField.hide();
+            else
+                kycBackField.show();
+        })
     </script>
 
     <!-- my books script -->

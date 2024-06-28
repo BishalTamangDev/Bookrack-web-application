@@ -240,14 +240,14 @@ if (!$userExists)
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-actual-price" class="m-0 form-label"> Actual price </label>
                             <input type="number" class="form-control" id="book-actual-price" name="book-actual-price"
-                                aria-describedby="actual price" placeholder="" min="1" required>
+                                aria-describedby="actual price" placeholder="" min="0" required>
                         </div>
 
                         <!-- offer price -->
                         <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price"
-                                aria-describedby="offer price" placeholder="" min="1" value="0" required>
+                                aria-describedby="offer price" placeholder="" min="0" value="0" required>
                         </div>
                     </div>
                 </div>

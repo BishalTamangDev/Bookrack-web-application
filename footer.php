@@ -86,16 +86,28 @@ if (!isset($bookObj))
                         <ul>
                             <?php
                             if (!isset($genreList)) {
+                                $genreList = array();
                                 $bookList = $bookObj->fetchAllBooks();
-                                foreach ($bookList as $key => $book)
-                                    $genreList = $book->genre;
+
+                                if (sizeof($bookList) > 0) {
+
+                                    foreach ($bookList as $key => $book)
+                                        $genreList = $book->genre;
+                                }
                             }
                             ?>
 
                             <?php
-                            foreach ($genreList as $genre) {
+                            if (sizeof($genreList) != 0) {
+
+                                foreach ($genreList as $genre) {
+                                    ?>
+                                    <li> <?= $genre ?> </a></li>
+                                    <?php
+                                }
+                            } else {
                                 ?>
-                                <li> <?= $genre ?> </a></li>
+                                <li> No trending genre yet! </li>
                                 <?php
                             }
                             ?>

@@ -4,35 +4,40 @@ require_once __DIR__ . '/../../bookrack/app/connection.php';
 
 class User
 {
+    // auth
     private $password;
     private $userId;
-    private $contact;
+    public $name = [
+        'first' => '',
+        'last' => '',
+    ];
+    public $displayName;
+    private $phoneNumber;
+    public $photoUrl;
+    public $email;
+    public $disabled;
+    public $emailVerified;
 
+
+    // realtime database
+    public $photo;
     private $dob;
     private $address = [
-        "district" => "",
-        "location" => ""
+        'district' => '',
+        'location' => ''
     ];
     private $kyc = [
-        "document_type" => "",
-        "front" => "",
-        "back" => ""
+        'document_type' => '',
+        'front' => '',
+        'back' => ''
     ];
 
     private $kycUrl = [
-        "document_type" => "",
-        "front" => "",
-        "back" => ""
+        'front' => '',
+        'back' => ''
     ];
-    public $name = [
-        "first" => "",
-        "last" => "",
-    ];
-    public $email;
-    public $gender;
 
-    public $profilePicture;
-    public $profilePictureUrl;
+    public $gender;
 
     public $joinedDate;
     public $accountStatus;
@@ -40,22 +45,22 @@ class User
     // Constructor
     public function __construct()
     {
-
         $this->userId = "";
         $this->name = [
             "first" => "",
             "last" => ""
         ];
         $this->email = "";
+        $this->emailVerified = false;
         $this->password = "";
-        $this->contact = "";
+        $this->phoneNumber = "";
         $this->dob = "";
         $this->gender = "";
         $this->address = [
             "district" => "",
             "location" => "",
         ];
-        $this->profilePicture = "";
+        $this->photo = "";
         $this->kyc = [
             "document_type" => "",
             "front" => "",
@@ -65,23 +70,20 @@ class User
         $this->accountStatus = "";
     }
 
-    public function setUser($userId, $name, $email, $password, $contact, $dob, $gender, $address, $profilePicture, $kyc, $joinedDate, $accountStatus)
+    public function setUser($userId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
     {
         $this->userId = $userId;
+        $this->dob = $dob;
+        $this->gender = $gender;
         $this->name = [
             "first" => $name['first'],
             "last" => $name['last'],
         ];
-        $this->email = $email;
-        $this->password = $password;
-        $this->contact = $contact;
-        $this->dob = $dob;
-        $this->gender = $gender;
         $this->address = [
             "district" => $address['district'],
             "location" => $address['location'],
         ];
-        $this->profilePicture = $profilePicture;
+        $this->photo = $photo;
         $this->kyc = [
             "document_type" => $kyc['document_type'],
             "front" => $kyc['front'],
@@ -91,6 +93,16 @@ class User
         $this->accountStatus = $accountStatus;
     }
 
+    public function setUserAuth($userId, $email, $emailVerified, $phoneNumber, $displayName, $photoUrl, $disabled)
+    {
+        $this->userId = $userId;
+        $this->email = $email;
+        $this->emailVerified = $emailVerified;
+        $this->phoneNumber = $phoneNumber;
+        $this->displayName = $displayName;
+        $this->photoUrl = $photoUrl;
+        $this->disabled = $disabled;
+    }
 
     // Getters
     public function getUserId()
@@ -108,8 +120,9 @@ class User
         return $this->name["last"];
     }
 
-    public function getFullName(){
-        return  ucWords($this->name['first'].' '.$this->name['last']);
+    public function getFullName()
+    {
+        return ucWords($this->name['first'] . ' ' . $this->name['last']);
     }
 
     public function getEmail()
@@ -122,9 +135,9 @@ class User
         return $this->password;
     }
 
-    public function getContact()
+    public function getPhoneNumber()
     {
-        return $this->contact;
+        return $this->phoneNumber;
     }
 
     public function getDob()
@@ -137,9 +150,9 @@ class User
         return $this->gender;
     }
 
-    public function getProfilePicture()
+    public function getPhoto()
     {
-        return $this->profilePicture;
+        return $this->photo;
     }
 
     public function getAddressDistrict()
@@ -152,9 +165,13 @@ class User
         return $this->address["location"];
     }
 
-    public function getFullAddress(){
+    public function getFullAddress()
+    {
         global $districtArray;
-        return ucWords($this->address['location'].', '.$districtArray[$this->address['district']]);
+        if ($this->address['district'] != '')
+            return ucWords($this->address['location'] . ', ' . $districtArray[$this->address['district']]);
+        else
+            return '-';
     }
 
     public function getAccountStatus()
@@ -183,7 +200,6 @@ class User
     }
 
 
-
     // Setters
     public function setUserId($userId)
     {
@@ -210,9 +226,9 @@ class User
         $this->password = $password;
     }
 
-    public function setContact($contact)
+    public function setPhoneNumber($phoneNumber)
     {
-        $this->contact = $contact;
+        $this->phoneNumber = $phoneNumber;
     }
 
     public function setDob($dob)
@@ -225,9 +241,9 @@ class User
         $this->gender = $gender;
     }
 
-    public function setProfilePicture($profilePicture)
+    public function setPhoto($photo)
     {
-        $this->profilePicture = $profilePicture;
+        $this->photo = $photo;
     }
 
     public function setAddressDistrict($addressDistrict)
@@ -245,7 +261,7 @@ class User
         $this->accountStatus = $accountStatus;
     }
 
-    public function setgetJoinedDate($joinedDate)
+    public function setGetJoinedDate($joinedDate)
     {
         $this->joinedDate = $joinedDate;
     }
@@ -279,13 +295,14 @@ class User
             'dob' => $this->dob,
             'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerified' => $this->emailVerified,
             'password' => $this->password,
-            'contact' => $this->contact,
+            'phoneNumber' => $this->phoneNumber,
             'address' => [
                 'district' => $this->address['district'],
                 'location' => $this->address['location']
             ],
-            'profile_picture' => $this->profilePicture,
+            'photo' => $this->photo,
             'kyc' => [
                 'document_type' => $this->kyc['document_type'],
                 'front' => $this->kyc['front'],
@@ -300,68 +317,54 @@ class User
         return $postRef ? true : false;
     }
 
-
     // fetch user details from the database
     public function fetch($userId)
     {
+        $status = false;
+        global $auth;
         global $database;
 
-        $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
+        try {
+            // auth
+            $authResponse = $auth->getUser($userId);
+            $this->setUserAuth($userId, $authResponse->email, $authResponse->emailVerified, $authResponse->phoneNumber, $authResponse->displayName, $authResponse->photoUrl, $authResponse->disabled);
 
-        if ($response) {
-            $this->setUser($userId, $response['name'], $response['email'], $response['password'], $response['contact'], $response['dob'], $response['gender'], $response['address'], $response['profile_picture'], $response['kyc'], $response['joined_date'], $response['account_status']);
+            // realtime db
+            $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
+            $this->setUser($userId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
+
             // set profile picture
-            $this->setProfilePictureUrl();
-            return true;
-        } else{
-            return false;
+            $this->setPhotoUrl();
+            $status = true;
+        } catch (Exception $e) {
+
         }
+        return $status;
     }
-    
-    public function setProfilePictureUrl(){
+
+    public function fetchPassword()
+    {
+
+    }
+
+    public function setPhotoUrl()
+    {
         global $bucket;
-                
+
         $prefix = 'users/';
-        $objectName = $prefix . $this->profilePicture;
-        
+        $objectName = $prefix . $this->photo;
+
         $object = $bucket->object($objectName);
-        
-        if($object->exists())
-            $this->profilePictureUrl = $object->signedUrl(new DateTime('tomorrow'));
+
+        if ($object->exists())
+            $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
         else
-            $this->profilePictureUrl = null;
+            $this->photoUrl = null;
     }
 
-    public function getProfilePictureUrl(){
-        return $this->profilePictureUrl;
-    }
-
-    // authentication
-    public function checkEmailExistence()
+    public function getPhotoUrl()
     {
-        global $database;
-
-        // fetching all users
-        $response = $database->getReference("users")->getSnapshot()->getValue();
-
-        // checking for the existence of email address
-        $emailExists = false;
-        foreach ($response as $key => $row) {
-            if ($row['email'] == $this->email) {
-                $this->setUserId($key);
-                $emailExists = true;
-            }
-        }
-
-        return $emailExists;
-    }
-
-    // verify password
-    public function verifyPassword()
-    {
-        global $database;
-        $response = $database->getReference("users")->getChild($this->getUserId())->getSnapshot()->getValue();
-        return password_verify($this->getPassword(), $response['password']) ? true : false;
+        return $this->photoUrl;
     }
 
     public function setKycUrl()
@@ -402,36 +405,35 @@ class User
             $objectName = $prefix . $this->kyc['front'];
             $object = $bucket->object($objectName);
 
-            if($object->exists())
+            if ($object->exists())
                 $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
             else
                 $this->kycUrl['front'] = null;
-
         }
     }
 
     public function setKycBackUrl()
     {
-        
         if ($this->getKycBack() != "") {
             global $bucket;
             $prefix = 'kyc/';
             $objectName = $prefix . $this->kyc['back'];
             $object = $bucket->object($objectName);
 
-            if($object->exists())
+            if ($object->exists())
                 $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
             else
                 $this->kycUrl['back'] = null;
-
         }
     }
 
-    public function getKycFrontUrl(){
+    public function getKycFrontUrl()
+    {
         return $this->kycUrl['front'];
     }
 
-    public function getKycBackUrl(){
+    public function getKycBackUrl()
+    {
         return $this->kycUrl['back'];
     }
 
@@ -445,12 +447,17 @@ class User
         // fetching all users
         $response = $database->getReference("users")->getSnapshot()->getValue();
 
-        foreach($response as $key => $res){
+        foreach ($response as $key => $res) {
             $temp = new User();
-            $temp->fetch($key);    
-            $list [] = $temp;
+            $temp->fetch($key);
+            $list[] = $temp;
         }
-
         return $list;
+    }
+
+    // check if the account is eligible to be verified
+    public function checkAccountVerificationEligibility()
+    {
+        return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
     }
 }

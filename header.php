@@ -86,9 +86,9 @@ if (!isset($profileUser)) {
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
                         <?php
-                        if ($profileUser->profilePictureUrl != "") {
+                        if ($profileUser->photoUrl != "") {
                             ?>
-                            <img src="<?= $profileUser->profilePictureUrl ?>" alt="" class="pointer" loading="lazy">
+                            <img src="<?= $profileUser->photoUrl ?>" alt="" class="pointer" loading="lazy">
                             <?php
                         } else {
                             ?>
