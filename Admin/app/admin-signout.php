@@ -6,4 +6,4 @@ unset($_SESSION['bookrack-admin-id']);
 unset($_SESSION['admin-status']);
 unset($_SESSION['admin-status-message']);
 
-header("Location: /bookrack/admin/signin");
+header("Location: /bookrack/admin/admin-signin");

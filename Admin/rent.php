@@ -9,8 +9,8 @@ $url = "rent";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/../admin/app/admin-class.php';
+require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->fetch($adminId);
@@ -32,7 +32,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
     <!-- title -->
     <title> Rent </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -220,7 +220,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

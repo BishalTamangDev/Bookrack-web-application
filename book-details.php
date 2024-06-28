@@ -11,8 +11,8 @@ if (!isset($bookId) || $bookId == "")
 $url = "book-details";
 $userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/../bookrack/app/functions.php';
-require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/app/functions.php';
+require_once __DIR__ . '/app/user-class.php';
 
 $profileUser = new User();
 $userExists = $profileUser->fetch($userId);
@@ -20,11 +20,11 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signin");
 
-require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/app/book-class.php';
 $selectedBook = new Book();
 $bookExists = $selectedBook->fetch($bookId);
 
-require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
+require_once __DIR__ . '/app/wishlist-class.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
 $userWishlist = $wishlist->fetchWishlist();
@@ -40,7 +40,7 @@ $userWishlist = $wishlist->fetchWishlist();
     <!-- title -->
     <title> <?= $bookExists ? ucWords($selectedBook->title) : "Book details" ?> </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/book-details.css">
@@ -321,7 +321,7 @@ $userWishlist = $wishlist->fetchWishlist();
     <?php include 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 </body>
 
 </html>

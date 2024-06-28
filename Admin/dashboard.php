@@ -9,7 +9,7 @@ $url = "dashboard";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/app/admin-class.php';
 
 $profileAdmin = new Admin();
 $profileAdmin->fetch($adminId);
@@ -17,9 +17,9 @@ $profileAdmin->fetch($adminId);
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../../bookrack/app/functions.php';
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
-require_once __DIR__ . '/../../bookrack/app/book-class.php';
+require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../app/user-class.php';
+require_once __DIR__ . '/../app/book-class.php';
 
 $userObj = new User();
 $bookObj = new Book();
@@ -38,7 +38,7 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- title -->
     <title> Dashboard </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -341,7 +341,7 @@ $bookList = $bookObj->fetchAllBooks();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

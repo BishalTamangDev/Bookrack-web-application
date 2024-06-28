@@ -5,9 +5,8 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-require_once __DIR__ . '/../../bookrack/app/functions.php';
-
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/user-class.php';
 
 if (isset($_POST['upload-kyc-btn'])) {
     $status = 0;

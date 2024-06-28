@@ -25,7 +25,7 @@ if (isset($_POST['update-password-btn'])) {
             $_SESSION['status-message'] = "New password and password for confirmation didn't match.";
         } else {
             // check if the old password is verified
-            require_once __DIR__ . '/../../bookrack/app/user-class.php';
+            require_once __DIR__ . '/user-class.php';
 
             $tempUser = new User();
 

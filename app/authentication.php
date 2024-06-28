@@ -2,8 +2,7 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-// require_once __DIR__ . '/../../bookrack/app/connection.php';
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/user-class.php';
 
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
@@ -16,7 +15,7 @@ if (isset($_POST['signup-btn'])) {
     global $auth;
     global $database;
 
-    $status = false;
+    $status = 0;
 
     // getting email && password
     $email = $_POST['email'];
@@ -35,10 +34,9 @@ if (isset($_POST['signup-btn'])) {
     // create user
     try {
         $createdUser = $auth->createUser($userProperties);
-
         $uid = $createdUser->uid;
-        // create space in the realtime database
 
+        // create space in the realtime database
         $extraUserProperties = [
             'name' => [
                 'first' => '',
@@ -62,7 +60,7 @@ if (isset($_POST['signup-btn'])) {
 
         $database->getReference('users/' . $uid)->set($extraUserProperties);
 
-        $status = true;
+        $status = 1;
         $_SESSION['status-message'] = "Signed up successfully.";
     } catch (EmailExists $e) {
         $_SESSION['status-message'] = "This email address is already in use.";
@@ -74,7 +72,7 @@ if (isset($_POST['signup-btn'])) {
         $_SESSION['status-message'] = "An unexpected error occurred.";
     }
 
-    $_SESSION['status'] = $status;
+    $_SESSION['status'] = $status ? true : false;
 
     if ($status)
         header("Location: /bookrack/signin");
@@ -110,7 +108,8 @@ if (isset($_POST['signin-btn'])) {
             $status = 1;
             $_SESSION['bookrack-user-id'] = $uid;
             $_SESSION['idTokenString'] = $idTokenString;
-            $_SESSION['status-message'] = "Signin successful";
+            
+            unset($_SESSION['temp-email']);
         } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
             $_SESSION['status'] = 'Unexpected error occured.';
         } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
@@ -120,9 +119,14 @@ if (isset($_POST['signin-btn'])) {
         $_SESSION['status-message'] = 'This email address has not been registered yet!';
     } catch (\Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
         $_SESSION['status-message'] = "Invalid password.";
-    } 
-    
+    }
+
     $_SESSION['status'] = $status ? true : false;
-    header("Location: /bookrack/signin");
+
+    if ($status)
+        header("Location: /bookrack/home");
+    else
+        header("Location: /bookrack/signin");
+
     exit();
 }

@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-if(!isset($url))
+if (!isset($url))
     $url = "landing";
 
 if (isset($_SESSION['bookrack-user-id']))
@@ -10,8 +10,8 @@ if (isset($_SESSION['bookrack-user-id']))
 elseif (isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
 
-require_once __DIR__ . '/../bookrack/app/functions.php';
-require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/app/functions.php';
+require_once __DIR__ . '/app/book-class.php';
 
 $bookObj = new Book();
 
@@ -28,7 +28,7 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- title -->
     <title> Bookrack </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/header-unsigned.css">
@@ -53,9 +53,14 @@ $bookList = $bookObj->fetchAllBooks();
                     </div>
 
                     <ul class="d-flex">
-                            <li> <a href="<?=$url == 'landing' ? '#trending-book-section' : '/bookrack/landing/#trending-book-section'?>"> Trending Books </a> </li>
-                            <li> <a href="<?=$url == 'landing' ? '#service-section' : '/bookrack/landing/#service-section'?>"> Services </a> </li>
-                            <li> <a href="<?=$url == 'landing' ? '#genre-section' : '/bookrack/landing/#genre-section'?>"> Genres </a>
+                        <li> <a
+                                href="<?= $url == 'landing' ? '#trending-book-section' : '/bookrack/landing/#trending-book-section' ?>">
+                                Trending Books </a> </li>
+                        <li> <a
+                                href="<?= $url == 'landing' ? '#service-section' : '/bookrack/landing/#service-section' ?>">
+                                Services </a> </li>
+                        <li> <a href="<?= $url == 'landing' ? '#genre-section' : '/bookrack/landing/#genre-section' ?>">
+                                Genres </a>
                     </ul>
 
                     <div class="signin-div">
@@ -73,7 +78,7 @@ $bookList = $bookObj->fetchAllBooks();
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 
     <!-- js :: current file -->
     <script>

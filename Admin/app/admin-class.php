@@ -1,54 +1,65 @@
 <?php
 
-require_once __DIR__ . '/../../../bookrack/app/connection.php';
+require_once __DIR__ . '/../../app/connection.php';
 
 class Admin
 {
+    // auth
     private $adminId;
-
-    public $name = [
-        "first" => "",
-        "last" => ""
-    ];
-
-    public $gender;
+    private $displayName;
     public $email;
-    private $dob;
+    public $emailVerified;
     private $password;
     private $phoneNumber;
-    public $photo;
     public $photoUrl;
+    public $disabled;
 
+
+    // realtime db
+    public $name = [
+        'first' => '',
+        'last' => '',
+    ];
+    public $photo;
+    private $dob;
+    private $address = [
+        'district' => '',
+        'location' => ''
+    ];
     private $kyc = [
-        "docyment_type" => "",
-        "front" => "",
-        "back" => "",
+        'document_type' => '',
+        'front' => '',
+        'back' => ''
     ];
 
     public $kycUrl = [
-        "front" => "",
-        "back" => "",
+        'front' => '',
+        'back' => ''
     ];
 
-    private $joinedDate;
-    private $accountStatus;
+    public $gender;
+    public $joinedDate;
+    public $accountStatus;
 
     // Constructor
     public function __construct()
     {
-        $this->adminId = 0;
+        $this->adminId = "";
         $this->name = [
             "first" => "",
             "last" => ""
         ];
-        $this->gender = "";
-        $this->dob = "";
         $this->email = "";
+        $this->emailVerified = false;
         $this->password = "";
         $this->phoneNumber = "";
+        $this->dob = "";
+        $this->gender = "";
+        $this->address = [
+            "district" => "",
+            "location" => "",
+        ];
         $this->photo = "";
-        $this->photoUrl = "";
-
         $this->kyc = [
             "document_type" => "",
             "front" => "",
@@ -58,19 +69,19 @@ class Admin
         $this->accountStatus = "";
     }
 
-
-    public function setAdmin($adminId, $name, $gender, $dob, $email, $password, $phoneNumber, $photo, $kyc, $joinedDate, $accountStatus)
+    public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
     {
         $this->adminId = $adminId;
+        $this->dob = $dob;
+        $this->gender = $gender;
         $this->name = [
             "first" => $name['first'],
             "last" => $name['last'],
         ];
-        $this->gender = $gender;
-        $this->dob = $dob;
-        $this->email = $email;
-        $this->password = $password;
-        $this->phoneNumber = $phoneNumber;
+        $this->address = [
+            "district" => $address['district'],
+            "location" => $address['location'],
+        ];
         $this->photo = $photo;
         $this->kyc = [
             "document_type" => $kyc['document_type'],
@@ -81,6 +92,16 @@ class Admin
         $this->accountStatus = $accountStatus;
     }
 
+    public function setAdminAuth($adminId, $email, $emailVerified, $phoneNumber, $displayName, $photoUrl, $disabled)
+    {
+        $this->adminId = $adminId;
+        $this->email = $email;
+        $this->emailVerified = $emailVerified;
+        $this->phoneNumber = $phoneNumber;
+        $this->displayName = $displayName;
+        $this->photoUrl = $photoUrl;
+        $this->disabled = $disabled;
+    }
 
     // Getters
     public function getId()
@@ -100,7 +121,7 @@ class Admin
 
     public function getFullName()
     {
-        return ucWords($this->name['first'].' '.$this->name["last"]);
+        return ucWords($this->name['first'] . ' ' . $this->name["last"]);
     }
 
     public function getGender()
@@ -128,6 +149,15 @@ class Admin
         return $this->phoneNumber;
     }
 
+    public function getFullAddress()
+    {
+        global $districtArray;
+        if ($this->address['district'] != '')
+            return ucWords($this->address['location'] . ', ' . $districtArray[$this->address['district']]);
+        else
+            return '-';
+    }
+
     public function getPhoto()
     {
         return $this->photo;
@@ -138,15 +168,18 @@ class Admin
         return $this->photoUrl;
     }
 
-    public function getKycDocumentType(){
+    public function getKycDocumentType()
+    {
         return $this->kyc['document_type'];
     }
 
-    public function getKycFront(){
+    public function getKycFront()
+    {
         return $this->kyc['front'];
     }
 
-    public function getKycBack(){
+    public function getKycBack()
+    {
         return $this->kyc['back'];
     }
 
@@ -177,11 +210,13 @@ class Admin
         $this->name["last"] = $lastName;
     }
 
-    public function setGender($gender){
+    public function setGender($gender)
+    {
         $this->gender = $gender;
     }
-    
-    public function setDob($dob){
+
+    public function setDob($dob)
+    {
         $this->dob = $dob;
     }
 
@@ -234,109 +269,163 @@ class Admin
     {
         global $database;
 
-        $adminData = [
+        $postData = [
             'name' => [
                 'first' => $this->name['first'],
                 'last' => $this->name['last'],
             ],
-            'gender' => $this->gender,
             'dob' => $this->dob,
+            'gender' => $this->gender,
             'email' => $this->email,
+            'emailVerified' => $this->emailVerified,
             'password' => $this->password,
             'phoneNumber' => $this->phoneNumber,
-            'profile_picture' => $this->photo,
+            'address' => [
+                'district' => $this->address['district'],
+                'location' => $this->address['location']
+            ],
+            'photo' => $this->photo,
             'kyc' => [
                 'document_type' => $this->kyc['document_type'],
-                'front' => $this->kyc['first'],
-                'back' => $this->kyc['last'],
+                'front' => $this->kyc['front'],
+                'back' => $this->kyc['back'],
             ],
             'joined_date' => date("Y:m:d H:i:s"),
-            'account_status' => 'pending',
+            'account_status' => 'pending'
         ];
 
-        $status = $database->getReference("admins")->push($adminData);
+        $postRef = $database->getReference("admins")->push($postData);
 
-        return $status ? true : false;
+        return $postRef ? true : false;
     }
 
 
     // fetch admin details from the database
     public function fetch($adminId)
     {
+        $status = false;
+        global $auth;
         global $database;
-        $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
 
-        if ($response) {
-            $this->setAdmin($adminId, $response['name'], $response['gender'], $response['dob'], $response['email'], $response['password'], $response['phoneNumber'], $response['profile_picture'], $response['kyc'], $response['joined_date'] , $response['account_status']);
-            // set profile picture url
+        try {
+            // auth
+            $authResponse = $auth->getUser($adminId);
+            $this->setAdminAuth($adminId, $authResponse->email, $authResponse->emailVerified, $authResponse->phoneNumber, $authResponse->displayName, $authResponse->photoUrl, $authResponse->disabled);
+
+            // realtime db
+            $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
+            $this->setAdmin($adminId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
+
+            // set profile picture
             $this->setPhotoUrl();
-            return true;
-        } else {
-            return false;
+            $status = true;
+        } catch (Exception $e) {
+
         }
-    }
-
-    // authentication
-    public function checkEmailExistence()
-    {
-        global $database;
-
-        // fetching all admins
-        $response = $database->getReference('admins')->getSnapshot()->getValue();
-
-        // checking for the existence of email address
-        $emailExists = false;
-        foreach ($response as $key => $row) {
-            if ($row['email'] == $this->email) {
-                $this->setId($key);
-                $emailExists = true;
-            }
-        }
-
-        return $emailExists;
-    }
-
-    // verify password
-    public function verifyPassword()
-    {
-        global $database;
-        $response = $database->getReference("admins")->getChild($this->adminId)->getSnapshot()->getValue();
-        return password_verify($this->getPassword(), $response['password']) ? true : false;
+        return $status;
     }
 
     public function setPhotoUrl()
     {
-        global $bucket;
+        if ($this->photo != '') {
 
-        $prefix = 'admins/';
-        $objectName = $prefix . $this->photo;
+            global $bucket;
 
-        $object = $bucket->object($objectName);
+            $prefix = 'admins/';
+            $objectName = $prefix . $this->photo;
 
-        if($object->exists())
-            $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
-        else
+            $object = $bucket->object($objectName);
+
+            if ($object->exists())
+                $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
+            else
+                $this->photoUrl = null;
+        } else {
             $this->photoUrl = null;
+        }
     }
 
     public function setKycUrl()
     {
         global $bucket;
 
+        $kycFrontFound = false;
+        $kycBackFound = false;
+
+        $prefix = 'kyc/';
+        $options = [
+            'prefix' => $prefix,
+            'delimiter' => '/'
+        ];
+
+        $objects = $bucket->objects($options);
+
+        foreach ($objects as $object) {
+            if (!$kycFrontFound && $object->name() === $prefix . $this->kyc['front']) {
+                $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
+                $kycFrontFound = true;
+            } elseif (!$kycBackFound && $object->name() === $prefix . $this->kyc['back']) {
+                $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
+                $kycBackFound = true;
+            }
+
+            if ($kycFrontFound && $kycBackFound)
+                break;
+        }
+    }
+
+    public function setKycFrontUrl()
+    {
+        global $bucket;
+
         if ($this->getKycFront() != "") {
             $prefix = 'kyc/';
-
             $objectName = $prefix . $this->kyc['front'];
             $object = $bucket->object($objectName);
 
-            if($object->exists())
+            if ($object->exists())
                 $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
+            else
+                $this->kycUrl['front'] = null;
+        }
+    }
 
+    public function setKycBackUrl()
+    {
+        if ($this->getKycBack() != "") {
+            global $bucket;
+            $prefix = 'kyc/';
             $objectName = $prefix . $this->kyc['back'];
             $object = $bucket->object($objectName);
 
-            if($object->exists())
+            if ($object->exists())
                 $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
+            else
+                $this->kycUrl['back'] = null;
         }
+    }
+
+    // fetch all users
+    public function fetchAllAdmins()
+    {
+        global $database;
+
+        $list = array();
+
+        // fetching all users
+        $response = $database->getReference("users")->getSnapshot()->getValue();
+
+        foreach ($response as $key => $res) {
+            $temp = new User();
+            $temp->fetch($key);
+            $list[] = $temp;
+        }
+        return $list;
+    }
+
+    // check if the account is eligible to be verified
+    public function checkAccountVerificationEligibility()
+    {
+        return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
     }
 }

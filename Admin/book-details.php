@@ -8,8 +8,8 @@ if (!isset($_SESSION['bookrack-admin-id']))
 $url = "book-details";
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../app/functions.php';
 
 // fetching the admin profile details
 $profileAdmin = new Admin();
@@ -21,9 +21,8 @@ if (!$adminExists)
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../../bookrack/app/functions.php';
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
-require_once __DIR__ . '/../../bookrack/app/book-class.php';
+require_once __DIR__ . '/../app/user-class.php';
+require_once __DIR__ . '/../app/book-class.php';
 
 // user object
 $userObj = new User();
@@ -46,7 +45,7 @@ if (!$bookExists)
     <!-- title -->
     <title> <?= ucWords($bookObj->title) ?> </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -187,9 +186,6 @@ if (!$bookExists)
                     </div>
 
                     <div class="d-flex flex-column gap-3 px-3 pt-3 surface-bottom">
-                        <!-- book id -->
-                        <p class="f-reset fw-bold"> <?= $bookObj->getId() ?> </p>
-
                         <!-- language -->
                         <div class="d-flex flex-row language">
                             <div class="left">
@@ -209,7 +205,7 @@ if (!$bookExists)
 
                             <div class="right">
                                 <p class="f-reset fw-bold text-success">
-                                    <?= number_format($bookObj->price['actual'], 2) ?>
+                                    <?= "NPR." . number_format($bookObj->price['actual'], 2) ?>
                                 </p>
                             </div>
                         </div>
@@ -227,7 +223,7 @@ if (!$bookExists)
                                     <p class="f-reset fw-bold pointer">
                                         <a href="/bookrack/admin/admin-user-details/<?= $userObj->getUserId() ?>"
                                             class="text-dark">
-                                            <?= ucfirst($userObj->name['first']) . " " . ucfirst($userObj->name['last']) ?>
+                                            <?= $userObj->getFullName() ?>
                                         </a>
                                     </p>
                                 </abbr>
@@ -236,7 +232,8 @@ if (!$bookExists)
                     </div>
 
                     <!-- operation: edit/ remove -->
-                    <div class="d-none d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
+                    <div
+                        class="d-none d-flex flex-row justify-content-between mt-2 gap-2 align-items-center book-operation">
                         <!-- delete operation -->
                         <div class="d-flex flex-row gap-2 align-items-center delete">
                             <i class="fa fa-trash"></i>
@@ -303,7 +300,7 @@ if (!$bookExists)
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

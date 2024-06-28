@@ -2,94 +2,132 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-require_once __DIR__ . '/../../../bookrack/app/connection.php';
-require_once __DIR__ . '/../../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/../../app/connection.php';
+require_once __DIR__ . '/admin-class.php';
 
-// signup table method
+use Kreait\Firebase\Exception\Auth\EmailExists;
+use Kreait\Firebase\Exception\Auth\EmailNotFound;
+use Kreait\Firebase\Exception\Auth\InvalidPassword;
+use Kreait\Firebase\Exception\AuthException;
+
+// signup
 if (isset($_POST['admin-signup-btn'])) {
-    // admin class
-    $admin = new Admin();
+    $status = 0;
 
-    // getting email && password
-    $admin->setEmail($_POST['email']);
-    $admin->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
+    global $auth;
+    global $database;
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $adminProperties = [
+        'email' => $email,
+        'emailVerified' => false,
+        'password' => $password,
+        'displayName' => '',
+        'photoUrl' => '',
+        'disabled' => false,
+    ];
 
     // for retaining form value after submission
-    $_SESSION['temp-email'] = $_POST['email'];
-    $_SESSION['temp-password'] = $_POST['password'];
+    $_SESSION['temp-email'] = $email;
+    $_SESSION['temp-password'] = $password;
 
-    // checking the existence of provided email address
-    $emailExists = $admin->checkEmailExistence();
+    try {
+        $createdUser = $auth->createUser($adminProperties);
+        $uid = $createdUser->uid;
 
-    if ($emailExists) {
-        $_SESSION['status'] = false;
+        // create space in the realtime database
+        $extraAdminProperties = [
+            'name' => [
+                'first' => '',
+                'last' => ''
+            ],
+            'dob' => '',
+            'gender' => '',
+            'address' => [
+                'district' => '',
+                'location' => ''
+            ],
+            'photo' => '',
+            'kyc' => [
+                'document_type' => 'citizenship',
+                'front' => '',
+                'back' => '',
+            ],
+            'joined_date' => date("Y:m:d H:i:s"),
+            'account_status' => 'pending'
+        ];
+
+        unset($_SESSION['temp-password']);
+
+        $database->getReference('admins/' . $uid)->set($extraAdminProperties);
+        $status = 1;
+
+        $_SESSION['status-message'] = "Signed up successfully.";
+    } catch (EmailExists $e) {
         $_SESSION['status-message'] = "This email address is already in use.";
-        header("Location: /bookrack/admin/admin-signup");
-    } else {
-        $accountCreated = $admin->register();
-
-        if ($accountCreated) {
-            $_SESSION['status'] = true;
-            $_SESSION['status-message'] = "Signed up successfully.";
-
-            // unset temporary data
-            unset($_SESSION['temp-email']);
-            unset($_SESSION['temp-password']);
-
-            header("Location: /bookrack/admin/admin-signin");
-        } else {
-            $_SESSION['status'] = false;
-            $_SESSION['status-message'] = "Signup failed.";
-            header("Location: /bookrack/admin/admin-signup");
-        }
+    } catch (InvalidPassword $e) {
+        $_SESSION['status-message'] = "The password is not valid.";
+    } catch (AuthException $e) {
+        $_SESSION['status-message'] = "An unexpected error occurred.";
+    } catch (Exception $e) {
+        $_SESSION['status-message'] = "An unexpected error occurred.";
     }
+
+    $_SESSION['status'] = $status ? true : false;
+
+    if ($status)
+        header("Location: /bookrack/admin/admin-signin");
+    else
+        header("Location: /bookrack/admin/admin-signup");
+
     exit();
 }
 
-// sign in table method
+// signin
 if (isset($_POST['admin-signin-btn'])) {
-    // admin class
-    $admin = new Admin();
+    global $auth;
+    $status = 0;
 
-    // form values
-    $admin->setEmail($_POST['email']);
-    $admin->setPassword($_POST['password']);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // for retaining form values after submission
-    $_SESSION['temp-email'] = $_POST['email'];
-    $_SESSION['temp-password'] = $_POST['password'];
+    $_SESSION['temp-email'] = $email;
 
-    // checking the existence of provided email address
-    $emailExists = $admin->checkEmailExistence();
+    try {
+        $user = $auth->getUserByEmail("$email");
 
-    if ($emailExists) {
-        // verify password
-        $passwordVerified = $admin->verifyPassword();
+        $signInResult = $auth->signInWithEmailAndPassword($email, $password);
 
-        if ($passwordVerified) {
-            // setting admin key in the session
-            $_SESSION['bookrack-admin-id'] = $admin->getId();
+        // token is generated
+        $idTokenString = $signInResult->idToken();
 
-            unset($_SESSION['status']);
-            unset($_SESSION['status-message']);
+        try {
+            $verifiedIdToken = $auth->verifyIdToken($idTokenString);
+            $uid = $signInResult->firebaseUserId();
 
-            // unsetting the form values 
+            $status = 1;
+
             unset($_SESSION['temp-email']);
-            unset($_SESSION['temp-password']);
 
-            // redirect to homepage
-            header("Location: /bookrack/admin/admin-dashboard");
-        } else {
-            // password not verified
-            $_SESSION['status'] = false;
-            $_SESSION['status-message'] = "Invalid password!";
-            header("Location: /bookrack/admin/admin-signin");
+            $_SESSION['bookrack-admin-id'] = $uid;
+            $_SESSION['idTokenString'] = $idTokenString;
+        } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
+            $_SESSION['status'] = 'Unexpected error occured.';
+        } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
+            $_SESSION['status'] = 'Invalid password.';
         }
-    } else {
-        // email not found
-        $_SESSION['status'] = false;
-        $_SESSION['status-message'] = "This email address has not been registered yet.";
-        header("Location: /bookrack/admin/admin-signin");
+    } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
+        $_SESSION['status-message'] = 'This email address has not been registered yet!';
+    } catch (\Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
+        $_SESSION['status-message'] = "Invalid password.";
     }
+
+    $_SESSION['status'] = $status ? true : false;
+    if ($status)
+        header("Location: /bookrack/admin/admin-dashboard");
+    else
+        header("Location: /bookrack/admin/admin-signin");
     exit();
 }

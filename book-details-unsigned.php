@@ -10,8 +10,8 @@ if (session_status() == PHP_SESSION_NONE)
 $url = "book-details-unsigned";
 
 // fetch book details
-require_once __DIR__ . '/../bookrack/app/book-class.php';
-require_once __DIR__ . '/../bookrack/app/functions.php';
+require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/app/functions.php';
 
 $selectedBook = new Book();
 
@@ -32,10 +32,16 @@ if (!$bookFound) {
     <!-- title -->
     <title> <?= $bookFound ? ucwords($selectedBook->title) : "Book not found"; ?> </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/book-details.css">
+
+    <style>
+        .main{
+            margin-top: 8rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -317,7 +323,7 @@ if (!$bookFound) {
     </div>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 </body>
 
 </html>

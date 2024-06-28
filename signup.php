@@ -16,7 +16,7 @@ if (isset($_SESSION['bookrack-user-id']))
     <!-- title -->
     <title> Signup </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
@@ -62,14 +62,16 @@ if (isset($_SESSION['bookrack-user-id']))
                     </div>
 
                     <!-- sign up form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php" method="POST">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php"
+                        method="POST">
                         <!-- error message section -->
                         <!-- status message section -->
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
                             <p class="f-reset <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>  mb-3">
-                                <?php echo $_SESSION['status-message'] ?> </p>
+                                <?php echo $_SESSION['status-message'] ?>
+                            </p>
                             <?php
                         }
                         ?>
@@ -94,8 +96,8 @@ if (isset($_SESSION['bookrack-user-id']))
                             </span>
                             <div class="form-floating">
                                 <input type="password" name="password" class="form-control" id="user-email" value="<?php if (isset($_SESSION['temp-password']))
-                                    echo $_SESSION['temp-password']; ?>" placeholder="********"
-                                    aria-label="password" aria-describedby="password" minlength="8" required>
+                                    echo $_SESSION['temp-password']; ?>" placeholder="********" aria-label="password"
+                                    aria-describedby="password" minlength="8" required>
                                 <label for="user-email">Password</label>
                             </div>
                         </div>
@@ -149,13 +151,13 @@ if (isset($_SESSION['bookrack-user-id']))
         </div>
     </main>
 
-    <?php 
+    <?php
     unset($_SESSION['status']);
     unset($_SESSION['status-message']);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 
     <script>
         // password input

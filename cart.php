@@ -8,7 +8,7 @@ if (!isset($_SESSION['bookrack-user-id']))
 $userId = $_SESSION['bookrack-user-id'];
 $url = "cart";
 
-require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/app/user-class.php';
 $profileUser = new User();
 
 $userExists = $profileUser->fetch($userId);
@@ -32,7 +32,7 @@ if (!isset($tab)) {
     <!-- title -->
     <title> Cart </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/cart.css">
@@ -118,14 +118,16 @@ if (!isset($tab)) {
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
+                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt=""
+                            loading="lazy">
                     </div>
                     <p class="f-reset"> Delivered </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt="" loading="lazy">
+                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt=""
+                            loading="lazy">
                     </div>
                     <p class="f-reset"> Completed </p>
                 </div>
@@ -395,7 +397,7 @@ if (!isset($tab)) {
     <?php include 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 </body>
 
 </html>

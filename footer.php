@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/app/book-class.php';
 
 if (!isset($bookObj))
     $bookObj = new Book();
@@ -15,7 +15,7 @@ if (!isset($bookObj))
     <!-- title -->
     <title> Footer </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
@@ -186,7 +186,7 @@ if (!isset($bookObj))
         </div>
     </footer>
 
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php' ?>
+    <?php require_once __DIR__ . '/app/script-include.php' ?>
 </body>
 
 </html>

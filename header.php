@@ -9,7 +9,7 @@ if (!isset($_SESSION['bookrack-user-id']))
 if (!isset($userId))
     $userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/app/user-class.php';
 if (!isset($profileUser)) {
     $profileUser = new User();
     $userExists = $profileUser->fetch($userId);
@@ -29,7 +29,7 @@ if (!isset($profileUser)) {
     <!-- title -->
     <title> Header </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/header.css">
@@ -108,7 +108,7 @@ if (!isset($profileUser)) {
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/signout'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>
@@ -119,7 +119,7 @@ if (!isset($profileUser)) {
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 
     <script>
         // menu

@@ -1,16 +1,12 @@
 <?php
-require_once __DIR__ . '/../../bookrack/app/functions.php';
-require_once __DIR__ . '/../../bookrack/app/connection.php';
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/connection.php';
 
 class User
 {
     // auth
     private $password;
     private $userId;
-    public $name = [
-        'first' => '',
-        'last' => '',
-    ];
     public $displayName;
     private $phoneNumber;
     public $photoUrl;
@@ -20,6 +16,10 @@ class User
 
 
     // realtime database
+    public $name = [
+        'first' => '',
+        'last' => '',
+    ];
     public $photo;
     private $dob;
     private $address = [
@@ -342,24 +342,24 @@ class User
         return $status;
     }
 
-    public function fetchPassword()
-    {
-
-    }
-
     public function setPhotoUrl()
     {
-        global $bucket;
+        if ($this->photo != '') {
+            global $bucket;
 
-        $prefix = 'users/';
-        $objectName = $prefix . $this->photo;
+            $prefix = 'users/';
+            $objectName = $prefix . $this->photo;
 
-        $object = $bucket->object($objectName);
+            $object = $bucket->object($objectName);
 
-        if ($object->exists())
-            $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
-        else
+            if ($object->exists())
+                $this->photoUrl = $object->signedUrl(new DateTime('tomorrow'));
+            else
+                $this->photoUrl = null;
+        } else {
             $this->photoUrl = null;
+
+        }
     }
 
     public function getPhotoUrl()

@@ -9,8 +9,8 @@ elseif (isset($_SESSION['bookrack-admin-id']))
 
 $url = "landing";
 
-require_once __DIR__ . '/../bookrack/app/functions.php';
-require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/app/functions.php';
+require_once __DIR__ . '/app/book-class.php';
 
 $bookObj = new Book();
 $bookList = $bookObj->fetchAllBooks();
@@ -26,7 +26,7 @@ $bookList = $bookObj->fetchAllBooks();
     <!-- title -->
     <title> Bookrack </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <link rel="stylesheet" href="/bookrack/assets/css/landing.css">
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
@@ -201,7 +201,7 @@ $bookList = $bookObj->fetchAllBooks();
     <?php include_once 'footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 </body>
 
 </html>

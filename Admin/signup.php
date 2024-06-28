@@ -14,9 +14,9 @@ if (isset($_SESSION['bookrack-admin-id']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Admin Signin </title>
+    <title> Admin Signup </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- local css -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -110,7 +110,7 @@ if (isset($_SESSION['bookrack-admin-id']))
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 
     <!-- js :: current file -->
     <script>

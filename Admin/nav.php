@@ -6,10 +6,10 @@ if (!isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-signin");
 
 
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/../app/functions.php';
 
 if (!isset($adminId)) {
-    require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+    require_once __DIR__ . '/app/admin-class.php';
 
     $adminId = $_SESSION['bookrack-admin-id'];
 
@@ -28,7 +28,7 @@ if (!isset($adminId)) {
     <!-- title -->
     <title> Nav </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
@@ -43,19 +43,28 @@ if (!isset($adminId)) {
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
                 <div class="profile-photo rounded-circle">
-                    <img src="<?php if ($profileAdmin->profilePictureUrl != "") {
-                        echo $profileAdmin->profilePictureUrl;
+                    <?php
+                    if ($profileAdmin->photoUrl != "") {
+                        ?>
+                        <img src="<?= $profileAdmin->photoUrl ?>" alt="profile photo" id="admin-profile-photo"
+                            loading="lazy">
+                        <?php
                     } else {
-                        echo '/bookrack/assets/images/blank-user.jpg';
-                    } ?>" alt="" id="admin-profile-photo" loading="lazy">
+                        ?>
+                        <img src="/bookrack/assets/images/blank-user.jpg" alt="profile photo" id="admin-profile-photo"
+                            loading="lazy">
+                        <?php
+                    }
+                    ?>
                 </div>
 
                 <!-- profile detail -->
                 <div class="d-flex flex-column align-items-center profile-details">
                     <p class="f-reset" id="username">
                         <?php
-                        if ($profileAdmin->name['first'] != "")
-                            echo ucfirst($profileAdmin->name['first']);
+                        $firstName = $profileAdmin->name['first'];
+                        if ($firstName != "")
+                            echo ucfirst($firstName);
                         ?>
                     </p>
                     <p class="f-reset" id="email-address"> <?= $profileAdmin->email ?> </p>
@@ -123,7 +132,7 @@ if (!isset($adminId)) {
     </aside>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

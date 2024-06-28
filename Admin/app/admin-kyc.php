@@ -7,8 +7,7 @@ if (!isset($_SESSION['bookrack-admin-id']))
 
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/../../../bookrack/app/functions.php';
-require_once __DIR__ . '/../../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/admin-class.php';
 
 if (isset($_POST['admin-upload-kyc-btn'])) {
     $status = false;
@@ -39,6 +38,12 @@ if (isset($_POST['admin-upload-kyc-btn'])) {
         $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
         $filePath2 = 'kyc/' . $newFileName2;
 
+        if($newFileName1 == $newFileName2){
+            sleep(1);
+            $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
+            $filePath2 = 'kyc/' . $newFileName2;
+        }
+
         // properties to be changed
         $properties['kyc']['document_type'] = 'citizenship';
         $properties['kyc']['front'] = $newFileName1;
@@ -51,7 +56,7 @@ if (isset($_POST['admin-upload-kyc-btn'])) {
 
             try {
                 // update user detail
-                $response = $database->getReference("admins/{$tempAdmin->getId()}")->update($properties);
+                $response = $database->getReference("admins/{$adminId}")->update($properties);
                 $status = true;
             } catch (Exception $e) {
                 $status = false;
@@ -76,7 +81,7 @@ if (isset($_POST['admin-upload-kyc-btn'])) {
     $_SESSION['status'] = $status ? true : false;
     $_SESSION['status-message'] = $status ? "Document submitted successfully" : "Document couldn't be submitted";
 
-    header("Location: /bookrack/admin/profile/");
+    header("Location: /bookrack/admin/admin-profile/");
 }
 
 exit();

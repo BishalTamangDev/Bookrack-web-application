@@ -16,7 +16,7 @@ if (isset($_SESSION['bookrack-admin-id']))
     <!-- title -->
     <title> Admin Signin </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- local css -->
     <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
@@ -127,7 +127,7 @@ if (isset($_SESSION['bookrack-admin-id']))
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 
     <script>
         // password input : // prevent space as input

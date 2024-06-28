@@ -21,9 +21,9 @@ if (!$adminExists)
 if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../../bookrack/app/functions.php';
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
-require_once __DIR__ . '/../../bookrack/app/book-class.php';
+require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../app/user-class.php';
+require_once __DIR__ . '/../app/book-class.php';
 
 // user object
 $userObj = new User();
@@ -48,7 +48,7 @@ $rentBookCount = 0;
     <!-- title -->
     <title> Books </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -143,9 +143,8 @@ $rentBookCount = 0;
             <thead>
                 <tr>
                     <th scope="col"> SN </th>
-                    <th scope="col"> Book ID </th>
-                    <th scope="col"> ISBN </th>
                     <th scope="col"> Title </th>
+                    <th scope="col"> ISBN </th>
                     <th scope="col"> Genre </th>
                     <th scope="col"> Author[s] </th>
                     <th scope="col"> Language </th>
@@ -167,9 +166,8 @@ $rentBookCount = 0;
                         ?>
                         <tr class="book-row on-rent-row on-stock-row">
                             <th scope="row"> <?= $serial++ ?> </th>
-                            <td> <?= $bookId ?> </td>
-                            <td> <?= $book->isbn ?> </td>
                             <td> <?= ucWords($book->title) ?> </td>
+                            <td> <?= $book->isbn ?> </td>
                             <td>
                                 <?php
                                 $count = 0;
@@ -210,7 +208,7 @@ $rentBookCount = 0;
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

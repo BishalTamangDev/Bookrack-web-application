@@ -9,8 +9,8 @@ $url = "notification";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
 $profileAdmin->fetch($adminId);
@@ -26,7 +26,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -130,7 +130,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 </body>
 
 </html>

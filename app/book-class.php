@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../bookrack/app/connection.php';
+require_once __DIR__ . '/connection.php';
 
 class Book
 {
@@ -346,7 +346,7 @@ class Book
                 'approval' => $this->date['approval'],
             ],
 
-            'status' => "unverified"
+            'status' => "verified"
         ];
 
         $postRef = $database->getReference("books")->push($postData);

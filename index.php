@@ -14,7 +14,7 @@ $request = $_SERVER['REQUEST_URI'];
 $router = str_replace('/bookrack', '', $request);
 
 // realtime database connection file
-include __DIR__ . '/../bookrack/app/connection.php';
+require_once __DIR__ . '/app/connection.php';
 
 // echo "Index request: ".$request."<br/>";
 // echo "Index router: ".$router."<br/>";
@@ -22,11 +22,8 @@ include __DIR__ . '/../bookrack/app/connection.php';
 // Set the default timezone to Nepal
 date_default_timezone_set("Asia/Kathmandu");
 
-
 $profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
-
 $adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
-
 $tab = "";
 
 // index || landing || header

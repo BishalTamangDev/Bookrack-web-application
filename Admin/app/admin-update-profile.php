@@ -7,25 +7,32 @@ if (!isset($_SESSION['bookrack-admin-id']))
 
 $adminId = $_SESSION['bookrack-admin-id'];
 
+require_once __DIR__ . '/admin-class.php';
+require_once __DIR__ . '/../../app/functions.php';
+
 if (isset($_POST['admin-update-profile-btn'])) {
-    $status = false;
+    $status = 0;
 
-    require_once __DIR__ . '/admin-class.php';
-    require_once __DIR__ . '/../../../bookrack/app/functions.php';
+    $admin = new admin();
+    $admin->fetch($adminId);
 
-    // fetch admin details
-    $tempAdmin = new Admin();
-    $status = $tempAdmin->fetch($adminId);
-
-    // get form values
+    // checking if profile picture has been changed
     $hasProfilePhoto = (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
+
     $firstName = $_POST['first-name'];
     $lastName = $_POST['last-name'];
+    $fullName = ucfirst($firstName) . ' ' . ucfirst($lastName);
     $dob = $_POST['dob'];
     $gender = $_POST['gender'];
-    $contact = $_POST['contact'];
+    $phoneNumber = '+977' . $_POST['phone-number'];
+    // $district = $_POST['edit-profile-district'];
+    // $location = $_POST['edit-profile-location'];
 
-    // set properties to be updated
+    $authProperties = [
+        'displayName' => $fullName,
+        'phoneNumber' => $phoneNumber,
+    ];
+
     $properties = [
         'name' => [
             'first' => strtolower($firstName),
@@ -33,56 +40,66 @@ if (isset($_POST['admin-update-profile-btn'])) {
         ],
         'gender' => $gender,
         'dob' => $dob,
-        'contact' => $contact
+        // 'address' => [
+            // 'district' => $district,
+            // 'location' => strtolower($location)
+        // ],
     ];
 
     if ($hasProfilePhoto) {
-        // getting previous profile picture
-        $oldProfilePictureFileName = $tempAdmin->getProfilePicture();
+        global $auth;
+        global $database;
 
-        // profile picture :: extract details from photo
-        $tempAdmin->setProfilePicture($_FILES['profile-picture']);
-        $fileTmpPath = $_FILES['profile-picture']['tmp_name'];
-        $fileName = $_FILES['profile-picture']['name'];
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $filePath = 'admins/' . $newFileName;
+        // auth
+        $authUpdated = $auth->updateUser($adminId, $authProperties);
 
-        $properties['profile_picture'] = $newFileName;
+        if ($authUpdated) {
+            // getting previous profile picture
+            $oldPhotoName = $admin->photo;
 
-        try {
-            // upload profile picture
-            $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
+            // profile picture :: extract details from photo
+            $photoFile = $_FILES['profile-picture'];
+            $admin->photo = $photoFile;
+            $fileTmpPath = $photoFile['tmp_name'];
+            $fileName = $photoFile['name'];
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+            $filePath = 'admins/' . $newFileName;
+
+            $properties['photo'] = $newFileName;
 
             try {
-                $response = $database->getReference("admins/{$tempAdmin->getId()}")->update($properties);
-                $status = true;
+                // upload profile picture
+                $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
+
+                $response = $database->getReference("admins/{$adminId}")->update($properties);
+                if ($response)
+                    $status = 1;
             } catch (Exception $e) {
                 $status = false;
             }
-        } catch (Exception $e) {
-            $status = false;
-        }
 
-        // in case photo uploaded
-        if ($status) {
-            // delete previous profile picture
-            $temp = deleteFileFromStorageBucket("admins", $oldProfilePictureFileName);
+            // in case photo uploaded
+            if ($status) {
+                $temp = deleteFileFromStorageBucket("admins", $oldPhotoName);
+            }
         }
     } else {
+        global $auth;
+        global $database;
 
+        // auth
+        $authUpdated = $auth->updateUser($adminId, $authProperties);
 
-        try {
-            $response = $database->getReference("admins/{$tempAdmin->getId()}")->update($properties);
-            $status = true;
-        } catch (Exception $e) {
+        if ($authUpdated) {
+            $response = $database->getReference("admins/{$adminId}")->update($properties);
+            if ($response)
+                $status = 1;
         }
     }
-
-    $_SESSION['status'] = $status ? true : false;
+    $_SESSION['status'] = $status ? 1 : 0;
     $_SESSION['status-message'] = $status ? "Profile updated successfully." : "Profile updation failed.";
 
-    header("Location: /bookrack/admin/profile");
+    header("Location: /bookrack/admin/admin-profile");
+    exit();
 }
-
-exit();

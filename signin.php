@@ -17,7 +17,7 @@ if (isset($_SESSION['bookrack-user-id']))
     <!-- title -->
     <title> Signin </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
@@ -62,13 +62,15 @@ if (isset($_SESSION['bookrack-user-id']))
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php" method="POST" autocomplete="on">
+                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php" method="POST"
+                        autocomplete="on">
                         <!-- status message section -->
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
                             <p class="f-reset <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>  mb-3">
-                                <?php echo $_SESSION['status-message'] ?> </p>
+                                <?php echo $_SESSION['status-message'] ?>
+                            </p>
                             <?php
                         }
                         ?>
@@ -79,11 +81,9 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
-                                    value="<?php if (isset($_SESSION['temp-email']))
-                                        echo $_SESSION['temp-email']; ?>"
-                                    placeholder="someone@gmail.com" aria-label="email address"
-                                    aria-describedby="email address" required>
+                                <input type="email" name="email" class="form-control" id="floatingEmailInput" value="<?php if (isset($_SESSION['temp-email']))
+                                    echo $_SESSION['temp-email']; ?>" placeholder="someone@gmail.com"
+                                    aria-label="email address" aria-describedby="email address" required>
                                 <label for="floatingEmailInput">Email address</label>
                             </div>
                         </div>
@@ -96,9 +96,8 @@ if (isset($_SESSION['bookrack-user-id']))
                             <div class="form-floating">
                                 <input type="password" name="password" class="form-control" id="floatingPasswordInput"
                                     value="<?php if (isset($_SESSION['temp-password']))
-                                        echo $_SESSION['temp-password']; ?>"
-                                    placeholder="********" aria-label="password" aria-describedby="password"
-                                    minlength="8" required>
+                                        echo $_SESSION['temp-password']; ?>" placeholder="********"
+                                    aria-label="password" aria-describedby="password" minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
                         </div>
@@ -123,13 +122,13 @@ if (isset($_SESSION['bookrack-user-id']))
         </div>
     </main>
 
-    <?php 
+    <?php
     unset($_SESSION['status']);
     unset($_SESSION['status-message']);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 
     <!-- js :: current file -->
     <script>

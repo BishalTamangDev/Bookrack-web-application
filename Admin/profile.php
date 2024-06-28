@@ -8,8 +8,8 @@ if (!isset($_SESSION['bookrack-admin-id']))
 $url = "profile";
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
 $profileAdmin->fetch($adminId);
@@ -25,8 +25,8 @@ $profileAdmin->fetch($adminId);
     <!-- title -->
     <title> My Profile </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
-    
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/bookrack/assets/css/admin/profile.css">
@@ -114,7 +114,7 @@ $profileAdmin->fetch($adminId);
 
                     <!-- status message section -->
                     <?php
-                    if (isset($_SESSION['status'])) {
+                    if (isset($_SESSION['status-message'])) {
                         ?>
                         <p class="m-0 <?= $_SESSION['status'] ? 'text-success' : 'text-danger' ?>">
                             <?= $_SESSION['status-message'] ?>
@@ -197,7 +197,7 @@ $profileAdmin->fetch($adminId);
                         </div>
                     </div>
 
-                    <!-- email && contact -->
+                    <!-- email && phone number -->
                     <div class="d-flex flex-column flex-lg-row gap-3">
                         <!-- email -->
                         <div class="d-flex flex-column gap-2 w-100 first-name">
@@ -206,11 +206,11 @@ $profileAdmin->fetch($adminId);
                                 value="<?= $profileAdmin->getEmail() ?>" disabled>
                         </div>
 
-                        <!-- contact -->
+                        <!-- phone number -->
                         <div class="d-flex flex-column gap-2 w-100 last-name">
-                            <label for="contact"> Contact </label>
-                            <input type="text" name="contact" class="form-control" id="contact" value="<?php if ($profileAdmin->getContact() != '')
-                                echo $profileAdmin->getContact(); ?>" <?php if ($tab != "edit")
+                            <label for="phone-number"> Phone Number </label>
+                            <input type="text" name="phone-number" class="form-control" id="phone-number" value="<?php if ($profileAdmin->getPhoneNumber() != '')
+                                echo $profileAdmin->getPhoneNumber(); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?> minlength="10" maxlength="10" required>
                         </div>
                     </div>
@@ -279,7 +279,7 @@ $profileAdmin->fetch($adminId);
                     </div>
                     <?php
 
-                }else{
+                } else {
                     $profileAdmin->setKycUrl();
                 }
                 ?>
@@ -289,7 +289,7 @@ $profileAdmin->fetch($adminId);
                 if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "" && $profileAdmin->getAccountStatus() != "verified") {
                     ?>
                     <div class="border-top border-bottom py-2 mb-3">
-                        <p class="m-0 text-secondary"> Not: Your documents are being verified. Please wait sometime. </p>
+                        <p class="m-0 text-secondary"> Note: Your documents are being verified. Please wait sometime. </p>
                     </div>
                     <?php
                 }
@@ -360,7 +360,7 @@ $profileAdmin->fetch($adminId);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 
     <!-- edit profile script -->
     <script>
@@ -381,7 +381,7 @@ $profileAdmin->fetch($adminId);
         });
 
         // contact name
-        $('#contact').keydown(function () {
+        $('#phone-number').keydown(function () {
             var asciiValue = event.keyCode || event.which;
             if (asciiValue == 32) {
                 event.preventDefault();

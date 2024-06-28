@@ -9,8 +9,8 @@ $url = "users";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
-require_once __DIR__ . '/../../bookrack/app/functions.php';
+require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
 $profileAdmin->fetch($adminId);
@@ -19,7 +19,7 @@ if ($profileAdmin->getAccountStatus() != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 // including user class
-require_once __DIR__ . '/../../bookrack/app/user-class.php';
+require_once __DIR__ . '/../app/user-class.php';
 $userObj = new User();
 
 // fetch all users
@@ -36,7 +36,7 @@ $userList = $userObj->fetchAllUsers();
     <!-- title -->
     <title> Users </title>
 
-    <?php require_once __DIR__ . '/../../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
@@ -100,15 +100,12 @@ $userList = $userObj->fetchAllUsers();
         </section>
 
         <!-- user table -->
-        <table class="table user-table">
+        <table class="table table-striped user-table">
             <!-- table heading -->
             <thead>
                 <tr>
                     <th scope="col"> S.N. </th>
                     <th scope="col"> Name </th>
-                    <th scope="col"> User ID </th>
-                    <th scope="col"> Date of Birth </th>
-                    <th scope="col"> Gender </th>
                     <th scope="col"> Email Address </th>
                     <th scope="col"> Phone Number </th>
                     <th scope="col"> Address </th>
@@ -134,24 +131,6 @@ $userList = $userObj->fetchAllUsers();
                                 <?php 
                                 $fullName = $user->getFullName();
                                 echo $fullName != ' ' ? $fullName : "-";
-                                ?>
-                            </td>
-                            <td> <?= $userId ?> </td>
-                            <td> 
-                                <?php
-                                $dob = $user->getDob();
-                                echo $dob != '' ? $dob : "-";
-                                ?> </td>
-                            <td>
-                                <?php
-                                if ($user->gender == 0)
-                                    echo "Male";
-                                elseif ($user->gender == 1)
-                                    echo "Female";
-                                elseif ($user->gender == 2)
-                                    echo "Others";
-                                else
-                                    echo "-";
                                 ?>
                             </td>
                             <td> <?= $user->email ?> </td>
@@ -196,7 +175,7 @@ $userList = $userObj->fetchAllUsers();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
 
     <!-- current file script -->
     <script>

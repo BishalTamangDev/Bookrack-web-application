@@ -9,8 +9,8 @@ $userId = $_SESSION['bookrack-user-id'];
 
 $url = "profile";
 
-require_once __DIR__ . '/../bookrack/app/functions.php';
-require_once __DIR__ . '/../bookrack/app/user-class.php';
+require_once __DIR__ . '/app/functions.php';
+require_once __DIR__ . '/app/user-class.php';
 
 $profileUser = new User();
 $userExists = $profileUser->fetch($userId);
@@ -18,7 +18,7 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signout");
 
-require_once __DIR__ . '/../bookrack/app/book-class.php';
+require_once __DIR__ . '/app/book-class.php';
 $bookObj = new Book();
 $userBookList = $bookObj->fetchBookByUserId($userId);
 ?>
@@ -58,7 +58,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
         ?>
     </title>
 
-    <?php require_once __DIR__ . '/../bookrack/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/app/header-include.php' ?>
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/book.css">
@@ -789,7 +789,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                 <!-- wishlist -->
                 <?php
                 if ($tab == "wishlist") {
-                    require_once __DIR__ . '/../bookrack/app/wishlist-class.php';
+                    require_once __DIR__ . '/app/wishlist-class.php';
                     $wishlist = new Wishlist();
                     ?>
                     <!-- my books container-->
@@ -1044,7 +1044,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../bookrack/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/app/script-include.php'; ?>
 
     <!-- edit profile script -->
     <script>
