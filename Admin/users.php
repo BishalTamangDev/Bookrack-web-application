@@ -13,9 +13,12 @@ require_once __DIR__ . '/app/admin-class.php';
 require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
+
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 // including user class
@@ -23,7 +26,7 @@ require_once __DIR__ . '/../app/user-class.php';
 $userObj = new User();
 
 // fetch all users
-$userList = $userObj->fetchAllUsers();
+$userIdList = $userObj->fetchAllUserId();
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +60,7 @@ $userList = $userObj->fetchAllUsers();
             <!-- number of users -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Users </p>
-                <p class="card-v1-detail"> <?= sizeof($userList) ?> </p>
+                <p class="card-v1-detail"> <?= sizeof($userIdList) ?> </p>
             </div>
 
             <!-- number of contributors -->
@@ -116,33 +119,33 @@ $userList = $userObj->fetchAllUsers();
 
             <!-- table data -->
             <?php
-            if (sizeof($userList) > 0) {
+            if (sizeof($userIdList) > 0) {
                 ?>
                 <tbody>
                     <?php
                     $serial = 1;
-                    foreach ($userList as $user) {
-                        $userId = $user->getUserId();
+                    foreach ($userIdList as $userId) {
+                        $userObj->fetch($userId);
                         ?>
                         <tr
-                            class="user-tr <?= ($user->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+                            class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
                             <th scope="row"> <?= $serial++ ?> </th>
                             <td> 
                                 <?php 
-                                $fullName = $user->getFullName();
+                                $fullName = $userObj->getFullName();
                                 echo $fullName != ' ' ? $fullName : "-";
                                 ?>
                             </td>
-                            <td> <?= $user->email ?> </td>
+                            <td> <?= $userObj->email ?> </td>
                             <td> 
                                 <?php 
-                                $phoneNumber = $user->getPhoneNumber();
+                                $phoneNumber = $userObj->getPhoneNumber();
                                 echo $phoneNumber != "" ? $phoneNumber : "-";
                                 ?>
                             </td>
-                            <td> <?= $user->getFullAddress() ?>
+                            <td> <?= $userObj->getFullAddress() ?>
                             </td>
-                            <td> <?= ucfirst($user->accountStatus) ?> </td>
+                            <td> <?= ucfirst($userObj->accountStatus) ?> </td>
                             <td>
                                 <abbr title="Show full details">
                                     <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
@@ -162,7 +165,7 @@ $userList = $userObj->fetchAllUsers();
             <!-- table footer -->
             <tfoot id="table-foot">
                 <?php
-                if (sizeof($userList) == 0) {
+                if (sizeof($userIdList) == 0) {
                     ?>
                     <tr>
                         <td colspan="10"> No users found! </td>

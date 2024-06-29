@@ -13,12 +13,12 @@ require_once __DIR__ . '/app/admin-class.php';
 require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
-$adminExists = $profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if (!$adminExists)
-    header("Location: /bookrack/admin/signin");
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 // including user class
@@ -33,9 +33,7 @@ $userExists = $selectedUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/admin/admin-users");
 
-$selectedUser->setUserId($userId);
-
-$bookList = $bookObj->fetchBookByUserId($userId);
+$bookIdList = $bookObj->fetchBookByUserId($userId);
 
 $fullName = $selectedUser->getFullName();
 ?>
@@ -76,8 +74,9 @@ $fullName = $selectedUser->getFullName();
             <div class="photo-account-status">
                 <div class="photo-div">
                     <?php
+                    $selectedUser->setPhotoUrl();
                     $photoUrl = $selectedUser->photoUrl;
-
+                    
                     if ($photoUrl != "") {
                         ?>
                         <img src="<?= $photoUrl ?>" alt="profile picture">
@@ -161,7 +160,7 @@ $fullName = $selectedUser->getFullName();
                         <!-- contribution -->
                         <div class="d-flex flex-column align-items-center border px-4 py-2 rounded contribution">
                             <div class="data">
-                                <p class="m-0 fw-bold fs-3"> <?= sizeof($bookList) ?> </p>
+                                <p class="m-0 fw-bold fs-3"> <?= sizeof($bookIdList) ?> </p>
                             </div>
                             <div class="title">
                                 <p class="m-0 fs-6"> Book Contribution </p>
@@ -177,19 +176,21 @@ $fullName = $selectedUser->getFullName();
 
         <section class="d-flex flex-row flex-wrap contributed-book-container">
             <?php
-            if (sizeof($bookList) > 0) {
-                foreach ($bookList as $book) {
+            if (sizeof($bookIdList) > 0) {
+                foreach ($bookIdList as $bookId) {
+                    $bookObj->fetch($bookId);
                     ?>
                     <div class="contributed-book">
                         <div class="image-div">
-                            <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
+                            <?php $bookObj->setCoverPhotoUrl()?>
+                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
                         </div>
 
                         <div class="detail-div">
-                            <p class="title fw-bold"> <?= ucWords($book->title) ?> </p>
+                            <p class="title fw-bold"> <?= ucWords($bookObj->title) ?> </p>
                             <div class="d-flex flex-row flex-wrap genre">
                                 <?php
-                                foreach ($book->genre as $genre) {
+                                foreach ($bookObj->genre as $genre) {
                                     ?>
                                     <p class="genre"> <?= $genre . ', ' ?></p>
                                     <?php

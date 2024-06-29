@@ -38,7 +38,7 @@ if (!$bookFound) {
     <link rel="stylesheet" href="/bookrack/assets/css/book-details.css">
 
     <style>
-        .main{
+        .main {
             margin-top: 8rem;
         }
     </style>
@@ -80,6 +80,7 @@ if (!$bookFound) {
                     <!-- top image -->
                     <div class="d-flex flex-row top">
                         <div class="book-image">
+                            <?php $selectedBook->setPhotoUrls()?>
                             <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
                         </div>
                     </div>

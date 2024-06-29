@@ -13,12 +13,12 @@ require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
 
 // profile admin object
 $profileAdmin = new Admin();
-!$adminExists = $profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if (!$adminExists)
-    header("Location: /bookrack/admin/signin");
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 require_once __DIR__ . '/../app/functions.php';
@@ -32,7 +32,7 @@ $userObj = new User();
 $bookObj = new Book();
 
 // fetching all books
-$bookList = $bookObj->fetchAllBooks();
+$bookIdList = $bookObj->fetchAllBookId();
 
 // book count
 $rentBookCount = 0;
@@ -67,7 +67,7 @@ $rentBookCount = 0;
             <!-- number of books -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Books </p>
-                <p class="card-v1-detail"> <?= sizeof($bookList) ?> </p>
+                <p class="card-v1-detail"> <?= sizeof($bookIdList) ?> </p>
             </div>
 
             <!-- number of books on rent -->
@@ -156,32 +156,32 @@ $rentBookCount = 0;
 
             <!-- body -->
             <?php
-            if (sizeof($bookList) > 0) {
+            if (sizeof($bookIdList) > 0) {
                 ?>
                 <tbody>
                     <?php
                     $serial = 1;
-                    foreach ($bookList as $book) {
-                        $bookId = $book->getId();
+                    foreach ($bookIdList as $bookId) {
+                        $bookObj->fetch($bookId);
                         ?>
                         <tr class="book-row on-rent-row on-stock-row">
                             <th scope="row"> <?= $serial++ ?> </th>
-                            <td> <?= ucWords($book->title) ?> </td>
-                            <td> <?= $book->isbn ?> </td>
+                            <td> <?= ucWords($bookObj->title) ?> </td>
+                            <td> <?= $bookObj->isbn ?> </td>
                             <td>
                                 <?php
                                 $count = 0;
-                                foreach ($book->genre as $genre) {
+                                foreach ($bookObj->genre as $genre) {
                                     $count++;
-                                    echo $count != count($book->genre) ? $genre . ', ' : $genre;
+                                    echo $count != count($bookObj->genre) ? $genre . ', ' : $genre;
                                 }
                                 ?>
                             </td>
-                            <td> <?php foreach ($book->author as $author)
+                            <td> <?php foreach ($bookObj->author as $author)
                                 echo ucWords($author) . ', '; ?> </td>
-                            <td> <?= ucfirst($book->language) ?></td>
-                            <td> <?= $book->getOwnerId() ?></td>
-                            <td> <?= $book->status ?></td>
+                            <td> <?= ucfirst($bookObj->language) ?></td>
+                            <td> <?= $bookObj->getOwnerId() ?></td>
+                            <td> <?= $bookObj->status ?></td>
                             <td>
                                 <abbr title="Show full details">
                                     <a href="/bookrack/admin/admin-book-details/<?= $bookId ?>">

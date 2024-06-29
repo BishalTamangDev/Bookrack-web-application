@@ -20,7 +20,6 @@ if (!$userExists)
 
 require_once __DIR__ . '/app/book-class.php';
 $bookObj = new Book();
-$userBookList = $bookObj->fetchBookByUserId($userId);
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +69,8 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
     <?php
     include 'header.php'; ?>
 
+    <?php $userBookList = $bookObj->fetchBookByUserId($userId); ?>
+
     <!-- main -->
     <main class="d-flex d-column flex-lg-row gap-lg-4 container main">
         <!-- aside :: profile detail  -->
@@ -107,7 +108,6 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                             <?php
                         } ?>
                     </div>
-
                 </div>
 
                 <!-- bottom -->
@@ -725,45 +725,47 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                         <!-- my books container-->
                         <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                             <?php
-                            foreach ($userBookList as $book) {
+                            foreach ($userBookList as $bookId) {
+                                $bookObj->fetch($bookId);
                                 ?>
                                 <div class="book-container my-book my-book-active">
                                     <!-- book image -->
                                     <div class="book-image">
-                                        <img src="<?= $book->photoUrl['cover'] ?>" alt="">
+                                        <?php $bookObj->setCoverPhotoUrl();?>
+                                        <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="">
                                     </div>
 
                                     <!-- book details -->
                                     <div class="book-details">
                                         <!-- book title -->
                                         <div class="book-title-wishlist">
-                                            <p class="book-title"> <?= ucwords($book->title) ?> </p>
+                                            <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
                                         </div>
 
                                         <!-- book purpose -->
-                                        <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
+                                        <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
 
                                         <!-- book description -->
                                         <div class="book-description-container">
-                                            <p class="book-description"> <?= ucfirst($book->description) ?> </p>
+                                            <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
                                         </div>
 
                                         <!-- book price -->
                                         <div class="book-price">
                                             <p class="book-price">
                                                 <?php
-                                                if ($book->purpose == "renting") {
-                                                    $rent = 0.20 * $book->price['actual'];
+                                                if ($bookObj->purpose == "renting") {
+                                                    $rent = 0.20 * $bookObj->price['actual'];
                                                     echo "NPR." . number_format($rent, 2) . "/week";
                                                 } else {
-                                                    $price = $book->price['offer'];
+                                                    $price = $bookObj->price['offer'];
                                                     echo "NPR." . number_format($price, 2);
                                                 }
                                                 ?>
                                             </p>
                                         </div>
 
-                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'">
+                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'">
                                             Show More
                                         </button>
                                     </div>
@@ -809,6 +811,8 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                     <div class="book-container">
                                         <!-- book image -->
                                         <div class="book-image">
+                                            <?php $wishedBookId->setCoverPhotoUrl(); ?>
+
                                             <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo" loading="lazy">
                                         </div>
 

@@ -13,12 +13,12 @@ require_once __DIR__ . '/../app/functions.php';
 
 // fetching the admin profile details
 $profileAdmin = new Admin();
-$adminExists = $profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if (!$adminExists)
-    header("Location: /bookrack/admin/signin");
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 require_once __DIR__ . '/../app/user-class.php';
@@ -87,6 +87,7 @@ if (!$bookExists)
         <!-- book details -->
         <section class="d-flex flex-column flex-lg-row gap-4 section book-detail-container">
             <!-- book photos -->
+            <?php $bookObj->setPhotoUrls()?>
             <div class="d-flex flex-row flex-lg-column gap-2 book-photo-div">
                 <div class="d-flex flex-row top">
                     <img src="<?= $bookObj->photoUrl['cover']; ?>" alt="Cover page photo" loading="lazy">

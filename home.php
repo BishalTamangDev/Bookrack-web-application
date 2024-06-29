@@ -197,13 +197,13 @@ $wishlist->setUserId($userId);
                     <?php
                     if (sizeof($bookIdList) > 0) {
                         foreach ($bookIdList as $bookId) {
-                            $book = new Book();
-                            $book->fetch($bookId);
+                            $bookObj->fetch($bookId);
                             ?>
                             <div class="book-container">
                                 <!-- book image -->
                                 <div class="book-image">
-                                    <img src="<?= $book->photoUrl['cover'] ?>" alt="" loading="lazy">
+                                    <?php $bookObj->setCoverPhotoUrl(); ?>
+                                    <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
                                 </div>
 
                                 <!-- book details -->
@@ -211,7 +211,7 @@ $wishlist->setUserId($userId);
                                     <!-- book title -->
                                     <div class="book-title-wishlist">
                                         <p class="book-title">
-                                            <?= ucwords($book->title) ?>
+                                            <?= ucwords($bookObj->title) ?>
                                         </p>
 
                                         <?php
@@ -219,7 +219,7 @@ $wishlist->setUserId($userId);
                                             ?>
                                             <div class="wishlist">
                                                 <a
-                                                    href="/bookrack/app/wishlist-code.php?book-id=<?= $book->getId() ?>&ref_url=<?= $url ?>">
+                                                    href="/bookrack/app/wishlist-code.php?book-id=<?= $bookObj->getId() ?>&ref_url=<?= $url ?>">
                                                     <?php
                                                     if (in_array($bookId, $userWishlist)) {
                                                         ?>
@@ -239,22 +239,22 @@ $wishlist->setUserId($userId);
                                     </div>
 
                                     <!-- book purpose -->
-                                    <p class="book-purpose"> <?= ucfirst($book->purpose) ?> </p>
+                                    <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
 
                                     <!-- book description -->
                                     <div class="book-description-container">
-                                        <p class="book-description"> <?= ucfirst($book->description) ?> </p>
+                                        <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
                                     </div>
 
                                     <!-- book price -->
                                     <div class="book-price">
                                         <p class="book-price">
                                             <?php
-                                            if ($book->purpose == "renting") {
-                                                $rent = $book->price['actual'] * 0.20;
+                                            if ($bookObj->purpose == "renting") {
+                                                $rent = $bookObj->price['actual'] * 0.20;
                                                 echo "NPR." . number_format($rent, 2) . "/week";
-                                            } elseif ($book->purpose == "buy/sell") {
-                                                $price = $book->price['offer'];
+                                            } elseif ($bookObj->purpose == "buy/sell") {
+                                                $price = $bookObj->price['offer'];
                                                 echo "NPR." . number_format($price, 2);
                                             }
                                             ?>

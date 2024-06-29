@@ -82,6 +82,7 @@ $userWishlist = $wishlist->fetchWishlist();
                     <!-- top image -->
                     <div class="d-flex flex-row top">
                         <div class="book-image">
+                            <?php $selectedBook->setPhotoUrls()?>
                             <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
                         </div>
                     </div>

@@ -10,13 +10,17 @@ $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
 require_once __DIR__ . '/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
+
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
+
+require_once __DIR__ . '/../app/functions.php';
 ?>
 
 <!DOCTYPE html>

@@ -13,7 +13,8 @@ require_once __DIR__ . '/app/functions.php';
 require_once __DIR__ . '/app/book-class.php';
 
 $bookObj = new Book();
-$bookList = $bookObj->fetchAllBooks();
+$bookIdList = $bookObj->fetchAllBookId();
+$genreList = [];
 ?>
 
 <!DOCTYPE html>
@@ -64,46 +65,48 @@ $bookList = $bookObj->fetchAllBooks();
 
             <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
                 <?php
-                if (sizeof($bookList) > 0) {
-                    foreach ($bookList as $book) {
+                if (sizeof($bookIdList) > 0) {
+                    foreach ($bookIdList as $bookId) {
+                        $bookObj->fetch($bookId);
                         ?>
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <img src="<?= $book->photoUrl['cover'] ?>" alt="">
+                                <?php $bookObj->setCoverPhotoUrl(); ?>
+                                <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="">
                             </div>
 
                             <!-- book details -->
                             <div class="book-details">
                                 <!-- book title -->
                                 <div class="book-title-wishlist">
-                                    <p class="book-title"> <?= ucwords($book->title) ?> </p>
+                                    <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
                                 </div>
 
                                 <!-- book purpose -->
-                                <p class="book-purpose"> <?= ucwords($book->purpose) ?> </p>
+                                <p class="book-purpose"> <?= ucwords($bookObj->purpose) ?> </p>
 
                                 <!-- book description -->
                                 <div class="book-description-container">
-                                    <p class="book-description"> <?= ucfirst($book->description) ?> </p>
+                                    <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
                                 </div>
 
                                 <!-- book price -->
                                 <div class="book-price">
                                     <p class="book-price">
                                         <?php
-                                        if ($book->purpose == 'renting') {
-                                            $rent = 0.20 * $book->price['actual'];
+                                        if ($bookObj->purpose == 'renting') {
+                                            $rent = 0.20 * $bookObj->price['actual'];
                                             echo "NPR." . number_format($rent, 2) . "/week";
                                         } else {
-                                            echo "NPR." . number_format($book->price['offer'], 2);
+                                            echo "NPR." . number_format($bookObj->price['offer'], 2);
                                         }
                                         ?>
                                     </p>
                                 </div>
 
                                 <button class="btn"
-                                    onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'"> Show More
+                                    onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'"> Show More
                                 </button>
                             </div>
                         </div>

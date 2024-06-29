@@ -239,7 +239,8 @@ class Book
     public function setGenre($genre)
     {
         $this->genre = $genre;
-    }public function setLanguage($language)
+    }
+    public function setLanguage($language)
     {
         $this->language = $language;
     }
@@ -364,7 +365,7 @@ class Book
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
         if ($response) {
             $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status']);
-            $this->setCoverPhotoUrl();
+            // $this->setCoverPhotoUrl();
             // $this->setPhotoUrls();
             return true;
         } else {
@@ -372,62 +373,66 @@ class Book
         }
     }
 
-    
+
     // set all photos url at once
-    public function setPhotoUrls(){
+    public function setPhotoUrls()
+    {
         global $bucket;
 
         $prefix = 'books/';
 
         $objectName = $prefix . $this->photo['cover'];
         $object = $bucket->object($objectName);
-        if($object->exists())
+        if ($object->exists())
             $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
-    
+
         $objectName = $prefix . $this->photo['price'];
         $object = $bucket->object($objectName);
-        if($object->exists())
+        if ($object->exists())
             $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
-        
+
         $objectName = $prefix . $this->photo['isbn'];
         $object = $bucket->object($objectName);
-        if($object->exists())
+        if ($object->exists())
             $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
     // set cover photo url
-    public function setCoverPhotoUrl(){
+    public function setCoverPhotoUrl()
+    {
         global $bucket;
 
         $prefix = 'books/';
 
         $objectName = $prefix . $this->photo['cover'];
         $object = $bucket->object($objectName);
-        if($object->exists())
+        if ($object->exists())
             $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
     // set isbn photo url
-    public function setPricePhotoUrl(){
+    public function setPricePhotoUrl()
+    {
         global $bucket;
 
         $prefix = 'books/';
 
         $objectName = $prefix . $this->photo['isbn'];
         $object = $bucket->object($objectName);
-        if($object->exists())
-            $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
+        if ($object->exists())
+            $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
     // set price photo url
-    public function setIsbnPhotoUrl(){
+    public function setIsbnPhotoUrl()
+    {
         global $bucket;
 
         $prefix = 'books/';
 
         $objectName = $prefix . $this->photo['price'];
         $object = $bucket->object($objectName);
-        if($object->exists())
+        if ($object->exists())
             $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
@@ -439,25 +444,25 @@ class Book
         $list = array();
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
-        if($response != null){
-            foreach($response as $key =>$res){
+        if ($response != null) {
+            foreach ($response as $key => $res) {
                 $temp = new Book();
                 $temp->fetch($key);
-                $list [] = $temp;
+                $list[] = $temp;
             }
         }
         return $list;
     }
 
     // fetch all genre
-    public function fetchAllGenre(){
+    public function fetchAllGenre()
+    {
         global $database;
         $list = array();
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
-        if($response != null)
-            foreach($response as $key => $res)
-                foreach($res['genre'] as $genre)
+        if ($response != null)
+            foreach ($response as $key => $res) foreach ($res['genre'] as $genre)
                     $list[] = $genre;
         return $list;
     }
@@ -468,43 +473,39 @@ class Book
         global $database;
         $idList = array();
         $response = $database->getReference("books")->getSnapshot()->getValue();
-        if($response != null){
-            foreach($response as $key =>$res){
-                $idList [] = $key;
+        if ($response != null) {
+            foreach ($response as $key => $res) {
+                $idList[] = $key;
             }
         }
         return $idList;
     }
 
-    public function fetchUserBookId($userId){
+    public function fetchUserBookId($userId)
+    {
         global $database;
         $list = array();
         $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
         $snapshot = $query->getSnapshot();
         $response = $snapshot->getValue();
 
-        if($response)
-            foreach($response as $key => $res)
-                $list [] = $key;
+        if ($response)
+            foreach ($response as $key => $res)
+                $list[] = $key;
 
         return $list;
     }
 
     // fetch user's books
-    public function fetchBookByUserId($userId){
+    public function fetchBookByUserId($userId)
+    {
         global $database;
         $list = array();
 
-        $query = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId);
-        $snapshot = $query->getSnapshot();
-        $response = $snapshot->getValue();        
+        $response = $database->getReference('books')->orderByChild('owner_id')->equalTo($userId)->getSnapshot()->getValue();
 
-        
-        foreach($response as $key =>$res){
-            $temp = new Book();
-            $temp->fetch($key);
-            $list [] = $temp;
-        }
+        foreach ($response as $key => $res)
+            $list[] = $key;
 
         return $list;
     }

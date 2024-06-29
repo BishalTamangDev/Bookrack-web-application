@@ -9,13 +9,6 @@ if (isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
 elseif (isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
-
-require_once __DIR__ . '/app/functions.php';
-require_once __DIR__ . '/app/book-class.php';
-
-$bookObj = new Book();
-
-$bookList = $bookObj->fetchAllBooks();
 ?>
 
 <!DOCTYPE html>

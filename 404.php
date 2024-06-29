@@ -10,7 +10,6 @@
 
     <?php require_once __DIR__ . '/app/header-include.php' ?>
 
-    <!-- css files -->
     <link rel="stylesheet" href="/bookrack/assets/css/404.css">
 </head>
 

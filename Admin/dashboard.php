@@ -12,9 +12,12 @@ $adminId = $_SESSION['bookrack-admin-id'];
 require_once __DIR__ . '/app/admin-class.php';
 
 $profileAdmin = new Admin();
-$profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
+
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 require_once __DIR__ . '/../app/functions.php';
@@ -24,8 +27,8 @@ require_once __DIR__ . '/../app/book-class.php';
 $userObj = new User();
 $bookObj = new Book();
 
-$userList = $userObj->fetchAllUsers();
-$bookList = $bookObj->fetchAllBooks();
+$userIdList = $userObj->fetchAllUserId();
+$bookIdList = $bookObj->fetchAllBookId();
 ?>
 
 <!DOCTYPE html>
@@ -60,13 +63,13 @@ $bookList = $bookObj->fetchAllBooks();
                     <!-- number of users -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Users </p>
-                        <p class="card-v1-detail"> <?= sizeof($userList); ?> </p>
+                        <p class="card-v1-detail"> <?= sizeof($userIdList); ?> </p>
                     </div>
 
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
-                        <p class="card-v1-detail"> <?= sizeof($bookList) ?> </p>
+                        <p class="card-v1-detail"> <?= sizeof($bookIdList) ?> </p>
                     </div>
 
                     <!-- number of books on rent -->
@@ -78,29 +81,35 @@ $bookList = $bookObj->fetchAllBooks();
             </div>
 
             <!-- new users joined -->
-            <div class="d-flex flex-row align-items-center p-3 gap-2 rounded new-user-div">
-                <div class="d-flex flex-row profile-container">
-                    <!-- user 1 -->
-                    <div class="profile-div">
-                        <img src="/bookrack/assets/images/user-1.png" alt="" loading="lazy">
+            <?php
+            if(sizeof($userIdList) > 1000){
+                ?>
+                <div class="d-flex flex-row align-items-center p-3 gap-2 rounded new-user-div">
+                    <div class="d-flex flex-row profile-container">
+                        <!-- user 1 -->
+                        <div class="profile-div">
+                            <img src="/bookrack/assets/images/user-1.png" alt="" loading="lazy">
+                        </div>
+
+                        <!-- user 2 -->
+                        <div class="profile-div">
+                            <img src="/bookrack/assets/images/user-2.jpg" alt="" loading="lazy">
+                        </div>
+
+                        <!-- user 3 -->
+                        <div class="profile-div">
+                            <img src="/bookrack/assets/images/user-3.jpg" alt="" loading="lazy">
+                        </div>
                     </div>
 
-                    <!-- user 2 -->
-                    <div class="profile-div">
-                        <img src="/bookrack/assets/images/user-2.jpg" alt="" loading="lazy">
-                    </div>
-
-                    <!-- user 3 -->
-                    <div class="profile-div">
-                        <img src="/bookrack/assets/images/user-3.jpg" alt="" loading="lazy">
+                    <!-- user joined label -->
+                    <div class="label">
+                        <p class="f-reset"> 3 users joined today. </p>
                     </div>
                 </div>
-
-                <!-- user joined label -->
-                <div class="label">
-                    <p class="f-reset"> 3 users joined today. </p>
-                </div>
-            </div>
+                <?php
+            }
+            ?>
         </section>
 
         <!-- recently added books -->
@@ -109,43 +118,53 @@ $bookList = $bookObj->fetchAllBooks();
             <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
 
             <!-- empty arrived book -->
-            <p class="f-reset text-danger"> No books found! </p>
-
-            <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
-                <?php
-                foreach ($bookList as $book) {
-                    ?>
-                    <div class="recently-arrived-book"
-                        onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $book->getId() ?>'">
-                        <div class="image-div">
-                            <img src="<?= $book->photoUrl['cover'] ?>" alt="book cover photo" loading="laxy">
-                        </div>
-
-                        <div class="detail">
-                            <div class="title">
-                                <p> <?= ucWords($book->title) ?> </p>
-                            </div>
-
-                            <div class="genre">
-                                <?php
-                                $count = 0;
-                                foreach ($book->genre as $genre) {
-                                    $count++;
-                                    ?>
-                                    <p>
-                                        <?php
-                                        echo ($count != count($book->genre)) ? $genre . ", " : $genre; ?>
-                                    </p>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
+            <?php
+            if (sizeof($bookIdList) == 0) {
                 ?>
-            </div>
+                <p class="f-reset text-danger"> No books found! </p>
+                <?php
+            } else {
+                ?>
+                <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
+                    <?php
+                    foreach ($bookIdList as $bookId) {
+                        $bookObj->fetch($bookId);
+                        ?>
+                        <div class="recently-arrived-book"
+                            onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $bookObj->getId() ?>'">
+                            <div class="image-div">
+                                <?php $bookObj->setCoverPhotoUrl() ?>
+                                <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book cover photo" loading="lazy">
+                            </div>
+
+                            <div class="detail">
+                                <div class="title">
+                                    <p> <?= ucWords($bookObj->title) ?> </p>
+                                </div>
+
+                                <div class="genre">
+                                    <?php
+                                    $count = 0;
+                                    foreach ($bookObj->genre as $genre) {
+                                        $count++;
+                                        ?>
+                                        <p>
+                                            <?php
+                                            echo ($count != count($bookObj->genre)) ? $genre . ", " : $genre; ?>
+                                        </p>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <?php
+            }
+            ?>
 
             <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added">
                 Show all </a>

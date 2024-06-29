@@ -54,7 +54,7 @@ if (isset($_SESSION['bookrack-admin-id']))
                         class="d-flex flex-column signin-form" id="admin-signin-form">
                         <!-- session status and status message -->
                         <?php
-                        if (isset($_SESSION['status'])) {
+                        if (isset($_SESSION['status']) && isset($_SESSION['status-message'])) {
                             ?>
                             <p class="m-0 mb-2 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
                                 <?= $_SESSION['status-message'] ?>

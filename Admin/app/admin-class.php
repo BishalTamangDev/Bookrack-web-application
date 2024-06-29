@@ -71,31 +71,31 @@ class Admin
 
     public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
     {
-        $this->adminId = $adminId;
+        if($this->adminId == '') $this->adminId = $adminId;
         $this->dob = $dob;
         $this->gender = $gender;
         $this->name = [
-            "first" => $name['first'],
+            "first" => $this->name['first'] == '' ? $name['first'] : '',
             "last" => $name['last'],
         ];
         $this->address = [
             "district" => $address['district'],
             "location" => $address['location'],
         ];
-        $this->photo = $photo;
+        if($this->photo == '')$this->photo = $photo;
         $this->kyc = [
             "document_type" => $kyc['document_type'],
             "front" => $kyc['front'],
             "back" => $kyc['back']
         ];
         $this->joinedDate = $joinedDate;
-        $this->accountStatus = $accountStatus;
+        if($this->accountStatus == "") $this->accountStatus = $accountStatus;
     }
 
     public function setAdminAuth($adminId, $email, $emailVerified, $phoneNumber, $displayName, $photoUrl, $disabled)
     {
-        $this->adminId = $adminId;
-        $this->email = $email;
+        if($this->adminId == '') $this->adminId = $adminId;
+        if($this->email == '') $this->email = $email;
         $this->emailVerified = $emailVerified;
         $this->phoneNumber = $phoneNumber;
         $this->displayName = $displayName;
@@ -299,6 +299,26 @@ class Admin
         return $postRef ? true : false;
     }
 
+    public function checkAdminExistenceById($adminId){
+        $status = false;
+        global $auth;
+        global $database;
+
+        try{
+            $authResponse = $auth->getUser($adminId);
+            $this->email = $authResponse->email;
+            
+            // id, name, email, account status
+            $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
+            $this->adminId = $adminId;
+            $this->name['first'] = $response['name']['first'];
+            $this->accountStatus = $response['account_status'];
+            $this->photo = $response['photo'];
+            $status = true;
+        } catch(Exception $e){
+        }
+        return $status;
+    }
 
     // fetch admin details from the database
     public function fetch($adminId)
@@ -316,8 +336,6 @@ class Admin
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
             $this->setAdmin($adminId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
 
-            // set profile picture
-            $this->setPhotoUrl();
             $status = true;
         } catch (Exception $e) {
 

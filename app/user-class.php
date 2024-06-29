@@ -334,7 +334,7 @@ class User
             $this->setUser($userId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
 
             // set profile picture
-            $this->setPhotoUrl();
+            // $this->setPhotoUrl();
             $status = true;
         } catch (Exception $e) {
 
@@ -477,6 +477,17 @@ class User
             $temp->fetch($key);
             $list[] = $temp;
         }
+        return $list;
+    }
+
+    public function fetchAllUserId()
+    {
+        global $database;
+        $list = array();
+        // fetching all users
+        $response = $database->getReference("users")->getSnapshot()->getValue();
+        foreach ($response as $key => $res)
+            $list[] = $key;
         return $list;
     }
 

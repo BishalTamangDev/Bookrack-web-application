@@ -13,12 +13,12 @@ require_once __DIR__ . '/app/admin-class.php';
 require_once __DIR__ . '/../app/functions.php';
 
 $profileAdmin = new Admin();
-$adminExists = $profileAdmin->fetch($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if (!$adminExists)
-    header("Location: /bookrack/admin/signin");
+if(!$adminExists)
+    header("Location: /bookrack/admin/app/admin-signout.php");
 
-if ($profileAdmin->getAccountStatus() != "verified")
+if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 ?>
 

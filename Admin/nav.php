@@ -14,7 +14,10 @@ if (!isset($adminId)) {
     $adminId = $_SESSION['bookrack-admin-id'];
 
     $profileAdmin = new Admin();
-    $profileAdmin->fetch($adminId);
+    $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
+
+    if(!$adminExists)
+        header("Location: /bookrack/admin/app/admin-signout.php");
 }
 ?>
 
@@ -42,6 +45,7 @@ if (!isset($adminId)) {
             <!-- profile -->
             <div class="d-lg-flex flex-column d-none profile-container gap-2">
                 <!-- profile container -->
+                <?php $profileAdmin->setPhotoUrl()?>
                 <div class="profile-photo rounded-circle">
                     <?php
                     if ($profileAdmin->photoUrl != "") {
