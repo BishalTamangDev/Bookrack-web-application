@@ -364,13 +364,16 @@ class Book
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
         if ($response) {
             $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status']);
-            $this->setPhotoUrls();
+            $this->setCoverPhotoUrl();
+            // $this->setPhotoUrls();
             return true;
         } else {
             return false;
         }
     }
 
+    
+    // set all photos url at once
     public function setPhotoUrls(){
         global $bucket;
 
@@ -392,28 +395,40 @@ class Book
             $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
-    // get isbn photo url
-    public function getIsbnPhotoUrl()
-    {
+    // set cover photo url
+    public function setCoverPhotoUrl(){
         global $bucket;
 
-        $isbnPhotoUrl = "/bookrack/assets/images/blank-user.jpg";
+        $prefix = 'books/';
+
+        $objectName = $prefix . $this->photo['cover'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["cover"] = $object->signedUrl(new DateTime('tomorrow'));
+    }
+
+    // set isbn photo url
+    public function setPricePhotoUrl(){
+        global $bucket;
 
         $prefix = 'books/';
-        $options = [
-            'prefix' => $prefix,
-            'delimiter' => '/'
-        ];
 
-        $objects = $bucket->objects($options);
+        $objectName = $prefix . $this->photo['isbn'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["isbn"] = $object->signedUrl(new DateTime('tomorrow'));
+    }
 
-        foreach ($objects as $object) {
-            if ($object->name() === $prefix . $this->getIsbnPhoto()) {
-                $isbnPhotoUrl = $object->signedUrl(new DateTime('tomorrow'));
-            }
-        }
+    // set price photo url
+    public function setIsbnPhotoUrl(){
+        global $bucket;
 
-        return $isbnPhotoUrl;
+        $prefix = 'books/';
+
+        $objectName = $prefix . $this->photo['price'];
+        $object = $bucket->object($objectName);
+        if($object->exists())
+            $this->photoUrl["price"] = $object->signedUrl(new DateTime('tomorrow'));
     }
 
 
@@ -432,6 +447,33 @@ class Book
             }
         }
         return $list;
+    }
+
+    // fetch all genre
+    public function fetchAllGenre(){
+        global $database;
+        $list = array();
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+
+        if($response != null)
+            foreach($response as $key => $res)
+                foreach($res['genre'] as $genre)
+                    $list[] = $genre;
+        return $list;
+    }
+
+    // fetch all books
+    public function fetchAllBookId()
+    {
+        global $database;
+        $idList = array();
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+        if($response != null){
+            foreach($response as $key =>$res){
+                $idList [] = $key;
+            }
+        }
+        return $idList;
     }
 
     public function fetchUserBookId($userId){

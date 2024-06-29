@@ -4,9 +4,9 @@ if (session_status() == PHP_SESSION_NONE)
 
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
-else
-    $userId = $_SESSION['bookrack-user-id'];
 
+
+$userId = $_SESSION['bookrack-user-id'];
 $url = "home";
 
 require_once __DIR__ . '/app/functions.php';
@@ -14,24 +14,22 @@ require_once __DIR__ . '/app/user-class.php';
 
 // get user details
 $profileUser = new User();
-$userExists = $profileUser->fetch($userId);
+$userExists = $profileUser->checkUserExistenceById($userId);
 
 if (!$userExists)
     header("Location: /bookrack/signout");
 
+$profileUser->setUserId($userId);
+
 // book obj 
 require_once __DIR__ . '/app/book-class.php';
 $bookObj = new Book();
-$bookList = $bookObj->fetchAllBooks();
-
-// fetch user's book
-$userBookIdList = $bookObj->fetchUserBookId($userId);
+$bookIdList = $bookObj->fetchAllBookId();
 
 // wishlist object
 require_once __DIR__ . '/app/wishlist-class.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
-$userWishlist = $wishlist->fetchWishlist();
 ?>
 
 <!DOCTYPE html>
@@ -154,15 +152,13 @@ $userWishlist = $wishlist->fetchWishlist();
 
                 <?php
                 $genreList = [];
-                foreach ($bookList as $key => $book)
-                    $genreList = $book->genre;
+                // $genreList = $bookObj->fetchAllGenre();
                 ?>
 
                 <!-- fetch all the genres -->
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container">
                     <?php
                     if (sizeof($genreList) > 0) {
-
                         foreach ($genreList as $genre) {
                             ?>
                             <div class="genre">
@@ -172,7 +168,9 @@ $userWishlist = $wishlist->fetchWishlist();
                         }
                     } else {
                         ?>
-                        <p class="m-0 text-secondary"> No trending genre yet! </p>
+                        <div class="genre">
+                            <p class="m-0 text-secondary"> No trending genre yet! </p>
+                        </div>
                         <?php
                     }
                     ?>
@@ -186,12 +184,21 @@ $userWishlist = $wishlist->fetchWishlist();
                     <i class="fa fa-filter text-secondary pointer" id="filter-show-trigger-2"></i>
                 </div>
 
+                <?php 
+                // fetch user's book
+                $userBookIdList = $bookObj->fetchUserBookId($userId);
+                
+                // fetch user wishlist
+                $userWishlist = $wishlist->fetchWishlist();
+                ?>
+
                 <!-- all book container -->
                 <div class="d-flex flex-row flex-wrap gap-3 all-book-container">
                     <?php
-                    if (sizeof($bookList) > 0) {
-                        foreach ($bookList as $book) {
-                            $bookId = $book->getId();
+                    if (sizeof($bookIdList) > 0) {
+                        foreach ($bookIdList as $bookId) {
+                            $book = new Book();
+                            $book->fetch($bookId);
                             ?>
                             <div class="book-container">
                                 <!-- book image -->

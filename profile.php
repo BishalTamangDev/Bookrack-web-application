@@ -763,7 +763,7 @@ $userBookList = $bookObj->fetchBookByUserId($userId);
                                             </p>
                                         </div>
 
-                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $key ?>'">
+                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $book->getId() ?>'">
                                             Show More
                                         </button>
                                     </div>

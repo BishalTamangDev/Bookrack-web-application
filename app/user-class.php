@@ -342,6 +342,32 @@ class User
         return $status;
     }
 
+    public function checkUserExistenceById($userId){
+        $status = false;
+        global $auth;
+
+        try {
+            // auth
+            $authResponse = $auth->getUser($userId);
+            $status = true;
+        } catch (Exception $e) {
+
+        }
+        return $status;
+    }
+
+
+    public function fetchUserPhotoUrl(){
+        global $database;
+        try{
+            $response = $database->getReference("users/".$this->userId)->getSnapshot()->getValue();
+            $this->photo = $response['photo'];
+            $this->setPhotoUrl();
+        } catch(Exception $e){
+
+        }
+    }
+
     public function setPhotoUrl()
     {
         if ($this->photo != '') {
@@ -358,7 +384,6 @@ class User
                 $this->photoUrl = null;
         } else {
             $this->photoUrl = null;
-
         }
     }
 

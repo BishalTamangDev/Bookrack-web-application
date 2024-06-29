@@ -12,11 +12,13 @@ if (!isset($userId))
 require_once __DIR__ . '/app/user-class.php';
 if (!isset($profileUser)) {
     $profileUser = new User();
-    $userExists = $profileUser->fetch($userId);
+    $userExists = $profileUser->checkUserExistenceById($userId);
 
     if (!$userExists)
         header("Location: /bookrack/signin");
+
 }
+$profileUser->fetchUserPhotoUrl();
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +110,7 @@ if (!isset($profileUser)) {
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>

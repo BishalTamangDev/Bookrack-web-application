@@ -85,15 +85,8 @@ if (!isset($bookObj))
                     <div class="d-flex flex-row gap-2 content">
                         <ul>
                             <?php
-                            if (!isset($genreList)) {
-                                $genreList = array();
-                                $bookList = $bookObj->fetchAllBooks();
-
-                                if (sizeof($bookList) > 0) {
-
-                                    foreach ($bookList as $key => $book)
-                                        $genreList = $book->genre;
-                                }
+                            if (!isset($genreList)){
+                                $genreList = $bookObj->fetchAllGenre();
                             }
                             ?>
 
