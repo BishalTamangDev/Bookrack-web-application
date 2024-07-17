@@ -1,13 +1,10 @@
 <?php
 
-// starting the session
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() == PHP_SESSION_NONE)
     session_start();
-}
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-}
 
 require_once __DIR__ . '/book-class.php';
 
@@ -91,6 +88,12 @@ if (isset($_POST['add-book-btn'])) {
     if ($status) {
         $immediateKey = $book->register();
         $status = $immediateKey != 0 ? true : false;
+
+        // add new genre to the genre list
+        require_once 'genre-class.php'; 
+        $genreObj = new Genre();
+        $genreObj->genreArray = $genreArray;
+        $genreObj->newBook();
     }
 
     $_SESSION['status'] = $status;

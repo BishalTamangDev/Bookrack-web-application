@@ -24,10 +24,10 @@ if (isset($_POST['update-profile-btn'])) {
 
     $firstName = $_POST['edit-profile-first-name'];
     $lastName = $_POST['edit-profile-last-name'];
-    $fullName = ucfirst($firstName).' '.ucfirst($lastName);
+    $fullName = ucfirst($firstName) . ' ' . ucfirst($lastName);
     $dob = $_POST['edit-profile-dob'];
     $gender = $_POST['edit-profile-gender'];
-    $phoneNumber = '+977'.$_POST['edit-profile-contact'];
+    $phoneNumber = '+977' . $_POST['edit-profile-contact'];
     $district = $_POST['edit-profile-district'];
     $location = $_POST['edit-profile-location'];
 
@@ -56,10 +56,10 @@ if (isset($_POST['update-profile-btn'])) {
         // auth
         $authUpdated = $auth->updateUser($userId, $authProperties);
 
-        if($authUpdated){
+        if ($authUpdated) {
             // getting previous profile picture
             $oldPhotoName = $user->photo;
-            
+
             // profile picture :: extract details from photo
             $photoFile = $_FILES['edit-profile-profile-picture'];
             $user->photo = $photoFile;
@@ -68,20 +68,20 @@ if (isset($_POST['update-profile-btn'])) {
             $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
             $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
             $filePath = 'users/' . $newFileName;
-            
+
             $properties['photo'] = $newFileName;
-            
+
             try {
                 // upload profile picture
                 $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
-                
-                    $response = $database->getReference("users/{$userId}")->update($properties);
-                    if($response)
-                        $status = 1;
+
+                $response = $database->getReference("users/{$userId}")->update($properties);
+                if ($response)
+                    $status = 1;
             } catch (Exception $e) {
                 $status = false;
             }
-            
+
             // in case photo uploaded
             if ($status) {
                 // delete previous profile picture
@@ -91,13 +91,13 @@ if (isset($_POST['update-profile-btn'])) {
     } else {
         global $auth;
         global $database;
-        
+
         // auth
         $authUpdated = $auth->updateUser($userId, $authProperties);
 
-        if($authUpdated){
+        if ($authUpdated) {
             $response = $database->getReference("users/{$userId}")->update($properties);
-            if($response)
+            if ($response)
                 $status = 1;
         }
     }

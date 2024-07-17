@@ -454,19 +454,6 @@ class Book
         return $list;
     }
 
-    // fetch all genre
-    public function fetchAllGenre()
-    {
-        global $database;
-        $list = array();
-        $response = $database->getReference("books")->getSnapshot()->getValue();
-
-        if ($response != null)
-            foreach ($response as $key => $res) foreach ($res['genre'] as $genre)
-                    $list[] = $genre;
-        return $list;
-    }
-
     // fetch all books
     public function fetchAllBookId()
     {

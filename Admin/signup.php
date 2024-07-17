@@ -33,7 +33,7 @@ if (isset($_SESSION['bookrack-admin-id']))
                 <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="/bookrack/admin/admin-signin">
+                <a href="/bookrack/home">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>

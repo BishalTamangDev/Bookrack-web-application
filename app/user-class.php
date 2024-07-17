@@ -342,7 +342,8 @@ class User
         return $status;
     }
 
-    public function checkUserExistenceById($userId){
+    public function checkUserExistenceById($userId)
+    {
         $status = false;
         global $auth;
 
@@ -357,13 +358,14 @@ class User
     }
 
 
-    public function fetchUserPhotoUrl(){
+    public function fetchUserPhotoUrl()
+    {
         global $database;
-        try{
-            $response = $database->getReference("users/".$this->userId)->getSnapshot()->getValue();
+        try {
+            $response = $database->getReference("users/" . $this->userId)->getSnapshot()->getValue();
             $this->photo = $response['photo'];
             $this->setPhotoUrl();
-        } catch(Exception $e){
+        } catch (Exception $e) {
 
         }
     }

@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/app/genre-class.php';
 
-if (!isset($bookObj))
-    $bookObj = new Book();
+if (!isset($genreObj))
+    $genreObj = new Genre();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,7 @@ if (!isset($bookObj))
                         <ul>
                             <?php
                             if (!isset($genreList)){
-                                $genreList = $bookObj->fetchAllGenre();
+                                $genreList = $genreObj->fetchGenreList();
                             }
                             ?>
 

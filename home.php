@@ -11,6 +11,7 @@ $url = "home";
 
 require_once __DIR__ . '/app/functions.php';
 require_once __DIR__ . '/app/user-class.php';
+require_once __DIR__ . '/app/genre-class.php';
 
 // get user details
 $profileUser = new User();
@@ -151,8 +152,9 @@ $wishlist->setUserId($userId);
                 <p class="m-0 fs-5"> Top Genre </p>
 
                 <?php
+                $genreObj = new Genre();
                 $genreList = [];
-                // $genreList = $bookObj->fetchAllGenre();
+                $genreList = $genreObj->fetchGenreList();
                 ?>
 
                 <!-- fetch all the genres -->

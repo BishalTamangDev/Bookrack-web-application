@@ -78,7 +78,7 @@ if (!$userExists)
             <!-- add book form -->
             <form action="/bookrack/app/add-book-code.php" method="POST"
                 class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form"
-                enctype="multipart/form-data" autocomplete="off">
+                enctype="multipart/form-data" autocomplete="on">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
@@ -313,8 +313,9 @@ if (!$userExists)
     unset($_SESSION['status-message']);
     ?>
 
-    <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php
+    require_once __DIR__ . '/app/script-include.php';
+    ?>
 
     <script>
         $('#book-isbn').keydown(function () {
@@ -464,16 +465,11 @@ if (!$userExists)
         bookPurposeSelect.on('change', function () {
             var purpose = bookPurposeSelect.val();
 
-            console.clear();
-            console.log("Purpose : ", purpose);
-
             if (bookPurposeSelect.val() == 'buy/sell') {
                 offerPriceDiv.show();
-                console.log("Show");
                 offerPriceDiv.removeClass('d-none').addClass('d-flex');
             } else {
                 offerPriceDiv.hide();
-                console.log("Hide");
                 offerPriceDiv.removeClass('d-flex').addClass('d-none');
             }
         });
