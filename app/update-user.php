@@ -22,84 +22,89 @@ if (isset($_POST['update-profile-btn'])) {
     $userId = $_POST['user-id'];
     $user->fetch($userId);
 
-    $firstName = $_POST['edit-profile-first-name'];
-    $lastName = $_POST['edit-profile-last-name'];
-    $fullName = ucfirst($firstName) . ' ' . ucfirst($lastName);
-    $dob = $_POST['edit-profile-dob'];
-    $gender = $_POST['edit-profile-gender'];
-    $phoneNumber = '+977' . $_POST['edit-profile-contact'];
-    $district = $_POST['edit-profile-district'];
-    $location = $_POST['edit-profile-location'];
+    $authProperties = [];
 
-    $authProperties = [
-        'displayName' => $fullName,
-        'phoneNumber' => $phoneNumber,
-    ];
+    // first name
+    if (isset($_POST['edit-profile-first-name']))
+        $properties['name']['first'] = strtolower($_POST['edit-profile-first-name']);
 
-    $properties = [
-        'name' => [
-            'first' => strtolower($firstName),
-            'last' => strtolower($lastName),
-        ],
-        'gender' => $gender,
-        'dob' => $dob,
-        'address' => [
-            'district' => $district,
-            'location' => strtolower($location)
-        ],
-    ];
+    // last name
+    if (isset($_POST['edit-profile-last-name']))
+        $properties['name']['last'] = strtolower($_POST['edit-profile-last-name']);
+
+    // display name
+    if (isset($_POST['edit-profile-first-name']) && isset($_POST['edit-profile-last-name']))
+        $authProperties['displayName'] = ucfirst($_POST['edit-profile-first-name']) . ' ' . ucfirst($_POST['edit-profile-last-name']);
+
+    // dob
+    if (isset($_POST['edit-profile-dob']))
+        $properties['dob'] = $_POST['edit-profile-dob'];
+
+    // gender 
+    if (isset($_POST['edit-profile-gender']))
+        $properties['gender'] = $_POST['edit-profile-gender'];
+
+    // phone number
+    if (isset($_POST['edit-profile-contact']) && $_POST['edit-profile-contact'] != "")
+        $authProperties['phoneNumber'] = '+977' . $_POST['edit-profile-contact'];
+
+    // district
+    if (isset($_POST['edit-profile-district']))
+        $properties['address']['district'] = $_POST['edit-profile-district'];
+
+    // location
+    if (isset($_POST['edit-profile-location']))
+        $properties['address']['location'] = strtolower($_POST['edit-profile-location']);
 
     if ($hasProfilePhoto) {
         global $auth;
         global $database;
 
         // auth
-        $authUpdated = $auth->updateUser($userId, $authProperties);
+        if ($authProperties['displayName'] != "" || $authProperties['phoneNumber'] != "")
+            $authUpdated = $auth->updateUser($userId, $authProperties);
 
-        if ($authUpdated) {
-            // getting previous profile picture
-            $oldPhotoName = $user->photo;
+        // getting previous profile picture
+        $oldPhotoName = $user->photo;
 
-            // profile picture :: extract details from photo
-            $photoFile = $_FILES['edit-profile-profile-picture'];
-            $user->photo = $photoFile;
-            $fileTmpPath = $photoFile['tmp_name'];
-            $fileName = $photoFile['name'];
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-            $filePath = 'users/' . $newFileName;
+        // profile picture :: extract details from photo
+        $photoFile = $_FILES['edit-profile-profile-picture'];
+        $user->photo = $photoFile;
+        $fileTmpPath = $photoFile['tmp_name'];
+        $fileName = $photoFile['name'];
+        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+        $filePath = 'users/' . $newFileName;
 
-            $properties['photo'] = $newFileName;
+        $properties['photo'] = $newFileName;
 
-            try {
-                // upload profile picture
-                $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
+        try {
+            // upload profile picture
+            $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
 
-                $response = $database->getReference("users/{$userId}")->update($properties);
-                if ($response)
-                    $status = 1;
-            } catch (Exception $e) {
-                $status = false;
-            }
+            $response = $database->getReference("users/{$userId}")->update($properties);
+            if ($response)
+                $status = 1;
+        } catch (Exception $e) {
+            $status = false;
+        }
 
-            // in case photo uploaded
-            if ($status) {
-                // delete previous profile picture
-                $temp = deleteFileFromStorageBucket("users", $oldPhotoName);
-            }
+        // in case photo uploaded
+        if ($status) {
+            // delete previous profile picture
+            $temp = deleteFileFromStorageBucket("users", $oldPhotoName);
         }
     } else {
         global $auth;
         global $database;
 
         // auth
-        $authUpdated = $auth->updateUser($userId, $authProperties);
+        if ($authProperties['displayName'] != "" || $authProperties['phoneNumber'] != "")
+            $authUpdated = $auth->updateUser($userId, $authProperties);
 
-        if ($authUpdated) {
-            $response = $database->getReference("users/{$userId}")->update($properties);
-            if ($response)
-                $status = 1;
-        }
+        $response = $database->getReference("users/{$userId}")->update($properties);
+        if ($response)
+            $status = 1;
     }
     $_SESSION['status'] = $status ? 1 : 0;
     $_SESSION['status-message'] = $status ? "Profile updated successfully." : "Profile updation failed.";

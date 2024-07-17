@@ -75,7 +75,7 @@ class Admin
         $this->dob = $dob;
         $this->gender = $gender;
         $this->name = [
-            "first" => $this->name['first'] == '' ? $name['first'] : '',
+            "first" => $this->name['first'] != '' ? $name['first'] : '',
             "last" => $name['last'],
         ];
         $this->address = [

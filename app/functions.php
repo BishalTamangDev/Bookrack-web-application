@@ -190,18 +190,6 @@ function deleteFileFromStorageBucket($folder, $filename)
     return $status;
 }
 
-// function to generate OTP code
-function generateOTP()
-{
-    return rand(100000, 999999); // Generate a 6-digit OTP
-}
-
-// sanitize email
-function sanitizeEmail($email)
-{
-    return str_replace(['.', '@'], [',', ':'], $email);
-}
-
 // get array index value
 function getArrayIndexValue($dataToBeSearched, $which)
 {

@@ -145,7 +145,7 @@ $profileAdmin->fetch($adminId);
                         <!-- first name -->
                         <div class="d-flex flex-column gap-2 w-100 first-name">
                             <label for="first-name"> First name </label>
-                            <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->getFirstName() != '')
+                            <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->name['first'] != '')
                                 echo ucfirst($profileAdmin->getFirstName()); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?> required>
                         </div>
@@ -153,7 +153,7 @@ $profileAdmin->fetch($adminId);
                         <!-- last name -->
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="last-name"> Last name </label>
-                            <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->getLastName() != '')
+                            <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->name['last'] != '')
                                 echo ucfirst($profileAdmin->getLastName()); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?> required>
                         </div>

@@ -3,6 +3,7 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/user-class.php';
+require_once __DIR__ . '/functions.php';
 
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
@@ -62,10 +63,10 @@ if (isset($_POST['signup-btn'])) {
 
         $status = 1;
         $_SESSION['status-message'] = "Signed up successfully.";
-    } catch (EmailExists $e) {
+    } catch (EmailExists $e) { 
         $_SESSION['status-message'] = "This email address is already in use.";
     } catch (InvalidPassword $e) {
-        $_SESSION['status-message'] = "The password is not valid.";
+        $_SESSION['status-message'] = "An unexpected error occurred.";
     } catch (AuthException $e) {
         $_SESSION['status-message'] = "An unexpected error occurred.";
     } catch (Exception $e) {
@@ -81,7 +82,6 @@ if (isset($_POST['signup-btn'])) {
 
     exit();
 }
-
 
 // signin auth method
 if (isset($_POST['signin-btn'])) {
@@ -108,7 +108,7 @@ if (isset($_POST['signin-btn'])) {
             $status = 1;
             $_SESSION['bookrack-user-id'] = $uid;
             $_SESSION['idTokenString'] = $idTokenString;
-            
+
             unset($_SESSION['temp-email']);
         } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
             $_SESSION['status'] = 'Unexpected error occured.';

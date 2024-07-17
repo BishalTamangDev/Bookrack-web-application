@@ -282,7 +282,7 @@ $bookObj = new Book();
                                         <?php
                                         if($profileUser->checkAccountVerificationEligibility()){
                                             ?>
-                                            <p class="m-0 btn btn-outline-primary p-2 px-3" onclick="window.location.href=''"> Apply for Account Verification </p>
+                                            <p class="m-0 btn btn-outline-primary p-2 px-3" onclick="window.location.href='/bookrack/app/account-verification.php'"> Apply for Account Verification </p>
                                             <?php
                                         }
                                         ?>
@@ -329,15 +329,15 @@ $bookObj = new Book();
                                     <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
                                         echo ucfirst($profileUser->name['first']); ?>" name="edit-profile-first-name"
                                         aria-describedby="first name" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                            echo "disabled"; ?>>
                                 </div>
 
                                 <div class="flex-grow-1 last-name-div">
                                     <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['first'] != "")
+                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['last'] != "")
                                         echo ucfirst($profileUser->name['last']); ?>" name="edit-profile-last-name"
                                         aria-describedby="last name" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                            echo "disabled"; ?>>
                                 </div>
                             </div>
 
@@ -348,7 +348,7 @@ $bookObj = new Book();
                                     <label for="edit-profile-dob" class="form-label"> Date of birth </label>
                                     <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
                                         echo $profileUser->getDob(); ?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
-                                              echo "disabled"; ?> required>
+                                              echo "disabled"; ?>>
                                 </div>
 
                                 <!-- gender -->
@@ -356,7 +356,7 @@ $bookObj = new Book();
                                     <label for="edit-profile-gender" class="form-label"> Gender </label>
                                     <select class="form-select" name="edit-profile-gender"
                                         aria-label="Default select example" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                            echo "disabled"; ?>>
                                         <?php
                                         if ($profileUser->gender == "") {
                                             ?>
@@ -397,13 +397,13 @@ $bookObj = new Book();
                                         aria-describedby="email" disabled>
                                 </div>
 
-                                <!-- contact -->
+                                <!-- phone number -->
                                 <div class="w-100 w-md-50 contact-div">
                                     <label for="edit-profile-contact" class="form-label"> Contact </label>
                                     <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getPhoneNumber() != "")
-                                        echo $profileUser->getPhoneNumber(); ?>" name="edit-profile-contact"
-                                        aria-describedby="contact" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                        echo str_replace('+977', '', $profileUser->getPhoneNumber()); ?>" name="edit-profile-contact"
+                                        aria-describedby="contact" <?php if ($tab == "view-profile" || $profileUser->getPhoneNumber() != "")
+                                            echo "disabled"; ?>>
                                 </div>
                             </div>
 
@@ -414,7 +414,7 @@ $bookObj = new Book();
                                     <label for="edit-profile-district" class="form-label"> District </label>
                                     <select class="form-select" name="edit-profile-district" aria-label="district select"
                                         <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                            echo "disabled"; ?>>
 
                                         <?php
                                         // if value is already set
@@ -447,7 +447,7 @@ $bookObj = new Book();
                                     <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
                                         echo ucfirst($profileUser->getAddressLocation()); ?>"
                                         name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?> required>
+                                            echo "disabled"; ?>>
                                 </div>
                             </div>
 

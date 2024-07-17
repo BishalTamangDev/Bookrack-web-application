@@ -110,7 +110,7 @@ $profileUser->fetchUserPhotoUrl();
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>

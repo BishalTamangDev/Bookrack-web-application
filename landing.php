@@ -14,7 +14,6 @@ require_once __DIR__ . '/app/book-class.php';
 
 $bookObj = new Book();
 $bookIdList = $bookObj->fetchAllBookId();
-$genreList = [];
 ?>
 
 <!DOCTYPE html>
