@@ -91,7 +91,6 @@ $profileAdmin->fetch($adminId);
                 </a>
 
                 <?php
-
                 if ($profileAdmin->getAccountStatus() != "verified") {
                     ?>
                     <a href="/bookrack/admin/admin-profile/document"
@@ -102,6 +101,16 @@ $profileAdmin->fetch($adminId);
                     <?php
                 }
                 ?>
+
+                <!-- hide this after account has been verified -->
+                <?php 
+                if($profileAdmin->checkAccountVerificationEligibility()){
+                    ?>
+                    <a href="app/account-verification.php" class="btn btn-outline-primary">
+                        Apply for Account Verification
+                    </a>
+                    <?php
+                }?>
             </div>
             <?php
         }
@@ -147,7 +156,7 @@ $profileAdmin->fetch($adminId);
                             <label for="first-name"> First name </label>
                             <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->name['first'] != '')
                                 echo ucfirst($profileAdmin->getFirstName()); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> required>
+                                      echo "disabled"; ?>>
                         </div>
 
                         <!-- last name -->
@@ -155,7 +164,7 @@ $profileAdmin->fetch($adminId);
                             <label for="last-name"> Last name </label>
                             <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->name['last'] != '')
                                 echo ucfirst($profileAdmin->getLastName()); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> required>
+                                      echo "disabled"; ?>>
                         </div>
                     </div>
 
@@ -166,14 +175,14 @@ $profileAdmin->fetch($adminId);
                             <label for="dob"> Date of birth </label>
                             <input type="date" name="dob" class="form-control" id="dob" value="<?php if ($profileAdmin->getDob() != '')
                                 echo $profileAdmin->getDob(); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> required>
+                                      echo "disabled"; ?>>
                         </div>
 
                         <!-- gender -->
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="gender"> Gender </label>
                             <select name="gender" class="form-select" id="gender" <?php if ($tab != "edit")
-                                echo "disabled"; ?> required>
+                                echo "disabled"; ?>>
                                 <?php
                                 if ($profileAdmin->getGender() != "") {
                                     ?>
@@ -214,8 +223,8 @@ $profileAdmin->fetch($adminId);
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="phone-number"> Phone Number </label>
                             <input type="text" name="phone-number" class="form-control" id="phone-number" value="<?php if ($profileAdmin->getPhoneNumber() != '')
-                                echo $profileAdmin->getPhoneNumber(); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> minlength="10" maxlength="10" required>
+                                echo str_replace('+977', '', $profileAdmin->getPhoneNumber()); ?>" <?php if ($tab != "edit")
+                                      echo "disabled"; ?> minlength="10" maxlength="10">
                         </div>
                     </div>
 
