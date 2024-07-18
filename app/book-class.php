@@ -123,55 +123,6 @@ class Book
     {
         return $this->ownerId;
     }
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    public function getGenre()
-    {
-        return $this->genre;
-    }
-
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    public function getIsbn()
-    {
-        return $this->isbn;
-    }
-
-    public function getPurpose()
-    {
-        return $this->purpose;
-    }
-
-    public function getPublisher()
-    {
-        return $this->publisher;
-    }
-
-    public function getPublication()
-    {
-        return $this->publication;
-    }
-
-    public function getEdition()
-    {
-        return $this->edition;
-    }
 
     public function getActualPrice()
     {
@@ -209,12 +160,6 @@ class Book
         return $this->date["approval"];
     }
 
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-
     // Setter function
     public function setId($id)
     {
@@ -224,55 +169,6 @@ class Book
     public function setOwnerId($ownerId)
     {
         $this->ownerId = $ownerId;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    public function setGenre($genre)
-    {
-        $this->genre = $genre;
-    }
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-    }
-
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    public function setIsbn($isbn)
-    {
-        $this->isbn = $isbn;
-    }
-
-    public function setPurpose($purpose)
-    {
-        $this->purpose = $purpose;
-    }
-
-    public function setPublisher($publisher)
-    {
-        $this->publisher = $publisher;
-    }
-
-    public function setPublication($publication)
-    {
-        $this->publication = $publication;
-    }
-
-    public function setEdition($edition)
-    {
-        $this->edition = $edition;
     }
 
     public function setActualPrice($actualPrice)
@@ -311,11 +207,6 @@ class Book
         $this->date["approval"] = $approvalDate;
     }
 
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
     // book registration
     public function register()
     {
@@ -349,11 +240,8 @@ class Book
 
             'status' => "verified"
         ];
-
         $postRef = $database->getReference("books")->push($postData);
-
         $immediateKey = $postRef->getKey();
-
         return $immediateKey;
     }
 
@@ -401,7 +289,6 @@ class Book
     public function setCoverPhotoUrl()
     {
         global $bucket;
-
         $prefix = 'books/';
 
         $objectName = $prefix . $this->photo['cover'];
@@ -498,14 +385,15 @@ class Book
     }
 
     // search book
-    public function searchBook($searchContent) {
+    public function searchBook($searchContent)
+    {
         global $database;
         $bookIdList = [];
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
-        if($response) {
-            foreach($response as $key => $res) {
-                if(strpos($res['title'], $searchContent) !== false) {
+        if ($response) {
+            foreach ($response as $key => $res) {
+                if (strpos($res['title'], $searchContent) !== false) {
                     $bookIdList[] = $key;
                 }
             }

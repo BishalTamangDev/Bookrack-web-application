@@ -14,7 +14,6 @@ class User
     public $disabled;
     public $emailVerified;
 
-
     // realtime database
     public $name = [
         'first' => '',
@@ -110,24 +109,9 @@ class User
         return $this->userId;
     }
 
-    public function getFirstName()
-    {
-        return $this->name["first"];
-    }
-
-    public function getLastName()
-    {
-        return $this->name["last"];
-    }
-
     public function getFullName()
     {
         return ucWords($this->name['first'] . ' ' . $this->name['last']);
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     public function getPassword()
@@ -143,16 +127,6 @@ class User
     public function getDob()
     {
         return $this->dob;
-    }
-
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
-    public function getPhoto()
-    {
-        return $this->photo;
     }
 
     public function getAddressDistrict()
@@ -172,16 +146,6 @@ class User
             return ucWords($this->address['location'] . ', ' . $districtArray[$this->address['district']]);
         else
             return '-';
-    }
-
-    public function getAccountStatus()
-    {
-        return $this->accountStatus;
-    }
-
-    public function getJoinedDate()
-    {
-        return $this->joinedDate;
     }
 
     public function getDocumentType()
@@ -216,11 +180,6 @@ class User
         $this->name["last"] = $lastName;
     }
 
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
     public function setPassword($password)
     {
         $this->password = $password;
@@ -236,16 +195,6 @@ class User
         $this->dob = $dob;
     }
 
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-    }
-
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
-    }
-
     public function setAddressDistrict($addressDistrict)
     {
         $this->address["district"] = $addressDistrict;
@@ -256,15 +205,6 @@ class User
         $this->address["location"] = $addressLocation;
     }
 
-    public function setAccountStatus($accountStatus)
-    {
-        $this->accountStatus = $accountStatus;
-    }
-
-    public function setGetJoinedDate($joinedDate)
-    {
-        $this->joinedDate = $joinedDate;
-    }
 
     public function setDocumentType($documentType)
     {
@@ -387,11 +327,6 @@ class User
         } else {
             $this->photoUrl = null;
         }
-    }
-
-    public function getPhotoUrl()
-    {
-        return $this->photoUrl;
     }
 
     public function setKycUrl()

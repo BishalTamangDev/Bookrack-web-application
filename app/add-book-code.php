@@ -27,16 +27,16 @@ if (isset($_POST['add-book-btn'])) {
 
     // set values
     $book->setOwnerId($userId);
-    $book->setTitle(strtolower($_POST['book-title']));
-    $book->setDescription(strtolower($_POST['book-description']));
-    $book->setLanguage($_POST['book-language']);
-    $book->setGenre($genreArray);
-    $book->setAuthor($authorArray);
-    $book->setIsbn($_POST['book-isbn']);
-    $book->setPurpose($_POST['book-purpose']);
-    $book->setPublisher(strtolower($_POST['book-publisher']));
-    $book->setPublication(strtolower($_POST['book-publication']));
-    $book->setEdition($_POST['book-edition']);
+    $book->title = strtolower($_POST['book-title']);
+    $book->description = strtolower($_POST['book-description']);
+    $book->language = $_POST['book-language'];
+    $book->genre = $genreArray;
+    $book->author = $authorArray;
+    $book->isbn = $_POST['book-isbn'];
+    $book->purpose = $_POST['book-purpose'];
+    $book->publisher = strtolower($_POST['book-publisher']);
+    $book->publication = strtolower($_POST['book-publication']);
+    $book->edition = $_POST['book-edition'];
     $book->setActualPrice($_POST['book-actual-price']);
     $book->setOfferPrice($_POST['book-offer-price']);
 

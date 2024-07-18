@@ -12,7 +12,7 @@ require_once __DIR__ . '/app/admin-class.php';
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if(!$adminExists)
+if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
 require_once __DIR__ . '/../app/functions.php';
@@ -70,7 +70,7 @@ $profileAdmin->fetch($adminId);
 
         <!-- alert for account verification -->
         <?php
-        if ($profileAdmin->getAccountStatus() != "verified") {
+        if ($profileAdmin->accountStatus != "verified") {
             ?>
             <div class="alert alert-danger mb-0" role="alert">
                 Your account is not verified yet. Please wait sometime.
@@ -91,7 +91,7 @@ $profileAdmin->fetch($adminId);
                 </a>
 
                 <?php
-                if ($profileAdmin->getAccountStatus() != "verified") {
+                if ($profileAdmin->accountStatus != "verified") {
                     ?>
                     <a href="/bookrack/admin/admin-profile/document"
                         class="d-flex flex-row gap-1 btn btn-outline-secondary align-items-center">
@@ -103,14 +103,14 @@ $profileAdmin->fetch($adminId);
                 ?>
 
                 <!-- hide this after account has been verified -->
-                <?php 
-                if($profileAdmin->checkAccountVerificationEligibility()){
+                <?php
+                if ($profileAdmin->checkAccountVerificationEligibility()) {
                     ?>
                     <a href="app/account-verification.php" class="btn btn-outline-primary">
                         Apply for Account Verification
                     </a>
                     <?php
-                }?>
+                } ?>
             </div>
             <?php
         }
@@ -155,7 +155,7 @@ $profileAdmin->fetch($adminId);
                         <div class="d-flex flex-column gap-2 w-100 first-name">
                             <label for="first-name"> First name </label>
                             <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->name['first'] != '')
-                                echo ucfirst($profileAdmin->getFirstName()); ?>" <?php if ($tab != "edit")
+                                echo ucfirst($profileAdmin->name['first']); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?>>
                         </div>
 
@@ -163,7 +163,7 @@ $profileAdmin->fetch($adminId);
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="last-name"> Last name </label>
                             <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->name['last'] != '')
-                                echo ucfirst($profileAdmin->getLastName()); ?>" <?php if ($tab != "edit")
+                                echo ucfirst($profileAdmin->name['last']); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?>>
                         </div>
                     </div>
@@ -184,13 +184,13 @@ $profileAdmin->fetch($adminId);
                             <select name="gender" class="form-select" id="gender" <?php if ($tab != "edit")
                                 echo "disabled"; ?>>
                                 <?php
-                                if ($profileAdmin->getGender() != "") {
+                                if ($profileAdmin->gender != "") {
                                     ?>
-                                    <option value="<?= $profileAdmin->getGender() ?>" selected hidden>
+                                    <option value="<?= $profileAdmin->gender ?>" selected hidden>
                                         <?php
-                                        if ($profileAdmin->getGender() == 0)
+                                        if ($profileAdmin->gender == 0)
                                             echo "Male";
-                                        elseif ($profileAdmin->getGender() == 1)
+                                        elseif ($profileAdmin->gender == 1)
                                             echo "Female";
                                         else
                                             echo "Others";
@@ -216,7 +216,7 @@ $profileAdmin->fetch($adminId);
                         <div class="d-flex flex-column gap-2 w-100 first-name">
                             <label for="email"> Email </label>
                             <input type="email" name="email" class="form-control" id="email"
-                                value="<?= $profileAdmin->getEmail() ?>" disabled>
+                                value="<?= $profileAdmin->email ?>" disabled>
                         </div>
 
                         <!-- phone number -->
@@ -224,7 +224,7 @@ $profileAdmin->fetch($adminId);
                             <label for="phone-number"> Phone Number </label>
                             <input type="text" name="phone-number" class="form-control" id="phone-number" value="<?php if ($profileAdmin->getPhoneNumber() != '')
                                 echo str_replace('+977', '', $profileAdmin->getPhoneNumber()); ?>" <?php if ($tab != "edit")
-                                      echo "disabled"; ?> minlength="10" maxlength="10">
+                                        echo "disabled"; ?> minlength="10" maxlength="10">
                         </div>
                     </div>
 
@@ -299,7 +299,7 @@ $profileAdmin->fetch($adminId);
 
                 <!-- alert to say admin to wait sometime to to get their kyc verified -->
                 <?php
-                if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "" && $profileAdmin->getAccountStatus() != "verified") {
+                if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "" && $profileAdmin->accountStatus != "verified") {
                     ?>
                     <div class="border-top border-bottom py-2 mb-3">
                         <p class="m-0 text-secondary"> Note: Your documents are being verified. Please wait sometime. </p>

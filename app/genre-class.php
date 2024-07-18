@@ -121,8 +121,8 @@ class Genre
             $topGenreLimit = 3;
             $count = 0;
             foreach ($response as $key => $res) {
-                if($count < $topGenreLimit){
-                    if($res['book_count'] != 0){
+                if ($count < $topGenreLimit) {
+                    if ($res['book_count'] != 0) {
                         $genreList[] = $res['title'];
                         $count++;
                     }

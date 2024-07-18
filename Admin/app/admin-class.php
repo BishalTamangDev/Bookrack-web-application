@@ -14,7 +14,6 @@ class Admin
     public $photoUrl;
     public $disabled;
 
-
     // realtime db
     public $name = [
         'first' => '',
@@ -71,7 +70,8 @@ class Admin
 
     public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
     {
-        if($this->adminId == '') $this->adminId = $adminId;
+        if ($this->adminId == '')
+            $this->adminId = $adminId;
         $this->dob = $dob;
         $this->gender = $gender;
         $this->name = [
@@ -82,20 +82,24 @@ class Admin
             "district" => $address['district'],
             "location" => $address['location'],
         ];
-        if($this->photo == '')$this->photo = $photo;
+        if ($this->photo == '')
+            $this->photo = $photo;
         $this->kyc = [
             "document_type" => $kyc['document_type'],
             "front" => $kyc['front'],
             "back" => $kyc['back']
         ];
         $this->joinedDate = $joinedDate;
-        if($this->accountStatus == "") $this->accountStatus = $accountStatus;
+        if ($this->accountStatus == "")
+            $this->accountStatus = $accountStatus;
     }
 
     public function setAdminAuth($adminId, $email, $emailVerified, $phoneNumber, $displayName, $photoUrl, $disabled)
     {
-        if($this->adminId == '') $this->adminId = $adminId;
-        if($this->email == '') $this->email = $email;
+        if ($this->adminId == '')
+            $this->adminId = $adminId;
+        if ($this->email == '')
+            $this->email = $email;
         $this->emailVerified = $emailVerified;
         $this->phoneNumber = $phoneNumber;
         $this->displayName = $displayName;
@@ -109,34 +113,14 @@ class Admin
         return $this->adminId;
     }
 
-    public function getFirstName()
-    {
-        return ucfirst($this->name['first']);
-    }
-
-    public function getLastName()
-    {
-        return ucfirst($this->name["last"]);
-    }
-
     public function getFullName()
     {
         return ucWords($this->name['first'] . ' ' . $this->name["last"]);
     }
 
-    public function getGender()
-    {
-        return $this->gender;
-    }
-
     public function getDob()
     {
         return $this->dob;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     public function getPassword()
@@ -158,16 +142,6 @@ class Admin
             return '-';
     }
 
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    public function getPhotoUrl()
-    {
-        return $this->photoUrl;
-    }
-
     public function getKycDocumentType()
     {
         return $this->kyc['document_type'];
@@ -183,16 +157,6 @@ class Admin
         return $this->kyc['back'];
     }
 
-    public function getAccountStatus()
-    {
-        return $this->accountStatus;
-    }
-
-    public function getJoinedDate()
-    {
-        return $this->joinedDate;
-    }
-
 
     // Setters
     public function setId($adminId)
@@ -200,29 +164,9 @@ class Admin
         $this->adminId = $adminId;
     }
 
-    public function setFirstName($firstName)
-    {
-        $this->name["first"] = $firstName;
-    }
-
-    public function setLastName($lastName)
-    {
-        $this->name["last"] = $lastName;
-    }
-
-    public function setGender($gender)
-    {
-        $this->gender = $gender;
-    }
-
     public function setDob($dob)
     {
         $this->dob = $dob;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
     }
 
     public function setPassword($password)
@@ -233,11 +177,6 @@ class Admin
     public function setPhoneNumber($phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
-    }
-
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
     }
 
     public function setKycDocumentType($kycDocumentType)
@@ -252,16 +191,6 @@ class Admin
     public function setKycBack($kycBack)
     {
         $this->kyc["back"] = $kycBack;
-    }
-
-    public function setAccountStatus($accountStatus)
-    {
-        $this->accountStatus = $accountStatus;
-    }
-
-    public function setJoinedDate($joinedDate)
-    {
-        $this->joinedDate = $joinedDate;
     }
 
     // admin registration
@@ -299,15 +228,16 @@ class Admin
         return $postRef ? true : false;
     }
 
-    public function checkAdminExistenceById($adminId){
+    public function checkAdminExistenceById($adminId)
+    {
         $status = false;
         global $auth;
         global $database;
 
-        try{
+        try {
             $authResponse = $auth->getUser($adminId);
             $this->email = $authResponse->email;
-            
+
             // id, name, email, account status
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
             $this->adminId = $adminId;
@@ -315,7 +245,7 @@ class Admin
             $this->accountStatus = $response['account_status'];
             $this->photo = $response['photo'];
             $status = true;
-        } catch(Exception $e){
+        } catch (Exception $e) {
         }
         return $status;
     }
