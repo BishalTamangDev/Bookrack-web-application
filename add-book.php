@@ -17,6 +17,16 @@ $userExists = $profileUser->fetch($userId);
 
 if (!$userExists)
     header("Location: /bookrack/signout");
+
+
+if($task == 'edit'){
+    require_once __DIR__ . '/app/book-class.php';
+    $book = new Book();
+    $bookExists = $book->fetch($bookId);
+    if(!$bookExists){
+        header("Location: /bookrack/profile/my-books");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,14 +69,21 @@ if (!$userExists)
                     <?php echo ($task == "add") ? "Add Book" : "Edit Book" ?>
                 </p>
                 <div class="d-flex flex-row flex-wrap gap-2 action">
-                    <button class="btn btn-danger" onclick="window.location.href='/bookrack/add-book/<?= $task; ?>'">
-                        Reset </button>
+                    <?php if($task == "add"){
+                        ?>
+                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/add-book/<?= $task; ?>'"> Reset </button>
+                        <?php
+                    } else {
+                        ?>
+                        <button class="btn btn-danger" onclick="window.location.href='/bookrack/add-book/edit/<?=$bookId?>'"> Reset </button>
+                        <?php
+                    }?>
                 </div>
             </div>
 
             <!-- status message -->
             <?php
-            if (isset($_SESSION['status'])) {
+            if (isset($_SESSION['status']) && isset($_SESSION['status-message'])) {
                 ?>
                 <p class="m-0 <?= $_SESSION['status'] ? 'text-success' : 'text-danger' ?>">
                     <?= $_SESSION['status-message'] ?>
@@ -76,22 +93,25 @@ if (!$userExists)
             ?>
 
             <!-- add book form -->
-            <form action="/bookrack/app/add-book-code.php" method="POST"
+            <form action="<?php echo $task == "add" ? '/bookrack/app/add-book-code.php':'/bookrack/app/update-book-code.php'?>" method="POST"
                 class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form"
                 enctype="multipart/form-data" autocomplete="on">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
+                    <!-- id -->
+                    <input type="hidden" name="book-id" value="<?=$book->getId()?>">
+
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
                         <label for="book-title" class="m-0 form-label"> Title </label>
-                        <input type="text" class="form-control" id="book-title" name="book-title"
+                        <input type="text" class="form-control" id="book-title" name="book-title" value="<?php if($task == 'edit') echo $book->title;?>"
                             aria-describedby="book title" required>
                     </div>
 
                     <!-- description -->
                     <div class="d-flex flex-column gap-2 description">
                         <label for="book-description" class="m-0 form-label"> Description </label>
-                        <textarea class="form-control" placeholder="" id="book-description" name="book-description"
-                            minlength="20" required></textarea>
+                        <textarea class="form-control" id="book-description" name="book-description"
+                            minlength="5" required><?php if($task == 'edit') echo $book->description;?></textarea>
                     </div>
 
                     <!-- authors -->
@@ -110,16 +130,44 @@ if (!$userExists)
                         <!-- author inputs -->
                         <div class="d-flex flex-column gap-3 author-field-container" id="author-field-container">
                             <!-- author field 1 -->
-                            <div class="d-flex flex-row align-items-center gap-2 author-div"
-                                id="author-field-container-1">
-                                <input type="text" name="book-author[]" class="form-control" id="book-author-1"
-                                    placeholder="Enter author name" required>
+                            <?php
+                            if($task == 'add'){
+                                ?>
+                                <div class="d-flex flex-row align-items-center gap-2 author-div"
+                                    id="author-field-container-1">
+                                    <input type="text" name="book-author[]" class="form-control" id="book-author-1"
+                                        placeholder="Enter author name" required>
 
-                                <!-- delete author -->
-                                <!-- <a class="btn btn-danger delete-author" id="delete-author-1" onclick="removeAuthorContainer('author-field-container-1')">
-                                        <i class="fa fa-trash"></i>
-                                    </a> -->
-                            </div>
+                                    <!-- delete author -->
+                                    <!-- <a class="btn btn-danger delete-author" id="delete-author-1" onclick="removeAuthorContainer('author-field-container-1')">
+                                            <i class="fa fa-trash"></i>
+                                        </a> -->
+                                </div>
+                                <?php
+                            } else {
+                                $count = 1;
+                                foreach($book->author as $author){
+                                    ?>
+                                    <div class="d-flex flex-row align-items-center gap-2 author-div" id="author-field-container-<?=$count?>">
+                                        <input type="text" name="book-author[]" class="form-control" id="book-author-<?=$count?>" value="<?=$author?>"
+                                            placeholder="Enter author name" required>
+
+                                        <!-- delete author -->
+                                         <?php
+                                         if($count != 1){
+                                            ?>
+                                                <a class="btn btn-danger delete-author" id="delete-author-<?=$count?>" onclick="removeAuthorContainer('author-field-container-<?=$count?>')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                            <?php
+                                         }
+                                         ?>
+                                    </div>
+                                    <?php
+                                    $count++;
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
 
@@ -149,7 +197,17 @@ if (!$userExists)
 
                         <!-- genre label-->
                         <div class="bottom">
-                            <input type="text" class="form-control" name="book-genre-label" itemid="book genre label"
+                            <input type="text" class="form-control" name="book-genre-label" itemid="book genre label" value="<?php if($task == 'edit'){
+                                $count = 1;
+                                foreach($book->genre as $genre){
+                                    if($count == sizeof($book->genre)){
+                                        echo $genre;
+                                    } else {
+                                        echo $genre.', ';
+                                    }
+                                    $count++;
+                                }
+                            }?>"
                                 placeholder="Choose atleast one genre" value="" id="book-genre-label" required>
                         </div>
 
@@ -162,7 +220,9 @@ if (!$userExists)
                                 ?>
                                 <div class="gap-2 form-check">
                                     <input class="form-check-input genre-option" type="checkbox" name="book-genre-array[]"
-                                        value="<?php echo $genre; ?>" id="<?php echo $id; ?>">
+                                        value="<?php echo $genre; ?>" id="<?php echo $id; ?>" <?php if($task == "edit") {
+                                            if(in_array($genre, $book->genre)) echo "checked";
+                                        }?>>
                                     <label class="form-check-label" for="<?php echo $id; ?>"> <?= $genre ?> </label>
                                 </div>
                                 <?php
@@ -176,7 +236,7 @@ if (!$userExists)
                         <!-- isbn -->
                         <div class="d-flex flex-column w-100 w-md-50 gap-2 isbn">
                             <label for="book-isbn" class="m-0 form-label"> ISBN </label>
-                            <input type="text" class="form-control" id="book-isbn" name="book-isbn"
+                            <input type="text" class="form-control" id="book-isbn" name="book-isbn" value="<?php if($task == 'edit') echo $book->isbn;?>"
                                 aria-describedby="book isbn" required>
                         </div>
 
@@ -185,7 +245,18 @@ if (!$userExists)
                             <label for="book-purpose" class="m-0 form-label"> Purpose </label>
                             <select class="form-select form-select" id="book-purpose" name="book-purpose"
                                 aria-label="book purpose" required>
-                                <option value="" selected hidden> Select the purpose </option>
+
+                                <?php
+                                if($task == "edit"){
+                                    ?>
+                                    <option value="<?=$book->purpose?>" selected hidden> <?=ucfirst($book->purpose)?> </option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="" selected hidden> Select the purpose </option>
+                                    <?php
+                                }
+                                ?>
                                 <option value="renting"> Renting </option>
                                 <option value="buy/sell"> Buy/Sell </option>
                                 <option value="giveaway"> Giveaway </option>
@@ -198,14 +269,14 @@ if (!$userExists)
                         <!-- publisher -->
                         <div class="d-flex flex-column gap-2 publisher ">
                             <label for="book-publisher" class="m-0 form-label"> Publisher </label>
-                            <input type="text" class="form-control" id="book-publisher" name="book-publisher"
+                            <input type="text" class="form-control" id="book-publisher" name="book-publisher" value="<?php if($task == 'edit') echo $book->publisher;?>"
                                 aria-describedby="publisher" required>
                         </div>
 
                         <!-- publication -->
                         <div class="d-flex flex-column gap-2 publication ">
                             <label for="book-publication" class="m-0 form-label"> Publication </label>
-                            <input type="text" class="form-control" id="book-publication" name="book-publication"
+                            <input type="text" class="form-control" id="book-publication" name="book-publication" value="<?php if($task == 'edit') echo $book->publication;?>"
                                 aria-describedby="publication" required>
                         </div>
                     </div>
@@ -217,7 +288,17 @@ if (!$userExists)
                             <label for="book-language" class="m-0 form-label"> Language </label>
                             <select class="form-select form-select" id="book-language" name="book-language"
                                 aria-label="book language" required>
-                                <option value="" selected hidden> Select the language </option>
+                                <?php
+                                if($task == 'edit'){
+                                    ?>
+                                    <option value="<?=$book->language?>" selected hidden> <?=ucfirst($book->language)?> </option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="" selected hidden> Select the language </option>
+                                    <?php
+                                }
+                                ?>
                                 <option value="chinese"> Chinese </option>
                                 <option value="english"> English </option>
                                 <option value="hindi"> Hindi </option>
@@ -229,8 +310,7 @@ if (!$userExists)
                         <!-- edition -->
                         <div class="d-flex flex-column gap-2 w-100 w-md-50 edition ">
                             <label for="book-edition" class="m-0 form-label"> Edition </label>
-                            <input type="number" name="book-edition" id="book-edition" class="form-control" min="1"
-                                required>
+                            <input type="text" name="book-edition" id="book-edition" class="form-control" value="<?php if($task == 'edit') echo $book->edition;?>" required>
                         </div>
                     </div>
 
@@ -239,14 +319,14 @@ if (!$userExists)
                         <!-- actual price -->
                         <div class="d-flex flex-column gap-2 actual-price ">
                             <label for="book-actual-price" class="m-0 form-label"> Actual price </label>
-                            <input type="number" class="form-control" id="book-actual-price" name="book-actual-price"
+                            <input type="number" class="form-control" id="book-actual-price" name="book-actual-price" value="<?php if($task == 'edit') echo $book->price['actual'];?>"
                                 aria-describedby="actual price" placeholder="" min="0" required>
                         </div>
 
                         <!-- offer price -->
                         <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
-                            <input type="number" class="form-control" id="book-offer-price" name="book-offer-price"
+                            <input type="number" class="form-control" id="book-offer-price" name="book-offer-price" value="<?php if($task == 'edit') echo $book->price['offer'];?>"
                                 aria-describedby="offer price" placeholder="" min="0" value="0" required>
                         </div>
                     </div>
@@ -259,13 +339,34 @@ if (!$userExists)
                         <hr>
                     </div>
 
+                    <?php
+                    if($task == "edit"){
+                        $book->setPhotoUrls();
+                        ?>
+                        <div class="d-flex flex-column gap-2 existing-photo-container">
+                            <div class="existing-photo">
+                                <img src="<?= $book->photoUrl['cover'] ?>" alt="">
+                            </div>
+                            
+                            <div class="existing-photo">
+                                <img src="<?= $book->photoUrl['isbn'] ?>" alt="">
+                            </div>
+
+                            <div class="existing-photo">
+                                <img src="<?= $book->photoUrl['price'] ?>" alt="">
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+
                     <div class="d-flex flex-column gap-3 book-images">
                         <!-- cover photo -->
                         <div class="input-group">
                             <label for="cover-page">Cover page</label>
                             <input type="file" name="book-cover-photo" id="cover-page" class="form-control"
                                 aria-label="cover page image" accept="image/*" aria-describedby="cover page image"
-                                required>
+                                <?php if($task != "edit") echo "required";?>>
                         </div>
 
                         <!-- price page -->
@@ -273,7 +374,7 @@ if (!$userExists)
                             <label for="price-page">Price page</label>
                             <input type="file" name="book-price-photo" id="price-page" class="form-control"
                                 aria-label="price page image" accept="image/*" aria-describedby="price page image"
-                                required>
+                                <?php if($task != "edit") echo "required";?>>
                         </div>
 
                         <!-- isbn page -->
@@ -281,7 +382,7 @@ if (!$userExists)
                             <label for="isbn-page">ISBN page</label>
                             <input type="file" name="book-isbn-photo" id="isbn-page" class="form-control"
                                 aria-label="isbn page image" accept="image/*" aria-describedby="isbn page image"
-                                required>
+                                <?php if($task != "edit") echo "required";?>>
                         </div>
                     </div>
 
@@ -368,6 +469,16 @@ if (!$userExists)
         });
 
         var genreList = [];
+        
+        <?php 
+        if($task == "edit"){
+            foreach($book->genre as $genre){
+                ?>
+                genreList.push("<?=$genre?>");
+                <?php
+            }
+        }
+        ?>
 
         $('.genre-option').on('click', function () {
             // finding the specific class object
@@ -399,7 +510,17 @@ if (!$userExists)
 
     <!-- author script -->
     <script>
-        var inputCounter = 1; // Initialize a counter for unique input IDs
+        <?php
+        if($task == "edit"){
+            ?>
+            var inputCounter = <?=sizeof($book->author)?>; // Initialize a counter for unique input IDs
+            <?php
+        }else{
+            ?>
+            var inputCounter = 1; // Initialize a counter for unique input IDs
+            <?php
+        }
+        ?>
 
         $('#add-author-field').click(function () {
             // Increment the counter

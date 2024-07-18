@@ -147,21 +147,23 @@ if (!$bookExists)
                     <!-- edition -->
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Edition </p>
-                        <p class="f-reset fs-6"> <?= $bookObj->edition ?><sup><?php
-                          $remainder = $bookObj->edition % 10;
-
-                          switch ($remainder) {
-                              case 1;
-                                  echo "st";
-                                  break;
-                              case 2;
-                                  echo "nd";
-                                  break;
-                              case 3:
-                                  echo "rd";
-                                  break;
-                              default:
-                                  echo "th";
+                        <p class="f-reset fs-6"> <?= ucfirst($bookObj->edition) ?><sup><?php
+                          if(is_int($bookObj->edition)){
+                              $remainder = $bookObj->edition % 10;
+    
+                              switch ($remainder) {
+                                  case 1;
+                                      echo "st";
+                                      break;
+                                  case 2;
+                                      echo "nd";
+                                      break;
+                                  case 3:
+                                      echo "rd";
+                                      break;
+                                  default:
+                                      echo "th";
+                              }
                           }
                           ?></sup> </p>
                     </div>

@@ -71,6 +71,17 @@
             .right {
                 height: fit-content;
 
+                .existing-photo-container{
+                    .existing-photo{
+                        aspect-ratio: 1/1;
+                        width: 100%;
+                        overflow: hidden;
+                        img{
+                            width: 100%;
+                        }
+                    }
+                }
+
                 .book-images {
                     .input-group {
                         display: flex;

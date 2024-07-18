@@ -49,6 +49,9 @@ elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-bo
     if (isset($arr[2])) {
         if ($arr[2] == "edit") {
             $task = "edit";
+            if(isset($arr[3])){
+                $bookId = $arr[3];
+            }
         }
     }
     include 'add-book.php';

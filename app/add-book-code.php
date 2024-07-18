@@ -90,19 +90,20 @@ if (isset($_POST['add-book-btn'])) {
         $status = $immediateKey != 0 ? true : false;
 
         // add new genre to the genre list
-        require_once 'genre-class.php'; 
+        require_once 'genre-class.php';
         $genreObj = new Genre();
         $genreObj->genreArray = $genreArray;
         $genreObj->newBook();
     }
 
     $_SESSION['status'] = $status;
-    $_SESSION['status-message'] = $status ? "Book added successfully" : "Book counldn't be added";
 
     if ($status)
         header("Location: /bookrack/book-details/$immediateKey");
-    else
+    else {
+        $_SESSION['status-message'] = "Book couldn't be added";
         header("Location: /bookrack/add-book");
+    }
 }
 
 exit();

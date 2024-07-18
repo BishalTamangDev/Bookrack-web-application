@@ -55,6 +55,14 @@
   height: -moz-fit-content;
   height: fit-content;
 }
+.main .add-book-section .add-book-form .right .existing-photo-container .existing-photo {
+  aspect-ratio: 1/1;
+  width: 100%;
+  overflow: hidden;
+}
+.main .add-book-section .add-book-form .right .existing-photo-container .existing-photo img {
+  width: 100%;
+}
 .main .add-book-section .add-book-form .right .book-images .input-group {
   display: flex;
   flex-direction: column;

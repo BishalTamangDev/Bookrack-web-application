@@ -191,22 +191,23 @@ if (!$bookFound) {
                                 <p class="m-0 fw-bold"> Edition </p>
                             </div>
                             <div class="data">
-                                <p class="m-0"><?= $selectedBook->edition ?><sup><?php
-                                  $remainder = $selectedBook->edition % 10;
-
-                                  switch ($remainder) {
-                                      case 1;
+                                <p class="m-0"><?= ucfirst($selectedBook->edition) ?><sup><?php
+                                    if(is_int($selectedBook->edition)){
+                                      $remainder = $selectedBook->edition % 10;
+                                      switch ($remainder) {
+                                          case 1;
                                           echo "st";
                                           break;
-                                      case 2;
+                                          case 2;
                                           echo "nd";
                                           break;
-                                      case 3:
-                                          echo "rd";
-                                          break;
-                                      default:
-                                          echo "th";
-                                  }
+                                          case 3:
+                                            echo "rd";
+                                            break;
+                                            default:
+                                            echo "th";
+                                        }
+                                    }
                                   ?></sup></p>
                             </div>
                         </div>

@@ -82,7 +82,7 @@ $userWishlist = $wishlist->fetchWishlist();
                     <!-- top image -->
                     <div class="d-flex flex-row top">
                         <div class="book-image">
-                            <?php $selectedBook->setPhotoUrls()?>
+                            <?php $selectedBook->setPhotoUrls() ?>
                             <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
                         </div>
                     </div>
@@ -191,23 +191,27 @@ $userWishlist = $wishlist->fetchWishlist();
                                 <p class="m-0 fw-bold"> Edition </p>
                             </div>
                             <div class="data">
-                                <p class="m-0"><?= $selectedBook->edition ?><sup><?php
-                                  $remainder = $selectedBook->edition % 10;
-
-                                  switch ($remainder) {
-                                      case 1;
-                                          echo "st";
-                                          break;
-                                      case 2;
-                                          echo "nd";
-                                          break;
-                                      case 3:
-                                          echo "rd";
-                                          break;
-                                      default:
-                                          echo "th";
-                                  }
-                                  ?></sup></p>
+                                <p class="m-0"><?= ucfirst($selectedBook->edition) ?><sup>
+                                    
+                                    <?php
+                                        if (!is_string($selectedBook->edition)) {
+                                            $remainder = $selectedBook->edition % 10;
+                                            switch ($remainder) {
+                                                case 1;
+                                                    echo "st";
+                                                    break;
+                                                case 2;
+                                                    echo "nd";
+                                                    break;
+                                                case 3:
+                                                    echo "rd";
+                                                    break;
+                                                default:
+                                                    echo "th";
+                                                }
+                                            }
+                                        ?></sup>
+                                </p>
                             </div>
                         </div>
 
@@ -298,6 +302,18 @@ $userWishlist = $wishlist->fetchWishlist();
 
                             <!-- add to cart -->
                             <a href="" class="btn" id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <!-- edit book details -->
+                        <div>
+                            <a href="/bookrack/add-book/edit/<?= $bookId ?>"
+                                class="btn btn-outline-success d-flex flex-row gap-2 align-items-center"
+                                style="width:fit-content;">
+                                <i class="fa-solid fa-edit"></i>
+                                <p class="m-0"> Edit </p>
+                            </a>
                         </div>
                         <?php
                     }
