@@ -496,4 +496,21 @@ class Book
 
         return $list;
     }
+
+    // search book
+    public function searchBook($searchContent) {
+        global $database;
+        $bookIdList = [];
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+
+        if($response) {
+            foreach($response as $key => $res) {
+                if(strpos($res['title'], $searchContent) !== false) {
+                    $bookIdList[] = $key;
+                }
+            }
+        }
+
+        return $bookIdList;
+    }
 }

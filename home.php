@@ -25,12 +25,22 @@ $profileUser->setUserId($userId);
 // book obj 
 require_once __DIR__ . '/app/book-class.php';
 $bookObj = new Book();
-$bookIdList = $bookObj->fetchAllBookId();
+
+// search
+$searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false;
+
+if (!$searchState) {
+    $bookIdList = $bookObj->fetchAllBookId();
+} else {
+    $searchContent = strtolower($_GET['search-content']);
+    $bookIdList = $bookObj->searchBook($searchContent);
+}
 
 // wishlist object
 require_once __DIR__ . '/app/wishlist-class.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
+
 
 // filter
 $filterState = (isset($_GET['min-price']) && isset($_GET['max-price']) && isset($_GET['purpose']) && isset($_GET['genre'])) ? true : false;
@@ -51,7 +61,9 @@ if ($filterState) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Home </title>
+    <title>
+        <?= $searchState ? "Search results : " . $searchContent : "Home"; ?>
+    </title>
 
     <?php require_once __DIR__ . '/app/header-include.php' ?>
 
@@ -84,12 +96,15 @@ if ($filterState) {
                 <!-- filter parameters -->
                 <section class="mt-3 filter-parameter-section">
                     <form method="GET" class="d-flex flex-column gap-3" id="filter-form">
+                        <!-- search content -->
+                        <input type="hidden" name="search-content" id="" value="<?php if ($searchState)
+                            echo $searchContent; ?>">
+
                         <!-- price -->
                         <div class="filter-parameter">
                             <!-- heading -->
                             <div class="heading">
                                 <label for="min-price" class="form-label"> Price </label>
-
                                 <abbr title="Reset">
                                     <a href="/bookrack/home">
                                         <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
@@ -145,7 +160,6 @@ if ($filterState) {
                                     <?php
                                 }
                                 ?>
-                                <option value="all"> All </option>
                                 <option value="renting"> Renting </option>
                                 <option value="buy/sell"> Buy/Sell </option>
                                 <option value="giveaway"> Giveaway </option>
@@ -200,43 +214,77 @@ if ($filterState) {
         <!-- article -->
         <article class="article bg-md-success bg-sm-danger">
             <!-- top genre  -->
-            <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
-                <p class="m-0 fs-5"> Top Genre </p>
-
-                <?php
-                $genreObj = new Genre();
-                $genreList = [];
-                $genreList = $genreObj->fetchGenreList();
+            <?php
+            if (!$searchState) {
                 ?>
+                <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
+                    <p class="m-0 fs-5"> Top Genre </p>
 
-                <!-- fetch all the genres -->
-                <div class="d-flex flex-row flex-wrap gap-2 genre-container">
                     <?php
-                    if (sizeof($genreList) > 0) {
-                        foreach ($genreList as $genre) {
+                    $genreObj = new Genre();
+                    $genreList = [];
+                    $genreList = $genreObj->fetchGenreList();
+                    ?>
+
+                    <!-- fetch all the genres -->
+                    <div class="d-flex flex-row flex-wrap gap-2 genre-container">
+                        <?php
+                        if (sizeof($genreList) > 0) {
+                            foreach ($genreList as $genre) {
+                                ?>
+                                <div class="genre">
+                                    <p class="m-0 text-secondary"> <?= $genre ?> </p>
+                                </div>
+                                <?php
+                            }
+                        } else {
                             ?>
                             <div class="genre">
-                                <p class="m-0 text-secondary"> <?= $genre ?> </p>
+                                <p class="m-0 text-secondary"> No trending genre yet! </p>
                             </div>
                             <?php
                         }
-                    } else {
                         ?>
-                        <div class="genre">
-                            <p class="m-0 text-secondary"> No trending genre yet! </p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </section>
+                    </div>
+                </section>
+                <?php
+            }
+            ?>
 
             <!-- all books section -->
-            <section class="d-flex flex-column gap-3 section all-books-section">
+            <section class="d-flex flex-column gap-3 <?php if (!$searchState)
+                echo "section"; ?> all-books-section">
                 <div class="d-flex justify-content-between align-items-center heading">
-                    <p class="m-0 fw-bold heading text-secondary fs-4"> All Books </p>
+                    <p class="m-0 fw-bold heading text-secondary fs-4">
+                        <?= $searchState ? "Search results" : "All Books" ?>
+                    </p>
                     <i class="fa fa-filter text-secondary pointer" id="filter-show-trigger-2"></i>
                 </div>
+
+                <?php
+                if ($searchState) {
+                    ?>
+                    <div class="d-flex flex-column gap-2 mb-2">
+                        <p class="m-0 text-secondary">
+                            <?php
+                            $searchResultCount = sizeof($bookIdList);
+                            switch ($searchResultCount) {
+                                case 0:
+                                    echo "No book found.";
+                                    break;
+                                case 1:
+                                    echo "$searchResultCount book found.";
+                                    break;
+                                default:
+                                    echo "$searchResultCount books found.";
+                            }
+                            ?>
+                        </p>
+                        <a href="/bookrack/home" class="btn btn-danger" style="width:fit-content;"> Clear search </a>
+                    </div>
+                    <?php
+                }
+                ?>
 
                 <?php
                 // fetch user's book
@@ -311,7 +359,6 @@ if ($filterState) {
                             } else {
                                 // $bookObj->fetch($bookId);
                             }
-
                             ?>
                             <div class="book-container">
                                 <!-- book image -->
@@ -382,14 +429,15 @@ if ($filterState) {
                         }
                     } else {
                         ?>
-                        <p class="m-0 text-danger"> No book has been added yet!</p>
+                        <p class="m-0 text-danger"> <?= $searchState ? "No books found!" : "No book has been added yet!" ?>
+                        </p>
                         <?php
                     }
                     ?>
                 </div>
 
                 <!-- pagination -->
-                <div class="d-flex flex-row mt-3 mx-md-auto mx-lg-0 align-items-center pagination-container">
+                <div class="d-flex d-none flex-row mt-3 mx-md-auto mx-lg-0 align-items-center pagination-container">
                     <div class="pagination-controller">
                         <i class="fa-solid fa-chevron-left"></i>
                     </div>
@@ -418,6 +466,12 @@ if ($filterState) {
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
                 </div>
+            </section>
+
+            <!-- empty context -->
+            <section class="flex-column mt-3 gap-3 align-items-center empty-context-container" id="empty-context-container">
+                <img src="assets/icons/empty.svg" alt="empty icon">
+                <p class="m-0 text-danger"> Empty! </p>
             </section>
         </article>
     </main>
@@ -450,6 +504,15 @@ if ($filterState) {
             });
             filterTriggerState = !filterTriggerState;
         });
+    </script>
+
+    <!-- empty contect -->
+    <script>
+        if($('.book-container').length == 0) {
+            $('#empty-context-container').show();
+        } else {
+            $('#empty-context-container').hide();
+        }
     </script>
 </body>
 

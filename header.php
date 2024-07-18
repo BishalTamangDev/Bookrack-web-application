@@ -10,6 +10,7 @@ if (!isset($userId))
     $userId = $_SESSION['bookrack-user-id'];
 
 require_once __DIR__ . '/app/user-class.php';
+
 if (!isset($profileUser)) {
     $profileUser = new User();
     $userExists = $profileUser->checkUserExistenceById($userId);
@@ -19,6 +20,10 @@ if (!isset($profileUser)) {
 
 }
 $profileUser->fetchUserPhotoUrl();
+
+// search
+if(!isset($searchState))
+    $searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false; 
 ?>
 
 <!DOCTYPE html>
@@ -58,9 +63,12 @@ $profileUser->fetchUserPhotoUrl();
                 </div>
 
                 <!-- search -->
-                <form class="search-form">
-                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2"
-                        required>
+                <form method="GET" action="/bookrack/home" class="search-form">
+                    <input type="search" name="search-content" id="search" placeholder="search here" class="p-2" value="<?php
+                    if ($searchState) {
+                        echo $searchContent;
+                    }
+                    ?>" required>
                 </form>
 
                 <!-- add book -->

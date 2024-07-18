@@ -113,6 +113,15 @@
         }
     }
 
+    // empty context
+    .empty-context-container{
+        display: flex;
+        img{
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+
     .pagination-container {
 
         i,

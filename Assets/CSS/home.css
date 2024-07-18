@@ -86,6 +86,13 @@
 .article .all-books-section .heading #filter-show-trigger-2 {
   display: block;
 }
+.article .empty-context-container {
+  display: flex;
+}
+.article .empty-context-container img {
+  width: 100%;
+  max-width: 200px;
+}
 .article .pagination-container i,
 .article .pagination-container p {
   line-height: 30px;
