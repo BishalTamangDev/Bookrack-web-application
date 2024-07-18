@@ -31,6 +31,16 @@ $bookIdList = $bookObj->fetchAllBookId();
 require_once __DIR__ . '/app/wishlist-class.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
+
+// filter
+$filterState = (isset($_GET['min-price']) && isset($_GET['max-price']) && isset($_GET['purpose']) && isset($_GET['genre'])) ? true : false;
+
+if ($filterState) {
+    $minPrice = $_GET['min-price'] != '' ? $_GET['min-price'] : 0;
+    $maxPrice = $_GET['max-price'] != '' ? $_GET['max-price'] : 0;
+    $filterPurpose = $_GET['purpose'];
+    $filterGenre = $_GET['genre'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,9 +62,7 @@ $wishlist->setUserId($userId);
 
 <body>
     <!-- header -->
-    <?php
-    include 'header.php';
-    ?>
+    <?php include 'header.php'; ?>
 
     <!-- main -->
     <main class="d-flex flex-row gap-lg-3 pb-5 container main">
@@ -72,6 +80,7 @@ $wishlist->setUserId($userId);
                     </div>
                 </section>
                 <hr>
+
                 <!-- filter parameters -->
                 <section class="mt-3 filter-parameter-section">
                     <form method="GET" class="d-flex flex-column gap-3" id="filter-form">
@@ -80,35 +89,66 @@ $wishlist->setUserId($userId);
                             <!-- heading -->
                             <div class="heading">
                                 <label for="min-price" class="form-label"> Price </label>
-                                <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
+
+                                <abbr title="Reset">
+                                    <a href="/bookrack/home">
+                                        <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
+                                    </a>
+                                </abbr>
                             </div>
 
                             <div class="d-flex gap-2 align-items-center">
                                 <!-- min price -->
-                                <input type="number" name="min-price" class="form-control" id="min-price" min="0"
-                                    aria-describedby="min price" placeholder="Min">
+                                <input type="number" name="min-price" class="form-control" id="min-price" min="0" value="<?php if ($filterState) {
+                                    if ($minPrice != 0) {
+                                        echo $minPrice;
+                                    }
+                                }
+                                ?>" aria-describedby="min price" placeholder="Min">
 
                                 <p class="m-0 fw-bold"> - </p>
 
                                 <!-- max price -->
-                                <input type="number" name="max-price" class="form-control" id="max-price" min="0"
-                                    aria-describedby="max price" placeholder="Max">
+                                <input type="number" name="max-price" class="form-control" id="max-price" min="0" value="<?php if ($filterState) {
+                                    if ($maxPrice != 0) {
+                                        echo $maxPrice;
+                                    }
+                                }
+                                ?>" aria-describedby="max price" placeholder="Max">
                             </div>
                         </div>
 
-                        <!-- book category type -->
+                        <!-- book purpoe -->
                         <div class="filter-parameter">
                             <!-- heading -->
                             <div class="heading">
                                 <label for="category" class="form-label"> Purpose </label>
-                                <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
                             </div>
 
                             <select class="form-select form-select-md" name="purpose" id="purpose"
                                 aria-label="Small select example">
-                                <option value="all" selected> All </option>
+                                <?php
+                                if ($filterState) {
+                                    if ($filterPurpose != 'all') {
+                                        ?>
+                                        <option value="<?= $filterPurpose ?>" selected hidden> <?= ucfirst($filterPurpose) ?>
+                                        </option>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <option value="all" selected> All </option>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <option value="all" selected hidden> All </option>
+                                    <?php
+                                }
+                                ?>
+                                <option value="all"> All </option>
                                 <option value="renting"> Renting </option>
                                 <option value="buy/sell"> Buy/Sell </option>
+                                <option value="giveaway"> Giveaway </option>
                             </select>
                         </div>
 
@@ -117,12 +157,24 @@ $wishlist->setUserId($userId);
                             <!-- heading -->
                             <div class="heading">
                                 <label for="genre" class="form-label"> Genre </label>
-                                <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
                             </div>
 
                             <select class="form-select form-select-md" name="genre" id="genre"
                                 aria-label="Small select example">
-                                <option value="all" selected hidden> All genre </option>
+                                <?php
+                                if ($filterState) {
+                                    if ($filterGenre != 'all') {
+                                        ?>
+                                        <option value="<?= $filterGenre ?>" selected hidden> <?= $filterGenre ?> </option>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <option value="all" selected hidden> All genre </option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                <option value="all"> All genre </option>
                                 <?php
                                 foreach ($genreArray as $genre) {
                                     ?>
@@ -186,10 +238,10 @@ $wishlist->setUserId($userId);
                     <i class="fa fa-filter text-secondary pointer" id="filter-show-trigger-2"></i>
                 </div>
 
-                <?php 
+                <?php
                 // fetch user's book
                 $userBookIdList = $bookObj->fetchUserBookId($userId);
-                
+
                 // fetch user wishlist
                 $userWishlist = $wishlist->fetchWishlist();
                 ?>
@@ -199,7 +251,67 @@ $wishlist->setUserId($userId);
                     <?php
                     if (sizeof($bookIdList) > 0) {
                         foreach ($bookIdList as $bookId) {
+                            // filtering
                             $bookObj->fetch($bookId);
+                            if ($filterState) {
+                                // purpose
+                                if ($filterPurpose != "all") {
+                                    if ($bookObj->purpose != $filterPurpose) {
+                                        continue;
+                                    }
+                                }
+
+                                // genre
+                                if ($filterGenre != "all") {
+                                    if (!in_array($filterGenre, $bookObj->genre)) {
+                                        continue;
+                                    }
+                                }
+
+                                // price
+                                $rent = 0.20 * $bookObj->price['actual'];
+
+                                if ($minPrice != 0 || $maxPrice != 0) {
+                                    if ($minPrice != 0 && $maxPrice == 0) {
+                                        if ($bookObj->purpose == 'renting') {
+                                            if ($rent < $minPrice) {
+                                                continue;
+                                            }
+                                        } elseif ($bookObj->purpose == 'buy/sell') {
+                                            // buy/sell
+                                            if ($bookObj->price['offer'] < $minPrice) {
+                                                continue;
+                                            }
+                                        }
+                                    } elseif ($minPrice == 0 && $maxPrice != 0) {
+                                        if ($bookObj->purpose == 'renting') {
+                                            if ($rent > $maxPrice) {
+                                                continue;
+                                            }
+                                        } elseif ($bookObj->purpose == 'buy/sell') {
+                                            // buy/sell
+                                            if ($bookObj->price['offer'] > $maxPrice) {
+                                                continue;
+                                            }
+                                        }
+                                    } else {
+                                        // both min and max price provided
+                                        if ($bookObj->purpose == 'renting') {
+                                            if ($rent < $minPrice || $rent > $maxPrice) {
+                                                continue;
+                                            }
+                                        } elseif ($bookObj->purpose == 'buy/sell') {
+                                            // buy/sell
+                                            if ($bookObj->price['offer'] < $minPrice || $bookObj->price['offer'] > $maxPrice) {
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // $bookObj->fetch($bookId);
+                            }
+
                             ?>
                             <div class="book-container">
                                 <!-- book image -->

@@ -811,7 +811,7 @@ $bookObj = new Book();
                                     <div class="book-container">
                                         <!-- book image -->
                                         <div class="book-image">
-                                            <?php $wishedBookId->setCoverPhotoUrl(); ?>
+                                            <?php $bookObj->setCoverPhotoUrl(); ?>
 
                                             <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo" loading="lazy">
                                         </div>

@@ -93,12 +93,12 @@ if($task == 'edit'){
             ?>
 
             <!-- add book form -->
-            <form action="<?php echo $task == "add" ? '/bookrack/app/add-book-code.php':'/bookrack/app/update-book-code.php'?>" method="POST"
+            <form action="<?php echo $task == 'add' ? '/bookrack/app/add-book-code.php':'/bookrack/app/update-book-code.php'; ?>" method="POST"
                 class="d-flex flex-column flex-md-row justify-content-between gap-3 gap-md-4 add-book-form"
                 enctype="multipart/form-data" autocomplete="on">
                 <div class="d-flex flex-column gap-3 left rounded p-0 p-md-3 book-details">
                     <!-- id -->
-                    <input type="hidden" name="book-id" value="<?=$book->getId()?>">
+                    <input type="hidden" name="book-id" value="<?php if($task == "edit") echo $book->getId();?>">
 
                     <!-- title -->
                     <div class="d-flex flex-column gap-2 title">
@@ -327,7 +327,7 @@ if($task == 'edit'){
                         <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price" value="<?php if($task == 'edit') echo $book->price['offer'];?>"
-                                aria-describedby="offer price" placeholder="" min="0" value="0" required>
+                                aria-describedby="offer price" placeholder="0" min="0" value="0" required>
                         </div>
                     </div>
                 </div>
@@ -581,7 +581,7 @@ if($task == 'edit'){
         const offerPriceField = $('#book-offer-price');
         const offerPriceDiv = $('#offer-price-div');
 
-        offerPriceDiv.removeClass('d-flex').addClass('d-none');
+        // offerPriceDiv.removeClass('d-flex').addClass('d-none');
 
         bookPurposeSelect.on('change', function () {
             var purpose = bookPurposeSelect.val();
