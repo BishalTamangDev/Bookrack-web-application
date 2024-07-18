@@ -63,7 +63,7 @@ if(!isset($searchState))
                 </div>
 
                 <!-- search -->
-                <form method="GET" action="/bookrack/home" class="search-form">
+                <form method="GET" action="/bookrack/app/search-code.php" class="search-form">
                     <input type="search" name="search-content" id="search" placeholder="search here" class="p-2" value="<?php
                     if ($searchState) {
                         echo $searchContent;
