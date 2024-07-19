@@ -418,9 +418,8 @@ if ($filterState) {
                                             }
                                             ?>
                                     </div>
-
-                                    <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookId ?>'">
-                                        Show More </button>
+                                    
+                                    <a class="btn" href="/bookrack/app/click-code.php?bookId=<?= $bookId ?>&ownerId=<?=$bookObj->getOwnerId()?>"> Show More </a>
                                 </div>
                             </div>
                             <?php

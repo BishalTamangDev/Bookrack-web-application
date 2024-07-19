@@ -316,9 +316,9 @@ $userWishlist = $wishlist->fetchWishlist();
                             </a>
 
                             <!-- delete book -->
-                            <?php 
-                            $flag = $selectedBook->flag; 
-                            if($flag == '') {
+                            <?php
+                            $flag = $selectedBook->flag;
+                            if ($flag == '') {
                                 ?>
                                 <a href="/bookrack/app/delete-book-code.php?bookId=<?= $bookId ?>"
                                     class="btn btn-danger d-flex flex-row gap-2 align-items-center" style="width:fit-content;">
