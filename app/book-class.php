@@ -40,6 +40,8 @@ class Book
     private $ownerId;
     public $status;
 
+    public $flag;
+
     public function __construct()
     {
         $this->bookId = "";
@@ -77,9 +79,10 @@ class Book
 
         $this->status = "verified";
         $this->ownerId = "";
+        $this->flag = '';
     }
 
-    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $price, $photo, $date, $status)
+    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $publication, $edition, $price, $photo, $date, $status, $flag)
     {
         $this->bookId = $bookId;
         $this->ownerId = $ownerId;
@@ -110,6 +113,7 @@ class Book
         ];
 
         $this->status = $status;
+        $this->flag = $flag;
     }
 
 
@@ -252,7 +256,7 @@ class Book
         global $database;
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
         if ($response) {
-            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status']);
+            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['publication'], $response['edition'], $response['price'], $response['photo'], $response['date'], $response['status'], $response['flag']);
             // $this->setCoverPhotoUrl();
             // $this->setPhotoUrls();
             return true;

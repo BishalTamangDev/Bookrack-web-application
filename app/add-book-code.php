@@ -38,7 +38,15 @@ if (isset($_POST['add-book-btn'])) {
     $book->publication = strtolower($_POST['book-publication']);
     $book->edition = $_POST['book-edition'];
     $book->setActualPrice($_POST['book-actual-price']);
-    $book->setOfferPrice($_POST['book-offer-price']);
+
+    if(isset($_POST['book-offer-price'])) {
+        if($_POST['book-offer-price'] == '' || $_POST['book-offer-price'] == 0) {
+            $_POST['book-offer-price'] =  $_POST['book-actual-price'] * 0.35;
+        }
+        $book->setOfferPrice($_POST['book-offer-price']);
+    } else{
+        $_POST['book-offer-price'] =  $_POST['book-actual-price'] * 0.35;
+    }
 
     // cover photo
     $fileTmpPathCover = $_FILES['book-cover-photo']['tmp_name'];

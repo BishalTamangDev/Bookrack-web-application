@@ -99,11 +99,16 @@ class Genre
         $genreList = [];
         $response = $database->getReference("genres")->orderByChild('book_count')->getValue();
 
-        // $keyToSortBy = 'book_count';
+        $topGenreLimit = 3;
+
         if ($response != null) {
             $response = array_reverse($response);
+            $count = 0;
             foreach ($response as $key => $res) {
+                if ($count == $topGenreLimit)
+                    break;
                 $genreList[] = $key;
+                $count++;
             }
         }
 

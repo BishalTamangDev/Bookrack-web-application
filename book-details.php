@@ -192,8 +192,8 @@ $userWishlist = $wishlist->fetchWishlist();
                             </div>
                             <div class="data">
                                 <p class="m-0"><?= ucfirst($selectedBook->edition) ?><sup>
-                                    
-                                    <?php
+
+                                        <?php
                                         if (!is_string($selectedBook->edition)) {
                                             $remainder = $selectedBook->edition % 10;
                                             switch ($remainder) {
@@ -208,8 +208,8 @@ $userWishlist = $wishlist->fetchWishlist();
                                                     break;
                                                 default:
                                                     echo "th";
-                                                }
                                             }
+                                        }
                                         ?></sup>
                                 </p>
                             </div>
@@ -306,14 +306,35 @@ $userWishlist = $wishlist->fetchWishlist();
                         <?php
                     } else {
                         ?>
-                        <!-- edit book details -->
-                        <div>
+                        <div class="d-flex flex-roe gap-2">
+                            <!-- edit book details -->
                             <a href="/bookrack/add-book/edit/<?= $bookId ?>"
                                 class="btn btn-outline-success d-flex flex-row gap-2 align-items-center"
                                 style="width:fit-content;">
                                 <i class="fa-solid fa-edit"></i>
                                 <p class="m-0"> Edit </p>
                             </a>
+
+                            <!-- delete book -->
+                            <?php 
+                            $flag = $selectedBook->flag; 
+                            if($flag == '') {
+                                ?>
+                                <a href="/bookrack/app/delete-book-code.php?bookId=<?= $bookId ?>"
+                                    class="btn btn-danger d-flex flex-row gap-2 align-items-center" style="width:fit-content;">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <p class="m-0"> Delete </p>
+                                </a>
+                                <?php
+                            } elseif ($flag == 'deleted') {
+                                ?>
+                                <a class="btn btn-danger d-flex flex-row gap-2 align-items-center" style="width:fit-content;">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <p class="m-0"> Deleted </p>
+                                </a>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <?php
                     }

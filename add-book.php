@@ -327,7 +327,7 @@ if($task == 'edit'){
                         <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price" value="<?php if($task == 'edit') echo $book->price['offer'];?>"
-                                aria-describedby="offer price" placeholder="0" min="0" value="0" required>
+                                aria-describedby="offer price" placeholder="0" min="0">
                         </div>
                     </div>
                 </div>
