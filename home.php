@@ -5,7 +5,6 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-
 $userId = $_SESSION['bookrack-user-id'];
 $url = "home";
 
@@ -40,7 +39,6 @@ if (!$searchState) {
 require_once __DIR__ . '/app/wishlist-class.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
-
 
 // filter
 $filterState = (isset($_GET['min-price']) && isset($_GET['max-price']) && isset($_GET['purpose']) && isset($_GET['genre'])) ? true : false;
@@ -427,11 +425,6 @@ if ($filterState) {
                             </div>
                             <?php
                         }
-                    } else {
-                        ?>
-                        <p class="m-0 text-danger"> <?= $searchState ? "No books found!" : "No book has been added yet!" ?>
-                        </p>
-                        <?php
                     }
                     ?>
                 </div>
@@ -469,7 +462,8 @@ if ($filterState) {
             </section>
 
             <!-- empty context -->
-            <section class="flex-column mt-3 gap-3 align-items-center empty-context-container" id="empty-context-container">
+            <section class="flex-column mt-3 gap-3 align-items-center empty-context-container"
+                id="empty-context-container">
                 <img src="assets/icons/empty.svg" alt="empty icon">
                 <p class="m-0 text-danger"> Empty! </p>
             </section>
@@ -508,7 +502,7 @@ if ($filterState) {
 
     <!-- empty contect -->
     <script>
-        if($('.book-container').length == 0) {
+        if ($('.book-container').length == 0) {
             $('#empty-context-container').show();
         } else {
             $('#empty-context-container').hide();

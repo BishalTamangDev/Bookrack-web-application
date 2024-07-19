@@ -37,46 +37,30 @@ class Genre
     function newBook()
     {
         global $database;
-        $response = $database->getReference("genre")->getSnapshot()->getValue();
 
-        if ($response != null) {
-            $existingGenreList = [];
-            foreach ($response as $res)
-                $existingGenreList[] = $res['title'];
+        foreach ($this->genreArray as $genre) {
+            $response = $database->getReference("genres/{$genre}")->getSnapshot()->getValue();
 
-            foreach ($this->genreArray as $genre) {
-                if (in_array($genre, $existingGenreList)) {
-                    $query = $database->getReference("genre")->orderByChild('title')->equalTo($genre);
-                    $snapshot = $query->getSnapshot();
-                    $response = $snapshot->getValue();
-
-                    // fetch genre document key
-                    foreach ($response as $key => $res) {
-                        // update book count
-                        $properties = [
-                            'book_count' => ++$res['book_count']
-                        ];
-                        $response = $database->getReference("genre/{$key}")->update($properties);
-                    }
-                } else {
-                    $postData = [
-                        'title' => $genre,
+            if ($response) {
+                // update genre count
+                $postData = [
+                    $genre => [
+                        'book_count' => ++$response['book_count'],
+                        'click_count' => 0,
+                        'search_count' => 0,
+                    ],
+                ];
+                $postRef = $database->getReference("genres/")->update($postData);
+            } else {
+                // new genre
+                $postData = [
+                    $genre => [
                         'book_count' => 1,
                         'click_count' => 0,
                         'search_count' => 0,
-                    ];
-                    $postRef = $database->getReference("genre")->push($postData);
-                }
-            }
-        } else {
-            foreach ($this->genreArray as $genre) {
-                $postData = [
-                    'title' => $genre,
-                    'book_count' => 1,
-                    'click_count' => 0,
-                    'search_count' => 0,
+                    ],
                 ];
-                $postRef = $database->getReference("genre")->push($postData);
+                $postRef = $database->getReference("genres/")->update($postData);
             }
         }
     }
@@ -84,21 +68,26 @@ class Genre
     function removeBook()
     {
         global $database;
-        $response = $database->getReference("genre")->getSnapshot()->getValue();
-
-        $existingGenreList = [];
-        foreach ($response as $res)
-            $existingGenreList[] = $res['title'];
 
         foreach ($this->genreArray as $genre) {
-            if (in_array($genre, $existingGenreList)) {
-                $response = $database->getReference("genre")->orderByChild("title")->equalTo($genre)->getSnapshot()->getValue();
-                foreach ($response as $key => $res) {
-                    $properties = [
-                        'book_count' => --$res['book_count']
-                    ];
-                    $response = $database->getReference("genre/{$key}")->update($properties);
+            $response = $database->getReference("genres/{$genre}")->getSnapshot()->getValue();
+
+            if ($response) {
+                // update genre count
+                $newCount = 0;
+                if ($response['book_count'] > 0) {
+                    $newCount = --$response['book_count'];
+                } else {
+                    $newCount = 0;
                 }
+                $postData = [
+                    $genre => [
+                        'book_count' => $newCount,
+                        'click_count' => $response['click_count'],
+                        'search_count' => $response['search_count'],
+                    ],
+                ];
+                $postRef = $database->getReference("genres/")->update($postData);
             }
         }
     }
@@ -108,25 +97,13 @@ class Genre
     {
         global $database;
         $genreList = [];
-        $response = $database->getReference("genre")->getSnapshot()->getValue();
+        $response = $database->getReference("genres")->orderByChild('book_count')->getValue();
 
-        $keyToSortBy = 'book_count';
-
+        // $keyToSortBy = 'book_count';
         if ($response != null) {
-            // Sort data in descending order
-            usort($response, function ($a, $b) use ($keyToSortBy) {
-                return $b[$keyToSortBy] <=> $a[$keyToSortBy];
-            });
-
-            $topGenreLimit = 3;
-            $count = 0;
+            $response = array_reverse($response);
             foreach ($response as $key => $res) {
-                if ($count < $topGenreLimit) {
-                    if ($res['book_count'] != 0) {
-                        $genreList[] = $res['title'];
-                        $count++;
-                    }
-                }
+                $genreList[] = $key;
             }
         }
 

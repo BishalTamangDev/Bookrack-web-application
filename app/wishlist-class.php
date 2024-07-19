@@ -6,30 +6,25 @@ require_once __DIR__ . '/connection.php';
 
 class Wishlist
 {
-    private $id;
     private $userId;
+    private $bookId;
     private $list = [];
 
     public function __construct()
     {
-        $this->id = "";
         $this->userId = "";
+        $this->bookId = "";
         $this->list = [];
     }
 
-    public function setWishlist($id, $userId, $list)
+    public function setWishlist($userId, $bookId, $list)
     {
-        $this->id = $id;
         $this->userId = $userId;
+        $this->bookId = $bookId;
         $this->list = $list;
     }
 
     // setter functions
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function setUserId($userId)
     {
         $this->userId = $userId;
@@ -41,11 +36,6 @@ class Wishlist
     }
 
     // getter functions
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function getUserId()
     {
         return $this->userId;
@@ -60,18 +50,17 @@ class Wishlist
     public function fetchWishlist()
     {
         global $database;
-        $list = array();
+        $this->list = [];
 
-        $reference = $database->getReference("wishlist");
-        $query = $reference->orderByChild('user_id')->equalTo($this->getUserId());
-        $snapshot = $query->getSnapshot();
-        $response = $snapshot->getValue();
+        $response = $database->getReference("wishlists/{$this->userId}")->getSnapshot()->getValue();
 
-        foreach ($response as $key => $res)
-            if (isset($res['list'])) foreach ($res['list'] as $listBookId)
-                    $list[] = $listBookId;
+        if ($response) {
+            foreach ($response as $res) {
+                $this->list[] = $res;
+            }
+        }
 
-        return $list;
+        return $this->list;
     }
 
     // fetch wishlist by userid
@@ -82,75 +71,61 @@ class Wishlist
         return $list;
     }
 
-    // add to wishlist
+    // toggle wishlist
     public function toggle($bookId)
     {
         global $database;
 
         $status = false;
 
-        $reference = $database->getReference("wishlist");
-        $query = $reference->orderByChild('user_id')->equalTo($this->getUserId());
-        $snapshot = $query->getSnapshot();
-        $response = $snapshot->getValue();
+        $response = $database->getReference("wishlists/{$this->userId}")->getSnapshot()->getValue();
 
         if ($response) {
-            $properties = [
-                'user_id' => $this->getUserId(),
+            $postData = [
+                $bookId
             ];
+
+            $bookExists = false;
+
+            // fetch existing book ids
+            $bookIdList = [];
 
             foreach ($response as $key => $res) {
-                if (isset($res['list']) && $res['list'] != '') {
-                    if (in_array($bookId, $res['list'])) {
-                        // remove from wishlist
-                        $newList = array();
-
-                        foreach ($res['list'] as $existingBookId) {
-                            if ($existingBookId != $bookId) {
-                                $newList[] = $existingBookId;
-                            }
-                        }
-
-                        $properties = [
-                            'list' => $newList
-                        ];
-                    } else {
-                        // add to wishlist
-                        $res['list'][] = $bookId;
-
-                        $properties = [
-                            'list' => $res['list']
-                        ];
-                    }
-                } else {
-                    // add to list
-                    $properties = [
-                        'list' => [
-                            $bookId
-                        ],
-                    ];
-                }
+                $bookIdList[] = $res;
+                if ($res == $bookId)
+                    $bookExists = true;
             }
 
-            try {
-                $database->getReference("wishlist/{$key}")->update($properties);
-                $status = true;
-            } catch (Exception $e) {
-                $status = false;
+            if (!$bookExists) {
+                // add book
+                $bookIdList[] = $bookId;
+                $postData = [
+                    $this->userId => $bookIdList,
+                ];
+                print_r($bookIdList);
+                $postRef = $database->getReference("wishlists/")->update($postData);
+            } else {
+                // remove book
+                // $bookIdList[] = $bookId;
+                $key = array_search($bookId, $bookIdList);
+                unset($bookIdList[$key]);
+
+                // reindexing
+                $bookIdList = array_values($bookIdList);
+
+                $postData = [
+                    $this->userId => $bookIdList,
+                ];
+                $postRef = $database->getReference("wishlists/")->update($postData);
             }
         } else {
-
-
             // just push data
-            $properties = [
-                'user_id' => $this->getUserId(),
-                'list' => [
-                    $bookId
-                ]
+            $postData = [
+                $bookId
             ];
 
             try {
-                $status = $database->getReference("wishlist")->push($properties);
+                $status = $database->getReference("wishlists/{$this->userId}/")->set($postData);
                 $status = true;
             } catch (Exception $e) {
                 $status = false;
