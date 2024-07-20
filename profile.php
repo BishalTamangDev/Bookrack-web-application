@@ -731,8 +731,8 @@ $bookObj = new Book();
                                 <div class="book-container my-book my-book-active">
                                     <!-- book image -->
                                     <div class="book-image">
-                                        <?php $bookObj->setCoverPhotoUrl();?>
-                                        <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="">
+                                        <?php $bookObj->setPhotoUrl();?>
+                                        <img src="<?= $bookObj->photoUrl ?>" alt="">
                                     </div>
 
                                     <!-- book details -->
@@ -811,9 +811,9 @@ $bookObj = new Book();
                                     <div class="book-container">
                                         <!-- book image -->
                                         <div class="book-image">
-                                            <?php $bookObj->setCoverPhotoUrl(); ?>
+                                            <?php $bookObj->setPhotoUrl(); ?>
 
-                                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book photo" loading="lazy">
+                                            <img src="<?= $bookObj->photoUrl ?>" alt="book photo" loading="lazy">
                                         </div>
 
                                         <!-- book details -->

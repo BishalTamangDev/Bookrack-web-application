@@ -60,7 +60,7 @@ if ($filterState) {
 
     <!-- title -->
     <title>
-        <?= $searchState ? "Search results : " . $searchContent : "Home"; ?>
+        <?= $searchState ? "Search results : $searchContent" : "Home"; ?>
     </title>
 
     <?php require_once __DIR__ . '/app/header-include.php' ?>
@@ -132,7 +132,7 @@ if ($filterState) {
                         </div>
 
                         <!-- book purpoe -->
-                        <div class="filter-parameter">
+                        <div class="d-none filter-parameter">
                             <!-- heading -->
                             <div class="heading">
                                 <label for="category" class="form-label"> Purpose </label>
@@ -361,8 +361,8 @@ if ($filterState) {
                             <div class="book-container">
                                 <!-- book image -->
                                 <div class="book-image">
-                                    <?php $bookObj->setCoverPhotoUrl(); ?>
-                                    <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
+                                    <?php $bookObj->setPhotoUrl(); ?>
+                                    <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
                                 </div>
 
                                 <!-- book details -->

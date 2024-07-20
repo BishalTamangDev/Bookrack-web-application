@@ -82,32 +82,8 @@ $userWishlist = $wishlist->fetchWishlist();
                     <!-- top image -->
                     <div class="d-flex flex-row top">
                         <div class="book-image">
-                            <?php $selectedBook->setPhotoUrls() ?>
-                            <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
-                        </div>
-                    </div>
-
-                    <!-- bottom images -->
-                    <div class="d-flex flex-row flex-md-column flex-lg-row gap-2 bottom">
-                        <!-- cover -->
-                        <div class="book-image">
-                            <abbr title="cover page">
-                                <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="book cover photo" loading="lazy">
-                            </abbr>
-                        </div>
-
-                        <!-- price page -->
-                        <div class="book-image">
-                            <abbr title="price page">
-                                <img src="<?= $selectedBook->photoUrl['price'] ?>" alt="book price photo" loading="lazy">
-                            </abbr>
-                        </div>
-
-                        <!-- ISBN page -->
-                        <div class="book-image">
-                            <abbr title="isbn page">
-                                <img src="<?= $selectedBook->photoUrl['isbn'] ?>" alt="book isbn photo" loading="lazy">
-                            </abbr>
+                            <?php $selectedBook->setPhotoUrl() ?>
+                            <img src="<?= $selectedBook->photoUrl ?>" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -222,16 +198,6 @@ $userWishlist = $wishlist->fetchWishlist();
                             </div>
                             <div class="data">
                                 <p class="m-0"> <?= ucWords($selectedBook->publisher) ?> </p>
-                            </div>
-                        </div>
-
-                        <!-- Publication -->
-                        <div class="misc-div">
-                            <div class="title">
-                                <p class="m-0 fw-bold"> Publication </p>
-                            </div>
-                            <div class="data">
-                                <p class="m-0"> <?= ucWords($selectedBook->publication) ?> </p>
                             </div>
                         </div>
 

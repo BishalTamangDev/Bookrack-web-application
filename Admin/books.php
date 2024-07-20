@@ -181,7 +181,7 @@ $rentBookCount = 0;
                                 echo ucWords($author) . ', '; ?> </td>
                             <td> <?= ucfirst($bookObj->language) ?></td>
                             <td> <?= $bookObj->getOwnerId() ?></td>
-                            <td> <?= $bookObj->status ?></td>
+                            <td> <?= $bookObj->flag ?></td>
                             <td>
                                 <abbr title="Show full details">
                                     <a href="/bookrack/admin/admin-book-details/<?= $bookId ?>">

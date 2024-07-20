@@ -80,32 +80,8 @@ if (!$bookFound) {
                     <!-- top image -->
                     <div class="d-flex flex-row top">
                         <div class="book-image">
-                            <?php $selectedBook->setPhotoUrls()?>
-                            <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
-                        </div>
-                    </div>
-
-                    <!-- bottom images -->
-                    <div class="d-flex flex-row flex-md-column flex-lg-row gap-2 bottom">
-                        <!-- cover -->
-                        <div class="book-image">
-                            <abbr title="cover page">
-                                <img src="<?= $selectedBook->photoUrl['cover'] ?>" alt="" loading="lazy">
-                            </abbr>
-                        </div>
-
-                        <!-- price page -->
-                        <div class="book-image">
-                            <abbr title="price page">
-                                <img src="<?= $selectedBook->photoUrl['price'] ?>" alt="" loading="lazy">
-                            </abbr>
-                        </div>
-
-                        <!-- ISBN page -->
-                        <div class="book-image">
-                            <abbr title="isbn page">
-                                <img src="<?= $selectedBook->photoUrl['isbn'] ?>" alt="" loading="lazy">
-                            </abbr>
+                            <?php $selectedBook->setPhotoUrl() ?>
+                            <img src="<?= $selectedBook->photoUrl ?>" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -192,22 +168,22 @@ if (!$bookFound) {
                             </div>
                             <div class="data">
                                 <p class="m-0"><?= ucfirst($selectedBook->edition) ?><sup><?php
-                                    if(is_int($selectedBook->edition)){
+                                  if (is_int($selectedBook->edition)) {
                                       $remainder = $selectedBook->edition % 10;
                                       switch ($remainder) {
                                           case 1;
-                                          echo "st";
-                                          break;
+                                              echo "st";
+                                              break;
                                           case 2;
-                                          echo "nd";
-                                          break;
+                                              echo "nd";
+                                              break;
                                           case 3:
-                                            echo "rd";
-                                            break;
-                                            default:
-                                            echo "th";
-                                        }
-                                    }
+                                              echo "rd";
+                                              break;
+                                          default:
+                                              echo "th";
+                                      }
+                                  }
                                   ?></sup></p>
                             </div>
                         </div>
@@ -219,16 +195,6 @@ if (!$bookFound) {
                             </div>
                             <div class="data">
                                 <p class="m-0"> <?= ucwords($selectedBook->publisher) ?> </p>
-                            </div>
-                        </div>
-
-                        <!-- Publication -->
-                        <div class="misc-div">
-                            <div class="title">
-                                <p class="m-0 fw-bold"> Publication </p>
-                            </div>
-                            <div class="data">
-                                <p class="m-0"> <?= ucwords($selectedBook->publication) ?> </p>
                             </div>
                         </div>
 

@@ -231,53 +231,20 @@ if($task == 'edit'){
                         </div>
                     </div>
 
-                    <!-- isbn && purpose -->
-                    <div class="d-flex flex-row w-100 gap-3 purpose-isbn">
+                    <!-- isbn & publisher -->
+                    <div class="d-flex flex-column flex-md-row gap-3 purpose-isbn">
                         <!-- isbn -->
                         <div class="d-flex flex-column w-100 w-md-50 gap-2 isbn">
                             <label for="book-isbn" class="m-0 form-label"> ISBN </label>
                             <input type="text" class="form-control" id="book-isbn" name="book-isbn" value="<?php if($task == 'edit') echo $book->isbn;?>"
                                 aria-describedby="book isbn" required>
                         </div>
-
-                        <!-- purpose -->
-                        <div class="d-flex flex-column gap-2 w-100 w-md-50 purpose ">
-                            <label for="book-purpose" class="m-0 form-label"> Purpose </label>
-                            <select class="form-select form-select" id="book-purpose" name="book-purpose"
-                                aria-label="book purpose" required>
-
-                                <?php
-                                if($task == "edit"){
-                                    ?>
-                                    <option value="<?=$book->purpose?>" selected hidden> <?=ucfirst($book->purpose)?> </option>
-                                    <?php
-                                }else{
-                                    ?>
-                                    <option value="" selected hidden> Select the purpose </option>
-                                    <?php
-                                }
-                                ?>
-                                <option value="renting"> Renting </option>
-                                <option value="buy/sell"> Buy/Sell </option>
-                                <option value="giveaway"> Giveaway </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- publisher & publication -->
-                    <div class="d-flex flex-column flex-md-row gap-3 publisher-publication">
+                        
                         <!-- publisher -->
-                        <div class="d-flex flex-column gap-2 publisher ">
+                        <div class="d-flex flex-column w-100 w-md-50 gap-2 publisher ">
                             <label for="book-publisher" class="m-0 form-label"> Publisher </label>
                             <input type="text" class="form-control" id="book-publisher" name="book-publisher" value="<?php if($task == 'edit') echo $book->publisher;?>"
                                 aria-describedby="publisher" required>
-                        </div>
-
-                        <!-- publication -->
-                        <div class="d-flex flex-column gap-2 publication ">
-                            <label for="book-publication" class="m-0 form-label"> Publication </label>
-                            <input type="text" class="form-control" id="book-publication" name="book-publication" value="<?php if($task == 'edit') echo $book->publication;?>"
-                                aria-describedby="publication" required>
                         </div>
                     </div>
 
@@ -327,7 +294,7 @@ if($task == 'edit'){
                         <div class="d-flex flex-column gap-2 actual-price" id="offer-price-div">
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price" value="<?php if($task == 'edit') echo $book->price['offer'];?>"
-                                aria-describedby="offer price" placeholder="0" min="0">
+                                aria-describedby="offer price" min="0" required>
                         </div>
                     </div>
                 </div>
@@ -341,19 +308,11 @@ if($task == 'edit'){
 
                     <?php
                     if($task == "edit"){
-                        $book->setPhotoUrls();
+                        $book->setPhotoUrl();
                         ?>
                         <div class="d-flex flex-column gap-2 existing-photo-container">
                             <div class="existing-photo">
-                                <img src="<?= $book->photoUrl['cover'] ?>" alt="">
-                            </div>
-                            
-                            <div class="existing-photo">
-                                <img src="<?= $book->photoUrl['isbn'] ?>" alt="">
-                            </div>
-
-                            <div class="existing-photo">
-                                <img src="<?= $book->photoUrl['price'] ?>" alt="">
+                                <img src="<?= $book->photoUrl ?>" alt="">
                             </div>
                         </div>
                         <?php
@@ -361,27 +320,11 @@ if($task == 'edit'){
                     ?>
 
                     <div class="d-flex flex-column gap-3 book-images">
-                        <!-- cover photo -->
+                        <!-- photo -->
                         <div class="input-group">
-                            <label for="cover-page">Cover page</label>
-                            <input type="file" name="book-cover-photo" id="cover-page" class="form-control"
-                                aria-label="cover page image" accept="image/*" aria-describedby="cover page image"
-                                <?php if($task != "edit") echo "required";?>>
-                        </div>
-
-                        <!-- price page -->
-                        <div class="input-group">
-                            <label for="price-page">Price page</label>
-                            <input type="file" name="book-price-photo" id="price-page" class="form-control"
-                                aria-label="price page image" accept="image/*" aria-describedby="price page image"
-                                <?php if($task != "edit") echo "required";?>>
-                        </div>
-
-                        <!-- isbn page -->
-                        <div class="input-group">
-                            <label for="isbn-page">ISBN page</label>
-                            <input type="file" name="book-isbn-photo" id="isbn-page" class="form-control"
-                                aria-label="isbn page image" accept="image/*" aria-describedby="isbn page image"
+                            <!-- <label for="cover-page">Cover page</label> -->
+                            <input type="file" name="book-photo" id="cover-page" class="form-control"
+                                aria-label="book photo" accept="image/*" aria-describedby="book photo"
                                 <?php if($task != "edit") echo "required";?>>
                         </div>
                     </div>
@@ -573,37 +516,6 @@ if($task == 'edit'){
         removeAuthorContainer = (fieldContainerId) => {
             $('#' + fieldContainerId).remove();
         }
-    </script>
-
-    <!-- book purpose script -->
-    <script>
-        const bookPurposeSelect = $('#book-purpose');
-        const offerPriceField = $('#book-offer-price');
-        const offerPriceDiv = $('#offer-price-div');
-
-        // offerPriceDiv.removeClass('d-flex').addClass('d-none');
-
-        bookPurposeSelect.on('change', function () {
-            var purpose = bookPurposeSelect.val();
-
-            if (bookPurposeSelect.val() == 'buy/sell') {
-                offerPriceDiv.show();
-                offerPriceDiv.removeClass('d-none').addClass('d-flex');
-            } else {
-                offerPriceDiv.hide();
-                offerPriceDiv.removeClass('d-flex').addClass('d-none');
-            }
-        });
-
-        offerPriceField.on('focus', function () {
-            if (offerPriceField.val() == 0) {
-                offerPriceField.val('');
-            }
-        }).on('focusout', function () {
-            if (offerPriceField.val() == '') {
-                offerPriceField.val('0');
-            }
-        });
     </script>
 </body>
 

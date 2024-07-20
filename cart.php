@@ -72,9 +72,9 @@ $cart->setUserId($userId);
             $bookObj = new Book();
             $cart->fetchCurrent();
             ?>
-            <section class="pending-cart-status-container">
-                <!-- checkout details -->
-                <section class="d-flex flex-column-reverse flex-lg-row mt-3 justify-content-between current-cart-section">
+            <section class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-container">
+                <!-- cart -->
+                <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
                     <div class="rounded p-1 cart-detail">
                         <table class="table cart-table">
                             <thead>
@@ -82,10 +82,9 @@ $cart->setUserId($userId);
                                     <th scope="col">S.N.</th>
                                     <th scope="col">Book</th>
                                     <th scope="col">Title</th>
-                                    <!-- <th scope="col">Condition</th> -->
-                                    <th scope="col">Purpose</th>
-                                    <th scope="col">Starting date </th>
-                                    <th scope="col">Ending date</th>
+                                    <!-- <th scope="col">Purpose</th> -->
+                                    <!-- <th scope="col">Starting date </th> -->
+                                    <!-- <th scope="col">Ending date</th> -->
                                     <th scope="col">Price</th>
                                     <th scope="col">Remove</th>
                                 </tr>
@@ -99,36 +98,19 @@ $cart->setUserId($userId);
                                     foreach ($cart->bookList as $book) {
                                         // fetch book details
                                         $bookObj->fetch($book['id']);
-                                        $bookObj->setCoverPhotoUrl();
+                                        $bookObj->setPhotoUrl();
                                         ?>
                                         <tr>
                                             <th scope="row"> <?= $serial++ ?> </th>
                                             <td>
                                                 <div class="book-image">
-                                                    <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
+                                                    <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
                                                 </div>
                                             </td>
                                             <td class="title" onclick="window.location.href='/bookrack/book-details'">
                                                 <?= ucwords($bookObj->title) ?>
                                             </td>
-                                            <!-- <td> unused </td> -->
-                                            <td> <?= ucfirst($bookObj->purpose) ?> </td>
-                                            <td>
-                                                <?php
-                                                if ($bookObj->purpose == 'buy/sell') {
-                                                    echo "-";
-                                                } else {
-                                                    echo "Not set";
-                                                }
-                                                ?>
-                                            </td>
-                                            <td> <?php
-                                            if ($bookObj->purpose == 'buy/sell') {
-                                                echo "-";
-                                            } else {
-                                                echo "Not set";
-                                            }
-                                            ?> </td>
+                                            
                                             <td class="price">
                                                 <?php
                                                 if ($bookObj->purpose == "renting") {
@@ -209,6 +191,55 @@ $cart->setUserId($userId);
                         </div>
                     </div>
                 </section>
+
+                <!-- checkout details -->
+                <div class="d-flex flex-column rounded p-3 gap-3 checkout">
+                    <div class="heading">
+                        <p class="f-reset"> ORDER SUMMARY </p>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
+                        <div class="d-flex flex-row justify-content-between checkout-detail">
+                            <p class="f-reset"> Shipping address </p>
+                            <p class="f-reset"> Bansbari, Kathmandu </p>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between checkout-detail">
+                            <p class="f-reset"> Est. arrival day </p>
+                            <p class="f-reset"> 4 days </p>
+                        </div>
+                        <hr>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Subtotal </p>
+                            <p class="f-reset"> NRs. 150 </p>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Estimated Shipping </p>
+                            <p class="f-reset"> NRs. 75 </p>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Estimated Total </p>
+                            <p class="f-reset"> NRs. 225 </p>
+                        </div>
+                    </div>
+
+                    <div class="checkout-btn-div">
+                        <button class="btn w-100 text-light py-2 checkout-btn">
+                            CHECKOUT NOW
+                        </button>
+                    </div>
+
+                    <div class="payment-partner-div">
+                        <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
+                            <p class="f-reset small"> Our payment partner </p>
+                            <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <?php
@@ -325,7 +356,7 @@ $cart->setUserId($userId);
                     </table>
                 </div>
 
-                <!-- checkut details -->
+                <!-- checkout details -->
                 <div class="d-flex flex-column rounded p-3 gap-3 checkout">
                     <div class="heading">
                         <p class="f-reset"> ORDER SUMMARY </p>

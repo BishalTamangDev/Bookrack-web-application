@@ -167,8 +167,8 @@ $bookIdList = $bookObj->fetchAllBookId();
                         <div class="recently-arrived-book"
                             onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $bookObj->getId() ?>'">
                             <div class="image-div">
-                                <?php $bookObj->setCoverPhotoUrl() ?>
-                                <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="book cover photo" loading="lazy">
+                                <?php $bookObj->setPhotoUrl() ?>
+                                <img src="<?= $bookObj->photoUrl ?>" alt="book cover photo" loading="lazy">
                             </div>
 
                             <div class="detail">

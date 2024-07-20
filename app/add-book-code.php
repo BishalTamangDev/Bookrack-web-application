@@ -21,9 +21,8 @@ if (isset($_POST['add-book-btn'])) {
     // author
     $authorArray = $_POST['book-author'];
 
-    $coverPhoto = $_FILES['book-cover-photo'];
-    $pricePhoto = $_FILES['book-price-photo'];
-    $isbnPhoto = $_FILES['book-isbn-photo'];
+    // photo
+    $photo = $_FILES['book-photo'];
 
     // set values
     $book->setOwnerId($userId);
@@ -33,64 +32,37 @@ if (isset($_POST['add-book-btn'])) {
     $book->genre = $genreArray;
     $book->author = $authorArray;
     $book->isbn = $_POST['book-isbn'];
-    $book->purpose = $_POST['book-purpose'];
+    $book->purpose = "buy/sell";
     $book->publisher = strtolower($_POST['book-publisher']);
-    $book->publication = strtolower($_POST['book-publication']);
     $book->edition = $_POST['book-edition'];
     $book->setActualPrice($_POST['book-actual-price']);
 
-    if(isset($_POST['book-offer-price'])) {
-        if($_POST['book-offer-price'] == '' || $_POST['book-offer-price'] == 0) {
-            $_POST['book-offer-price'] =  $_POST['book-actual-price'] * 0.35;
+    if (isset($_POST['book-offer-price'])) {
+        if ($_POST['book-offer-price'] == '' || $_POST['book-offer-price'] == 0) {
+            $_POST['book-offer-price'] = $_POST['book-actual-price'] * 0.35;
         }
         $book->setOfferPrice($_POST['book-offer-price']);
-    } else{
-        $_POST['book-offer-price'] =  $_POST['book-actual-price'] * 0.35;
+    } else {
+        $_POST['book-offer-price'] = $_POST['book-actual-price'] * 0.35;
     }
 
-    // cover photo
-    $fileTmpPathCover = $_FILES['book-cover-photo']['tmp_name'];
-    $fileNameCover = $_FILES['book-cover-photo']['name'];
-    $fileExtensionCover = pathinfo($fileNameCover, PATHINFO_EXTENSION);
-    $newFileNameCover = md5(time() . $fileNameCover) . '.' . $fileExtensionCover;
-    $filePathCover = 'books/' . $newFileNameCover;
-
-    // price photo
-    $fileTmpPathPrice = $_FILES['book-price-photo']['tmp_name'];
-    $fileNamePrice = $_FILES['book-price-photo']['name'];
-    $fileExtensionPrice = pathinfo($fileNamePrice, PATHINFO_EXTENSION);
-    $newFileNamePrice = md5(time() . $fileNamePrice) . '.' . $fileExtensionPrice;
-    $filePathPrice = 'books/' . $newFileNamePrice;
-
-    // isbn photo
-    $fileTmpPathIsbn = $_FILES['book-isbn-photo']['tmp_name'];
-    $fileNameIsbn = $_FILES['book-isbn-photo']['name'];
-    $fileExtensionIsbn = pathinfo($fileNameIsbn, PATHINFO_EXTENSION);
-    $newFileNameIsbn = md5(time() . $fileNameIsbn) . '.' . $fileExtensionIsbn;
-    $filePathIsbn = 'books/' . $newFileNameIsbn;
+    // photo
+    $fileTmpPath = $_FILES['book-photo']['tmp_name'];
+    $fileName = $_FILES['book-photo']['name'];
+    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+    $filePath = 'books/' . $newFileName;
 
     // set filenames
-    $book->setCoverPhoto($newFileNameCover);
-    $book->setPricePhoto($newFileNamePrice);
-    $book->setIsbnPhoto($newFileNameIsbn);
+    $book->setPhoto($newFileName);
 
     // upload photos first
     try {
-        // cover page photo
-        $bucket->upload(fopen($fileTmpPathCover, 'r'), ['name' => $filePathCover]);
-        try {
-            $bucket->upload(fopen($fileTmpPathPrice, 'r'), ['name' => $filePathPrice]);
-            try {
-                $bucket->upload(fopen($fileTmpPathIsbn, 'r'), ['name' => $filePathIsbn]);
-                $status = 1;
-            } catch (Exception $e) {
-                $_SESSION['status-message'] = "Error in isbn page photo.";
-            }
-        } catch (Exception $e) {
-            $_SESSION['status-message'] = "Error in price page photo.";
-        }
+        //  page photo
+        $bucket->upload(fopen($fileTmpPath, 'r'), ['name' => $filePath]);
+        $status = 1;
     } catch (Exception $e) {
-        $_SESSION['status-message'] = "Error in cover page photo.";
+        $_SESSION['status-message'] = "Error in book photo.";
     }
 
     if ($status) {

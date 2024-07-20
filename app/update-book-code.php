@@ -15,16 +15,10 @@ if (isset($_POST['edit-book-btn'])) {
 
     $book->fetch($bookId);
 
-    echo "<br/> Old genre : ";
     $oldGenre = $book->genre;
-    print_r($oldGenre);
 
-    echo "<br/> New genre : ";
     $newPlainGenre = $_POST['book-genre-label'];
     $newGenre = explode(',', $newPlainGenre);
-    print_r($newGenre);
-
-    echo "<br/>";
 
     $properties = [
         'title' => $_POST['book-title'],
@@ -32,9 +26,8 @@ if (isset($_POST['edit-book-btn'])) {
         'author' => $_POST['book-author'],
         'genre' => $newGenre,
         'isbn' => $_POST['book-isbn'],
-        'purpose' => $_POST['book-purpose'],
+        'purpose' => "buy/sell",
         'publisher' => $_POST['book-publisher'],
-        'publication' => $_POST['book-publication'],
         'language' => $_POST['book-language'],
         'edition' => $_POST['book-edition'],
         'price' => [

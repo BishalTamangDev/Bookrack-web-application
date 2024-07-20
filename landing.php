@@ -71,8 +71,8 @@ $bookIdList = $bookObj->fetchAllBookId();
                         <div class="book-container">
                             <!-- book image -->
                             <div class="book-image">
-                                <?php $bookObj->setCoverPhotoUrl(); ?>
-                                <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="">
+                                <?php $bookObj->setPhotoUrl(); ?>
+                                <img src="<?= $bookObj->photoUrl ?>" alt="">
                             </div>
 
                             <!-- book details -->

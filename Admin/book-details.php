@@ -87,16 +87,14 @@ if (!$bookExists)
         <!-- book details -->
         <section class="d-flex flex-column flex-lg-row gap-4 section book-detail-container">
             <!-- book photos -->
-            <?php $bookObj->setPhotoUrls()?>
+            <?php $bookObj->setPhotoUrl()?>
             <div class="d-flex flex-row flex-lg-column gap-2 book-photo-div">
                 <div class="d-flex flex-row top">
-                    <img src="<?= $bookObj->photoUrl['cover']; ?>" alt="Cover page photo" loading="lazy">
+                    <img src="<?= $bookObj->photoUrl ?>" alt="Cover page photo" loading="lazy">
                 </div>
 
                 <div class="d-flex flex-column flex-lg-row gap-2 bottom">
-                    <img src="<?= $bookObj->photoUrl['cover']; ?>" alt="Cover page photo" loading="lazy">
-                    <img src="<?= $bookObj->photoUrl['price']; ?>" alt="Price page photo" loading="lazy">
-                    <img src="<?= $bookObj->photoUrl['isbn']; ?>" alt="Isbn page photo" loading="lazy">
+                    <img src="<?= $bookObj->photoUrl ?>" alt="Cover page photo" loading="lazy">
                 </div>
             </div>
 
@@ -172,12 +170,6 @@ if (!$bookExists)
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Publisher </p>
                         <p class="f-reset fs-6"> <?= ucWords($bookObj->publisher) ?> </p>
-                    </div>
-
-                    <!-- publication -->
-                    <div class="d-flex flex-row gap-3 edition-div">
-                        <p class="f-reset fw-bold fs-5"> Publication </p>
-                        <p class="f-reset fs-6"> <?= ucWords($bookObj->publication) ?> </p>
                     </div>
                 </div>
 
