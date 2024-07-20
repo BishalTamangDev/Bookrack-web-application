@@ -20,6 +20,11 @@ if (!isset($tab)) {
     $tab = "current";
     // header("Location: /bookrack/cart/current");
 }
+
+require_once __DIR__ . '/app/cart-class.php';
+$cart = new Cart();
+
+$cart->setUserId($userId);
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +66,155 @@ if (!isset($tab)) {
 
         <!-- cart section -->
         <!-- pending cart section -->
-        <section class="<?php if ($tab != "current") {
-            echo "d-none";
-        } ?> pending-cart-status-container">
-            <h5 class="f-reset text-secondary"> Order Status </h5>
+        <?php
+        if ($tab == "current") {
+            require_once __DIR__ . '/app/book-class.php';
+            $bookObj = new Book();
+            $cart->fetchCurrent();
+            ?>
+            <section class="pending-cart-status-container">
+                <!-- checkout details -->
+                <section class="d-flex flex-column-reverse flex-lg-row mt-3 justify-content-between current-cart-section">
+                    <div class="rounded p-1 cart-detail">
+                        <table class="table cart-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S.N.</th>
+                                    <th scope="col">Book</th>
+                                    <th scope="col">Title</th>
+                                    <!-- <th scope="col">Condition</th> -->
+                                    <th scope="col">Purpose</th>
+                                    <th scope="col">Starting date </th>
+                                    <th scope="col">Ending date</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+                            </thead>
 
-            <!-- book details -->
+                            <tbody>
+                                <!-- book 1 -->
+                                <?php
+                                $serial = 1;
+                                if (sizeof($cart->bookList) != 0) {
+                                    foreach ($cart->bookList as $book) {
+                                        // fetch book details
+                                        $bookObj->fetch($book['id']);
+                                        $bookObj->setCoverPhotoUrl();
+                                        ?>
+                                        <tr>
+                                            <th scope="row"> <?= $serial++ ?> </th>
+                                            <td>
+                                                <div class="book-image">
+                                                    <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
+                                                </div>
+                                            </td>
+                                            <td class="title" onclick="window.location.href='/bookrack/book-details'">
+                                                <?= ucwords($bookObj->title) ?>
+                                            </td>
+                                            <!-- <td> unused </td> -->
+                                            <td> <?= ucfirst($bookObj->purpose) ?> </td>
+                                            <td>
+                                                <?php
+                                                if ($bookObj->purpose == 'buy/sell') {
+                                                    echo "-";
+                                                } else {
+                                                    echo "Not set";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td> <?php
+                                            if ($bookObj->purpose == 'buy/sell') {
+                                                echo "-";
+                                            } else {
+                                                echo "Not set";
+                                            }
+                                            ?> </td>
+                                            <td class="price">
+                                                <?php
+                                                if ($bookObj->purpose == "renting") {
+                                                    $rent = $bookObj->price['actual'] * 0.20;
+                                                    echo "NPR." . number_format($rent, 2) . "/week";
+                                                } elseif ($bookObj->purpose == "buy/sell") {
+                                                    echo "NPR." . number_format($bookObj->price['offer'], 2);
+                                                }
+                                                ?>
+                                            </td>
+
+                                            <td class="remove">
+                                                <a
+                                                    href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $book['id'] ?>&url=<?= $url ?>">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <tr>
+                                        <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your
+                                            cart is empty! </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-none d-flex flex-column rounded p-3 gap-3 checkout">
+                        <div class="heading">
+                            <p class="f-reset"> ORDER SUMMARY </p>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2 checkout-detail-div">
+                            <div class="d-flex flex-row justify-content-between checkout-detail">
+                                <p class="f-reset"> Order No. </p>
+                                <p class="f-reset"> #145-4526-7894 </p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between checkout-detail">
+                                <p class="f-reset"> Order Date </p>
+                                <p class="f-reset"> 2024-12-08 </p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between checkout-detail">
+                                <p class="f-reset"> Shipping address </p>
+                                <p class="f-reset"> Bansbari, Kathmandu </p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between checkout-detail">
+                                <p class="f-reset"> Est. arrival day </p>
+                                <p class="f-reset"> 4 days </p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-between checkout-detail">
+                                <p class="f-reset"> Remaining day </p>
+                                <p class="f-reset"> 2 </p>
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="d-flex flex-column gap-1 checkout-detail-div">
+                            <div class="d-flex flex-row justify-content-between  checkout-detail">
+                                <p class="f-reset"> Subtotal </p>
+                                <p class="f-reset"> NRs. 150 </p>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-between  checkout-detail">
+                                <p class="f-reset"> Estimated Shipping </p>
+                                <p class="f-reset"> NRs. 75 </p>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-between  checkout-detail">
+                                <p class="f-reset"> Estimated Total </p>
+                                <p class="f-reset"> NRs. 225 </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <?php
+        } elseif ($tab == "pending") {
+            ?>
+            <!-- status details -->
             <div class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-div">
                 <div class="pending-cart-status">
                     <div class="status-image-div">
@@ -78,19 +226,19 @@ if (!isset($tab)) {
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image completed-status-image"
-                            src="/bookrack/assets/icons/order-confirmed.png" alt="" loading="lazy">
+                        <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-confirmed.png"
+                            alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Order Confirmed </p>
                 </div>
 
-                <div class="pending-cart-status">
+                <!-- <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image completed-status-image" src="/bookrack/assets/icons/order-picked.png"
                             alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Picked </p>
-                </div>
+                </div> -->
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
@@ -118,23 +266,119 @@ if (!isset($tab)) {
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt=""
-                            loading="lazy">
+                        <img class="status-image" src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Delivered </p>
                 </div>
 
                 <div class="pending-cart-status">
                     <div class="status-image-div">
-                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt=""
-                            loading="lazy">
+                        <img class="status-image" src="/bookrack/assets/icons/order-completed.png" alt="" loading="lazy">
                     </div>
                     <p class="f-reset"> Completed </p>
                 </div>
             </div>
 
-            <!-- checkout details -->
-            <section class="d-flex flex-column-reverse flex-lg-row mt-3 justify-content-between current-cart-section">
+
+            <!-- pending cart section -->
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+                <!-- cart details -->
+                <div class="rounded p-1 cart-detail">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">S.N.</th>
+                                <th scope="col">Book</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Condition</th>
+                                <th scope="col">Purpose</th>
+                                <th scope="col">Starting date </th>
+                                <th scope="col">Ending date</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- book 1 -->
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>
+                                    <div class="book-image">
+                                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
+                                    </div>
+                                </td>
+                                <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
+                                    Universe
+                                </td>
+                                <td> unused </td>
+                                <td> Rent </td>
+                                <td> 0000-00-00 </td>
+                                <td> 0000-00-00 </td>
+                                <td class="price"> NRs. 140 </td>
+                                <td>
+                                    <div class="remove" id="current-cart-product-1">
+                                        <i class="fa fa-multiply"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- checkut details -->
+                <div class="d-flex flex-column rounded p-3 gap-3 checkout">
+                    <div class="heading">
+                        <p class="f-reset"> ORDER SUMMARY </p>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
+                        <div class="d-flex flex-row justify-content-between checkout-detail">
+                            <p class="f-reset"> Shipping address </p>
+                            <p class="f-reset"> Bansbari, Kathmandu </p>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between checkout-detail">
+                            <p class="f-reset"> Est. arrival day </p>
+                            <p class="f-reset"> 4 days </p>
+                        </div>
+                        <hr>
+                    </div>
+
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Subtotal </p>
+                            <p class="f-reset"> NRs. 150 </p>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Estimated Shipping </p>
+                            <p class="f-reset"> NRs. 75 </p>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="f-reset"> Estimated Total </p>
+                            <p class="f-reset"> NRs. 225 </p>
+                        </div>
+                    </div>
+
+                    <div class="checkout-btn-div">
+                        <button class="btn w-100 text-light py-2 checkout-btn">
+                            CHECKOUT NOW
+                        </button>
+                    </div>
+
+                    <div class="payment-partner-div">
+                        <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
+                            <p class="f-reset small"> Our payment partner </p>
+                            <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <?php
+        } elseif ($tab == "completed") {
+            ?>
+            <!-- completed cart -->
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
                 <div class="rounded p-1 cart-detail">
                     <table class="table cart-table">
                         <thead>
@@ -158,9 +402,8 @@ if (!isset($tab)) {
                                         <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
                                     </div>
                                 </td>
-                                <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
-                                    Universe
-                                </td>
+                                <td class="title cursor" onclick="window.location.href='/bookrack/book-details'"> The Black
+                                    Universe </td>
                                 <td> unused </td>
                                 <td> Rent </td>
                                 <td> 0000-00-00 </td>
@@ -176,26 +419,14 @@ if (!isset($tab)) {
                         <p class="f-reset"> ORDER SUMMARY </p>
                     </div>
 
-                    <div class="d-flex flex-column gap-2 checkout-detail-div">
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="f-reset"> Order No. </p>
-                            <p class="f-reset"> #145-4526-7894 </p>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="f-reset"> Order Date </p>
-                            <p class="f-reset"> 2024-12-08 </p>
-                        </div>
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
                         <div class="d-flex flex-row justify-content-between checkout-detail">
                             <p class="f-reset"> Shipping address </p>
                             <p class="f-reset"> Bansbari, Kathmandu </p>
                         </div>
                         <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="f-reset"> Est. arrival day </p>
+                            <p class="f-reset"> Arrival day </p>
                             <p class="f-reset"> 4 days </p>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="f-reset"> Remaining day </p>
-                            <p class="f-reset"> 2 </p>
                         </div>
                         <hr>
                     </div>
@@ -207,190 +438,20 @@ if (!isset($tab)) {
                         </div>
 
                         <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="f-reset"> Estimated Shipping </p>
+                            <p class="f-reset"> Shipping </p>
                             <p class="f-reset"> NRs. 75 </p>
                         </div>
 
                         <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="f-reset"> Estimated Total </p>
+                            <p class="f-reset"> Total </p>
                             <p class="f-reset"> NRs. 225 </p>
                         </div>
                     </div>
                 </div>
             </section>
-        </section>
-
-        <!-- pending cart section -->
-        <section class="<?php if ($tab != "pending") {
-            echo "d-none";
-        } ?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
-            <!-- cart details -->
-            <div class="rounded p-1 cart-detail">
-                <table class="table cart-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">S.N.</th>
-                            <th scope="col">Book</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Condition</th>
-                            <th scope="col">Purpose</th>
-                            <th scope="col">Starting date </th>
-                            <th scope="col">Ending date</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- book 1 -->
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="">
-                                </div>
-                            </td>
-                            <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
-                                Universe
-                            </td>
-                            <td> unused </td>
-                            <td> Rent </td>
-                            <td> 0000-00-00 </td>
-                            <td> 0000-00-00 </td>
-                            <td class="price"> NRs. 140 </td>
-                            <td>
-                                <div class="remove" id="current-cart-product-1">
-                                    <i class="fa fa-multiply"></i>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- checkut details -->
-            <div class="d-flex flex-column rounded p-3 gap-3 checkout">
-                <div class="heading">
-                    <p class="f-reset"> ORDER SUMMARY </p>
-                </div>
-
-                <div class="d-flex flex-column gap-1 checkout-detail-div">
-                    <div class="d-flex flex-row justify-content-between checkout-detail">
-                        <p class="f-reset"> Shipping address </p>
-                        <p class="f-reset"> Bansbari, Kathmandu </p>
-                    </div>
-                    <div class="d-flex flex-row justify-content-between checkout-detail">
-                        <p class="f-reset"> Est. arrival day </p>
-                        <p class="f-reset"> 4 days </p>
-                    </div>
-                    <hr>
-                </div>
-
-                <div class="d-flex flex-column gap-1 checkout-detail-div">
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Subtotal </p>
-                        <p class="f-reset"> NRs. 150 </p>
-                    </div>
-
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Estimated Shipping </p>
-                        <p class="f-reset"> NRs. 75 </p>
-                    </div>
-
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Estimated Total </p>
-                        <p class="f-reset"> NRs. 225 </p>
-                    </div>
-                </div>
-
-                <div class="checkout-btn-div">
-                    <button class="btn w-100 text-light py-2 checkout-btn">
-                        CHECKOUT NOW
-                    </button>
-                </div>
-
-                <div class="payment-partner-div">
-                    <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
-                        <p class="f-reset small"> Our payment partner </p>
-                        <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- completed cart -->
-        <section class="<?php if ($tab != "completed") {
-            echo "d-none";
-        } ?> d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
-            <div class="rounded p-1 cart-detail">
-                <table class="table cart-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">S.N.</th>
-                            <th scope="col">Book</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Condition</th>
-                            <th scope="col">Purpose</th>
-                            <th scope="col">Starting date </th>
-                            <th scope="col">Ending date</th>
-                            <th scope="col">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- book 1 -->
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>
-                                <div class="book-image">
-                                    <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
-                                </div>
-                            </td>
-                            <td class="title cursor" onclick="window.location.href='/bookrack/book-details'"> The Black
-                                Universe </td>
-                            <td> unused </td>
-                            <td> Rent </td>
-                            <td> 0000-00-00 </td>
-                            <td> 0000-00-00 </td>
-                            <td class="price"> NRs. 140 </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="d-flex flex-column rounded p-3 gap-3 checkout">
-                <div class="heading">
-                    <p class="f-reset"> ORDER SUMMARY </p>
-                </div>
-
-                <div class="d-flex flex-column gap-1 checkout-detail-div">
-                    <div class="d-flex flex-row justify-content-between checkout-detail">
-                        <p class="f-reset"> Shipping address </p>
-                        <p class="f-reset"> Bansbari, Kathmandu </p>
-                    </div>
-                    <div class="d-flex flex-row justify-content-between checkout-detail">
-                        <p class="f-reset"> Arrival day </p>
-                        <p class="f-reset"> 4 days </p>
-                    </div>
-                    <hr>
-                </div>
-
-                <div class="d-flex flex-column gap-1 checkout-detail-div">
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Subtotal </p>
-                        <p class="f-reset"> NRs. 150 </p>
-                    </div>
-
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Shipping </p>
-                        <p class="f-reset"> NRs. 75 </p>
-                    </div>
-
-                    <div class="d-flex flex-row justify-content-between  checkout-detail">
-                        <p class="f-reset"> Total </p>
-                        <p class="f-reset"> NRs. 225 </p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <?php
+        }
+        ?>
     </main>
 
     <!-- footer -->

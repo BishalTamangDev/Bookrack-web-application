@@ -300,8 +300,26 @@ $userWishlist = $wishlist->fetchWishlist();
                                 ?>
                             </a>
 
-                            <!-- add to cart -->
-                            <a href="" class="btn" id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                            <!-- cart section -->
+                            <?php
+                            require_once __DIR__ . '/app/cart-class.php';
+                            $cart = new Cart();
+
+                            $cart->setUserId($userId);
+                            $bookExistsInCart = $cart->checkBookInCart($bookId);
+
+                            if ($bookExistsInCart) {
+                                ?>
+                                <a href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $bookId ?>&url=<?= $url ?>" class="btn"
+                                    id="cart-btn"><i class="fa fa-shopping-cart"></i>Remove from cart</a>
+                                <?php
+                            } else {
+                                ?>
+                                <a href="/bookrack/app/cart-code.php?task=add&bookId=<?= $bookId ?>&url=<?= $url ?>" class="btn"
+                                    id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <?php
                     } else {

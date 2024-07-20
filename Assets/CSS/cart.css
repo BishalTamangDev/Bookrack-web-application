@@ -24,26 +24,26 @@
   background-color: rgb(224, 224, 224);
 }
 
-.pending-cart-status-container .pending-cart-status-div {
+.pending-cart-status-div {
   text-align: center;
 }
-.pending-cart-status-container .pending-cart-status-div .pending-cart-status {
+.pending-cart-status-div .pending-cart-status {
   max-width: 60px;
   flex-grow: 1;
 }
-.pending-cart-status-container .pending-cart-status-div .pending-cart-status .status-image-div {
+.pending-cart-status-div .pending-cart-status .status-image-div {
   border-radius: 50%;
   overflow: hidden;
   padding: 12px;
   background-color: rgb(242, 242, 253);
   margin-bottom: 6px;
 }
-.pending-cart-status-container .pending-cart-status-div .pending-cart-status .status-image-div img {
+.pending-cart-status-div .pending-cart-status .status-image-div img {
   width: 100%;
   filter: grayscale(100%);
   aspect-ratio: 1/1;
 }
-.pending-cart-status-container .pending-cart-status-div .pending-cart-status .status-image-div .completed-status-image {
+.pending-cart-status-div .pending-cart-status .status-image-div .completed-status-image {
   filter: grayscale(0%);
 }
 
