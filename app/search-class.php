@@ -42,6 +42,11 @@ class Search
         return $this->content['count'];
     }
 
+    public function getList()
+    {
+        return $this->list;
+    }
+
     // setter
     public function setTitle($title)
     {
@@ -125,6 +130,78 @@ class Search
                 ],
             ];
             $postRef = $database->getReference("searches/{$this->userId}/")->set($postData);
+        }
+    }
+
+    // fetch searches for admin
+    public function fetchAllSearches()
+    {
+        global $database;
+        $reference = $database->getReference("searches");
+
+        $searchList = [];
+        $search = [
+            'title' => '',
+            'count' => 0
+        ];
+
+        if ($reference) {
+            $response = $reference->getSnapshot()->getValue();
+
+            // fetching all searched
+            if ($response) {
+                foreach ($response as $key => $res) {
+                    foreach ($res as $innerKey => $r) {
+                        $search = [
+                            'title' => $innerKey,
+                            'count' => $r['count']
+                        ];
+                        $searchList[] = $search;
+                    }
+                }
+
+                // grouping search
+                $finalList = [];
+
+                foreach ($searchList as $list) {
+                    // print_r($list);
+                    if (sizeof($finalList) > 0) {
+                        $searchExists = false;
+                        $index = 0;
+                        foreach ($finalList as $final) {
+                            if ($list['title'] == $final['title']) {
+                                $searchExists = true;
+                                $search = [
+                                    'title' => $list['title'],
+                                    'count' => $finalList[$index]['count'] + $list['count']
+                                ];
+                                $finalList[$index] = $search;
+                            }
+                            $index++;
+                        }
+
+                        if (!$searchExists) {
+                            $search = [
+                                'title' => $list['title'],
+                                'count' => $list['count']
+                            ];
+                            $finalList[] = $search;
+                        }
+                    } else {
+                        $search = [
+                            'title' => $list['title'],
+                            'count' => $list['count']
+                        ];
+                        $finalList[] = $search;
+                    }
+                }
+                // sorting search based on search
+                usort($finalList, function ($a, $b) {
+                    return $b['count'] <=> $a['count'];
+                });
+
+                $this->list = $finalList;
+            }
         }
     }
 }

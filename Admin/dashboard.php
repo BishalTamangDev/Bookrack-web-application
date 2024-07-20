@@ -14,7 +14,7 @@ require_once __DIR__ . '/app/admin-class.php';
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if(!$adminExists)
+if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
 if ($profileAdmin->accountStatus != "verified")
@@ -82,7 +82,7 @@ $bookIdList = $bookObj->fetchAllBookId();
 
             <!-- new users joined -->
             <?php
-            if(sizeof($userIdList) > 1000){
+            if (sizeof($userIdList) > 1000) {
                 ?>
                 <div class="d-flex flex-row align-items-center p-3 gap-2 rounded new-user-div">
                     <div class="d-flex flex-row profile-container">
@@ -110,6 +110,40 @@ $bookIdList = $bookObj->fetchAllBookId();
                 <?php
             }
             ?>
+        </section>
+
+        <!-- search -->
+        <section class="d-flex section flex-column gap-3">
+            <!-- heading -->
+            <p class="f-reset fs-5 fw-bold"> Searches </p>
+
+            <div class="d-flex flex-row flex-wrap gap-2 search-container">
+                <?php
+                require_once __DIR__ . '/../app/search-class.php';
+                $search = new Search();
+
+                $search->fetchAllSearches();
+
+                if (sizeof($search->getList()) > 0) {
+                    $searchList = $search->getList();
+                    foreach ($searchList as $list) {
+                        ?>
+                        <div class="d-flex flex-row border rounded p-2 px-3 align-items-center">
+                            <p class="m-0"> <?php echo $list['title'] . " : " . $list['count']; ?>
+                            </p>
+                        </div>
+                        <?php
+                    }
+                    ?>
+
+                    <?php
+                } else {
+                    ?>
+                    <p class="m-0 text-secondary"> No searched found! </p>
+                    <?php
+                }
+                ?>
+            </div>
         </section>
 
         <!-- recently added books -->
