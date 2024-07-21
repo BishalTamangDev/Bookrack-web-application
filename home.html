@@ -64,6 +64,27 @@
                     <span style="white-space: nowrap;"> ADD BOOK </span>
                 </div>
 
+                <!-- extra: my profile -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/profile.html'">
+                    <i class="fa fa-user"></i>
+                    <span> My Profile </span>
+                </div>
+
+                <!-- extra: notification -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/notification.html'">
+                    <i class="fa fa-bell"></i>
+                    <span> Notification </span>
+                </div>
+
+                <!-- extra: my books -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/profile.html'">
+                    <i class="fa fa-book"></i>
+                    <span> My Books </span>
+                </div>
+
                 <!-- wishlist -->
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist"
                     onclick="window.location.href='/profile.html?tab=wishlist'">
@@ -79,11 +100,11 @@
                 </div>
 
                 <!-- notification -->
-                <div class="position-relative notification-section">
+                <div class="position-relative notification-section" id="notification-trigger">
                     <div class="position-relative icon-container">
-                        <i class="fa fa-bell fs-5 pointer" id="notification-trigger"></i>
+                        <i class="fa fa-bell fs-5 pointer"></i>
                         <b>
-                            <p class="position-absolute m-0 notification-counter"> 9+ </p>
+                            <p class="position-absolute m-0 notification-counter pointer"> 9+ </p>
                         </b>
                     </div>
 
@@ -693,6 +714,56 @@
     <script src="/assets/js/bootstrap-js-5.3.3/bootstrap.min.js"></script>
 
     <!-- js :: current file -->
+    <!-- notification & profile menu script -->
+    <script>
+        var notitficationState = false;
+        const notificationTrigger = $('#notification-trigger');
+        const notificationContainer = $('#notification-main-container');
+
+        // profile menu
+        var profileMenuState = false;
+        const profileMenu = document.getElementById("profile-menu");
+        const profileMenuTrigger = document.getElementById("profile-menu-trigger");
+
+        notificationTrigger.on('click', function () {
+            notitficationState = !notitficationState;
+            toggleNotification();
+        });
+
+        toggleNotification = () => {
+            if (notitficationState) {
+                if (profileMenuState) {
+                    profileMenuState = false;
+                    toggleProfileMenu();
+                }
+                notificationContainer.show();
+            } else {
+                notificationContainer.hide();
+            }
+        }
+
+        // profile menu
+        profileMenuTrigger.addEventListener('click', function () {
+            profileMenuState = !profileMenuState;
+            toggleProfileMenu();
+        });
+
+        toggleProfileMenu = () => {
+            if (profileMenuState) {
+                if (notitficationState) {
+                    notitficationState = false;
+                    toggleNotification();
+                }
+                profileMenu.style.display = "block";
+            } else {
+                profileMenu.style.display = "none";
+            }
+        }
+
+        toggleNotification();
+        toggleProfileMenu();
+    </script>
+
     <script>
         // filter
         var filterTriggerState = false;
@@ -706,34 +777,17 @@
 
         const menu = document.getElementById("menu");
 
-        // profile menu
-        var profileMenuState = false;
-        const profileMenu = document.getElementById("profile-menu");
-        const profileMenuTrigger = document.getElementById("profile-menu-trigger");
-
         // open menu
         openMenu.addEventListener('click', function () {
             menu.style.display = "flex";
             menu.style = "right: 0; transition: .4s";
         });
 
-
         // close menu
         closeMenu.addEventListener('click', function () {
             menu.style.display = "none";
             menu.style = "right: -100%; transition: .4s";
         });
-
-        // profile menu
-        profileMenuTrigger.addEventListener('click', function () {
-            profileMenuState = !profileMenuState;
-            if (profileMenuState) {
-                profileMenu.style.display = "block";
-            } else {
-                profileMenu.style.display = "none";
-            }
-        });
-
 
         // filter
         showFilter.addEventListener('click', function () {
@@ -748,19 +802,11 @@
 
         // device width changing
         widthCheck = () => {
-            if (window.innerWidth < 768) {
-                profileMenuState = true;
-            } else {
-                profileMenuState = false;
-            }
             if (window.innerWidth < 1188) {
-                // user menu
-                if (profileMenuState) {
-                    profileMenu.style.display = "block";
-                } else {
-                    profileMenu.style.display = "none";
-                }
-
+                profileMenuState = false;
+                notitficationState = false;
+                toggleNotification();
+                profileMenu.style.display = "none";
                 // filter
                 if (!filterTriggerState) {
                     aside.style.display = "none";
@@ -786,27 +832,7 @@
         }
     </script>
 
-    <!-- notification script -->
-    <script>
-        var notitficationState = false;
-        const notificationTrigger = $('#notification-trigger');
-        const notificationContainer = $('#notification-main-container');
 
-        notificationTrigger.on('click', function () {
-            toggleNotification();
-        });
-
-        toggleNotification = () => {
-            if (notitficationState) {
-                notificationContainer.show();
-            } else {
-                notificationContainer.hide();
-            }
-            notitficationState = !notitficationState;
-        }
-
-        toggleNotification();
-    </script>
 </body>
 
 </html>
