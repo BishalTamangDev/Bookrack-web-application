@@ -22,8 +22,8 @@ if (!isset($profileUser)) {
 $profileUser->fetchUserPhotoUrl();
 
 // search
-if(!isset($searchState))
-    $searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false; 
+if (!isset($searchState))
+    $searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false;
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +92,74 @@ if(!isset($searchState))
                     <span> Cart </span>
                 </div>
 
+                <!-- notification -->
+                <div class="position-relative notification-section" id="notification-trigger">
+                    <div class="position-relative icon-container">
+                        <i class="fa fa-bell fs-5 pointer"></i>
+                        <b>
+                            <p class="position-absolute m-0 notification-counter pointer"> 9+ </p>
+                        </b>
+                    </div>
+
+                    <!-- notification section -->
+                    <div class="position-absolute bg-white rounded p-0 notification-main-container"
+                        id="notification-main-container">
+                        <div class="top p-2">
+                            <p class="m-0 p-0 heading fs-5"> Notification </p>
+                        </div>
+
+                        <hr class="m-0 p">
+
+                        <!-- notification container -->
+                        <div class="d-flex flex-column px-1 notification-container">
+                            <!-- notification 1 -->
+                            <div class="d-flex flex-row gap-2 pointer notification unclicked-notification">
+                                <!-- icon -->
+                                <div
+                                    class="d-flex flex-row align-items-center justify-content-around notification-icon">
+                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                                </div>
+
+                                <!-- details -->
+                                <div class="details">
+                                    <div class="details">
+                                        <p class="m-0"> Notification details appears here... </p>
+                                    </div>
+
+                                    <div class="date">
+                                        <p class="m-0 small text-secondary">
+                                            0000-00-00 00-00
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- notification 2 -->
+                            <div class="d-flex flex-row gap-2 pointer notification clicked-notification">
+                                <!-- icon -->
+                                <div
+                                    class="d-flex flex-row align-items-center justify-content-around notification-icon">
+                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                                </div>
+
+                                <!-- details -->
+                                <div class="details">
+                                    <div class="details">
+                                        <p class="m-0"> Notification details appears here... </p>
+                                    </div>
+
+                                    <div class="date">
+                                        <p class="m-0 small text-secondary">
+                                            0000-00-00 00-00
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <!-- profile menu -->
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
@@ -137,6 +205,9 @@ if(!isset($searchState))
         const closeMenu = document.getElementById("close-menu");
 
         const menu = document.getElementById("menu");
+        var notificationState = false;
+        const notificationTrigger = $('#notification-trigger');
+        const notificationContainer = $('#notification-main-container');
 
         // profile menu
         var profileMenuState = false;
@@ -148,8 +219,7 @@ if(!isset($searchState))
             menu.style.display = "flex";
             menu.style = "right: 0; transition: .4s";
         });
-
-
+        
         // close menu
         closeMenu.addEventListener('click', function () {
             menu.style.display = "none";
@@ -159,12 +229,40 @@ if(!isset($searchState))
         // profile menu
         profileMenuTrigger.addEventListener('click', function () {
             profileMenuState = !profileMenuState;
+            toggleProfileMenu();
+        });
+
+        toggleProfileMenu = () =>{
             if (profileMenuState) {
+                if(notificationState) {
+                    notificationState = !notificationState;
+                    toggleNotification();
+                }
                 profileMenu.style.display = "block";
             } else {
                 profileMenu.style.display = "none";
             }
+        }
+
+        // notification
+        notificationTrigger.on('click', function () {
+            notificationState = !notificationState;
+            toggleNotification();
         });
+
+        toggleNotification = () => {
+            if (notificationState) {
+                if(profileMenuState) {
+                    profileMenuState = !profileMenuState;
+                    toggleProfileMenu();
+                }
+                notificationContainer.show();
+            } else {
+                notificationContainer.hide();
+            }
+        }
+
+        toggleNotification();
 
         // device width changing
         widthCheck = () => {
@@ -172,6 +270,8 @@ if(!isset($searchState))
                 // profileMenuState = true;
             } else {
                 profileMenuState = false;
+                notificationState = false;
+                toggleNotification();
             }
             if (window.innerWidth < 1188) {
                 // user menu
