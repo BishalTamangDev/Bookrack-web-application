@@ -40,7 +40,7 @@ $profileAdmin->fetch($adminId);
     <!-- aside :: nav -->
     <?php include 'nav.php'; ?>
 
-    <main class="d-flex flex-column gap-3 main">
+    <main class="d-flex flex-column mt-5 gap-3 main">
         <!-- heading -->
         <div class="d-flex flex-row align-items-center justify-content-between heading">
             <h4 class="fw-bold"> My Profile </h4>

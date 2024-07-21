@@ -52,11 +52,9 @@ $bookIdList = $bookObj->fetchAllBookId();
     <?php include 'nav.php'; ?>
 
     <main class="main">
-        <p class="page-heading"> Dashboard </p>
-
         <!-- card & new users -->
         <section
-            class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
+            class="d-flex section flex-column flex-lg-row mt-5 pt-3 gap-3 section justify-content-between count-card-new-users">
             <div class="count-card">
                 <!-- cards -->
                 <div class="card-container">

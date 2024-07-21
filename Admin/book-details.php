@@ -59,7 +59,7 @@ if (!$bookExists)
     <!-- main content -->
     <main class="main">
         <!-- heading & rating -->
-        <section class="d-flex flex-column heading-rating">
+        <section class="d-flex flex-column mt-4 heading-rating">
             <!-- heading -->
             <p class="page-heading"> <?= ucWords($bookObj->title) ?> </p>
 

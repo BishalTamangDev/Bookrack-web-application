@@ -52,11 +52,8 @@ $userIdList = $userObj->fetchAllUserId();
 
     <!-- main content -->
     <main class="main">
-        <!-- heading -->
-        <p class="fw-bold page-heading"> Users </p>
-
         <!-- cards -->
-        <section class="section card-container">
+        <section class="section mt-5 pt-3 card-container">
             <!-- number of users -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Users </p>

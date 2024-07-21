@@ -44,10 +44,7 @@ if ($profileAdmin->accountStatus != "verified")
     <?php include 'nav.php'; ?>
 
     <!-- main content -->
-    <main class="main">
-        <!-- heading -->
-        <p class="page-heading"> Book Requests </p>
-
+    <main class="main mt-4">
         <!-- cards -->
         <section class="section card-container">
             <!-- number of new offers -->

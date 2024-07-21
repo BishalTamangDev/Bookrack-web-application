@@ -59,11 +59,8 @@ $rentBookCount = 0;
 
     <!-- main content -->
     <main class="main">
-        <!-- heading -->
-        <p class="page-heading"> Books </p>
-
         <!-- cards -->
-        <section class="section card-container">
+        <section class="section mt-5 pt-3 card-container">
             <!-- number of books -->
             <div class="card-v1">
                 <p class="card-v1-title"> Number of Books </p>

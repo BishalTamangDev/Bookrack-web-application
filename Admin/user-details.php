@@ -62,7 +62,7 @@ $fullName = $selectedUser->getFullName();
     <?php include 'nav.php'; ?>
 
     <!-- main content -->
-    <main class="main">
+    <main class="main mt-4">
         <!-- heading -->
         <p class="fw-bold page-heading">
             <?php echo $fullName != " " ? $fullName : "Unverifed User"; ?>
