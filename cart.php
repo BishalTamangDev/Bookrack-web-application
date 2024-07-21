@@ -65,134 +65,85 @@ $cart->setUserId($userId);
         </div>
 
         <!-- cart section -->
-        <!-- pending cart section -->
+        <!-- current cart section -->
         <?php
         if ($tab == "current") {
             require_once __DIR__ . '/app/book-class.php';
             $bookObj = new Book();
             $cart->fetchCurrent();
             ?>
-            <section class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-container">
-                <!-- cart -->
-                <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
-                    <div class="rounded p-1 cart-detail">
-                        <table class="table cart-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">S.N.</th>
-                                    <th scope="col">Book</th>
-                                    <th scope="col">Title</th>
-                                    <!-- <th scope="col">Purpose</th> -->
-                                    <!-- <th scope="col">Starting date </th> -->
-                                    <!-- <th scope="col">Ending date</th> -->
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Remove</th>
-                                </tr>
-                            </thead>
+            <!-- current cart section -->
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+                <div class="rounded p-1 cart-detail">
+                    <table class="table cart-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">S.N.</th>
+                                <th scope="col">Book</th>
+                                <th scope="col">Title</th>
+                                <!-- <th scope="col">Purpose</th> -->
+                                <!-- <th scope="col">Starting date </th> -->
+                                <!-- <th scope="col">Ending date</th> -->
+                                <th scope="col">Price</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
-                                <!-- book 1 -->
-                                <?php
-                                $serial = 1;
-                                if (sizeof($cart->bookList) != 0) {
-                                    foreach ($cart->bookList as $book) {
-                                        // fetch book details
-                                        $bookObj->fetch($book['id']);
-                                        $bookObj->setPhotoUrl();
-                                        ?>
-                                        <tr>
-                                            <th scope="row"> <?= $serial++ ?> </th>
-                                            <td>
-                                                <div class="book-image">
-                                                    <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
-                                                </div>
-                                            </td>
-                                            <td class="title" onclick="window.location.href='/bookrack/book-details'">
-                                                <?= ucwords($bookObj->title) ?>
-                                            </td>
-                                            
-                                            <td class="price">
-                                                <?php
-                                                if ($bookObj->purpose == "renting") {
-                                                    $rent = $bookObj->price['actual'] * 0.20;
-                                                    echo "NPR." . number_format($rent, 2) . "/week";
-                                                } elseif ($bookObj->purpose == "buy/sell") {
-                                                    echo "NPR." . number_format($bookObj->price['offer'], 2);
-                                                }
-                                                ?>
-                                            </td>
-
-                                            <td class="remove">
-                                                <a
-                                                    href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $book['id'] ?>&url=<?= $url ?>">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                } else {
+                        <tbody>
+                            <!-- book 1 -->
+                            <?php
+                            $serial = 1;
+                            if (sizeof($cart->bookList) != 0) {
+                                foreach ($cart->bookList as $book) {
+                                    // fetch book details
+                                    $bookObj->fetch($book['id']);
+                                    $bookObj->setPhotoUrl();
                                     ?>
                                     <tr>
-                                        <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your
-                                            cart is empty! </td>
+                                        <th scope="row"> <?= $serial++ ?> </th>
+                                        <td>
+                                            <div class="book-image">
+                                                <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
+                                            </div>
+                                        </td>
+                                        <td class="title" onclick="window.location.href='/bookrack/book-details'">
+                                            <?= ucwords($bookObj->title) ?>
+                                        </td>
+
+                                        <td class="price">
+                                            <?php
+                                            if ($bookObj->purpose == "renting") {
+                                                $rent = $bookObj->price['actual'] * 0.20;
+                                                echo "NPR." . number_format($rent, 2) . "/week";
+                                            } elseif ($bookObj->purpose == "buy/sell") {
+                                                echo "NPR." . number_format($bookObj->price['offer'], 2);
+                                            }
+                                            ?>
+                                        </td>
+
+                                        <td class="remove">
+                                            <a
+                                                href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $book['id'] ?>&url=<?= $url ?>">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
+                            } else {
                                 ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                <tr>
+                                    <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your
+                                        cart is empty! </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <div class="d-none d-flex flex-column rounded p-3 gap-3 checkout">
-                        <div class="heading">
-                            <p class="f-reset"> ORDER SUMMARY </p>
-                        </div>
-
-                        <div class="d-flex flex-column gap-2 checkout-detail-div">
-                            <div class="d-flex flex-row justify-content-between checkout-detail">
-                                <p class="f-reset"> Order No. </p>
-                                <p class="f-reset"> #145-4526-7894 </p>
-                            </div>
-                            <div class="d-flex flex-row justify-content-between checkout-detail">
-                                <p class="f-reset"> Order Date </p>
-                                <p class="f-reset"> 2024-12-08 </p>
-                            </div>
-                            <div class="d-flex flex-row justify-content-between checkout-detail">
-                                <p class="f-reset"> Shipping address </p>
-                                <p class="f-reset"> Bansbari, Kathmandu </p>
-                            </div>
-                            <div class="d-flex flex-row justify-content-between checkout-detail">
-                                <p class="f-reset"> Est. arrival day </p>
-                                <p class="f-reset"> 4 days </p>
-                            </div>
-                            <div class="d-flex flex-row justify-content-between checkout-detail">
-                                <p class="f-reset"> Remaining day </p>
-                                <p class="f-reset"> 2 </p>
-                            </div>
-                            <hr>
-                        </div>
-
-                        <div class="d-flex flex-column gap-1 checkout-detail-div">
-                            <div class="d-flex flex-row justify-content-between  checkout-detail">
-                                <p class="f-reset"> Subtotal </p>
-                                <p class="f-reset"> NRs. 150 </p>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-between  checkout-detail">
-                                <p class="f-reset"> Estimated Shipping </p>
-                                <p class="f-reset"> NRs. 75 </p>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-between  checkout-detail">
-                                <p class="f-reset"> Estimated Total </p>
-                                <p class="f-reset"> NRs. 225 </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- checkout details -->
+                <!-- order summary -->
                 <div class="d-flex flex-column rounded p-3 gap-3 checkout">
                     <div class="heading">
                         <p class="f-reset"> ORDER SUMMARY </p>
@@ -241,7 +192,6 @@ $cart->setUserId($userId);
                     </div>
                 </div>
             </section>
-
             <?php
         } elseif ($tab == "pending") {
             ?>
@@ -310,9 +260,8 @@ $cart->setUserId($userId);
                 </div>
             </div>
 
-
             <!-- pending cart section -->
-            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between pending-cart-section">
                 <!-- cart details -->
                 <div class="rounded p-1 cart-detail">
                     <table class="table cart-table">
@@ -409,7 +358,7 @@ $cart->setUserId($userId);
         } elseif ($tab == "completed") {
             ?>
             <!-- completed cart -->
-            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between completed-cart-section">
                 <div class="rounded p-1 cart-detail">
                     <table class="table cart-table">
                         <thead>

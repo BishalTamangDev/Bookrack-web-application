@@ -48,6 +48,7 @@
 
             // notification
             .notification-section {
+                display: none;
                 margin-right: 4px;
 
                 .icon-container {
@@ -60,6 +61,7 @@
 
                 .notification-main-container {
                     display: flex;
+                    
                     flex-direction: column;
                     width: 300px;
                     right: 0;
@@ -137,6 +139,12 @@
                     }
                 }
             }
+
+            // extra
+            .extra {
+                display: flex;
+                flex-direction: row;
+            }
         }
     }
 }
@@ -182,6 +190,15 @@
                             width: fit-content;
                         }
                     }
+                }
+
+                .notification-section {
+                    display: flex;
+                }
+
+                // extras
+                .extra {
+                    display: none;
                 }
             }
         }

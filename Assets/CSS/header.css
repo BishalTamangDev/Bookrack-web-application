@@ -38,6 +38,7 @@
   background-color: var(--brand-color);
 }
 .header .header-container .menu .notification-section {
+  display: none;
   margin-right: 4px;
 }
 .header .header-container .menu .notification-section .icon-container .notification-counter {
@@ -111,6 +112,10 @@
 .header .header-container .menu .profile-div .profile-menu ul li i {
   width: 14px;
 }
+.header .header-container .menu .extra {
+  display: flex;
+  flex-direction: row;
+}
 
 @media (min-width: 768px) {
   .header .header-container .menu {
@@ -149,5 +154,11 @@
   .header .header-container .menu .profile-div .profile-menu ul {
     width: -moz-fit-content;
     width: fit-content;
+  }
+  .header .header-container .menu .notification-section {
+    display: flex;
+  }
+  .header .header-container .menu .extra {
+    display: none;
   }
 }/*# sourceMappingURL=header.css.map */

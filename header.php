@@ -78,6 +78,27 @@ if (!isset($searchState))
                     <span style="white-space: nowrap;"> ADD BOOK </span>
                 </div>
 
+                <!-- extra: my profile -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/profile.html'">
+                    <i class="fa fa-user"></i>
+                    <span> My Profile </span>
+                </div>
+
+                <!-- extra: notification -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/notification.html'">
+                    <i class="fa fa-bell"></i>
+                    <span> Notification </span>
+                </div>
+
+                <!-- extra: my books -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/profile.html'">
+                    <i class="fa fa-book"></i>
+                    <span> My Books </span>
+                </div>
+
                 <!-- wishlist -->
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist"
                     onclick="window.location.href='/bookrack/profile/wishlist'">
@@ -160,6 +181,13 @@ if (!isset($searchState))
                     </div>
                 </div>
 
+                <!-- extra: my books -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='signout.php'">
+                    <i class="fa fa-sign-out"></i>
+                    <span> Sign out </span>
+                </div>
+
                 <!-- profile menu -->
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
@@ -186,7 +214,7 @@ if (!isset($searchState))
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>
