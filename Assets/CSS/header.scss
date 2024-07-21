@@ -46,6 +46,53 @@
                 background-color: var(--brand-color);
             }
 
+            // notification
+            .notification-section{
+                margin-right: 4px;
+                .icon-container{
+                   .notification-counter {
+                        top: -10px;
+                        right: -10px;
+                        color: rgb(250, 59, 59);
+                   }
+                }
+
+                .notification-main-container{
+                    display: flex;
+                    flex-direction: column;
+                    width: 300px;
+                    right: 0;
+                    top: 34px;
+                    box-shadow: 0 0 6px rgb(160, 159, 159);
+                    .notification-container{
+                        max-height: 80vh;
+                        overflow-x: hidden;
+                        overflow-y: scroll;
+                        .notification{
+                            padding: 10px 4px;
+
+                            &:hover{
+                                background-color: whitesmoke;
+                            }
+
+                            .notification-icon{
+                                width: 34px;
+                                aspect-ratio: 1/1;
+                                img{
+                                    width: 80%;
+                                    height: 80%;
+                                    object-fit: cover;
+                                }
+                            }
+                        }
+
+                        .unclicked-notification{
+                            background-color: whitesmoke;
+                        }
+                    }
+                }
+            }
+
             .profile-div {
                 width: 100%;
 
