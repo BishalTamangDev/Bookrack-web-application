@@ -6,28 +6,13 @@
   min-width: 48px;
   overflow: hidden;
   padding: 1rem 1rem;
+  z-index: 100;
   background-color: var(--neutral-dark-color);
-}
-.aside .aside-container .profile-container {
-  width: 100%;
-  align-items: center;
-}
-.aside .aside-container .profile-container .profile-photo {
-  width: 70px;
-  height: 70px;
-  overflow: hidden;
-}
-.aside .aside-container .profile-container .profile-details #username {
-  color: white;
-}
-.aside .aside-container .profile-container .profile-details #email-address {
-  font-size: 12px;
-  color: rgb(156, 154, 154);
 }
 .aside .aside-container .nav ul {
   margin-top: 3rem;
   list-style-type: none;
-  gap: 1.25rem;
+  gap: 12px;
 }
 .aside .aside-container .nav ul li {
   display: flex;
@@ -35,6 +20,8 @@
   -moz-column-gap: 8px;
        column-gap: 8px;
   cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
 }
 .aside .aside-container .nav ul li .nav-icon {
   width: 20px;
@@ -44,12 +31,127 @@
 .aside .aside-container .nav ul li span {
   color: var(--neutral-lighest-color);
 }
+.aside .aside-container .nav ul .active {
+  background-color: whitesmoke;
+  color: black;
+}
+.aside .aside-container .nav ul .active i {
+  color: black;
+}
+.aside .aside-container .nav ul .active i span {
+  color: black;
+}
+
+.header-container {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  padding-left: 72px;
+  padding-left: 24px;
+  padding-right: 24px;
+  z-index: 99;
+}
+.header-container .heading {
+  font-weight: bold;
+}
+.header-container .form-notification-profile .search-form-container .search-form .input-group input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.header-container .form-notification-profile .search-form-container .search-form button {
+  padding: 0 12px;
+  border: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.header-container .form-notification-profile .notification-container .icon-count {
+  position: relative;
+}
+.header-container .form-notification-profile .notification-container .icon-count .notification-count-div {
+  left: 12px;
+  top: -6px;
+}
+.header-container .form-notification-profile .notification-container .notification-div {
+  min-width: 220px;
+  max-width: 350px;
+  right: 24px;
+  margin-top: 16px;
+  box-shadow: -2px 2px 10px rgb(199, 198, 198);
+}
+.header-container .form-notification-profile .notification-container .notification-div .notifications {
+  max-height: 80vh;
+  overflow-y: scroll;
+}
+.header-container .form-notification-profile .notification-container .notification-div .notifications .notification:hover {
+  background-color: whitesmoke;
+}
+.header-container .form-notification-profile .notification-container .notification-div .notifications .notification .icon-div {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+.header-container .form-notification-profile .notification-container .notification-div .notifications .notification .icon-div img {
+  width: 80%;
+  height: 80%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.header-container .form-notification-profile .profile-container .profile-image {
+  width: 36px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.header-container .profile-container .profile-menu-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  max-width: 250px;
+  right: 0;
+  margin-top: 10px;
+  box-shadow: -2px 2px 10px rgb(199, 198, 198);
+}
+.header-container .profile-container .profile-menu-container .profile-menu {
+  list-style: none;
+}
+.header-container .profile-container .profile-menu-container .profile-menu li {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.header-container .profile-container .profile-menu-container .profile-menu li:hover {
+  background-color: whitesmoke;
+}
+.header-container .profile-container .profile-menu-container .profile-menu li i {
+  margin-top: 2px;
+  width: 20px;
+}
 
 .main {
   padding: 24px;
   padding-left: 170px;
+  padding-left: 170px;
 }
 
+@media (min-width: 500px) {
+  .header-container {
+    flex-direction: row;
+  }
+  .header-container .heading {
+    display: block;
+  }
+}
+@media (min-width: 991px) {
+  .header-container {
+    padding-left: 172px;
+    padding-left: 24px;
+  }
+}
 @media (max-width: 991px) {
   .main {
     padding-left: 71px;

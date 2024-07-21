@@ -33,9 +33,6 @@
     <aside class="aside"></aside>
 
     <main class="main">
-        <!-- heading -->
-        <h4 class="fw-bold"> Dashboard </h4>
-
         <!-- card & new users -->
         <section
             class="d-flex section flex-column flex-lg-row mt-3 gap-3 section justify-content-between count-card-new-users">
@@ -89,59 +86,38 @@
             </div>
         </section>
 
-        <!-- offer and request -->
-        <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
-            <!-- offer -->
-            <div class="w-100 w-md-50 offer-container">
-                <!-- heading -->
-                <p class="f-reset fs-5 fw-bold"> New Offers </p>
+        <!-- recently added books -->
+        <section class="section d-flex flex-column gap-4 recently-arrived-books-container">
+            <!-- heading -->
+            <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
 
-                <div class="mt-3 offer-div">
-                    <!-- offer table -->
-                    <table class="table table-striped offer-table">
-                        <!-- table heading -->
-                        <thead>
-                            <tr>
-                                <th scope="col"> Book </th>
-                                <th scope="col"> Title </th>
-                                <th scope="col"> Provider </th>
-                                <th scope="col"> Price </th>
-                            </tr>
-                        </thead>
+            <!-- empty arrived book -->
+            <p class="f-reset text-danger"> No books found! </p>
 
-                        <!-- table data -->
-                        <tbody>
-                            <!-- dummy data -->
-                            <tr>
-                                <td>
-                                    <div class="offer-book-image-container">
-                                        <div class="offer-book-div">
-                                            <img src="/assets/images/cover-1.jpeg" alt="" loading="lazy">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td> Intuition </td>
-                                <td> Rupak Dangi </td>
-                                <td> NRs. 140.00 </td>
-                            </tr>
-                        </tbody>
+            <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
+                <!-- book 1 -->
+                <div class="recently-arrived-book" onclick="window.location.href='book-details.html'">
+                    <div class="image-div">
+                        <img src="/assets/images/cover-1.jpeg" alt="">
+                    </div>
 
-                        <!-- table footer -->
-                        <tfoot id="table-foot">
-                            <tr class="empty-request-tr">
-                                <td colspan="4"> No new offers! </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="4">
-                                    <a href="/book-offers.html"> Show all offers </a>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="detail">
+                        <div class="title">
+                            <p> The Black Universe </p>
+                        </div>
+                        <div class="genre">
+                            <p> Action </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <a href="/books.html" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
+
+        </section>
+
+        <!-- offer and request -->
+        <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
             <!-- request -->
             <div class="request-container w-100 w-md-50">
                 <!-- heading -->
@@ -185,36 +161,6 @@
                     </table>
                 </div>
             </div>
-        </section>
-
-        <!-- recently added books -->
-        <section class="section d-flex flex-column gap-4 recently-arrived-books-container">
-            <!-- heading -->
-            <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
-
-            <!-- empty arrived book -->
-            <p class="f-reset text-danger"> No books found! </p>
-
-            <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
-                <!-- book 1 -->
-                <div class="recently-arrived-book" onclick="window.location.href='book-details.html'">
-                    <div class="image-div">
-                        <img src="/assets/images/cover-1.jpeg" alt="">
-                    </div>
-
-                    <div class="detail">
-                        <div class="title">
-                            <p> The Black Universe </p>
-                        </div>
-                        <div class="genre">
-                            <p> Action </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="/books.html" class="btn btn-outline-warning m-auto" id="show-all-recently-added"> Show all </a>
-
         </section>
 
         <!-- rent ending -->

@@ -13,7 +13,7 @@
         flex-direction: row;
         align-items: center;
 
-        #filter-icon{
+        #filter-icon {
             color: grey;
             margin-right: 5px;
         }
@@ -42,12 +42,12 @@
 
     }
 
-    .search-clear{
+    .search-clear {
         display: flex;
         flex-direction: row;
         gap: 1rem;
 
-        .clear-search-div{
+        .clear-search-div {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -56,8 +56,8 @@
             border-radius: 6px;
             cursor: pointer;
             border: 1px solid rgb(211, 211, 211);
-            
-            p{
+
+            p {
                 font-size: 12px;
             }
         }
@@ -66,7 +66,7 @@
             display: flex;
             flex-direction: row;
 
-            input{
+            input {
                 padding: 2px 6px;
                 border-top-left-radius: 6px;
                 border-bottom-left-radius: 6px;

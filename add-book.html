@@ -61,41 +61,43 @@
                             required></textarea>
                     </div>
 
-                    <!-- ISBN -->
-                    <div class="d-flex flex-column gap-2 isbn">
-                        <label for="book-isbn" class="f-reset form-label"> ISBN </label>
-                        <input type="text" class="form-control-lg" id="book-isbn" name="book-isbn"
-                            aria-describedby="book isbn" required>
+                    <div class="author">
+                        <div class="d-flex flex-column gap-2 genre">
+                            <label for="book-author" class="f-reset f-reset form-label"> Author </label>
+                            <input type="text" class="form-control-lg" id="book-author" name="book-author"
+                                aria-describedby="book author" required>
+                        </div>
                     </div>
 
-                    <!-- publisher & publication -->
+                    <!-- genre -->
+                    <div class="d-flex flex-column gap-2 genre">
+                        <label for="book-genre" class="f-reset f-reset form-label"> Genre </label>
+                        <input type="text" class="form-control-lg" id="book-genre" name="book-genre"
+                            aria-describedby="book genre" required>
+                    </div>
+
+                    <!-- ISBN & publisher -->
                     <div class="d-flex flex-column flex-md-row gap-3 publisher-publication">
+
+                        <!-- isbn -->
+                        <div class="d-flex flex-column gap-2 isbn">
+                            <label for="book-isbn" class="f-reset form-label"> ISBN </label>
+                            <input type="text" class="form-control-lg" id="book-isbn" name="book-isbn"
+                                aria-describedby="book isbn" required>
+                        </div>
+
                         <!-- publisher -->
                         <div class="d-flex flex-column gap-2 publisher ">
                             <label for="book-publisher" class="f-reset form-label"> Publisher </label>
                             <input type="text" class="form-control-lg" id="book-publisher" name="book-publisher"
                                 aria-describedby="publisher" required>
                         </div>
-
-                        <!-- publication -->
-                        <div class="d-flex flex-column gap-2 publication ">
-                            <label for="book-publication" class="f-reset form-label"> Publication </label>
-                            <input type="text" class="form-control-lg" id="book-publication" name="book-publication"
-                                aria-describedby="publication" required>
-                        </div>
                     </div>
 
                     <!-- genre & edition -->
                     <div class="d-flex flex-column flex-md-row gap-2 d-flex flex-row gap-3 genre-edition">
-                        <!-- genre -->
-                        <div class="d-flex flex-column gap-2 genre ">
-                            <label for="book-genre" class="f-reset f-reset form-label"> Genre </label>
-                            <input type="text" class="form-control-lg" id="book-genre" name="book-genre"
-                                aria-describedby="book genre" required>
-                        </div>
-
                         <!-- language -->
-                        <div class="d-flex flex-column gap-2 language ">
+                        <div class="d-flex w-100 w-md-50 flex-column gap-2 language ">
                             <label for="book-language" class="f-reset f-reset form-label"> Language </label>
                             <select class="form-select form-select" id="book-language" name="book-language"
                                 aria-label="book language" required>
@@ -109,7 +111,7 @@
                         </div>
 
                         <!-- edition -->
-                        <div class="d-flex flex-column gap-2 edition ">
+                        <div class="d-flex w-100 w-md-50 flex-column gap-2 edition ">
                             <label for="book-edition" class="f-reset f-reset form-label"> Edition </label>
                             <select class="form-select form-select" id="book-edition" name="book-edition"
                                 aria-label="book edition" required>
@@ -150,21 +152,8 @@
 
                     <div class="d-flex flex-column gap-3 book-images">
                         <div class="input-group">
-                            <label for="cover-page">Cover page</label>
                             <input type="file" name="cover-page" id="cover-page" class="form-control"
                                 aria-label="cover page image" aria-describedby="cover page image" required>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="price-page">Price page</label>
-                            <input type="file" name="price-page" id="cover-page" class="form-control"
-                                aria-label="price page image" aria-describedby="price page image" required>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="isbn-page">ISBN page</label>
-                            <input type="file" name="isbn-page" id="isbn-page" class="form-control"
-                                aria-label="isbn page image" aria-describedby="isbn page image" required>
                         </div>
                     </div>
 
