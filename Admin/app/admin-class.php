@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../../app/functions.php';
 require_once __DIR__ . '/../../app/connection.php';
 
 class Admin
@@ -38,6 +39,7 @@ class Admin
 
     public $gender;
     public $joinedDate;
+    public $role;
     public $accountStatus;
 
     // Constructor
@@ -65,10 +67,11 @@ class Admin
             "back" => ""
         ];
         $this->joinedDate = "";
+        $this->role = "admin";
         $this->accountStatus = "";
     }
 
-    public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
+    public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $role, $accountStatus)
     {
         if ($this->adminId == '')
             $this->adminId = $adminId;
@@ -90,6 +93,7 @@ class Admin
             "back" => $kyc['back']
         ];
         $this->joinedDate = $joinedDate;
+        $this->role = $role;
         if ($this->accountStatus == "")
             $this->accountStatus = $accountStatus;
     }
@@ -194,6 +198,7 @@ class Admin
     }
 
     // admin registration
+    // not needed
     public function register()
     {
         global $database;
@@ -220,6 +225,7 @@ class Admin
                 'back' => $this->kyc['back'],
             ],
             'joined_date' => date("Y:m:d H:i:s"),
+            'role' => 'admin',
             'account_status' => 'pending'
         ];
 
@@ -264,7 +270,7 @@ class Admin
 
             // realtime db
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
-            $this->setAdmin($adminId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
+            $this->setAdmin($adminId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['role'], $response['account_status']);
 
             $status = true;
         } catch (Exception $e) {
@@ -358,7 +364,7 @@ class Admin
     {
         global $database;
 
-        $list = array();
+        $list = [];
 
         // fetching all users
         $response = $database->getReference("users")->getSnapshot()->getValue();
@@ -375,5 +381,24 @@ class Admin
     public function checkAccountVerificationEligibility()
     {
         return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
+    }
+
+    // function to check if the id belong to the admin
+    public function checkIfAdmin($id)
+    {
+        global $database;
+        $isAdmin = false;
+        $reference = $database->getReference('admins')->getChild($id);
+
+        if ($reference) {
+            $response = $reference->getSnapshot()->getValue();
+            if (isset($response['role'])) {
+                if ($response['role'] == "admin") {
+                    $isAdmin = true;
+                }
+            }
+        }
+
+        return $isAdmin;
     }
 }

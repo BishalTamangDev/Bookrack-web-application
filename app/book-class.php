@@ -26,6 +26,9 @@ class Book
     private $ownerId;
     public $flag;
 
+    // extra variable for storing fetched data for faster loading time 
+    private $responseAllBooks;
+
     public function __construct()
     {
         $this->bookId = "";
@@ -49,6 +52,9 @@ class Book
         $this->addedDate = "";
         $this->ownerId = "";
         $this->flag = "verified";
+
+        // extra variable
+        $this->responseAllBooks = "";
     }
 
     public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $edition, $price, $photo, $addedDate, $flag)
@@ -272,5 +278,21 @@ class Book
         }
 
         return $bookIdList;
+    }
+
+    public function checkIfUserHasContributed($userId)
+    {
+        global $database;
+        $hasContributed = false;
+        if ($this->responseAllBooks == "") {
+            $this->responseAllBooks = $database->getReference("books")->getSnapshot()->getValue();
+        }
+
+        foreach ($this->responseAllBooks as $res) {
+            if ($res['owner_id'] == $userId)
+                $hasContributed = true;
+        }
+
+        return $hasContributed;
     }
 }

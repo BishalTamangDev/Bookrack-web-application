@@ -183,7 +183,7 @@ if (!isset($searchState))
 
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='signout.php'">
+                    onclick="window.location.href='/bookrack/signout.php'">
                     <i class="fa fa-sign-out"></i>
                     <span> Sign out </span>
                 </div>
@@ -194,11 +194,11 @@ if (!isset($searchState))
                         <?php
                         if ($profileUser->photoUrl != "") {
                             ?>
-                            <img src="<?= $profileUser->photoUrl ?>" alt="" class="pointer" loading="lazy">
+                            <img src="<?= $profileUser->photoUrl ?>" alt="" class="pointer bg-light" loading="lazy">
                             <?php
                         } else {
                             ?>
-                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer" loading="lazy">
+                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer bg-light" loading="lazy">
                             <?php
                         }
                         ?>
@@ -214,7 +214,7 @@ if (!isset($searchState))
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>

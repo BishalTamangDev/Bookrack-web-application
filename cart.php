@@ -56,11 +56,11 @@ $cart->setUserId($userId);
         </section>
 
         <div class="d-flex flex-row gap-2 cart-status-container">
-            <button class="btn active-cart" id="current-cart-btn"
+            <button class="btn <?= ($tab == "current") ? "active-cart" : "inactive-cart"; ?>" id="current-cart-btn"
                 onclick="window.location.href='/bookrack/cart/current'"> Current Cart </button>
-            <button class="btn inactive-cart" id="pending-cart-btn"
+            <button class="btn <?= ($tab == "pending") ? "active-cart" : "inactive-cart"; ?>" id="pending-cart-btn"
                 onclick="window.location.href='/bookrack/cart/pending'"> Pending Cart </button>
-            <button class="btn inactive-cart" id="completed-cart-btn"
+            <button class="btn <?= ($tab == "completed") ? "active-cart" : "inactive-cart"; ?>" id="completed-cart-btn"
                 onclick="window.location.href='/bookrack/cart/completed'"> Completed Cart </button>
         </div>
 
@@ -71,6 +71,8 @@ $cart->setUserId($userId);
             require_once __DIR__ . '/app/book-class.php';
             $bookObj = new Book();
             $cart->fetchCurrent();
+
+            $total = 0;
             ?>
             <!-- current cart section -->
             <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
@@ -117,6 +119,7 @@ $cart->setUserId($userId);
                                                 echo "NPR." . number_format($rent, 2) . "/week";
                                             } elseif ($bookObj->purpose == "buy/sell") {
                                                 echo "NPR." . number_format($bookObj->price['offer'], 2);
+                                                $total += $bookObj->price['offer'];
                                             }
                                             ?>
                                         </td>
@@ -124,7 +127,7 @@ $cart->setUserId($userId);
                                         <td class="remove">
                                             <a
                                                 href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $book['id'] ?>&url=<?= $url ?>">
-                                                <i class="fa-solid fa-trash"></i>
+                                                <i class="fa-solid fa-multiply fs-4"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -152,37 +155,29 @@ $cart->setUserId($userId);
                     <div class="d-flex flex-column gap-1 checkout-detail-div">
                         <div class="d-flex flex-row justify-content-between checkout-detail">
                             <p class="f-reset"> Shipping address </p>
-                            <p class="f-reset"> Bansbari, Kathmandu </p>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="f-reset"> Est. arrival day </p>
-                            <p class="f-reset"> 4 days </p>
+                            <p class="f-reset"> <?= $profileUser->getFullAddress() ?> </p>
                         </div>
                         <hr>
                     </div>
 
                     <div class="d-flex flex-column gap-1 checkout-detail-div">
                         <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="f-reset"> Subtotal </p>
-                            <p class="f-reset"> NRs. 150 </p>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="f-reset"> Estimated Shipping </p>
-                            <p class="f-reset"> NRs. 75 </p>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between  checkout-detail">
                             <p class="f-reset"> Estimated Total </p>
-                            <p class="f-reset"> NRs. 225 </p>
+                            <p class="f-reset"> <?= "NPR. " . number_format($total, 2) ?> </p>
                         </div>
                     </div>
 
-                    <div class="checkout-btn-div">
-                        <button class="btn w-100 text-light py-2 checkout-btn">
-                            CHECKOUT NOW
-                        </button>
-                    </div>
+                    <?php
+                    if ($total != 0) {
+                        ?>
+                        <div class="checkout-btn-div">
+                            <button class="btn w-100 text-light py-2 checkout-btn">
+                                CHECKOUT NOW
+                            </button>
+                        </div>
+                        <?php
+                    }
+                    ?>
 
                     <div class="payment-partner-div">
                         <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
@@ -192,6 +187,16 @@ $cart->setUserId($userId);
                     </div>
                 </div>
             </section>
+
+
+            <?php if ($total != 0) {
+                ?>
+                <div class="mt-3 note-section">
+                    <p class="m-0 fst-italic text-danger"> Note: The order arrival day might differ eachtime as we need to
+                        collect books from different providers. </p>
+                </div>
+                <?php
+            } ?>
             <?php
         } elseif ($tab == "pending") {
             ?>
@@ -270,12 +275,9 @@ $cart->setUserId($userId);
                                 <th scope="col">S.N.</th>
                                 <th scope="col">Book</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Condition</th>
                                 <th scope="col">Purpose</th>
-                                <th scope="col">Starting date </th>
-                                <th scope="col">Ending date</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Remove</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -290,10 +292,7 @@ $cart->setUserId($userId);
                                 <td class="title" onclick="window.location.href='/bookrack/book-details'"> The Black
                                     Universe
                                 </td>
-                                <td> unused </td>
                                 <td> Rent </td>
-                                <td> 0000-00-00 </td>
-                                <td> 0000-00-00 </td>
                                 <td class="price"> NRs. 140 </td>
                                 <td>
                                     <div class="remove" id="current-cart-product-1">
@@ -366,10 +365,7 @@ $cart->setUserId($userId);
                                 <th scope="col">S.N.</th>
                                 <th scope="col">Book</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Condition</th>
                                 <th scope="col">Purpose</th>
-                                <th scope="col">Starting date </th>
-                                <th scope="col">Ending date</th>
                                 <th scope="col">Price</th>
                             </tr>
                         </thead>
@@ -384,11 +380,9 @@ $cart->setUserId($userId);
                                 </td>
                                 <td class="title cursor" onclick="window.location.href='/bookrack/book-details'"> The Black
                                     Universe </td>
-                                <td> unused </td>
                                 <td> Rent </td>
-                                <td> 0000-00-00 </td>
-                                <td> 0000-00-00 </td>
                                 <td class="price"> NRs. 140 </td>
+                                <td class="action"> <i class="fa fa-multiply fs-4"></i> </td>
                             </tr>
                         </tbody>
                     </table>

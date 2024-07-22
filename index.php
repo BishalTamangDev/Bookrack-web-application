@@ -186,7 +186,7 @@ elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPat
         $arr = explode('/', $router);
 
         // dashboard
-        if (preg_match('/admin-dashboard$/', $arr[2])) {
+        if (preg_match('/admin-dashboard/', $arr[2])) {
             $nav = "dashboard";
             include 'admin/dashboard.php';
         } elseif (preg_match('/admin-profile$/', $arr[2])) {
@@ -208,27 +208,27 @@ elseif ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPat
         } elseif ((preg_match('/admin-notification$/', $arr[2]))) {
             $nav = "notification";
             include 'admin/notification.php';
-        } elseif ((preg_match('/admin-users$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-users/', $arr[2]))) {
             $nav = "users";
             include 'admin/users.php';
         } elseif (preg_match('/admin-user-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
             $nav = "user-details";
             $userId = $arr[3];
             include 'admin/user-details.php';
-        } elseif ((preg_match('/admin-books$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-books/', $arr[2]))) {
             $nav = "books";
             include 'admin/books.php';
         } elseif (preg_match('/admin-book-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
             $nav = "book-details";
             $bookId = $arr[3];
             include 'admin/book-details.php';
-        } elseif ((preg_match('/admin-book-requests$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-book-requests/', $arr[2]))) {
             $nav = "requests";
             include 'admin/book-requests.php';
         } elseif ((preg_match('/admin-request-details$/', $arr[2]))) {
             $nav = "request-details";
             include 'admin/book-request-details.php';
-        } elseif ((preg_match('/admin-rent-history$/', $arr[2]))) {
+        } elseif ((preg_match('/admin-rent-history/', $arr[2]))) {
             $nav = "rent-history";
             include 'admin/rent.php';
         } elseif ((preg_match('/admin-signin$/', $arr[2]))) {

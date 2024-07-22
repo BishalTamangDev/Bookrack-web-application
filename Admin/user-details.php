@@ -183,7 +183,7 @@ $fullName = $selectedUser->getFullName();
                     <div class="contributed-book">
                         <div class="image-div">
                             <?php $bookObj->setPhotoUrl()?>
-                            <img src="<?= $bookObj->photoUrl['cover'] ?>" alt="" loading="lazy">
+                            <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
                         </div>
 
                         <div class="detail-div">

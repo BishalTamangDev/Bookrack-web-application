@@ -15,7 +15,7 @@ require_once __DIR__ . '/../app/functions.php';
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if(!$adminExists)
+if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
 if ($profileAdmin->accountStatus != "verified")
@@ -53,19 +53,46 @@ $userIdList = $userObj->fetchAllUserId();
     <!-- main content -->
     <main class="main">
         <!-- cards -->
-        <section class="section mt-5 pt-3 card-container">
-            <!-- number of users -->
-            <div class="card-v1">
-                <p class="card-v1-title"> Number of Users </p>
-                <p class="card-v1-detail"> <?= sizeof($userIdList) ?> </p>
-            </div>
+        <?php
+        if (!$search) {
+            ?>
+            <section class="section mt-5 pt-3 card-container">
+                <!-- number of users -->
+                <div class="card-v1">
+                    <p class="card-v1-title"> Number of Users </p>
+                    <p class="card-v1-detail"> <?= sizeof($userIdList) ?> </p>
+                </div>
 
-            <!-- number of contributors -->
-            <div class="card-v1">
-                <p class="card-v1-title"> Contributors </p>
-                <p class="card-v1-detail"> - </p>
+                <!-- number of contributors -->
+                <?php
+                $contributor = 0;
+                require_once __DIR__ . '/../app/book-class.php';
+                $bookObj = new Book();
+
+                foreach ($userIdList as $listId) {
+                    // check if the user has books                 
+                    if ($bookObj->checkIfUserHasContributed($listId))
+                        $contributor++;
+                }
+                ?>
+                <div class="card-v1">
+                    <p class="card-v1-title"> Contributors </p>
+                    <p class="card-v1-detail"> <?= $contributor ?> </p>
+                </div>
+            </section>
+            <?php
+        } else {
+            // chear search
+            ?>
+            <div class="mt-5 pt-3 d-flex flex-row">
+                <a href="/bookrack/admin/admin-users" class="btn btn-danger d-flex flex-row gap-2 align-items-center">
+                    <p class="m-0"> Clear Search </p>
+                    <i class="fa fa-multiply text-white fs-5"></i>
+                </a>
             </div>
-        </section>
+            <?php
+        }
+        ?>
 
         <!-- table to section -->
         <section class="section d-flex flex-column flex-lg-row justify-content-between gap-2 table-top-section">
@@ -87,16 +114,16 @@ $userIdList = $userObj->fetchAllUserId();
             </div>
 
             <!-- search & clear section -->
-            <div class="search-clear width-fit-content">
-                <!-- clear search -->
-                <div class="clear-search-div" id="clear-search">
-                    <p class="f-reset"> Clear Search </p>
-                    <i class="fa fa-multiply"></i>
-                </div>
-                <form action="/bookrack/admin/admin-users" method="POST">
-                    <input type="search" name="search-content" class="form-control" placeholder="search user">
-                </form>
-            </div>
+            <!-- <div class="search-clear width-fit-content"> -->
+            <!-- clear search -->
+            <!-- <div class="clear-search-div" id="clear-search"> -->
+            <!-- <p class="f-reset"> Clear Search </p> -->
+            <!-- <i class="fa fa-multiply"></i> -->
+            <!-- </div> -->
+            <!-- <form action="/bookrack/admin/admin-users" method="POST"> -->
+            <!-- <input type="search" name="search-content" class="form-control" placeholder="search user"> -->
+            <!-- </form> -->
+            <!-- </div> -->
         </section>
 
         <!-- user table -->
@@ -121,36 +148,50 @@ $userIdList = $userObj->fetchAllUserId();
                 <tbody>
                     <?php
                     $serial = 1;
+                    
                     foreach ($userIdList as $userId) {
+                        $show = true;
                         $userObj->fetch($userId);
+
+                        if ($search) {
+                            if (strpos($userObj->name['first'], $searchContent) !== false || strpos($userObj->name['last'], $searchContent) !== false || strpos($userObj->email, $searchContent) !== false || strpos($userObj->getPhoneNumber(), $searchContent) !== false || strpos($userObj->getAddressLocation(), $searchContent) !== false) {
+                                $show = true;
+                            } else {
+                                $show = false;
+                            }
+                        } 
+                        if($show) {
+                            ?>
+                             <tr
+                                    class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+                                    <th scope="row"> <?= $serial++ ?> </th>
+                                    <td>
+                                        <?php
+                                        $fullName = $userObj->getFullName();
+                                        echo $fullName != ' ' ? $fullName : "-";
+                                        ?>
+                                    </td>
+                                    <td> <?= $userObj->email ?> </td>
+                                    <td>
+                                        <?php
+                                        $phoneNumber = $userObj->getPhoneNumber();
+                                        echo $phoneNumber != "" ? $phoneNumber : "-";
+                                        ?>
+                                    </td>
+                                    <td> <?= $userObj->getFullAddress() ?>
+                                    </td>
+                                    <td> <?= ucfirst($userObj->accountStatus) ?> </td>
+                                    <td>
+                                        <abbr title="Show full details">
+                                            <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </abbr>
+                                    </td>
+                                </tr>
+                            <?php
+                        }
                         ?>
-                        <tr
-                            class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
-                            <th scope="row"> <?= $serial++ ?> </th>
-                            <td> 
-                                <?php 
-                                $fullName = $userObj->getFullName();
-                                echo $fullName != ' ' ? $fullName : "-";
-                                ?>
-                            </td>
-                            <td> <?= $userObj->email ?> </td>
-                            <td> 
-                                <?php 
-                                $phoneNumber = $userObj->getPhoneNumber();
-                                echo $phoneNumber != "" ? $phoneNumber : "-";
-                                ?>
-                            </td>
-                            <td> <?= $userObj->getFullAddress() ?>
-                            </td>
-                            <td> <?= ucfirst($userObj->accountStatus) ?> </td>
-                            <td>
-                                <abbr title="Show full details">
-                                    <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </abbr>
-                            </td>
-                        </tr>
                         <?php
                     }
                     ?>
@@ -161,15 +202,9 @@ $userIdList = $userObj->fetchAllUserId();
 
             <!-- table footer -->
             <tfoot id="table-foot">
-                <?php
-                if (sizeof($userIdList) == 0) {
-                    ?>
-                    <tr>
-                        <td colspan="10"> No users found! </td>
-                    </tr>
-                    <?php
-                }
-                ?>
+                <tr>
+                    <td colspan="10"> No user found! </td>
+                </tr>
             </tfoot>
         </table>
     </main>
@@ -196,6 +231,7 @@ $userIdList = $userObj->fetchAllUserId();
 
         filter = () => {
             $('.user-tr').show();
+
             if (accountStateSelect.val() == "verified") {
                 $('.unverified-user-tr').hide();
             } else if (accountStateSelect.val() == "unverified") {
@@ -207,7 +243,18 @@ $userIdList = $userObj->fetchAllUserId();
             } else {
                 clearFilter.hide();
             }
+            toggleEmptyRow()
         }
+
+        // show empty row
+        toggleEmptyRow = () => {
+            if ($('.user-tr').is(':visible'))
+                $('#table-foot').hide();
+            else
+                $('#table-foot').show();
+        }
+
+        toggleEmptyRow();
     </script>
 </body>
 

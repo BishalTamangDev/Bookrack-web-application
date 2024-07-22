@@ -1,5 +1,5 @@
 <?php
-// require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/connection.php';
 
 class User
@@ -39,6 +39,7 @@ class User
     public $gender;
 
     public $joinedDate;
+    public $role;
     public $accountStatus;
 
     // Constructor
@@ -66,10 +67,10 @@ class User
             "back" => ""
         ];
         $this->joinedDate = "";
-        $this->accountStatus = "";
+        $this->role = "user";
     }
 
-    public function setUser($userId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus)
+    public function setUser($userId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $accountStatus, $role)
     {
         $this->userId = $userId;
         $this->dob = $dob;
@@ -88,6 +89,7 @@ class User
             "front" => $kyc['front'],
             "back" => $kyc['back']
         ];
+        $this->role = $role;
         $this->joinedDate = $joinedDate;
         $this->accountStatus = $accountStatus;
     }
@@ -223,6 +225,7 @@ class User
 
 
     // user registration
+    // not needed
     public function registerUser()
     {
         global $database;
@@ -249,7 +252,8 @@ class User
                 'back' => $this->kyc['back'],
             ],
             'joined_date' => date("Y:m:d H:i:s"),
-            'account_status' => 'pending'
+            'account_status' => 'pending',
+            'role' => 'user'
         ];
 
         $postRef = $database->getReference("users")->push($postData);
@@ -271,7 +275,7 @@ class User
 
             // realtime db
             $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
-            $this->setUser($userId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status']);
+            $this->setUser($userId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['account_status'], $response['role']);
 
             // set profile picture
             // $this->setPhotoUrl();
@@ -296,7 +300,6 @@ class User
         }
         return $status;
     }
-
 
     public function fetchUserPhotoUrl()
     {
@@ -432,5 +435,36 @@ class User
     public function checkAccountVerificationEligibility()
     {
         return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
+    }
+
+    // function to check if the id belong to the user
+    public function checkIfUser($id)
+    {
+        global $database;
+        $isUser = false;
+        $reference = $database->getReference('users')->getChild($id);
+
+        if ($reference) {
+            $response = $reference->getSnapshot()->getValue();
+            if (isset($response['role'])) {
+                if ($response['role'] == "user") {
+                    $isUser = true;
+                }
+            }
+        }
+
+        return $isUser;
+    }
+
+    // fetch user name
+    public function fetchUserName($userId) {
+        global $database;
+        $userName = "-";
+        $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
+
+        if($response) 
+            $userName = $response['name']['first'].' '.$response['name']['last'];
+        
+        return $userName;
     }
 }

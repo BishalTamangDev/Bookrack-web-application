@@ -21,6 +21,13 @@ if (!isset($adminId)) {
     if (!$adminExists)
         header("Location: /bookrack/admin/app/admin-signout.php");
 }
+
+// searching
+$search = false;
+if (isset($_GET['admin-search-content'])) {
+    $search = true;
+    $searchContent = $_GET['admin-search-content'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -114,16 +121,35 @@ if (!isset($adminId)) {
         <p class="m-0 fs-3 heading"> </p>
 
         <div class="d-flex flex-row gap-4 align-items-center justify-content-between form-notification-profile">
+            <!-- search form -->
             <div class="d-flex flex-row gap-2 search-form-container">
-                <form action="" class="d-flex flex-row search-form">
-                    <div class="input-group">
-                        <input type="search" name="search-content" class="form-control m-0" id=""
-                            placeholder="search here" required>
-                    </div>
-                    <button type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form>
+                    <form
+                    <?php
+                    if(isset($url)) {
+                        if($url == "users") {
+                            ?>
+                            action="/bookrack/admin/admin-users"
+                            <?php
+                        } elseif($url == "books") {
+                            ?>
+                            action="/bookrack/admin/admin-books"
+                            <?php
+                        } elseif($url == "book-requests") {
+                            ?>
+                            action="/bookrack/admin/admin-book-requests"
+                            <?php
+                        }
+                    }
+                    ?>
+                     class="d-flex flex-row search-form">
+                        <div class="input-group">
+                            <input type="search" name="admin-search-content" class="form-control m-0" id=""
+                                value="<?php if(isset($_GET['admin-search-content'])) echo $searchContent;?>" placeholder="search here" required>
+                        </div>
+                        <button type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
             </div>
 
             <!-- notification -->

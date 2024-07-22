@@ -56,10 +56,11 @@ if (isset($_POST['signup-btn'])) {
                 'back' => '',
             ],
             'joined_date' => date("Y:m:d H:i:s"),
-            'account_status' => 'pending'
+            'account_status' => 'pending',
+            'role' => 'user'
         ];
 
-        $database->getReference('users/' . $uid)->set($extraUserProperties);
+        $database->getReference("users/$uid")->set($extraUserProperties);
 
         $status = 1;
         $_SESSION['status-message'] = "Signed up successfully.";
@@ -105,15 +106,23 @@ if (isset($_POST['signin-btn'])) {
             $verifiedIdToken = $auth->verifyIdToken($idTokenString);
             $uid = $signInResult->firebaseUserId();
 
-            $status = 1;
-            $_SESSION['bookrack-user-id'] = $uid;
-            $_SESSION['idTokenString'] = $idTokenString;
+            
+            // check if the id belong to the user [role == 'user']
+            $userObj = new User();
+            $isUser = $userObj->checkIfUser($uid);
 
-            unset($_SESSION['temp-email']);
+            if($isUser) {
+                $status = 1;
+                $_SESSION['bookrack-user-id'] = $uid;
+                $_SESSION['idTokenString'] = $idTokenString;
+                unset($_SESSION['temp-email']);
+            } else {
+                $_SESSION['status-message'] = 'This email address has not been registered yet!';
+            }
         } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
-            $_SESSION['status'] = 'Unexpected error occured.';
+            $_SESSION['status-message'] = 'Unexpected error occured.';
         } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
-            $_SESSION['status'] = 'Invalid password.';
+            $_SESSION['status-message'] = 'Invalid password.';
         }
     } catch (\Kreait\Firebase\Exception\Auth\UserNotFound $e) {
         $_SESSION['status-message'] = 'This email address has not been registered yet!';
