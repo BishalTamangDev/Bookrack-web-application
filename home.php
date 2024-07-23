@@ -29,7 +29,7 @@ $bookObj = new Book();
 $searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false;
 
 if (!$searchState) {
-    $bookIdList = $bookObj->fetchAllBookId();
+    $bookIdList = $bookObj->fetchAvailableBookIdList();
 } else {
     $searchContent = strtolower($_GET['search-content']);
     $bookIdList = $bookObj->searchBook($searchContent);

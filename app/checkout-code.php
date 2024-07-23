@@ -1,0 +1,85 @@
+<?php
+
+if (session_status() == PHP_SESSION_NONE)
+    session_start();
+
+require_once __DIR__ . '/connection.php';
+
+if (isset($_POST['checkout-btn'])) {
+    if (isset($_POST['url']) && isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
+        global $database;
+        $url = $_POST['url'];
+        $cartId = $_POST['cart-id'];
+        $checkoutOption = $_POST['checkout-option'];
+
+        if ($checkoutOption == 'click-and-collect' || $checkoutOption == 'cash-on-delivery') {
+            // update the current cart details
+            if ($checkoutOption == 'click-and-collect') {
+                require_once __DIR__ . '/cart-class.php';
+                require_once __DIR__ . '/book-class.php';
+
+                $newBookList = [];
+                $newBook = [
+                    'id' => '',
+                    'price' => '',
+                    'arrived_date' => ''
+                ];
+
+                $cart = new Cart();
+                require_once __DIR__ . '/cart-class.php';
+                $bookObj = new Book();
+
+                // fetch cart
+                if (!$cart->fetch($cartId))
+                    header("Location: /bookrack/home");
+
+                // set book price
+                $subTotal = 0;
+                foreach ($cart->bookList as $bookList) {
+                    $bookObj->fetch($bookList['id']);
+                    $subTotal += $bookObj->price['offer'];
+                    $newBook = [
+                        'id' => $bookList['id'],
+                        'price' => $bookObj->price['offer'],
+                        'arrived_date' => ''
+                    ];
+                    $newBookList[] = $newBook;
+                }
+
+
+                $postData = [
+                    'book_list' => $newBookList,
+                    'checkout_option' => $checkoutOption,
+                    'sub_total' => $subTotal,
+                    'shipping_charge' => 0,
+                    'date' => [
+                        'order_placed' => date('Y:m:d h:i:s'),
+                        'order_confirmed' => '',
+                        'order_arrived' => '',
+                        'order_packed' => '',
+                        'order_shipped' => '',
+                        'order_delivered' => '',
+                        'order_completed' => ''
+                    ],
+                    'status' => 'pending'
+                ];
+
+                $response = $database->getReference("carts/{$cartId}")->update($postData);
+
+                // update book status to on-hold
+                foreach ($newBookList as $list) {
+                    $bookId = $list['id'];
+                    $bookObj->updateFlag($bookId, "on-hold");
+                }
+
+                header("Location: /bookrack/cart/pending");
+            }
+        } else {
+            // redirect to the digital wallet page
+        }
+    } else {
+        header("Location: /bookrack/cart/current");
+    }
+}
+
+exit();

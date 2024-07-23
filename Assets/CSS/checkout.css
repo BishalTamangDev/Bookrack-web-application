@@ -1,0 +1,7 @@
+.checkout-form #shipping-address-container {
+  display: flex;
+  flex-direction: column;
+}
+.checkout-form .btn {
+  background-color: var(--brand-color);
+}/*# sourceMappingURL=checkout.css.map */

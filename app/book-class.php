@@ -233,6 +233,19 @@ class Book
         return $idList;
     }
 
+    public function fetchAvailableBookIdList(){
+        global $database;
+        $idList = [];
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+        if ($response != null) {
+            foreach ($response as $key => $res) {
+                if($res['flag'] == "verified") 
+                    $idList[] = $key;
+            }
+        }
+        return $idList;
+    }
+
     public function fetchUserBookId($userId)
     {
         global $database;
@@ -294,5 +307,16 @@ class Book
         }
 
         return $hasContributed;
+    }
+
+    // update book flag
+    public function updateFlag($bookId, $flag)
+    {
+        global $database;
+        $postData = [
+            'flag' => $flag
+        ];
+        $response = $database->getReference("books/{$bookId}")->update($postData);
+        return $response ? true : false;
     }
 }

@@ -76,10 +76,19 @@ elseif ($router == '/book-details' || $router == '/book-details/' || preg_match(
 
 
 // cart
-elseif ($router == '/cart' || preg_match("/cart\/(current|pending|completed)/i", $router)) {
+elseif ($router == '/cart' || preg_match("/cart\/(current|pending|completed|checkout)/i", $router)) {
     $arr = explode('/', $router);
-    $tab = isset($arr[2]) ? $arr[2] : "current";
-    include 'cart.php';
+    $tab = "current";
+    if(isset($arr[2])) {
+        if($arr[2] == 'checkout') {
+            include 'checkout.php';
+        } else {
+            $tab = $arr[2];
+            include 'cart.php';
+        }
+    } else{
+        include 'cart.php'; 
+    }
 }
 
 
