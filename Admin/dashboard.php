@@ -9,7 +9,7 @@ $url = "dashboard";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../classes/admin.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
@@ -20,9 +20,9 @@ if (!$adminExists)
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../app/functions.php';
-require_once __DIR__ . '/../app/user-class.php';
-require_once __DIR__ . '/../app/book-class.php';
+require_once __DIR__ . '/../functions/genre-array.php';
+require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/book.php';
 
 $userObj = new User();
 $bookObj = new Book();
@@ -41,15 +41,15 @@ $bookIdList = $bookObj->fetchAllBookId();
     <!-- title -->
     <title> Dashboard </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/dashboard.css">
 </head>
 
 <body>
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <main class="main">
         <!-- card & new users -->
@@ -117,7 +117,7 @@ $bookIdList = $bookObj->fetchAllBookId();
 
             <div class="d-flex flex-row flex-wrap gap-2 search-container">
                 <?php
-                require_once __DIR__ . '/../app/search-class.php';
+                require_once __DIR__ . '/../classes/search.php';
                 $search = new Search();
 
                 $search->fetchAllSearches();
@@ -137,7 +137,7 @@ $bookIdList = $bookObj->fetchAllBookId();
                     <?php
                 } else {
                     ?>
-                    <p class="m-0 text-secondary"> No searched found! </p>
+                    <p class="m-0 text-secondary"> No search data found! </p>
                     <?php
                 }
                 ?>
@@ -392,7 +392,7 @@ $bookIdList = $bookObj->fetchAllBookId();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

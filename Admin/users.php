@@ -9,8 +9,8 @@ $url = "users";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../classes/admin.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
@@ -22,7 +22,7 @@ if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 // including user class
-require_once __DIR__ . '/../app/user-class.php';
+require_once __DIR__ . '/../classes/user.php';
 $userObj = new User();
 
 // fetch all users
@@ -39,16 +39,16 @@ $userIdList = $userObj->fetchAllUserId();
     <!-- title -->
     <title> Users </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/users.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/users.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
@@ -66,7 +66,7 @@ $userIdList = $userObj->fetchAllUserId();
                 <!-- number of contributors -->
                 <?php
                 $contributor = 0;
-                require_once __DIR__ . '/../app/book-class.php';
+                require_once __DIR__ . '/../classes/book.php';
                 $bookObj = new Book();
 
                 foreach ($userIdList as $listId) {
@@ -148,7 +148,7 @@ $userIdList = $userObj->fetchAllUserId();
                 <tbody>
                     <?php
                     $serial = 1;
-                    
+
                     foreach ($userIdList as $userId) {
                         $show = true;
                         $userObj->fetch($userId);
@@ -159,36 +159,36 @@ $userIdList = $userObj->fetchAllUserId();
                             } else {
                                 $show = false;
                             }
-                        } 
-                        if($show) {
+                        }
+                        if ($show) {
                             ?>
-                             <tr
-                                    class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
-                                    <th scope="row"> <?= $serial++ ?> </th>
-                                    <td>
-                                        <?php
-                                        $fullName = $userObj->getFullName();
-                                        echo $fullName != ' ' ? $fullName : "-";
-                                        ?>
-                                    </td>
-                                    <td> <?= $userObj->email ?> </td>
-                                    <td>
-                                        <?php
-                                        $phoneNumber = $userObj->getPhoneNumber();
-                                        echo $phoneNumber != "" ? $phoneNumber : "-";
-                                        ?>
-                                    </td>
-                                    <td> <?= $userObj->getFullAddress() ?>
-                                    </td>
-                                    <td> <?= ucfirst($userObj->accountStatus) ?> </td>
-                                    <td>
-                                        <abbr title="Show full details">
-                                            <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </abbr>
-                                    </td>
-                                </tr>
+                            <tr
+                                class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+                                <th scope="row"> <?= $serial++ ?> </th>
+                                <td>
+                                    <?php
+                                    $fullName = $userObj->getFullName();
+                                    echo $fullName != ' ' ? $fullName : "-";
+                                    ?>
+                                </td>
+                                <td> <?= $userObj->email ?> </td>
+                                <td>
+                                    <?php
+                                    $phoneNumber = $userObj->getPhoneNumber();
+                                    echo $phoneNumber != "" ? $phoneNumber : "-";
+                                    ?>
+                                </td>
+                                <td> <?= $userObj->getFullAddress() ?>
+                                </td>
+                                <td> <?= ucfirst($userObj->accountStatus) ?> </td>
+                                <td>
+                                    <abbr title="Show full details">
+                                        <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </abbr>
+                                </td>
+                            </tr>
                             <?php
                         }
                         ?>
@@ -210,7 +210,7 @@ $userIdList = $userObj->fetchAllUserId();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- current file script -->
     <script>

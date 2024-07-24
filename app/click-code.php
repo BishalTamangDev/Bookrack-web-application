@@ -9,10 +9,9 @@ if (isset($_GET['bookId']) && isset($_GET['ownerId'])) {
     $bookId = $_GET['bookId'];
     $ownerId = $_GET['ownerId'];
 
-
     if ($ownerId != $_SESSION['bookrack-user-id']) {
-        require_once __DIR__ . '/click-class.php';
-        require_once __DIR__ . '/book-class.php';
+        require_once __DIR__ . '/../classes/click.php';
+        require_once __DIR__ . '/../classes/book.php';
 
         $click = new Click();
         $click->setId($_SESSION['bookrack-user-id']);

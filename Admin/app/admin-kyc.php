@@ -7,7 +7,8 @@ if (!isset($_SESSION['bookrack-admin-id']))
 
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/admin-class.php';
+require_once __DIR__ . '/../../classes/admin.php';
+require_once __DIR__ . '/../../functions/delete-cloud-file.php';
 
 if (isset($_POST['admin-upload-kyc-btn'])) {
     $status = false;

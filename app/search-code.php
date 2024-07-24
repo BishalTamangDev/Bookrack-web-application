@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/search-class.php';
+require_once __DIR__ . '/../classes/search.php';
 
 if (isset($_GET['search-content'])) {
     $search = new Search();

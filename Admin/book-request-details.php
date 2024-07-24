@@ -9,13 +9,13 @@ $url = "book-request-details";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../classes/admin.php';
+require_once __DIR__ . '/../functions/genre-array.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if(!$adminExists)
+if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
 if ($profileAdmin->accountStatus != "verified")
@@ -32,15 +32,15 @@ if ($profileAdmin->accountStatus != "verified")
     <!-- title -->
     <title> Book Request Detail </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
 </head>
 
 <body>
     <!-- nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main -->
     <main class="main">
@@ -48,7 +48,7 @@ if ($profileAdmin->accountStatus != "verified")
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

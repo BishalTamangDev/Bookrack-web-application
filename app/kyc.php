@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/user-class.php';
+require_once __DIR__ . '/../functions/delete-cloud-file.php';
+require_once __DIR__ . '/../classes/user.php';
 
 if (isset($_POST['upload-kyc-btn'])) {
     $status = 0;
@@ -29,7 +29,7 @@ if (isset($_POST['upload-kyc-btn'])) {
     $fileName1 = $_FILES['kyc-front']['name'];
     $fileExtension1 = pathinfo($fileName1, PATHINFO_EXTENSION);
     $newFileName1 = md5(time() . $fileName1) . '.' . $fileExtension1;
-    $filePath1 = 'kyc/' . $newFileName1;
+    $filePath1 = "kyc/$newFileName1";
 
     // birth certificate as kyc
     if ($documentType == 1) {
@@ -72,12 +72,12 @@ if (isset($_POST['upload-kyc-btn'])) {
             $fileName2 = $_FILES['kyc-back']['name'];
             $fileExtension2 = pathinfo($fileName2, PATHINFO_EXTENSION);
             $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
-            $filePath2 = 'kyc/' . $newFileName2;
-            
-            if($newFileName1 == $newFileName2){
+            $filePath2 = "kyc/$newFileName2";
+
+            if ($newFileName1 == $newFileName2) {
                 sleep(1);
                 $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
-                $filePath2 = 'kyc/' . $newFileName2;
+                $filePath2 = "kyc/$newFileName2";
             }
 
             // properties to be changed
@@ -94,29 +94,19 @@ if (isset($_POST['upload-kyc-btn'])) {
             } catch (Exception $e) {
             }
 
-            if($status == 1){
-                try{
+            if ($status == 1) {
+                try {
                     $bucket->upload(fopen($fileTmpPath2, 'r'), ['name' => $filePath2]);
                     $staus = 1;
-                }catch (Exception $e){
+                } catch (Exception $e) {
                     $staus = 0;
                 }
             }
 
-            if($status == 1){
+            if ($status == 1) {
                 $response = $database->getReference("users/{$userId}")->update($properties);
             }
-            
 
-            // in case photo uploaded, delete the existing kyc document
-            // if ($status) {
-            //     if ($kycFrontFileOld != "")
-            //         $temp = deleteFileFromStorageBucket("kyc", $kycFrontFileOld);
-
-            //     if ($kycBackFileOld != "")
-            //         $temp = deleteFileFromStorageBucket("kyc", $kycBackFileOld);
-            //     $staus = 1;
-            // }
             $_SESSION['status-message'] = "Document submitted successfully";
         } else {
             $_SESSION['status-message'] = "Please upload back side of the citizenship also.";

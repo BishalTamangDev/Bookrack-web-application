@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/../functions/district-array.php';
+require_once __DIR__ . '/../app/connection.php';
 
 class User
 {
@@ -426,8 +426,10 @@ class User
         $list = array();
         // fetching all users
         $response = $database->getReference("users")->getSnapshot()->getValue();
-        foreach ($response as $key => $res)
-            $list[] = $key;
+        if($response) {
+            foreach ($response as $key => $res)
+                $list[] = $key;
+        }
         return $list;
     }
 

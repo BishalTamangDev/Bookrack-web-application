@@ -8,14 +8,14 @@ if (!isset($_SESSION['bookrack-admin-id']))
 $url = "profile";
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/app/admin-class.php';
+require_once __DIR__ . '/../classes/admin.php';
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
 if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../functions/district-array.php';
 $profileAdmin->fetch($adminId);
 ?>
 
@@ -29,16 +29,16 @@ $profileAdmin->fetch($adminId);
     <!-- title -->
     <title> My Profile </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/profile.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/profile.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <main class="d-flex flex-column mt-5 gap-3 main">
         <!-- heading -->
@@ -373,7 +373,7 @@ $profileAdmin->fetch($adminId);
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- edit profile script -->
     <script>

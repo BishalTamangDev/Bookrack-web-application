@@ -16,10 +16,10 @@ if (isset($_SESSION['bookrack-user-id']))
     <!-- title -->
     <title> Signup </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/css/signin.css">
 </head>
 
 <body>
@@ -166,7 +166,7 @@ if (isset($_SESSION['bookrack-user-id']))
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <script>
         // password input

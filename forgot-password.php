@@ -16,23 +16,11 @@ if (!isset($_SESSION['bookrack-user-id']))
     <!-- title -->
     <title> Password Recovery </title>
 
-    <!-- favicon -->
-    <link rel="icon" type="image/x-icon" href="/bookrack/assets/brand/brand-logo.png">
-
-    <!-- font awesome :: cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- bootstrap css :: cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- bootstrap css :: local file -->
-    <link rel="stylesheet" href="/bookrack/assets/css/bootstrap-css-5.3.3/bootstrap.min.css">
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/style.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/forgot-password.css">
+    <link rel="stylesheet" href="/bookrack/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/css/forgot-password.css">
 </head>
 
 <body>
@@ -53,9 +41,8 @@ if (!isset($_SESSION['bookrack-user-id']))
             <!-- bottom content -->
             <div class="d-flex flex-column gap-1 gap-lg-5 content">
                 <!-- email -->
-                <div
-                    class="<?php if ($tab != "email")
-                        echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 email-content">
+                <div class="<?php if ($tab != "email")
+                    echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 email-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> Don't worry :) </p>
                         <p class="f-reset text-secondary note"> We'll send <code>OTP</code> code to the following email
@@ -129,9 +116,8 @@ if (!isset($_SESSION['bookrack-user-id']))
                 </div>
 
                 <!-- password reset -->
-                <div
-                    class="<?php if ($tab != "reset-password")
-                        echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 password-reset-content">
+                <div class="<?php if ($tab != "reset-password")
+                    echo "d-none"; ?> d-flex flex-column gap-4 gap-md-4 py-4 password-reset-content">
                     <div class="d-flex flex-column gap-2 heading">
                         <p class="f-reset fs-1"> You're one step away from recovering your password :) </p>
                     </div>
@@ -167,10 +153,8 @@ if (!isset($_SESSION['bookrack-user-id']))
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 
-    <!-- js :: current file -->
-    <script></script>
 </body>
 
 </html>

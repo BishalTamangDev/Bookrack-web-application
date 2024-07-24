@@ -8,10 +8,10 @@ if (!isset($_SESSION['bookrack-admin-id']))
 if (!isset($nav))
     $nav = "dashboard";
 
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../functions/genre-array.php';
 
 if (!isset($adminId)) {
-    require_once __DIR__ . '/app/admin-class.php';
+    require_once __DIR__ . '/../classes/admin.php';
 
     $adminId = $_SESSION['bookrack-admin-id'];
 
@@ -40,10 +40,10 @@ if (isset($_GET['admin-search-content'])) {
     <!-- title -->
     <title> Nav </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/nav.css">
 </head>
 
 <body>
@@ -157,7 +157,7 @@ if (isset($_GET['admin-search-content'])) {
 
                     <div class="d-flex flex-column mt-2 pb-2 px-2 notifications">
                         <?php
-                        require_once __DIR__ . '/../app/notification-class.php';
+                        require_once __DIR__ . '/../classes/notification.php';
                         $notificationObj = new Notification();
 
                         $notificationIdList = $notificationObj->fetchAdminNotificationId();
@@ -170,14 +170,17 @@ if (isset($_GET['admin-search-content'])) {
                                 case 'new user':
                                     $link = "/bookrack/admin/admin-user-details/{$notificationObj->userId}";
                                     break;
+                                case 'new book':
+                                    $link = "/bookrack/admin/admin-book-details/{$notificationObj->bookId}";
+                                    break;
                                 case 'cart checkout':
                                     $link = "/bookrack/admin/admin-book-requests";
                                     break;
                                 default:
                                     $link = "";
                             }
-
                             ?>
+
                             <!-- notification -->
                             <div class="d-flex flex-row gap-2 pointer p-2 notification"
                                 onclick='window.location.href="<?= $link ?>"'>
@@ -209,17 +212,23 @@ if (isset($_GET['admin-search-content'])) {
                                                 A new user joined.
                                             </p>
                                             <?php
-                                        } else if ($type == 'cart checkout') {
+                                        } else if ($type == 'new book') {
                                             ?>
                                                 <p class="m-0">
-                                                <?= $notificationObj->userId ?> checkout the cart.
+                                                <?= $notificationObj->userId ?> added a new book..
                                                 </p>
+                                            <?php
+                                        } else if ($type == 'cart checkout') {
+                                            ?>
+                                                    <p class="m-0">
+                                                <?= $notificationObj->userId ?> checkout the cart.
+                                                    </p>
                                             <?php
                                         } else {
                                             ?>
-                                                <p class="m-0">
-                                                    Other notification...
-                                                </p>
+                                                    <p class="m-0">
+                                                        Other notification...
+                                                    </p>
                                             <?php
                                         }
                                         ?>
@@ -259,7 +268,6 @@ if (isset($_GET['admin-search-content'])) {
                             <?php
                         }
                         ?>
-
                     </div>
                 </div>
             </div>
@@ -268,7 +276,18 @@ if (isset($_GET['admin-search-content'])) {
             <div class="position-relative profile-container">
                 <!-- profile menu -->
                 <div class="profile-image pointer" id="profile-menu-trigger">
-                    <img src="/bookrack/assets/images/user-1.png" alt="">
+                    <?php
+                    if (!isset($photoUrl)) {
+                        $profileAdmin->setPhotoUrl();
+                    }
+
+                    if ($profileAdmin->photoUrl != "") {
+                        $photoUrl = $profileAdmin->photoUrl;
+                    } else {
+                        $photoUrl = "/bookrack/assets/images/blank-user.jpg";
+                    }
+                    ?>
+                    <img src="<?= $photoUrl ?>" alt="">
                 </div>
 
                 <div class="position-absolute bg-white profile-menu-container" id="profile-menu-container">
@@ -289,7 +308,7 @@ if (isset($_GET['admin-search-content'])) {
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- header script -->
     <script>

@@ -7,8 +7,8 @@ if (!isset($_SESSION['bookrack-admin-id']))
 
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/admin-class.php';
-require_once __DIR__ . '/../../app/functions.php';
+require_once __DIR__ . '/../../classes/admin.php';
+require_once __DIR__ . '/../../functions/delete-cloud-file.php';
 
 if (isset($_POST['admin-update-profile-btn'])) {
     $status = 0;
@@ -22,10 +22,10 @@ if (isset($_POST['admin-update-profile-btn'])) {
     $hasProfilePhoto = (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
 
     if (isset($_POST['first-name']))
-        $properties['name']['first'] = $_POST['first-name'];
+        $properties['name']['first'] = strtolower($_POST['first-name']);
 
     if (isset($_POST['last-name']))
-        $properties['name']['last'] = $_POST['last-name'];
+        $properties['name']['last'] = strtolower($_POST['last-name']);
 
     if (isset($_POST['first-name']) && isset($_POST['last-name'])) {
         $authProperties = [
@@ -59,7 +59,7 @@ if (isset($_POST['admin-update-profile-btn'])) {
         $fileName = $photoFile['name'];
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $filePath = 'admins/' . $newFileName;
+        $filePath = "admins/$newFileName";
 
         $properties['photo'] = $newFileName;
 

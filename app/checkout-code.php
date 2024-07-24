@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
-else    
+else
     $userId = $_SESSION['bookrack-user-id'];
 
 require_once __DIR__ . '/connection.php';
@@ -20,8 +20,8 @@ if (isset($_POST['checkout-btn'])) {
         if ($checkoutOption == 'click-and-collect' || $checkoutOption == 'cash-on-delivery') {
             // update the current cart details
             if ($checkoutOption == 'click-and-collect') {
-                require_once __DIR__ . '/cart-class.php';
-                require_once __DIR__ . '/book-class.php';
+                require_once __DIR__ . '/../classes/cart.php';
+                require_once __DIR__ . '/../classes/book.php';
 
                 $newBookList = [];
                 $newBook = [
@@ -31,7 +31,7 @@ if (isset($_POST['checkout-btn'])) {
                 ];
 
                 $cart = new Cart();
-                require_once __DIR__ . '/cart-class.php';
+                require_once __DIR__ . '/../classes/cart.php';
                 $bookObj = new Book();
 
                 // fetch cart
@@ -78,7 +78,7 @@ if (isset($_POST['checkout-btn'])) {
                 }
 
                 // create notification for admin
-                require_once __DIR__ . '/notification-class.php';
+                require_once __DIR__ . '/../classes/notification.php';
 
                 $notificationObj = new Notification();
                 $notificationObj->cartCheckout($userId, $cartId);

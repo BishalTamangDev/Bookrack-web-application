@@ -21,10 +21,10 @@ elseif (isset($_SESSION['bookrack-admin-id']))
     <!-- title -->
     <title> Bookrack </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/header-unsigned.css">
+    <link rel="stylesheet" href="/bookrack/css/header-unsigned.css">
 </head>
 
 <body>
@@ -71,7 +71,7 @@ elseif (isset($_SESSION['bookrack-admin-id']))
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- js :: current file -->
     <script>

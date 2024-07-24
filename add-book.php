@@ -9,8 +9,8 @@ $url = "add-book";
 
 $userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/app/user-class.php';
-require_once __DIR__ . '/app/functions.php';
+require_once __DIR__ . '/classes/user.php';
+require_once __DIR__ . '/functions/genre-array.php';
 
 $profileUser = new User();
 $userExists = $profileUser->fetch($userId);
@@ -18,9 +18,8 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signout");
 
-
 if($task == 'edit'){
-    require_once __DIR__ . '/app/book-class.php';
+    require_once __DIR__ . '/classes/book.php';
     $book = new Book();
     $bookExists = $book->fetch($bookId);
     if(!$bookExists){
@@ -39,15 +38,15 @@ if($task == 'edit'){
     <!-- title -->
     <title> <?php echo ($task == "add") ? "Add Book" : "Edit Book" ?> </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/add-book.css">
+    <link rel="stylesheet" href="/bookrack/css/add-book.css">
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header.php'; ?>
+    <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
     <main class="d-flex flex-column gap-3 container main pb-5">
@@ -349,7 +348,7 @@ if($task == 'edit'){
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- unset sesstion status & status message -->
     <?php
@@ -358,7 +357,7 @@ if($task == 'edit'){
     ?>
 
     <?php
-    require_once __DIR__ . '/app/script-include.php';
+    require_once __DIR__ . '/includes/script.php';
     ?>
 
     <script>

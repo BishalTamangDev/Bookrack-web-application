@@ -13,13 +13,13 @@ if (isset($_GET['book-id'])) {
     $bookId = $_GET['book-id'];
 
     // check if the book id is valid
-    require_once __DIR__ . '/user-class.php';
+    require_once __DIR__ . '/../classes/user.php';
     $temp_user = new User();
 
     $userExist = $temp_user->fetch($userId);
 
     if ($userExist) {
-        require_once __DIR__ . '/wishlist-class.php';
+        require_once __DIR__ . '/../classes/wishlist.php';
         $temp_wishlist = new Wishlist();
         $temp_wishlist->setUserId($userId);
 

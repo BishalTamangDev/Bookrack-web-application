@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/app/genre-class.php';
+require_once __DIR__ . '/../classes/genre.php';
 
 if (!isset($genreObj))
     $genreObj = new Genre();
@@ -15,10 +15,10 @@ if (!isset($genreObj))
     <!-- title -->
     <title> Footer </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/footer.css">
+    <link rel="stylesheet" href="/bookrack/css/footer.css">
 </head>
 
 <body>
@@ -179,7 +179,7 @@ if (!isset($genreObj))
         </div>
     </footer>
 
-    <?php require_once __DIR__ . '/app/script-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/script.php' ?>
 </body>
 
 </html>

@@ -9,8 +9,8 @@ $url = "rent";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../admin/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../classes/admin.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
@@ -32,16 +32,16 @@ if ($profileAdmin->accountStatus != "verified")
     <!-- title -->
     <title> Rent </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/nav.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/nav.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main content -->
     <main class="main mt-4">
@@ -217,7 +217,7 @@ if ($profileAdmin->accountStatus != "verified")
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

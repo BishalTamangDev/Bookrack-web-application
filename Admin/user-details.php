@@ -9,8 +9,8 @@ $url = "user-details";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../classes/admin.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
@@ -22,8 +22,8 @@ if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
 // including user class
-require_once __DIR__ . '/../app/user-class.php';
-require_once __DIR__ . '/../app/book-class.php';
+require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/book.php';
 
 $selectedUser = new User();
 $bookObj = new Book();
@@ -50,16 +50,16 @@ $fullName = $selectedUser->getFullName();
         <?php echo $fullName != " " ? $fullName : "Unverifed User"; ?>
     </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/user-details.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/user-details.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main content -->
     <main class="main mt-4">
@@ -274,7 +274,7 @@ $fullName = $selectedUser->getFullName();
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

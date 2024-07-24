@@ -5,8 +5,9 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-require_once __DIR__ . '/functions.php';
-require_once __DIR__ . '/user-class.php';
+require_once __DIR__ . '/../functions/district-array.php';
+require_once __DIR__ . '/../functions/delete-cloud-file.php';
+require_once __DIR__ . '/../classes/user.php';
 
 if (isset($_POST['update-profile-btn'])) {
     $status = 0;
@@ -74,7 +75,7 @@ if (isset($_POST['update-profile-btn'])) {
         $fileName = $photoFile['name'];
         $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
         $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-        $filePath = 'users/' . $newFileName;
+        $filePath = "users/$newFileName";
 
         $properties['photo'] = $newFileName;
 

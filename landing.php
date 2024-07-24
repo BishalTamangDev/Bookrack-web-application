@@ -9,8 +9,8 @@ elseif (isset($_SESSION['bookrack-admin-id']))
 
 $url = "landing";
 
-require_once __DIR__ . '/app/functions.php';
-require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/book.php';
 
 $bookObj = new Book();
 $bookIdList = $bookObj->fetchAllBookId();
@@ -26,14 +26,14 @@ $bookIdList = $bookObj->fetchAllBookId();
     <!-- title -->
     <title> Bookrack </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
-    <link rel="stylesheet" href="/bookrack/assets/css/landing.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
+    <link rel="stylesheet" href="/bookrack/css/landing.css">
+    <link rel="stylesheet" href="/bookrack/css/book.css">
 </head>
 
 <body>
-    <?php include 'header-unsigned.php'; ?>
+    <?php require_once __DIR__ . '/sections/header-unsigned.php'; ?>
 
     <!-- main -->
     <main class="main">
@@ -200,10 +200,10 @@ $bookIdList = $bookObj->fetchAllBookId();
     </main>
 
     <!-- footer -->
-    <?php include_once 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 </body>
 
 </html>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['bookrack-user-id']))
 $userId = $_SESSION['bookrack-user-id'];
 $url = "cart";
 
-require_once __DIR__ . '/app/user-class.php';
+require_once __DIR__ . '/classes/user.php';
 $profileUser = new User();
 
 $userExists = $profileUser->fetch($userId);
@@ -21,7 +21,7 @@ if (!isset($tab)) {
     // header("Location: /bookrack/cart/current");
 }
 
-require_once __DIR__ . '/app/cart-class.php';
+require_once __DIR__ . '/classes/cart.php';
 $cart = new Cart();
 
 $cart->setUserId($userId);
@@ -37,16 +37,16 @@ $cart->setUserId($userId);
     <!-- title -->
     <title> Cart </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/cart.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/checkout.css">
+    <link rel="stylesheet" href="/bookrack/css/cart.css">
+    <link rel="stylesheet" href="/bookrack/css/checkout.css">
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header.php'; ?>
+    <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
     <main class="d-flex flex-column gap-4 container main">
@@ -70,7 +70,7 @@ $cart->setUserId($userId);
         <!-- current cart section -->
         <?php
         if ($tab == "current") {
-            require_once __DIR__ . '/app/book-class.php';
+            require_once __DIR__ . '/classes/book.php';
             $bookObj = new Book();
             $cart->fetchCurrent();
 
@@ -187,12 +187,21 @@ $cart->setUserId($userId);
                         <div class="checkout-btn-div">
                             <?php
                             if ($allBooksAvailable) {
-                                ?>
-                                <a href="/bookrack/cart/checkout" class="btn w-100 text-light py-2 checkout-btn"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    CHECKOUT NOW
-                                </a>
-                                <?php
+                                if ($profileUser->accountStatus == 'verified') {
+                                    ?>
+                                    <a href="/bookrack/cart/checkout" class="btn w-100 text-light py-2 checkout-btn"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        CHECKOUT NOW
+                                    </a>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <p class="m-0 text-light mb-3"> Update your details first to proceed. </p>
+                                    <button class="btn w-100 text-secondary py-2 checkout-btn">
+                                        CHECKOUT NOW
+                                    </button>
+                                    <?php
+                                }
                             } else {
                                 ?>
                                 <p class="m-0 text-light mb-3"> Some books as now available. </p>
@@ -226,71 +235,74 @@ $cart->setUserId($userId);
             } ?>
             <?php
         } elseif ($tab == "pending") {
-            require_once __DIR__ . '/app/book-class.php';
+            require_once __DIR__ . '/classes/book.php';
             $bookObj = new Book();
             $pendingCartIds = $cart->fetchPendingCartId();
 
-            if(sizeof($pendingCartIds) > 0) {
-                foreach($pendingCartIds as $pendingCartId) {
+            if (sizeof($pendingCartIds) > 0) {
+                foreach ($pendingCartIds as $pendingCartId) {
                     $cart->fetch($pendingCartId);
                     ?>
                     <!-- status details -->
                     <div class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-div">
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_placed']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-received.png"
-                                    alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_placed'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-received.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Order Received </p>
                         </div>
 
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_confirmed']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-confirmed.png"
-                                    alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_confirmed'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-confirmed.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Order Confirmed </p>
                         </div>
-                    
+
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_arrived']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-arrived.png"
-                                    alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_arrived'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-arrived.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Arrived </p>
                         </div>
-                    
+
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_packed']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-packed.png"
-                                    alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_packed'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-packed.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Packed </p>
                         </div>
-                    
+
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_shipped']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-shipped.png" alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_shipped'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-shipped.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Shipped </p>
                         </div>
-                    
-                    
+
+
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_delivered']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_delivered'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Delivered </p>
                         </div>
-                    
+
                         <div class="pending-cart-status">
                             <div class="status-image-div">
-                                <img class="status-image <?=$cart->date['order_completed']!=''?'completed-status-image':'';?>" src="/bookrack/assets/icons/order-completed.png" alt="" loading="lazy">
+                                <img class="status-image <?= $cart->date['order_completed'] != '' ? 'completed-status-image' : ''; ?>"
+                                    src="/bookrack/assets/icons/order-completed.png" alt="" loading="lazy">
                             </div>
                             <p class="m-0"> Completed </p>
                         </div>
                     </div>
-                    
+
                     <!-- pending cart section -->
                     <section class="d-flex flex-column-reverse flex-lg-row justify-content-between pending-cart-section">
                         <!-- cart details -->
@@ -305,23 +317,28 @@ $cart->setUserId($userId);
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                    foreach($cart->bookList as $list) {
-                                            $bookObj->fetch($list['id']);
-                                            $bookObj->setPhotoUrl();
-                                            ?>
-                                            <!-- book -->
-                                            <tr>
-                                                <td>
-                                                    <div class="book-image">
-                                                        <img src="<?=$bookObj->photoUrl?>" alt="">
-                                                    </div>
-                                                </td>
-                                                <td class="title pointer" onclick="window.location.href='/bookrack/book-details/<?=$list['id']?>'"> <?=ucwords($bookObj->title)?> </td>
-                                                <td class="arrival-date"> <?=isset($list['arrived_date']) && $list['arrived_date'] != '' ? $list['arrived_date'] : "Not-arrived" ?> </td>
-                                                <td class="price text-success"> <?="NPR. ".number_format($list['price'],2)?> </td>
-                                            </tr>
-                                            <?php
+                                    <?php
+                                    foreach ($cart->bookList as $list) {
+                                        $bookObj->fetch($list['id']);
+                                        $bookObj->setPhotoUrl();
+                                        ?>
+                                        <!-- book -->
+                                        <tr>
+                                            <td>
+                                                <div class="book-image">
+                                                    <img src="<?= $bookObj->photoUrl ?>" alt="">
+                                                </div>
+                                            </td>
+                                            <td class="title pointer"
+                                                onclick="window.location.href='/bookrack/book-details/<?= $list['id'] ?>'">
+                                                <?= ucwords($bookObj->title) ?>
+                                            </td>
+                                            <td class="arrival-date">
+                                                <?= isset($list['arrived_date']) && $list['arrived_date'] != '' ? $list['arrived_date'] : "Not-arrived" ?>
+                                            </td>
+                                            <td class="price text-success"> <?= "NPR. " . number_format($list['price'], 2) ?> </td>
+                                        </tr>
+                                        <?php
                                         ?>
                                         <?php
                                     }
@@ -329,7 +346,7 @@ $cart->setUserId($userId);
                                 </tbody>
                             </table>
                         </div>
-                    
+
                         <!-- checkout details -->
                         <div class="d-flex flex-column rounded p-3 gap-3 checkout">
                             <div class="heading">
@@ -340,34 +357,34 @@ $cart->setUserId($userId);
 
                             <div class="d-flex flex-row justify-content-between">
                                 <p class="m-0"> Checkout option </p>
-                                <p class="m-0"> <?=ucwords($cart->checkoutOption)?> </p>
+                                <p class="m-0"> <?= ucwords($cart->checkoutOption) ?> </p>
                             </div>
-                    
-                            <?php 
-                             if($cart->checkoutOption == "cash-on-delivery" || $cart->checkoutOption == 'digital-wallt') {
-                                 ?>
-                                 <div class="d-flex flex-column gap-1 checkout-detail-div">
-                                     <div class="d-flex flex-row justify-content-between checkout-detail">
-                                         <p class="m-0"> Shipping address </p>
-                                         <p class="m-0"> Bansbari, Kathmandu </p>
-                                     </div>
-                                 </div>
+
+                            <?php
+                            if ($cart->checkoutOption == "cash-on-delivery" || $cart->checkoutOption == 'digital-wallt') {
+                                ?>
+                                <div class="d-flex flex-column gap-1 checkout-detail-div">
+                                    <div class="d-flex flex-row justify-content-between checkout-detail">
+                                        <p class="m-0"> Shipping address </p>
+                                        <p class="m-0"> Bansbari, Kathmandu </p>
+                                    </div>
+                                </div>
                                 <?php
-                             }
+                            }
                             ?>
 
-                            <?php $total = $cart->subTotal;?>
-                    
+                            <?php $total = $cart->subTotal; ?>
+
                             <div class="d-flex flex-column gap-1 checkout-detail-div">
                                 <div class="d-flex flex-row justify-content-between  checkout-detail">
                                     <p class="m-0"> Subtotal </p>
-                                    <p class="m-0"> <?="NPR. ".number_format($cart->subTotal, 2)?> </p>
+                                    <p class="m-0"> <?= "NPR. " . number_format($cart->subTotal, 2) ?> </p>
                                 </div>
-                    
-                                <?php 
-                                if($cart->checkoutOption == "cash-on-delivery" || $cart->checkoutOption == 'digital-wallt') {
+
+                                <?php
+                                if ($cart->checkoutOption == "cash-on-delivery" || $cart->checkoutOption == 'digital-wallt') {
                                     $shippingCharge = 50;
-                                    $total += $shippingCharge; 
+                                    $total += $shippingCharge;
                                     ?>
                                     <div class="d-flex flex-row justify-content-between  checkout-detail">
                                         <p class="m-0"> Shipping Charge </p>
@@ -376,10 +393,10 @@ $cart->setUserId($userId);
                                     <?php
                                 }
                                 ?>
-                    
+
                                 <div class="d-flex flex-row justify-content-between  checkout-detail">
                                     <p class="m-0"> Estimated Total </p>
-                                    <p class="m-0"> <?="NPR. ".number_format($total, 2)?> </p>
+                                    <p class="m-0"> <?= "NPR. " . number_format($total, 2) ?> </p>
                                 </div>
                             </div>
                         </div>
@@ -519,10 +536,10 @@ $cart->setUserId($userId);
     ?>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <!-- checkout modal script -->
     <script>

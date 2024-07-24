@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/../app/connection.php';
 class Genre
 {
     private $id;

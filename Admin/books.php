@@ -9,7 +9,7 @@ $url = "books";
 $adminId = $_SESSION['bookrack-admin-id'];
 
 // fetching the admin profile details
-require_once __DIR__ . '/../../bookrack/admin/app/admin-class.php';
+require_once __DIR__ . '/../classes/admin.php';
 
 // profile admin object
 $profileAdmin = new Admin();
@@ -21,9 +21,9 @@ if (!$adminExists)
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../app/functions.php';
-require_once __DIR__ . '/../app/user-class.php';
-require_once __DIR__ . '/../app/book-class.php';
+require_once __DIR__ . '/../functions/genre-array.php';
+require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/book.php';
 
 // user object
 $userObj = new User();
@@ -48,14 +48,14 @@ $rentBookCount = 0;
     <!-- title -->
     <title> Books </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
 </head>
 
 <body>
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
@@ -225,7 +225,7 @@ $rentBookCount = 0;
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <script>
         // filtering

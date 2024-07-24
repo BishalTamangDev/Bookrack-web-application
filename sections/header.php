@@ -9,7 +9,7 @@ if (!isset($_SESSION['bookrack-user-id']))
 if (!isset($userId))
     $userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/app/user-class.php';
+require_once __DIR__ . '/../classes/user.php';
 
 if (!isset($profileUser)) {
     $profileUser = new User();
@@ -17,9 +17,7 @@ if (!isset($profileUser)) {
 
     if (!$userExists)
         header("Location: /bookrack/signin");
-
 }
-$profileUser->fetchUserPhotoUrl();
 
 // search
 if (!isset($searchState))
@@ -36,10 +34,10 @@ if (!isset($searchState))
     <!-- title -->
     <title> Header </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/header.css">
+    <link rel="stylesheet" href="/bookrack/css/header.css">
 </head>
 
 <body>
@@ -183,7 +181,7 @@ if (!isset($searchState))
 
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/bookrack/signout.php'">
+                    onclick="window.location.href='/bookrack/app/signout.php'">
                     <i class="fa fa-sign-out"></i>
                     <span> Sign out </span>
                 </div>
@@ -192,9 +190,11 @@ if (!isset($searchState))
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
                         <?php
-                        if ($profileUser->photoUrl != "") {
+                        if ($profileUser->photo != " ") {
+                            $profileUser->fetchUserPhotoUrl();
+                            $userPhotoUrl = $profileUser->photoUrl;
                             ?>
-                            <img src="<?= $profileUser->photoUrl ?>" alt="" class="pointer bg-light" loading="lazy">
+                            <img src="<?= $userPhotoUrl ?>" alt="" class="pointer bg-light" loading="lazy">
                             <?php
                         } else {
                             ?>
@@ -214,7 +214,7 @@ if (!isset($searchState))
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/app/signout.php'"> <i class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>
@@ -225,7 +225,7 @@ if (!isset($searchState))
     </header>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <script>
         // menu

@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
 
-require_once __DIR__ . '/book-class.php';
+require_once __DIR__ . '/../classes/book.php';
 
 if (isset($_POST['edit-book-btn'])) {
     global $database;
@@ -39,7 +39,7 @@ if (isset($_POST['edit-book-btn'])) {
 
     // update genre table
     if ($response) {
-        require_once __DIR__ . '/genre-class.php';
+        require_once __DIR__ . '/../classes/genre.php';
         $genreObj = new Genre();
 
         // remove the old genre 

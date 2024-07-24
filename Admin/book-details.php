@@ -8,21 +8,21 @@ if (!isset($_SESSION['bookrack-admin-id']))
 $url = "book-details";
 $adminId = $_SESSION['bookrack-admin-id'];
 
-require_once __DIR__ . '/app/admin-class.php';
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../classes/admin.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 // fetching the admin profile details
 $profileAdmin = new Admin();
 $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
-if(!$adminExists)
+if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
 
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../app/user-class.php';
-require_once __DIR__ . '/../app/book-class.php';
+require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/book.php';
 
 // user object
 $userObj = new User();
@@ -45,16 +45,16 @@ if (!$bookExists)
     <!-- title -->
     <title> <?= ucWords($bookObj->title) ?> </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/book-detail.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/book-detail.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . '/nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
@@ -87,7 +87,7 @@ if (!$bookExists)
         <!-- book details -->
         <section class="d-flex flex-column flex-lg-row gap-4 section book-detail-container">
             <!-- book photos -->
-            <?php $bookObj->setPhotoUrl()?>
+            <?php $bookObj->setPhotoUrl() ?>
             <div class="d-flex flex-row flex-lg-column gap-2 book-photo-div">
                 <div class="d-flex flex-row top">
                     <img src="<?= $bookObj->photoUrl ?>" alt="Cover page photo" loading="lazy">
@@ -146,9 +146,9 @@ if (!$bookExists)
                     <div class="d-flex flex-row gap-3 align-items-center edition-div">
                         <p class="f-reset fw-bold fs-5"> Edition </p>
                         <p class="f-reset fs-6"> <?= ucfirst($bookObj->edition) ?><sup><?php
-                          if(is_int($bookObj->edition)){
+                          if (is_int($bookObj->edition)) {
                               $remainder = $bookObj->edition % 10;
-    
+
                               switch ($remainder) {
                                   case 1;
                                       echo "st";
@@ -192,15 +192,28 @@ if (!$bookExists)
                             </div>
                         </div>
 
-                        <!-- price -->
+                        <!-- actual price -->
                         <div class="d-flex flex-row price">
                             <div class="left">
-                                <p class="f-reset fw-bold"> Price </p>
+                                <p class="f-reset fw-bold"> Actual price </p>
                             </div>
 
                             <div class="right">
                                 <p class="f-reset fw-bold text-success">
-                                    <?= "NPR." . number_format($bookObj->price['actual'], 2) ?>
+                                    <?= "NPR. " . number_format($bookObj->price['actual'], 2) ?>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- offer price -->
+                        <div class="d-flex flex-row price">
+                            <div class="left">
+                                <p class="f-reset fw-bold"> Offer price </p>
+                            </div>
+
+                            <div class="right">
+                                <p class="f-reset fw-bold text-success">
+                                    <?= "NPR. " . number_format($bookObj->price['offer'], 2) ?>
                                 </p>
                             </div>
                         </div>
@@ -295,7 +308,7 @@ if (!$bookExists)
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

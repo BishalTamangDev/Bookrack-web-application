@@ -11,8 +11,8 @@ if (!isset($bookId) || $bookId == "")
 $url = "book-details";
 $userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/app/functions.php';
-require_once __DIR__ . '/app/user-class.php';
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/user.php';
 
 $profileUser = new User();
 $userExists = $profileUser->fetch($userId);
@@ -20,11 +20,11 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signin");
 
-require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/classes/book.php';
 $selectedBook = new Book();
 $bookExists = $selectedBook->fetch($bookId);
 
-require_once __DIR__ . '/app/wishlist-class.php';
+require_once __DIR__ . '/classes/wishlist.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
 $userWishlist = $wishlist->fetchWishlist();
@@ -40,15 +40,15 @@ $userWishlist = $wishlist->fetchWishlist();
     <!-- title -->
     <title> <?= $bookExists ? ucWords($selectedBook->title) : "Book details" ?> </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/book-details.css">
+    <link rel="stylesheet" href="/bookrack/css/book-details.css">
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header.php'; ?>
+    <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
     <?php
@@ -268,7 +268,7 @@ $userWishlist = $wishlist->fetchWishlist();
 
                             <!-- cart section -->
                             <?php
-                            require_once __DIR__ . '/app/cart-class.php';
+                            require_once __DIR__ . '/classes/cart.php';
                             $cart = new Cart();
 
                             if ($selectedBook->flag == 'on-hold') {
@@ -349,10 +349,10 @@ $userWishlist = $wishlist->fetchWishlist();
     ?>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 </body>
 
 </html>

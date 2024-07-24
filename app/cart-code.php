@@ -11,11 +11,7 @@ if(isset($_GET['task']) && $_GET['bookId'] && isset($_GET['url'])){
     $task = $_GET['task'];
     $url = $_GET['url'];
 
-    echo "task : $task<br/>";
-    echo "user id : $userId<br/>";
-    echo "book id : $bookId<br/>";
-
-    require_once __DIR__ . '/cart-class.php';
+    require_once __DIR__ . '/../classes/cart.php';
     $cart = new Cart();
     $cart->setUserId($userId);
     $cart->setBookId($bookId);

@@ -20,7 +20,8 @@ if(!$adminExists)
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../app/functions.php';
+require_once __DIR__ . '/../functions/genre-array.php';
+require_once __DIR__ . '/../functions/district-array.php';
 ?>
 
 <!DOCTYPE html>
@@ -30,16 +31,16 @@ require_once __DIR__ . '/../app/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/notification.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/notification.css">
 </head>
 
 <body>
     <!-- aside :: nav -->
-    <?php include 'nav.php'; ?>
+    <?php require_once __DIR__ . 'nav.php'; ?>
 
     <!-- main content -->
     <main class="main">
@@ -134,7 +135,7 @@ require_once __DIR__ . '/../app/functions.php';
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 </body>
 
 </html>

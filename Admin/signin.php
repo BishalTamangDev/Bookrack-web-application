@@ -16,12 +16,12 @@ if (isset($_SESSION['bookrack-admin-id']))
     <!-- title -->
     <title> Admin Signin </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- local css -->
-    <link rel="stylesheet" href="/bookrack/assets/css/signin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/signin.css">
+    <link rel="stylesheet" href="/bookrack/css/signin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/signin.css">
 </head>
 
 <body>
@@ -56,7 +56,7 @@ if (isset($_SESSION['bookrack-admin-id']))
                         <?php
                         if (isset($_SESSION['status']) && isset($_SESSION['status-message'])) {
                             ?>
-                            <p class="m-0 mb-2 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
+                            <p class="m-0 mb-3 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
                                 <?= $_SESSION['status-message'] ?>
                             </p>
                             <?php
@@ -127,7 +127,7 @@ if (isset($_SESSION['bookrack-admin-id']))
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <script>
         // password input : // prevent space as input

@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../../app/connection.php';
-require_once __DIR__ . '/admin-class.php';
+require_once __DIR__ . '/../../classes/admin.php';
 
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;

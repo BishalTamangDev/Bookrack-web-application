@@ -16,11 +16,11 @@ if (isset($_SESSION['bookrack-admin-id']))
     <!-- title -->
     <title> Admin Signup </title>
 
-    <?php require_once __DIR__ . '/../app/header-include.php' ?>
+    <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- local css -->
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/admin/signin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/admin.css">
+    <link rel="stylesheet" href="/bookrack/css/admin/signin.css">
 </head>
 
 <body>
@@ -110,7 +110,7 @@ if (isset($_SESSION['bookrack-admin-id']))
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/../app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- js :: current file -->
     <script>

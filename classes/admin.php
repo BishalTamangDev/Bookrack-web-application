@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../app/functions.php';
-require_once __DIR__ . '/../../app/connection.php';
+require_once __DIR__ . '/../functions/district-array.php';
+require_once __DIR__ . '/../app/connection.php';
 
 class Admin
 {

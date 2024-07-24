@@ -8,9 +8,9 @@
     <!-- title -->
     <title> 404 - Page Not Found </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
-    <link rel="stylesheet" href="/bookrack/assets/css/404.css">
+    <link rel="stylesheet" href="/bookrack/css/404.css">
 </head>
 
 <body>

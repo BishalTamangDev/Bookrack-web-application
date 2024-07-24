@@ -2,7 +2,7 @@
 
 use Kreait\Firebase\Database\Query\Sorter\OrderByChild;
 
-require_once __DIR__ . '/connection.php';
+require_once __DIR__ . '/../app/connection.php';
 
 class Wishlist
 {

@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/home");
 
-require_once __DIR__ . '/book-class.php';
+require_once __DIR__ . '/../classes/book.php';
 
 if (isset($_POST['add-book-btn'])) {
     $userId = $_SESSION['bookrack-user-id'];
@@ -70,10 +70,15 @@ if (isset($_POST['add-book-btn'])) {
         $status = $immediateKey != 0 ? true : false;
 
         // add new genre to the genre list
-        require_once 'genre-class.php';
+        require_once __DIR__ . '/../classes/genre.php';
         $genreObj = new Genre();
         $genreObj->genreArray = $genreArray;
         $genreObj->newBook();
+
+        // notification for admin
+        require_once __DIR__ . '/../classes/notification.php';
+        $notificationObj = new Notification();
+        $notificationObj->newBook($immediateKey, $userId);
     }
 
     $_SESSION['status'] = $status;

@@ -2,8 +2,9 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-require_once __DIR__ . '/user-class.php';
-require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../functions/district-array.php';
+require_once __DIR__ . '/../functions/delete-cloud-file.php';
 
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
@@ -63,7 +64,7 @@ if (isset($_POST['signup-btn'])) {
         $response = $database->getReference("users/$uid")->set($extraUserProperties);
 
         if($response) {
-            require_once __DIR__ . '/notification-class.php';
+            require_once __DIR__ . '/../classes/notification.php';
             $notificationObj = new Notification();
             $notificationObj->newUser($uid);
         }

@@ -8,21 +8,21 @@ if (!isset($_SESSION['bookrack-user-id']))
 $userId = $_SESSION['bookrack-user-id'];
 $url = "home";
 
-require_once __DIR__ . '/app/functions.php';
-require_once __DIR__ . '/app/user-class.php';
-require_once __DIR__ . '/app/genre-class.php';
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/user.php';
+require_once __DIR__ . '/classes/genre.php';
 
 // get user details
 $profileUser = new User();
 $userExists = $profileUser->checkUserExistenceById($userId);
 
 if (!$userExists)
-    header("Location: /bookrack/signout");
+    header("Location: /bookrack/app/signout.php");
 
 $profileUser->setUserId($userId);
 
 // book obj 
-require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
 
 // search
@@ -36,7 +36,7 @@ if (!$searchState) {
 }
 
 // wishlist object
-require_once __DIR__ . '/app/wishlist-class.php';
+require_once __DIR__ . '/classes/wishlist.php';
 $wishlist = new Wishlist();
 $wishlist->setUserId($userId);
 
@@ -63,16 +63,16 @@ if ($filterState) {
         <?= $searchState ? "Search results : $searchContent" : "Home"; ?>
     </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/home.css">
+    <link rel="stylesheet" href="/bookrack/css/book.css">
+    <link rel="stylesheet" href="/bookrack/css/home.css">
 </head>
 
 <body>
     <!-- header -->
-    <?php include 'header.php'; ?>
+    <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
     <main class="d-flex flex-row gap-lg-3 pb-5 container main">
@@ -470,10 +470,10 @@ if ($filterState) {
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <script>
         // filter

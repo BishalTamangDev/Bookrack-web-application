@@ -9,8 +9,9 @@ $userId = $_SESSION['bookrack-user-id'];
 
 $url = "profile";
 
-require_once __DIR__ . '/app/functions.php';
-require_once __DIR__ . '/app/user-class.php';
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/functions/district-array.php';
+require_once __DIR__ . '/classes/user.php';
 
 $profileUser = new User();
 $userExists = $profileUser->fetch($userId);
@@ -18,7 +19,7 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signout");
 
-require_once __DIR__ . '/app/book-class.php';
+require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
 ?>
 
@@ -57,17 +58,17 @@ $bookObj = new Book();
         ?>
     </title>
 
-    <?php require_once __DIR__ . '/app/header-include.php' ?>
+    <?php require_once __DIR__ . '/includes/header.php' ?>
 
     <!-- css files -->
-    <link rel="stylesheet" href="/bookrack/assets/css/book.css">
-    <link rel="stylesheet" href="/bookrack/assets/css/profile.css">
+    <link rel="stylesheet" href="/bookrack/css/book.css">
+    <link rel="stylesheet" href="/bookrack/css/profile.css">
 </head>
 
 <body>
     <!-- header -->
     <?php
-    include 'header.php'; ?>
+    require_once __DIR__ . '/sections/header.php'; ?>
 
     <?php $userBookList = $bookObj->fetchBookByUserId($userId); ?>
 
@@ -81,9 +82,12 @@ $bookObj = new Book();
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
+                        if(!isset($userPhotoUrl))
+                            $profileUser->setPhotoUrl();
+
                         if ($profileUser->photo != "") {
                             ?>
-                            <img src="<?= $profileUser->photoUrl ?>" alt="profile picture" loading="lazy">
+                            <img src="<?=$userPhotoUrl ?>" alt="profile picture" loading="lazy">
                             <?php
                         } else {
                             ?>
@@ -432,7 +436,7 @@ $bookObj = new Book();
 
                                         foreach ($districtArray as $district) {
                                             ?>
-                                            <option value="<?php echo getArrayIndexValue($district, "district"); ?>">
+                                            <option value="<?php echo getDistrictIndexValue($district); ?>">
                                                 <?= $district ?>
                                             </option>
                                             <?php
@@ -791,7 +795,7 @@ $bookObj = new Book();
                 <!-- wishlist -->
                 <?php
                 if ($tab == "wishlist") {
-                    require_once __DIR__ . '/app/wishlist-class.php';
+                    require_once __DIR__ . '/classes/wishlist.php';
                     $wishlist = new Wishlist();
                     ?>
                     <!-- my books container-->
@@ -1035,7 +1039,7 @@ $bookObj = new Book();
     </main>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <?php
     // unset session status & status
@@ -1048,7 +1052,7 @@ $bookObj = new Book();
     ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/app/script-include.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <!-- edit profile script -->
     <script>
