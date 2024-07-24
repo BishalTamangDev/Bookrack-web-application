@@ -58,9 +58,8 @@ if (isset($_GET['admin-search-content'])) {
             <nav class="nav px-lg-2">
                 <ul class="d-flex flex-column p-0">
                     <!-- dashboard -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-dashboard'"
-                        class="<?php if ($nav == "dashboard")
-                            echo "active"; ?>">
+                    <li onclick="window.location.href='/bookrack/admin/admin-dashboard'" class="<?php if ($nav == "dashboard")
+                        echo "active"; ?>">
                         <i class="fa-brands fa-windows nav-icon"></i>
                         <span class="d-none d-lg-block <?php if ($nav == "dashboard")
                             echo "text-dark"; ?>"> Dashboard
@@ -68,44 +67,37 @@ if (isset($_GET['admin-search-content'])) {
                     </li>
 
                     <!-- users -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-users'"
-                        class="<?php if ($nav == "users" || $nav == "user-details")
-                            echo "active"; ?>">
+                    <li onclick="window.location.href='/bookrack/admin/admin-users'" class="<?php if ($nav == "users" || $nav == "user-details")
+                        echo "active"; ?>">
                         <i class="fa fa-users nav-icon"></i>
-                        <span
-                            class="d-none d-lg-block <?php if ($nav == "users" || $nav == "user-details")
-                                echo "text-dark"; ?>">
+                        <span class="d-none d-lg-block <?php if ($nav == "users" || $nav == "user-details")
+                            echo "text-dark"; ?>">
                             Users </span>
                     </li>
 
                     <!-- books -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-books'"
-                        class="<?php if ($nav == "books" || $nav == "book-details")
-                            echo "active"; ?>">
+                    <li onclick="window.location.href='/bookrack/admin/admin-books'" class="<?php if ($nav == "books" || $nav == "book-details")
+                        echo "active"; ?>">
 
                         <i class="fa fa-book nav-icon"></i>
-                        <span
-                            class="d-none d-lg-block <?php if ($nav == "books" || $nav == "book-details")
-                                echo "text-dark"; ?>">
+                        <span class="d-none d-lg-block <?php if ($nav == "books" || $nav == "book-details")
+                            echo "text-dark"; ?>">
                             Books </span>
 
                     </li>
 
                     <!-- request -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-book-requests'"
-                        class="<?php if ($nav == "requests" || $nav == "request-details")
-                            echo "active"; ?>">
+                    <li onclick="window.location.href='/bookrack/admin/admin-book-requests'" class="<?php if ($nav == "requests" || $nav == "request-details")
+                        echo "active"; ?>">
                         <i class="fa-solid fa-comment-dots nav-icon"></i>
-                        <span
-                            class="d-none d-lg-block <?php if ($nav == "requests" || $nav == "request-details")
-                                echo "text-dark"; ?>">
+                        <span class="d-none d-lg-block <?php if ($nav == "requests" || $nav == "request-details")
+                            echo "text-dark"; ?>">
                             Requests </span>
                     </li>
 
                     <!-- rent history -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-rent-history'"
-                        class="<?php if ($nav == "rent-history")
-                            echo "active"; ?>">
+                    <li onclick="window.location.href='/bookrack/admin/admin-rent-history'" class="<?php if ($nav == "rent-history")
+                        echo "active"; ?>">
                         <i class="fa-regular fa-note-sticky nav-icon"></i>
                         <span class="d-none d-lg-block <?php if ($nav == "rent-history")
                             echo "text-dark"; ?>"> Rent
@@ -123,33 +115,26 @@ if (isset($_GET['admin-search-content'])) {
         <div class="d-flex flex-row gap-4 align-items-center justify-content-between form-notification-profile">
             <!-- search form -->
             <div class="d-flex flex-row gap-2 search-form-container">
-                    <form
-                    <?php
-                    if(isset($url)) {
-                        if($url == "users") {
-                            ?>
-                            action="/bookrack/admin/admin-users"
-                            <?php
-                        } elseif($url == "books") {
-                            ?>
-                            action="/bookrack/admin/admin-books"
-                            <?php
-                        } elseif($url == "book-requests") {
-                            ?>
-                            action="/bookrack/admin/admin-book-requests"
-                            <?php
-                        }
+                <form <?php
+                if (isset($url)) {
+                    if ($url == "users") {
+                        ?> action="/bookrack/admin/admin-users" <?php
+                    } elseif ($url == "books") {
+                        ?> action="/bookrack/admin/admin-books" <?php
+                    } elseif ($url == "book-requests") {
+                        ?> action="/bookrack/admin/admin-book-requests" <?php
                     }
-                    ?>
-                     class="d-flex flex-row search-form">
-                        <div class="input-group">
-                            <input type="search" name="admin-search-content" class="form-control m-0" id=""
-                                value="<?php if(isset($_GET['admin-search-content'])) echo $searchContent;?>" placeholder="search here" required>
-                        </div>
-                        <button type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </form>
+                }
+                ?>
+                    class="d-flex flex-row search-form">
+                    <div class="input-group">
+                        <input type="search" name="admin-search-content" class="form-control m-0" id="" value="<?php if (isset($_GET['admin-search-content']))
+                            echo $searchContent; ?>" placeholder="search here" required>
+                    </div>
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
             </div>
 
             <!-- notification -->
@@ -171,28 +156,110 @@ if (isset($_GET['admin-search-content'])) {
                     <hr class="m-0">
 
                     <div class="d-flex flex-column mt-2 pb-2 px-2 notifications">
-                        <!-- notification 1 -->
-                        <div class="d-flex flex-row gap-2 pointer p-2 notification">
-                            <div class="d-flex flex-row justify-content-around align-items-center icon-div">
-                                <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
-                            </div>
+                        <?php
+                        require_once __DIR__ . '/../app/notification-class.php';
+                        $notificationObj = new Notification();
 
-                            <div class="details">
-                                <!-- notification detail -->
-                                <div class="detail">
-                                    <p class="m-0">
-                                        Notification details appears here...
-                                    </p>
+                        $notificationIdList = $notificationObj->fetchAdminNotificationId();
+
+                        foreach ($notificationIdList as $notificationId) {
+                            $notificationObj->fetch($notificationId);
+                            $type = $notificationObj->type;
+
+                            switch ($type) {
+                                case 'new user':
+                                    $link = "/bookrack/admin/admin-user-details/{$notificationObj->userId}";
+                                    break;
+                                case 'cart checkout':
+                                    $link = "/bookrack/admin/admin-book-requests";
+                                    break;
+                                default:
+                                    $link = "";
+                            }
+
+                            ?>
+                            <!-- notification -->
+                            <div class="d-flex flex-row gap-2 pointer p-2 notification"
+                                onclick='window.location.href="<?= $link ?>"'>
+                                <div class="d-flex flex-row justify-content-around align-items-center icon-div">
+                                    <!-- icon -->
+                                    <?php
+                                    if ($type == 'new user') {
+                                        ?>
+                                        <img src="/bookrack/assets/icons/notification/new-user.png" alt="">
+                                        <?php
+                                    } elseif ($type == 'cart checkout') {
+                                        ?>
+                                        <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
-                                <!-- date -->
-                                <div class="date">
-                                    <p class="m-0 small text-secondary">
-                                        0000-00-00 00-00-00
-                                    </p>
+                                <div class="details">
+                                    <!-- notification detail -->
+                                    <div class="detail">
+                                        <?php if ($type == 'new user') {
+                                            ?>
+                                            <p class="m-0">
+                                                A new user joined.
+                                            </p>
+                                            <?php
+                                        } else if ($type == 'cart checkout') {
+                                            ?>
+                                                <p class="m-0">
+                                                <?= $notificationObj->userId ?> checkout the cart.
+                                                </p>
+                                            <?php
+                                        } else {
+                                            ?>
+                                                <p class="m-0">
+                                                    Other notification...
+                                                </p>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <!-- date -->
+                                    <div class="date">
+                                        <p class="m-0 small text-secondary">
+                                            <?= $notificationObj->date ?>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            <!-- backup -->
+                            <div class="d-none d-flex flex-row gap-2 pointer p-2 notification">
+                                <div class="d-flex flex-row justify-content-around align-items-center icon-div">
+                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                                </div>
+
+                                <div class="details">
+                                    <!-- notification detail -->
+                                    <div class="detail">
+                                        <p class="m-0">
+                                            Notification details appears here...
+                                        </p>
+                                    </div>
+
+                                    <!-- date -->
+                                    <div class="date">
+                                        <p class="m-0 small text-secondary">
+                                            0000-00-00 00-00-00
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+
                     </div>
                 </div>
             </div>

@@ -3,6 +3,11 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
+if (!isset($_SESSION['bookrack-user-id']))
+    header("Location: /bookrack/home");
+else    
+    $userId = $_SESSION['bookrack-user-id'];
+
 require_once __DIR__ . '/connection.php';
 
 if (isset($_POST['checkout-btn'])) {
@@ -71,6 +76,12 @@ if (isset($_POST['checkout-btn'])) {
                     $bookId = $list['id'];
                     $bookObj->updateFlag($bookId, "on-hold");
                 }
+
+                // create notification for admin
+                require_once __DIR__ . '/notification-class.php';
+
+                $notificationObj = new Notification();
+                $notificationObj->cartCheckout($userId, $cartId);
 
                 header("Location: /bookrack/cart/pending");
             }

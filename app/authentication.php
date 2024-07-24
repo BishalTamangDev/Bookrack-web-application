@@ -60,7 +60,13 @@ if (isset($_POST['signup-btn'])) {
             'role' => 'user'
         ];
 
-        $database->getReference("users/$uid")->set($extraUserProperties);
+        $response = $database->getReference("users/$uid")->set($extraUserProperties);
+
+        if($response) {
+            require_once __DIR__ . '/notification-class.php';
+            $notificationObj = new Notification();
+            $notificationObj->newUser($uid);
+        }
 
         $status = 1;
         $_SESSION['status-message'] = "Signed up successfully.";
