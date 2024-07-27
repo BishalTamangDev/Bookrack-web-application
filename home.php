@@ -299,6 +299,7 @@ if ($filterState) {
                         foreach ($bookIdList as $bookId) {
                             // filtering
                             $bookObj->fetch($bookId);
+                            $isOwner = ($bookObj->getOwnerId() == $userId) ? "true" : "false";
                             if ($filterState) {
                                 // purpose
                                 if ($filterPurpose != "all") {
@@ -418,8 +419,8 @@ if ($filterState) {
                                             }
                                             ?>
                                     </div>
-                                    
-                                    <a class="btn" href="/bookrack/app/click-code.php?bookId=<?= $bookId ?>&ownerId=<?=$bookObj->getOwnerId()?>"> Show More </a>
+
+                                    <a class="btn show-more-btn" data-book-id="<?= $bookId ?>" data-is-owner="<?=$isOwner?>"> Show More </a>
                                 </div>
                             </div>
                             <?php
@@ -477,35 +478,52 @@ if ($filterState) {
 
     <script>
         // filter
-        var filterTriggerState = false;
-        const aside = $('#aside');
-        const showFilter = $('#filter-show-trigger-2');
-        const hideFilter = $('#filter-hide-trigger');
+        $(document).ready(function () {
+            var filterTriggerState = false;
+            const aside = $('#aside');
 
-        // filter
-        showFilter.on('click', function () {
-            console.log("Show filter");
-            aside.css({
-                'display': 'block'
+            // filter
+            $('#filter-show-trigger-2').on('click', function () {
+                console.log("Show filter");
+                aside.css({
+                    'display': 'block'
+                });
+                filterTriggerState = !filterTriggerState;
             });
-            filterTriggerState = !filterTriggerState;
-        });
 
-        hideFilter.on('click', function () {
-            aside.css({
-                'display': 'none'
+            $('#filter-hide-trigger').on('click', function () {
+                aside.css({
+                    'display': 'none'
+                });
+                filterTriggerState = !filterTriggerState;
             });
-            filterTriggerState = !filterTriggerState;
-        });
-    </script>
 
-    <!-- empty contect -->
-    <script>
-        if ($('.book-container').length == 0) {
-            $('#empty-context-container').show();
-        } else {
-            $('#empty-context-container').hide();
-        }
+            // empty context
+            if ($('.book-container').length == 0) {
+                $('#empty-context-container').show();
+            } else {
+                $('#empty-context-container').hide();
+            }
+
+            // show more button clicked
+            $(document).on('click', '.show-more-btn', function () {
+                book_id = $(this).data("book-id");
+                is_owner = $(this).data("is-owner");
+
+                link = "/bookrack/book-details/" + book_id;
+                window.location.href = link;
+
+                if(is_owner != "false") {
+                    $.ajax({
+                        url: '/bookrack/app/click.php',
+                        type: "POST",
+                        data: { bookId: book_id },
+                        success: function (response) {
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </body>
 

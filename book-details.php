@@ -244,17 +244,11 @@ $bookExists = $selectedBook->fetch($bookId);
                     if ($selectedBook->getOwnerId() != $userId) {
                         ?>
                         <div class="d-flex flex-wrap flex-md-row operation-container">
-                            <!-- request button -->
-                            <!-- <a href="" class="btn" id="request-btn"> REQUEST NOW </a> -->
-
                             <!-- wishlist -->
-                            <div class="" id="wishlist-btn-container">
-                                <!-- <a class="btn" id="wishlist-btn" data-task="add">
-                                    <i class="fa-regular fa-bookmark"></i> Add to wishlist
+                            <div id="wishlist-btn-container">
+                                <!-- <a class="btn" id="wishlist-btn" data-task="add || remove">
+                                    <i class="fa-regular fa-bookmark || fa-solid fa-bookmark"></i> Add to wishlist || Remove from wishlist
                                 </a> -->
-                                <!-- <a class="btn" id="remove-from-wishlist"> -->
-                                <!-- <i class="fa-solid fa-bookmark"></i> Remove from wishlist -->
-                                <!-- </a> -->
                             </div>
 
 
@@ -266,24 +260,14 @@ $bookExists = $selectedBook->fetch($bookId);
                             if ($selectedBook->flag == 'on-hold') {
                                 ?>
                                 <a class="btn btn-danger"><i class="fa fa-shopping-cart"></i> Not available for now to add to cart
-                                    :( </a>
+                                    :/ </a>
                                 <?php
                             } else {
-                                $cart->setUserId($userId);
-                                $bookExistsInCart = $cart->checkBookInCart($bookId);
-
-                                if ($bookExistsInCart) {
-                                    ?>
-                                    <a href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $bookId ?>&url=<?= $url ?>" class="btn"
-                                        id="cart-btn"><i class="fa fa-shopping-cart"></i>Remove from cart</a>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <a href="/bookrack/app/cart-code.php?task=add&bookId=<?= $bookId ?>&url=<?= $url ?>" class="btn"
-                                        id="cart-btn"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    <?php
-                                }
                                 ?>
+
+                                <div id="cart-btn-container">
+                                    <!-- <a class="btn" id="cart-btn" data-task="add || remove"><i class="fa fa-shopping-cart"></i>Remove from cart || Add to cart </a> -->
+                                </div>
                                 <?php
                             }
                             ?>
@@ -291,7 +275,7 @@ $bookExists = $selectedBook->fetch($bookId);
                         <?php
                     } else {
                         ?>
-                        <div class="d-flex flex-roe gap-2">
+                        <div class="d-flex flex-row gap-2">
                             <!-- edit book details -->
                             <a href="/bookrack/add-book/edit/<?= $bookId ?>"
                                 class="btn btn-outline-success d-flex flex-row gap-2 align-items-center"
@@ -353,6 +337,7 @@ $bookExists = $selectedBook->fetch($bookId);
             book_id = "<?= $bookId ?>";
             user_id = "<?= $userId ?>";
 
+            // check wishlist
             function checkWishlist() {
                 $.ajax({
                     url: '/bookrack/app/load-wishlist-btn-book-detail.php',
@@ -364,27 +349,61 @@ $bookExists = $selectedBook->fetch($bookId);
                 });
             }
 
-            checkWishlist();
+            // check cart
+            function checkCart() {
+                $.ajax({
+                    url: '/bookrack/app/load-cart-btn-book-detail.php',
+                    type: "POST",
+                    data: { userId: user_id, bookId: book_id },
+                    success: function (response) {
+                        $('#cart-btn-container').html(response);
+                    }
+                });
+            }
 
+            checkWishlist();
+            checkCart();
+
+            // toggle wishlist
             $(document).on('click', '#wishlist-btn', function () {
-                task = $('#wishlist-btn').data("task");
+                wishlist_task = $('#wishlist-btn').data("task");
                 $.ajax({
                     url: '/bookrack/app/toggle-wishlist-book-detail.php',
                     type: "POST",
                     data: { bookId: book_id },
                     beforeSend: function () {
-                        if (task == "add") {
-                            future = "<a class='btn' id='wishlist-btn' data-task='remove'> <i class='fa-solid fa-bookmark'></i> Remove from wishlist </a>";
-                            $('#wishlist-btn-container').html(future);
+                        if (wishlist_task == "add") {
+                            wishlist_future = "<a class='btn' id='wishlist-btn' data-task='remove'> <i class='fa-solid fa-bookmark'></i> Remove from wishlist </a>";
+                            $('#wishlist-btn-container').html(wishlist_future);
                         }
                         else {
-                            future = "<a class='btn' id='wishlist-btn' data-task='add'> <i class='fa-regular fa-bookmark'></i> Add to wishlist </a>";
-                            $('#wishlist-btn-container').html(future);
+                            wishlist_future = "<a class='btn' id='wishlist-btn' data-task='add'> <i class='fa-regular fa-bookmark'></i> Add to wishlist </a>";
+                            $('#wishlist-btn-container').html(wishlist_future);
+                        }
+                    },
+                });
+            });
+
+            // toggle cart
+            $(document).on('click', '#cart-btn', function () {
+                cart_task = $('#cart-btn').data("task");
+                $.ajax({
+                    url: '/bookrack/app/toggle-cart-book-detail.php',
+                    type: "POST",
+                    data: { bookId: book_id, task: cart_task },
+                    beforeSend: function () {
+                        if (cart_task == "add") {
+                            cart_future = "<a class='btn' id='cart-btn' data-task='remove'><i class='fa fa-shopping-cart'></i> Remove from cart </a>";
+                            $('#cart-btn-container').html(cart_future);
+                        }
+                        else {
+                            cart_future = "<a class='btn' id='cart-btn' data-task='add'><i class='fa fa-shopping-cart'></i> Add to cart </a>";
+                            $('#cart-btn-container').html(cart_future);
                         }
                     },
                     success: function (response) {
-                        // checkWishlist();
-                    }
+                        // checkCart();
+                    },
                 });
             });
         });
