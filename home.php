@@ -420,7 +420,8 @@ if ($filterState) {
                                             ?>
                                     </div>
 
-                                    <a class="btn show-more-btn" data-book-id="<?= $bookId ?>" data-is-owner="<?=$isOwner?>"> Show More </a>
+                                    <a class="btn show-more-btn" data-book-id="<?= $bookId ?>" data-is-owner="<?= $isOwner ?>">
+                                        Show More </a>
                                 </div>
                             </div>
                             <?php
@@ -513,7 +514,7 @@ if ($filterState) {
                 link = "/bookrack/book-details/" + book_id;
                 window.location.href = link;
 
-                if(is_owner != "false") {
+                if (is_owner == "false") {
                     $.ajax({
                         url: '/bookrack/app/click.php',
                         type: "POST",

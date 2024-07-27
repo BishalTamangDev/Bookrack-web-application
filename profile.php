@@ -1021,6 +1021,8 @@ $bookObj = new Book();
                         url: '/bookrack/app/update-user.php',
                         type: "POST",
                         data: formData,
+                        contentType: false,
+                        processData: false,
                         beforeSend: function () {
                             $('#update-profile-btn').html('Updating...').prop('disabled', true);
                         },
