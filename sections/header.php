@@ -78,21 +78,21 @@ if (!isset($searchState))
 
                 <!-- extra: my profile -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/profile.html'">
+                    onclick="window.location.href='/bookrack/profile'">
                     <i class="fa fa-user"></i>
                     <span> My Profile </span>
                 </div>
 
                 <!-- extra: notification -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/notification.html'">
+                    onclick="window.location.href=''">
                     <i class="fa fa-bell"></i>
                     <span> Notification </span>
                 </div>
 
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/profile.html'">
+                    onclick="window.location.href='/profile/my-books'">
                     <i class="fa fa-book"></i>
                     <span> My Books </span>
                 </div>
@@ -152,30 +152,7 @@ if (!isset($searchState))
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- notification 2 -->
-                            <div class="d-flex flex-row gap-2 pointer notification clicked-notification">
-                                <!-- icon -->
-                                <div
-                                    class="d-flex flex-row align-items-center justify-content-around notification-icon">
-                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
-                                </div>
-
-                                <!-- details -->
-                                <div class="details">
-                                    <div class="details">
-                                        <p class="m-0"> Notification details appears here... </p>
-                                    </div>
-
-                                    <div class="date">
-                                        <p class="m-0 small text-secondary">
-                                            0000-00-00 00-00
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -198,7 +175,8 @@ if (!isset($searchState))
                             <?php
                         } else {
                             ?>
-                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer bg-light" loading="lazy">
+                            <img src="/bookrack/assets/images/blank-user.jpg" alt="" class="pointer bg-light"
+                                loading="lazy">
                             <?php
                         }
                         ?>
@@ -214,7 +192,8 @@ if (!isset($searchState))
                             <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
                                 <span>Earning</span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/app/signout.php'"> <i class="fa fa-sign-out"></i>
+                            <li onclick="window.location.href='/bookrack/app/signout.php'"> <i
+                                    class="fa fa-sign-out"></i>
                                 <span>Sign Out</span>
                             </li>
                         </ul>
@@ -247,7 +226,7 @@ if (!isset($searchState))
             menu.style.display = "flex";
             menu.style = "right: 0; transition: .4s";
         });
-        
+
         // close menu
         closeMenu.addEventListener('click', function () {
             menu.style.display = "none";
@@ -260,9 +239,9 @@ if (!isset($searchState))
             toggleProfileMenu();
         });
 
-        toggleProfileMenu = () =>{
+        toggleProfileMenu = () => {
             if (profileMenuState) {
-                if(notificationState) {
+                if (notificationState) {
                     notificationState = !notificationState;
                     toggleNotification();
                 }
@@ -280,7 +259,7 @@ if (!isset($searchState))
 
         toggleNotification = () => {
             if (notificationState) {
-                if(profileMenuState) {
+                if (profileMenuState) {
                     profileMenuState = !profileMenuState;
                     toggleProfileMenu();
                 }

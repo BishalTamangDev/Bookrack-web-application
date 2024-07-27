@@ -42,7 +42,7 @@ if (isset($_SESSION['bookrack-user-id']))
                 <!-- landing details -->
                 <div class="d-flex flex-column gap-4 landing-content">
                     <div class="landing-content-heading">
-                        <p class="f-reset fw-bolder"> SIGN UP & <br class="d-none">START RENTING OUT YOUR <br
+                        <p class="m-0 fw-bolder"> SIGN UP & <br class="d-none">START RENTING OUT YOUR <br
                                 class="d-none">FAVOURITE BOOKS INSTANTLY
                         </p>
                     </div>
@@ -58,25 +58,16 @@ if (isset($_SESSION['bookrack-user-id']))
                     ?>
                     <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                         <div class="d-flex flex-column gap-2 heading">
-                            <p class="f-reset fs-1"> Hello :) </p>
-                            <p class="f-reset text-secondary note"> To keep connected with us please login awith your
+                            <p class="m-0 fs-1"> Hello :) </p>
+                            <p class="m-0 text-secondary note"> To keep connected with us please login awith your
                                 personal information by email address and password. </p>
                         </div>
 
                         <!-- sign up form -->
-                        <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php"
-                            method="POST">
-                            <!-- error message section -->
-                            <!-- status message section -->
-                            <?php
-                            if (isset($_SESSION['status'])) {
-                                ?>
-                                <p class="f-reset <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>  mb-3">
-                                    <?php echo $_SESSION['status-message'] ?>
-                                </p>
-                                <?php
-                            }
-                            ?>
+                        <form method="POST" action="" class="d-flex flex-column signin-form"
+                            id="signup-form">
+                            <!-- message section -->
+                            <div id="signup-message-div"> </div>
 
                             <!-- email address -->
                             <div class="input-group mb-3">
@@ -84,9 +75,9 @@ if (isset($_SESSION['bookrack-user-id']))
                                     <i class="fa-regular fa-envelope"></i>
                                 </span>
                                 <div class="form-floating">
-                                    <input type="email" name="email" class="form-control" id="user-password" value="<?php if (isset($_SESSION['temp-email']))
-                                        echo $_SESSION['temp-email']; ?>" placeholder="someone@gmail.com"
-                                        aria-label="email address" aria-describedby="email address" required>
+                                    <input type="email" name="email" class="form-control" id="user-password"
+                                        placeholder="someone@gmail.com" aria-label="email address"
+                                        aria-describedby="email address" required>
                                     <label for="user-password">Email address</label>
                                 </div>
                             </div>
@@ -97,15 +88,17 @@ if (isset($_SESSION['bookrack-user-id']))
                                     <i class="fa-solid fa-unlock"></i>
                                 </span>
                                 <div class="form-floating">
-                                    <input type="password" name="password" class="form-control" id="user-email" value="<?php if (isset($_SESSION['temp-password']))
-                                        echo $_SESSION['temp-password']; ?>" placeholder="********"
-                                        aria-label="password" aria-describedby="password" minlength="8" required>
+                                    <input type="password" name="password" class="form-control" id="user-email"
+                                        placeholder="********" aria-label="password" aria-describedby="password"
+                                        minlength="8" required>
                                     <label for="user-email">Password</label>
                                 </div>
                             </div>
 
+                            <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
+
                             <div class="mb-3">
-                                <p class="f-reset text-secondary"> Note: make sure you complete your profile setting to use
+                                <p class="m-0 text-secondary"> Note: make sure you complete your profile setting to use
                                     the featured we provide. </p>
                             </div>
 
@@ -125,14 +118,14 @@ if (isset($_SESSION['bookrack-user-id']))
                     <!-- email verification content -->
                     <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                         <div class="d-flex flex-column gap-2 heading">
-                            <p class="f-reset fs-1"> Email Verification </p>
+                            <p class="m-0 fs-1"> Email Verification </p>
 
                             <p class="m-0 text-secondary"> Enter the OTP code. </p>
 
                             <?php
                             if (isset($_SESSION['status'])) {
                                 ?>
-                                <p class="f-reset text-danger mt-3 mb-3"> <?php echo $_SESSION['status-message']; ?> </p>
+                                <p class="m-0 text-danger mt-3 mb-3"> <?php echo $_SESSION['status-message']; ?> </p>
                                 <?php
                             }
                             ?>
@@ -160,30 +153,64 @@ if (isset($_SESSION['bookrack-user-id']))
         </div>
     </main>
 
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-    ?>
-
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <script>
-        // password input
-        // prevent space as input
-        $('#user-email').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
+        $(document).ready(function () {
+            // Generate CSRF token and set it to the forms
+            function setCSRFToken() {
+                $.get('app/csrf-token.php', function (data) {
+                    $('#csrf_token').val(data);
+                });
             }
-        });
 
-        // email input
-        $('#user-password').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
+            setCSRFToken();
+
+            $('#signup-message-div').hide();
+
+            // password input
+            // prevent space as input
+            $('#user-email').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // email input
+            $('#user-password').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // form submission
+            $('#signup-form').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: 'app/signup.php',
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#signup-message-div').html(data).show();
+                        $('#signup-form').trigger("reset");
+                        $('#signup-btn').html("Signup Now");
+                        $('#signup-btn').prop("disabled", false);
+                    },
+                    beforeSend: function () {
+                        $('#signup-btn').prop("disabled", true);
+                        $('#signup-btn').html("Please wait...");
+                    },
+                    error: function () {
+                        $('#signup-message-div').html(data).show();
+                        $('#signup-btn').html("Signup Now");
+                        $('#signup-btn').prop("disabled", false);
+                    }
+                });
+            });
         });
     </script>
 </body>

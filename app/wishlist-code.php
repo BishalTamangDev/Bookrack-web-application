@@ -39,4 +39,4 @@ if (isset($_GET['book-id'])) {
 
 }
 
-exit();
+exit;

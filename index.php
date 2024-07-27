@@ -21,7 +21,7 @@ require_once __DIR__ . '/app/connection.php';
 // Set the default timezone to Nepal
 date_default_timezone_set("Asia/Kathmandu");
 
-$profilePagePattern = '/profile\/(view-profile|edit-profile|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
+$profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
 $adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
 $tab = "";
 
@@ -49,7 +49,7 @@ elseif ($router == '/add-book' || $router == '/add-book/' || preg_match('/add-bo
     if (isset($arr[2])) {
         if ($arr[2] == "edit") {
             $task = "edit";
-            if(isset($arr[3])){
+            if (isset($arr[3])) {
                 $bookId = $arr[3];
             }
         }
@@ -79,15 +79,15 @@ elseif ($router == '/book-details' || $router == '/book-details/' || preg_match(
 elseif ($router == '/cart' || preg_match("/cart\/(current|pending|completed|checkout)/i", $router)) {
     $arr = explode('/', $router);
     $tab = "current";
-    if(isset($arr[2])) {
-        if($arr[2] == 'checkout') {
+    if (isset($arr[2])) {
+        if ($arr[2] == 'checkout') {
             include 'checkout.php';
         } else {
             $tab = $arr[2];
             include 'cart.php';
         }
-    } else{
-        include 'cart.php'; 
+    } else {
+        include 'cart.php';
     }
 }
 
@@ -107,7 +107,7 @@ elseif ($router == '/forgot-password' || $router == '/forgot-password/' || preg_
 
 // profile
 elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePagePattern, $router)) {
-    $tab = "view-profile";
+    $tab = "view";
     if (preg_match($profilePagePattern, $router)) {
         // echo "Pattern matched<br/>";
         $arr = explode('/', $router);
@@ -127,9 +127,6 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
             } else {
                 $bookState = "all";
             }
-        } elseif (preg_match('/edit-profile/', $arr[2])) { // edit-profile
-            $arr = explode('/', $arr[2]);
-            $tab = $arr[0];
         } elseif (preg_match('/kyc/', $arr[2])) { // wishlist
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
@@ -145,11 +142,12 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
         } elseif (preg_match('/password-change/', $arr[2])) { // password change
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
+        } else {
+            header("Location: /bookrack/profile");
         }
     }
     include 'profile.php';
 }
-
 
 // signin
 elseif ($router == '/signin' || $router == '/signin/' || preg_match("/signin\/(email|authentication)/i", $router)) {

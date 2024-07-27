@@ -43,7 +43,7 @@ if (isset($_SESSION['bookrack-user-id']))
                 <!-- landing details -->
                 <div class="d-flex flex-column gap-4 landing-content">
                     <div class="landing-content-heading">
-                        <p class="f-reset fw-bolder"> SIGN IN & <br class="d-none">START RENTING OUT YOUR <br
+                        <p class="m-0 fw-bolder"> SIGN IN & <br class="d-none">START RENTING OUT YOUR <br
                                 class="d-none">FAVOURITE BOOKS INSTANTLY
                         </p>
                     </div>
@@ -56,24 +56,18 @@ if (isset($_SESSION['bookrack-user-id']))
                 <!-- signin content -->
                 <div class="d-flex flex-column gap-4 gap-md-4 py-4 sign-content">
                     <div class="d-flex flex-column gap-2 heading">
-                        <p class="f-reset fs-1"> Welcome Back :) </p>
-                        <p class="f-reset text-secondary note"> To keep connected with us please login awith your
+                        <p class="m-0 fs-1"> Welcome Back :) </p>
+                        <p class="m-0 text-secondary note"> To keep connected with us please login awith your
                             personal information by email address and password. </p>
                     </div>
 
                     <!-- sign in form -->
-                    <form class="d-flex flex-column signin-form" action="/bookrack/app/authentication.php" method="POST"
+                    <form method="POST" class="d-flex flex-column signin-form" id="signin-form"
                         autocomplete="on">
-                        <!-- status message section -->
-                        <?php
-                        if (isset($_SESSION['status'])) {
-                            ?>
-                            <p class="f-reset <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>  mb-3">
-                                <?php echo $_SESSION['status-message'] ?>
-                            </p>
-                            <?php
-                        }
-                        ?>
+                        <!-- message section -->
+                        <div class="mb-3" id="signin-message-div">
+                            <p class="m-0 mb-3" id="message"> Message appears here.. </p>
+                        </div>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -81,9 +75,9 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="floatingEmailInput" value="<?php if (isset($_SESSION['temp-email']))
-                                    echo $_SESSION['temp-email']; ?>" placeholder="someone@gmail.com"
-                                    aria-label="email address" aria-describedby="email address" required>
+                                <input type="email" name="email" class="form-control" id="floatingEmailInput"
+                                    placeholder="someone@gmail.com" aria-label="email address"
+                                    aria-describedby="email address" required>
                                 <label for="floatingEmailInput">Email address</label>
                             </div>
                         </div>
@@ -94,13 +88,13 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
-                                    value="<?php if (isset($_SESSION['temp-password']))
-                                        echo $_SESSION['temp-password']; ?>" placeholder="********"
-                                    aria-label="password" aria-describedby="password" minlength="8" required>
+                                <input type="password" name="password" class="form-control" id="floatingPasswordInput" placeholder="********" aria-label="password" aria-describedby="password"
+                                    minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
                         </div>
+
+                        <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
 
                         <div
                             class="d-none d-flex flex-row gap-3 flex-wrap justify-content-between align-items-center remember-me-forgot-password mb-3">
@@ -122,31 +116,86 @@ if (isset($_SESSION['bookrack-user-id']))
         </div>
     </main>
 
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-    ?>
-
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
 
-    <!-- js :: current file -->
+    <!-- script -->
     <script>
-        // password input
-        // prevent space as input
-        $('#floatingPasswordInput').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
+        $(document).ready(function () {
+            // Generate CSRF token and set it to the forms
+            function setCSRFToken() {
+                $.get('/bookrack/app/csrf-token.php', function (data) {
+                    $('#csrf_token').val(data);
+                });
             }
-        });
 
-        // email input
-        $('#floatingEmailInput').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
+            // prevent space as input
+            $('#floatingPasswordInput').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // email input
+            $('#floatingEmailInput').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            setCSRFToken();
+
+            $('#signin-message-div').hide();
+
+            // password input
+            // prevent space as input
+            $('#user-email').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // email input
+            $('#user-password').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // form submission
+            $('#signin-form').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: 'app/signin.php',
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#signin-message-div').html(data).show();
+
+                        if($('#message').hasClass("success")) {
+                            $('#signin-form').trigger("reset");
+                            window.location.href = '/bookrack/home';
+                        }
+
+                        $('#signin-btn').html("Signin");
+                        $('#signin-btn').prop("disabled", false);
+                    },
+                    beforeSend: function () {
+                        $('#signin-btn').prop("disabled", true);
+                        $('#signin-btn').html("Please wait...");
+                    },
+                    error: function () {
+                        $('#signin-message-div').html(data).show();
+                        $('#signin-btn').html("Signin Now");
+                        $('#signin-btn').prop("disabled", false);
+                    }
+                });
+            });
         });
     </script>
 </body>

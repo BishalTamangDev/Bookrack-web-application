@@ -119,4 +119,19 @@ img {
 .table #table-foot tr td {
   color: var(--brand-color);
   text-align: center;
+}
+
+#custom-popup-alert {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 400px;
+  background-color: white;
+  box-shadow: 0 0 1rem rgb(216, 215, 215);
 }/*# sourceMappingURL=style.css.map */

@@ -92,7 +92,6 @@ img{
     object-position: center;
 }
 
-
 .empty-div{
     display: flex;
     flex-direction: column;
@@ -150,4 +149,18 @@ img{
             }
         }
     }
+}
+
+#custom-popup-alert{
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 1.5rem; 
+    border-radius: 12px;
+    width: fit-content;
+    max-width: 400px;
+    background-color: white;
+    box-shadow : 0 0 1rem rgb(216, 215, 215);
 }

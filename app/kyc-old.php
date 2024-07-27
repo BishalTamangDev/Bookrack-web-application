@@ -8,13 +8,13 @@ if (!isset($_SESSION['bookrack-user-id']))
 require_once __DIR__ . '/../functions/delete-cloud-file.php';
 require_once __DIR__ . '/../classes/user.php';
 
-$status = false;
+if (isset($_POST['upload-kyc-btn'])) {
+    $status = 0;
 
-$user = new User();
-$userId = $_POST['user-id'];
-$userExists = $user->fetch($userId);
+    $user = new User();
+    $userId = $_POST['user-id'];
+    $user->fetch($userId);
 
-if ($userExists && $userId == $_SESSION['bookrack-user-id']) {
     // get file details
     $kycFrontFileOld = $user->getKycFront();
     $kycBackFileOld = $user->getKycBack();
@@ -48,7 +48,7 @@ if ($userExists && $userId == $_SESSION['bookrack-user-id']) {
             try {
                 // update user detail
                 $response = $database->getReference("users/{$userId}")->update($properties);
-                $status = true;
+                $status = 1;
             } catch (Exception $e) {
             }
         } catch (Exception $e) {
@@ -59,50 +59,59 @@ if ($userExists && $userId == $_SESSION['bookrack-user-id']) {
             // delete previous front kyc
             if ($kycFrontFileOld != "") {
                 $res = deleteFileFromStorageBucket("kyc", $kycFrontFileOld);
-                $status = $res ? true : false;
+                $status = $res ? 1 : 0;
             }
         }
+
+        $_SESSION['status-message'] = "Document submitted successfully";
     } elseif ($documentType == 2) {
-
-        // file properties of new back document
-        $fileTmpPath2 = $_FILES['kyc-back']['tmp_name'];
-        $fileName2 = $_FILES['kyc-back']['name'];
-        $fileExtension2 = pathinfo($fileName2, PATHINFO_EXTENSION);
-        $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
-        $filePath2 = "kyc/$newFileName2";
-
-        if ($newFileName1 == $newFileName2) {
-            sleep(1);
+        // citizenship
+        if ($hasKycBack) {
+            // file properties of new back document
+            $fileTmpPath2 = $_FILES['kyc-back']['tmp_name'];
+            $fileName2 = $_FILES['kyc-back']['name'];
+            $fileExtension2 = pathinfo($fileName2, PATHINFO_EXTENSION);
             $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
             $filePath2 = "kyc/$newFileName2";
-        }
 
-        // properties to be changed
-        $properties['kyc']['document_type'] = 'citizenship';
-        $properties['kyc']['front'] = $newFileName1;
-        $properties['kyc']['back'] = $newFileName2;
-
-        try {
-            // upload citizenship
-            $bucket->upload(fopen($fileTmpPath1, 'r'), ['name' => $filePath1]);
-            $status = true;
-        } catch (Exception $e) {
-        }
-
-        if ($status == true) {
-            try {
-                $bucket->upload(fopen($fileTmpPath2, 'r'), ['name' => $filePath2]);
-                $staus = true;
-            } catch (Exception $e) {
-                $status = false;
+            if ($newFileName1 == $newFileName2) {
+                sleep(1);
+                $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
+                $filePath2 = "kyc/$newFileName2";
             }
-        }
 
-        if ($status == true) {
-            $response = $database->getReference("users/{$userId}")->update($properties);
-            $status = $response ? true : false;
+            // properties to be changed
+            $properties['kyc']['document_type'] = 'citizenship';
+            $properties['kyc']['front'] = $newFileName1;
+            $properties['kyc']['back'] = $newFileName2;
+
+            print_r($properties);
+
+            try {
+                // upload citizenship
+                $bucket->upload(fopen($fileTmpPath1, 'r'), ['name' => $filePath1]);
+                $status = 1;
+            } catch (Exception $e) {
+            }
+
+            if ($status == 1) {
+                try {
+                    $bucket->upload(fopen($fileTmpPath2, 'r'), ['name' => $filePath2]);
+                    $staus = 1;
+                } catch (Exception $e) {
+                    $staus = 0;
+                }
+            }
+
+            if ($status == 1) {
+                $response = $database->getReference("users/{$userId}")->update($properties);
+            }
+
+            $_SESSION['status-message'] = "Document submitted successfully";
+        } else {
+            $_SESSION['status-message'] = "Please upload back side of the citizenship also.";
         }
     }
+    $_SESSION['status'] = $status ? true : false;
+    header("Location: /bookrack/profile/kyc");
 }
-
-echo $status ? "Document submitted successfully." : "An unexpected error occured.";

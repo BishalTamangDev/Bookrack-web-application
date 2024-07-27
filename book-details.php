@@ -24,10 +24,7 @@ require_once __DIR__ . '/classes/book.php';
 $selectedBook = new Book();
 $bookExists = $selectedBook->fetch($bookId);
 
-require_once __DIR__ . '/classes/wishlist.php';
-$wishlist = new Wishlist();
-$wishlist->setUserId($userId);
-$userWishlist = $wishlist->fetchWishlist();
+
 ?>
 
 <!DOCTYPE html>
@@ -251,20 +248,15 @@ $userWishlist = $wishlist->fetchWishlist();
                             <!-- <a href="" class="btn" id="request-btn"> REQUEST NOW </a> -->
 
                             <!-- wishlist -->
-                            <a href="/bookrack/app/wishlist-code.php?book-id=<?= $bookId ?>&ref_url=<?= $url ?>" class="btn"
-                                id="wishlist-btn">
-                                <?php
-                                if (in_array($bookId, $userWishlist)) {
-                                    ?>
-                                    <i class="fa-solid fa-bookmark"></i> Remove from wishlist
-                                    <?php
-                                } else {
-                                    ?>
+                            <div class="" id="wishlist-btn-container">
+                                <!-- <a class="btn" id="wishlist-btn" data-task="add">
                                     <i class="fa-regular fa-bookmark"></i> Add to wishlist
-                                    <?php
-                                }
-                                ?>
-                            </a>
+                                </a> -->
+                                <!-- <a class="btn" id="remove-from-wishlist"> -->
+                                <!-- <i class="fa-solid fa-bookmark"></i> Remove from wishlist -->
+                                <!-- </a> -->
+                            </div>
+
 
                             <!-- cart section -->
                             <?php
@@ -353,6 +345,50 @@ $userWishlist = $wishlist->fetchWishlist();
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
+
+    <!-- script -->
+    <script>
+        $(document).ready(function () {
+            // load wishlist btn
+            book_id = "<?= $bookId ?>";
+            user_id = "<?= $userId ?>";
+
+            function checkWishlist() {
+                $.ajax({
+                    url: '/bookrack/app/load-wishlist-btn-book-detail.php',
+                    type: "POST",
+                    data: { bookId: book_id, userId: user_id },
+                    success: function (response) {
+                        $('#wishlist-btn-container').html(response);
+                    }
+                });
+            }
+
+            checkWishlist();
+
+            $(document).on('click', '#wishlist-btn', function () {
+                task = $('#wishlist-btn').data("task");
+                $.ajax({
+                    url: '/bookrack/app/toggle-wishlist-book-detail.php',
+                    type: "POST",
+                    data: { bookId: book_id },
+                    beforeSend: function () {
+                        if (task == "add") {
+                            future = "<a class='btn' id='wishlist-btn' data-task='remove'> <i class='fa-solid fa-bookmark'></i> Remove from wishlist </a>";
+                            $('#wishlist-btn-container').html(future);
+                        }
+                        else {
+                            future = "<a class='btn' id='wishlist-btn' data-task='add'> <i class='fa-regular fa-bookmark'></i> Add to wishlist </a>";
+                            $('#wishlist-btn-container').html(future);
+                        }
+                    },
+                    success: function (response) {
+                        // checkWishlist();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

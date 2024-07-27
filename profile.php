@@ -82,12 +82,12 @@ $bookObj = new Book();
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
                         <?php
-                        if(!isset($userPhotoUrl))
+                        if (!isset($userPhotoUrl))
                             $profileUser->setPhotoUrl();
 
                         if ($profileUser->photo != "") {
                             ?>
-                            <img src="<?=$userPhotoUrl ?>" alt="profile picture" loading="lazy">
+                            <img src="<?= $userPhotoUrl ?>" alt="profile picture" loading="lazy">
                             <?php
                         } else {
                             ?>
@@ -123,7 +123,7 @@ $bookObj = new Book();
                             <span> From </span>
                         </div>
                         <div class="data-div">
-                            <p class="f-reset">
+                            <p class="m-0">
                                 <?php
                                 echo $profileUser->getAddressDistrict() != "" ? $profileUser->getFullAddress() : "-"; ?>
                             </p>
@@ -144,7 +144,7 @@ $bookObj = new Book();
                             <span> Member since </span>
                         </div>
                         <div class="data-div">
-                            <p class="f-reset"> <?php echo $profileUser->joinedDate != "" ? $dateOnly : "-"; ?>
+                            <p class="m-0"> <?php echo $profileUser->joinedDate != "" ? $dateOnly : "-"; ?>
                             </p>
                         </div>
                     </div>
@@ -165,7 +165,7 @@ $bookObj = new Book();
                         </div>
 
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?= sizeof($userBookList) ?> </p>
+                            <p class="m-0 fw-bold"> <?= sizeof($userBookList) ?> </p>
                         </div>
                     </div>
 
@@ -177,13 +177,19 @@ $bookObj = new Book();
                         </div>
 
                         <div class="data-div">
-                            <p class="f-reset fw-bold"> <?= "-" ?> </p>
+                            <p class="m-0 fw-bold"> <?= "-" ?> </p>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn" id="edit-profile-btn"
-                    onclick="window.location.href='/bookrack/profile/edit-profile'"> Edit </button>
+                <!-- <button class="btn" id="edit-profile-btn" onclick="window.location.href='/bookrack/profile/edit-profile'"> Edit </button> -->
+                <?php
+                if ($tab == "view") {
+                    ?>
+                    <button ton class="btn" id="edit-profile-btn"> Edit </button>
+                    <?php
+                }
+                ?>
             </section>
         </aside>
 
@@ -205,9 +211,9 @@ $bookObj = new Book();
             <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-3 tab-section">
                 <!-- profile tab -->
                 <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/view-profile'"> MY PROFILE </p>
+                    <p onclick="window.location.href='/bookrack/profile/'"> MY PROFILE </p>
                     <div
-                        class="indicator <?php echo ($tab == "view-profile" || $tab == "edit-profile" || $tab == "password-change" || $tab == "kyc") ? "active" : "inactive"; ?>">
+                        class="indicator <?php echo ($tab == "view" || $tab == "password-change" || $tab == "kyc") ? "active" : "inactive"; ?>">
                     </div>
                 </div>
 
@@ -239,109 +245,72 @@ $bookObj = new Book();
             <!-- contents -->
             <section class="d-flex flex-column gap-3 contents">
                 <!-- profile :: view & edit -->
-                <?php if ($tab == "edit-profile" || $tab == "view-profile") {
+                <?php if ($tab == "view") {
                     ?>
+                    <div class="d-flex flex-row gap-2">
+                        <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
+                            onclick="window.location.href='/bookrack/profile/password-change'">
+                            <i class="fa fa-lock text-light"></i>
+                            <p class="m-0 text-light"> Change Password </p>
+                        </div>
+
+                        <?php if ($profileUser->accountStatus != "verified") {
+                            ?>
+                            <form class="d-flex flex-column" id="account-verification-form">
+                                <input type="hidden" class="form-control" id="csrf_token_account_verification"
+                                    name="csrf_token_account_verification">
+                                <button type="submit" class="m-0 btn btn-outline-primary p-2 px-3"
+                                    id="account-verification-btn"> Apply for Account Verification </button>
+                            </form>
+                            <?php
+                        } ?>
+
+                        <p class="m-0 btn btn-outline-success p-2 px-3"
+                            onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
+                    </div>
+
                     <div class="d-flex flex-column gap-3 edit-profile-content">
                         <!-- top-section -->
                         <div class="d-flex flex-row align-items-center justify-content-between gap-3 top-section">
                             <!-- heading -->
-                            <?php
-                            if ($tab == "edit-profile") {
-                                ?>
-                                <div class="d-flex flex-row align-items-center gap-2 heading">
-                                    <i class="fa fa-edit fs-4 text-secondary"></i>
-                                    <h4 class="f-reset"> Edit Profile </h4>
-                                </div>
+                            <div class="d-flex flex-row align-items-center gap-2 heading">
+                                <i class="fa fa-edit fs-4 text-secondary"></i>
+                                <h4 class="m-0"> My Profile </h4>
+                            </div>
 
-                                <!-- form reset btn -->
-                                <div class="d-flex flex-row gap-2 action">
-                                    <button class="btn btn-outline-warning" id="profile-edit-reset-btn"
-                                        onclick="window.location.href='/bookrack/profile/edit-profile'"> Reset </button>
-
-                                    <!-- cancel btn -->
-                                    <button class="btn btn-danger" id="profile-edit-cancel-btn"
-                                        onclick="window.location.href='/bookrack/profile/view-profile'">
-                                        Cancel </button>
-                                </div>
-                                <?php
-                            }
-                            ?>
+                            <!-- form reset btn -->
+                            <div class="d-flex flex-row gap-2 action">
+                                <!-- cancel btn -->
+                                <button class="btn btn-danger" id="profile-edit-cancel-btn"> Cancel </button>
+                            </div>
                         </div>
 
                         <!-- edit profile deatail form -->
-                        <form action="/bookrack/app/update-user.php" method="POST"
-                            class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data">
-                            <!-- password & status message-->
-                            <div class="d-flex flex-column gap-3 m-0 flex-grow-1 w-100 password-div">
-                                <?php
-                                if ($tab == "view-profile") {
-                                    ?>
-                                    <div class="d-flex flex-row gap-2">
-                                        <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
-                                            onclick="window.location.href='/bookrack/profile/password-change'">
-                                            <i class="fa fa-lock text-light"></i>
-                                            <p class="f-reset text-light"> Change Password </p>
-                                        </div>
-
-                                        <?php
-                                        if($profileUser->checkAccountVerificationEligibility()){
-                                            ?>
-                                            <p class="m-0 btn btn-outline-primary p-2 px-3" onclick="window.location.href='/bookrack/app/account-verification.php'"> Apply for Account Verification </p>
-                                            <?php
-                                        }
-                                        ?>
-                                        
-                                        <p class="m-0 btn btn-outline-success p-2 px-3" onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-
-                                <?php
-                                // status message
-                                if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
-                                    ?>
-                                    <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
-                                        <?= $_SESSION['status-message'] ?>
-                                    </p>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-
+                        <form method="POST" class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data"
+                            id="profile-form">
                             <!-- user id -->
                             <input type="hidden" name="user-id" id="user-id" value="<?= $userId ?>">
 
                             <!-- profile picture -->
-                            <?php
-                            if ($tab == "edit-profile") {
-                                ?>
-                                <div class="d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">
-                                    <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile
-                                        picture </label>
-                                    <input type="file" name="edit-profile-profile-picture" class="border rounded form-control"
-                                        id="edit-profile-profile-picture" accept="image/*">
-                                </div>
-                                <?php
-                            }
-                            ?>
+                            <!-- <div class="d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">
+                                <label for="edit-profile-profile-picture" class="form-label text-secondary"> Change profile
+                                    picture </label>
+                                <input type="file" name="edit-profile-profile-picture" class="border rounded form-control"
+                                    id="edit-profile-profile-picture" accept="image/*">
+                            </div> -->
 
                             <!-- name -->
                             <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
                                 <div class="flex-grow-1 first-name-div">
                                     <label for="edit-profile-first-name" class="form-label">First name </label>
-                                    <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
-                                        echo ucfirst($profileUser->name['first']); ?>" name="edit-profile-first-name"
-                                        aria-describedby="first name" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?>>
+                                    <input type="text" class="form-control" id="edit-profile-first-name"
+                                        name="edit-profile-first-name" aria-describedby="first name">
                                 </div>
 
                                 <div class="flex-grow-1 last-name-div">
                                     <label for="edit-profile-last-name" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['last'] != "")
-                                        echo ucfirst($profileUser->name['last']); ?>" name="edit-profile-last-name"
-                                        aria-describedby="last name" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?>>
+                                    <input type="text" class="form-control" id="edit-profile-last-name"
+                                        name="edit-profile-last-name" aria-describedby="last name">
                                 </div>
                             </div>
 
@@ -350,40 +319,15 @@ $bookObj = new Book();
                                 <!-- date of birth -->
                                 <div class="d-flex flex-column w-100 w-md-50 dob-div">
                                     <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                                    <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
-                                        echo $profileUser->getDob(); ?>" name="edit-profile-dob" <?php if ($tab == "view-profile")
-                                              echo "disabled"; ?>>
+                                    <input type="date" class="p-2" name="edit-profile-dob">
                                 </div>
 
                                 <!-- gender -->
                                 <div class="d-flex flex-column w-100 w-md-50 flex-grow-1">
                                     <label for="edit-profile-gender" class="form-label"> Gender </label>
                                     <select class="form-select" name="edit-profile-gender"
-                                        aria-label="Default select example" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?>>
-                                        <?php
-                                        if ($profileUser->gender == "") {
-                                            ?>
-                                            <option value="" selected hidden>Select gender</option>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <option value="<?= $profileUser->gender ?>" selected hidden>
-                                                <?php
-                                                if ($profileUser->gender == 0) {
-                                                    echo "Male";
-                                                } elseif ($profileUser->gender == 1) {
-                                                    echo "Female";
-                                                } elseif ($profileUser->gender == 2) {
-                                                    echo "Others";
-                                                } else {
-                                                    echo "Select gender";
-                                                }
-                                                ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
+                                        aria-label="Default select example">
+                                        <option value="">Gender</option>
                                         <option value="0">Male</option>
                                         <option value="1">Female</option>
                                         <option value="2">Others</option>
@@ -397,17 +341,14 @@ $bookObj = new Book();
                                 <div class="w-100 w-md-50 email-div">
                                     <label for="edit-profile-email" class="form-label"> Email address </label>
                                     <input type="text" class="form-control" id="edit-profile-email"
-                                        value="<?= $profileUser->email ?>" name="edit-profile-email"
-                                        aria-describedby="email" disabled>
+                                        name="edit-profile-email" aria-describedby="email" disabled>
                                 </div>
 
                                 <!-- phone number -->
                                 <div class="w-100 w-md-50 contact-div">
                                     <label for="edit-profile-contact" class="form-label"> Contact </label>
-                                    <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getPhoneNumber() != "")
-                                        echo str_replace('+977', '', $profileUser->getPhoneNumber()); ?>" name="edit-profile-contact"
-                                        aria-describedby="contact" <?php if ($tab == "view-profile" || $profileUser->getPhoneNumber() != "")
-                                            echo "disabled"; ?>>
+                                    <input type="text" class="form-control" id="edit-profile-contact"
+                                        name="edit-profile-contact" aria-describedby="contact">
                                 </div>
                             </div>
 
@@ -416,55 +357,22 @@ $bookObj = new Book();
                                 <!-- district -->
                                 <div class="w-100 w-md-50 district-div">
                                     <label for="edit-profile-district" class="form-label"> District </label>
-                                    <select class="form-select" name="edit-profile-district" aria-label="district select"
-                                        <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?>>
-
-                                        <?php
-                                        // if value is already set
-                                        if ($profileUser->getAddressDistrict() != "") {
-                                            ?>
-                                            <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
-                                                <?= $districtArray[$profileUser->getAddressDistrict()] ?>
-                                            </option>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <option value="" selected hidden> Select district </option>
-                                            <?php
-                                        }
-
-                                        foreach ($districtArray as $district) {
-                                            ?>
-                                            <option value="<?php echo getDistrictIndexValue($district); ?>">
-                                                <?= $district ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
+                                    <select class="form-select" name="edit-profile-district" aria-label="district select">
+                                        <option value="" selected hidden> District </option>
                                     </select>
                                 </div>
 
                                 <!-- location -->
                                 <div class="w-100 w-md-50 location-div">
                                     <label for="edit-profile-location" class="form-label"> Location </label>
-                                    <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
-                                        echo ucfirst($profileUser->getAddressLocation()); ?>"
-                                        name="edit-profile-location" aria-describedby="location" <?php if ($tab == "view-profile")
-                                            echo "disabled"; ?>>
+                                    <input type="text" class="form-control" id="edit-profile-location"
+                                        name="edit-profile-location" aria-describedby="location">
                                 </div>
                             </div>
 
-                            <i class="f-reset small text-secondary"> Note:- This address will be used for dropshipping. </i>
+                            <i class="m-0 small text-secondary"> Note:- This address will be used for dropshipping. </i>
 
-                            <?php
-                            if ($tab == "edit-profile") {
-                                ?>
-                                <button type="submit" class="btn rounded" id="update-profile-btn" name="update-profile-btn">
-                                    Update </button>
-                                <?php
-                            }
-                            ?>
+                            <!-- <button type="submit" class="btn rounded" id="update-profile-btn" name="update-profile-btn"> Update </button> -->
                         </form>
                     </div>
                     <?php
@@ -498,15 +406,6 @@ $bookObj = new Book();
                         if ($profileUser->accountStatus == "verified") {
                             ?>
                             <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
-                            <?php
-                        }
-                        ?>
-
-                        <?php
-                        if (isset($_SESSION['status'])) {
-                            ?>
-                            <p class="m-0 <?= $_SESSION['status'] ? 'text-success' : 'text-danger' ?>">
-                                <?= $_SESSION['status-message'] ?> </p>
                             <?php
                         }
                         ?>
@@ -584,17 +483,16 @@ $bookObj = new Book();
                                 id="kyc-form" enctype="multipart/form-data">
                                 <!-- heading -->
                                 <p class="m-0 fw-bold fs-3"> KYC Form </p>
-
                                 <hr>
-
+                                <input type="hidden" name="csrf_token_profile" id="csrf_token_profile" value="">
                                 <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
 
                                 <!-- kyc file inputs -->
                                 <div class="d-flex flex-column w-100 gap-3">
                                     <!-- document type -->
                                     <div class="document-type w-100">
-                                        <select class="form-select form-select w-100 w-lg-50" name="document-type" id="document-type-select"
-                                            aria-label="document type select" required>
+                                        <select class="form-select form-select w-100 w-lg-50" name="document-type"
+                                            id="document-type-select" aria-label="document type select" required>
                                             <option value="" selected hidden> Select the document type </option>
                                             <option value="1"> Birth Certificate </option>
                                             <option value="2"> Citizenship </option>
@@ -616,7 +514,8 @@ $bookObj = new Book();
                                     </div>
                                 </div>
 
-                                <button type="submit" name="upload-kyc-btn" class="btn btn-success mt-3"> Upload KYC </button>
+                                <button type="submit" name="upload-kyc-btn" id="upload-kyc-btn" class="btn btn-success mt-3">
+                                    Upload KYC </button>
                             </form>
                             <?php
                         }
@@ -636,7 +535,7 @@ $bookObj = new Book();
                             <!-- heading -->
                             <div class="d-flex flex-row align-items-center gap-2 heading">
                                 <i class="fa fa-edit fs-4 text-secondary"></i>
-                                <h4 class="f-reset"> Password Change </h4>
+                                <h4 class="m-0"> Change Password </h4>
                             </div>
 
                             <!-- form reset btn -->
@@ -645,46 +544,27 @@ $bookObj = new Book();
                         </div>
 
                         <!-- change password form -->
-                        <form method="POST" action="/bookrack/app/password-change.php"
-                            class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
-                            <?php
-                            // status message
-                            if (isset($_SESSION['status-message']) && isset($_SESSION['status'])) {
-                                ?>
-                                <p class="m-0 <?php echo $_SESSION['status'] ? "text-success" : "text-danger"; ?>">
-                                    <?= $_SESSION['status-message'] ?>
-                                </p>
-                                <?php
-                            }
-                            ?>
+                        <form class="d-flex flex-column gap-4 password-change-form" id="change-password-form">
+                            <input type="hidden" name="csrf_token_password" class="form-control" id="csrf_token_password">
 
                             <!-- old password -->
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="old-password" name="old-password" value="<?php
-                                if (isset($_SESSION['temp-old-password'])) {
-                                    echo $_SESSION['temp-old-password'];
-                                }
-                                ?>" placeholder="" minlength="8" required>
+                                <input type="password" class="form-control" id="old-password" name="old-password"
+                                    minlength="8" required>
                                 <label for="old-password"> Old password </label>
                             </div>
 
                             <!-- new password -->
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="new-password" name="new-password" value="<?php
-                                if (isset($_SESSION['temp-new-password'])) {
-                                    echo $_SESSION['temp-new-password'];
-                                }
-                                ?>" placeholder="" minlength="8" required>
+                                <input type="password" class="form-control" id="new-password" name="new-password"
+                                    minlength="8" required>
                                 <label for="new-password"> New password </label>
                             </div>
 
                             <!-- new password confirmation -->
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="new-password-confirmation" value="<?php
-                                if (isset($_SESSION['temp-new-password-confirmation'])) {
-                                    echo $_SESSION['temp-new-password-confirmation'];
-                                }
-                                ?>" name="new-password-confirmation" placeholder="" minlength="8" required>
+                                <input type="password" class="form-control" id="new-password-confirmation"
+                                    name="new-password-confirmation" minlength="8" required>
                                 <label for="new-password-confirmation"> New password confirmation </label>
                             </div>
 
@@ -701,7 +581,6 @@ $bookObj = new Book();
                     <?php
                 }
                 ?>
-
 
                 <!-- my books -->
                 <?php if ($tab == "my-books") {
@@ -735,7 +614,7 @@ $bookObj = new Book();
                                 <div class="book-container my-book my-book-active">
                                     <!-- book image -->
                                     <div class="book-image">
-                                        <?php $bookObj->setPhotoUrl();?>
+                                        <?php $bookObj->setPhotoUrl(); ?>
                                         <img src="<?= $bookObj->photoUrl ?>" alt="">
                                     </div>
 
@@ -769,7 +648,8 @@ $bookObj = new Book();
                                             </p>
                                         </div>
 
-                                        <button class="btn" onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'">
+                                        <button class="btn"
+                                            onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'">
                                             Show More
                                         </button>
                                     </div>
@@ -785,7 +665,7 @@ $bookObj = new Book();
                             <div class="add-book">
                                 <i class="fa fa-plus text-light"></i>
                             </div>
-                            <p class="f-reset text-dark"> Add New Book </p>
+                            <p class="m-0 text-dark"> Add New Book </p>
                         </div>
                     </div>
                     <?php
@@ -1038,203 +918,407 @@ $bookObj = new Book();
         </article>
     </main>
 
+    <!-- popup alert -->
+    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
+
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
-
-    <?php
-    // unset session status & status
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-
-    unset($_SESSION['temp-old-password']);
-    unset($_SESSION['temp-new-password']);
-    unset($_SESSION['temp-new-password-confirmation']);
-    ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
 
-    <!-- edit profile script -->
+    <!-- script -->
     <script>
-        // first name
-        $('#edit-profile-first-name').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
-        });
+        tab = "<?= $tab ?>";
+        $('#custom-popup-alert').hide();
 
-        // last name
-        $('#edit-profile-last-name').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
-        });
-
-        // contact name
-        $('#edit-profile-contact').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
-        });
-    </script>
-
-    <!-- kyc script -->
-    <script>
-        const kycTypeSelect = $('#document-type-select');
-        const kycBackField = $('#kyc-back-field');
-
-        kycTypeSelect.on('change', function () {
-            if (kycTypeSelect.val() == 1)
-                kycBackField.hide();
-            else
-                kycBackField.show();
-        })
-    </script>
-
-    <!-- my books script -->
-    <script>
-        // my books
-        $myBookStatus = "all";
-        $('.book-container').show();
-
-        // my books - all
-        $('#my-book-status-all').click(function () {
-            $myBookStatus = "all";
-            toggleMyBooks();
-        });
-
-        // my books - active
-        $('#my-book-status-active').click(function () {
-            $myBookStatus = "active";
-            toggleMyBooks();
-        });
-
-        // my books - inactive
-        $('#my-book-status-inactive').click(function () {
-            $myBookStatus = "inactive";
-            toggleMyBooks();
-        });
-
-        // my books - sold out
-        $('#my-book-status-sold-out').click(function () {
-            $myBookStatus = "sold-out";
-            toggleMyBooks();
-        });
-
-        toggleMyBooks = () => {
-            $('.my-book').show();
-            switch ($myBookStatus) {
-                case 'active':
-                    $('.my-book-inactive').hide();
-                    $('.my-book-sold-out').hide();
-                    break;
-                case 'inactive':
-                    $('.my-book-active').hide();
-                    $('.my-book-sold-out').hide();
-                    break;
-                case 'sold-out':
-                    $('.my-book-active').hide();
-                    $('.my-book-inactive').hide();
-                    break;
-            };
-        };
-
-        toggleMyBooks();
-    </script>
-
-    <!-- change password script -->
-    <script>
-        // toggle the visibility of the password
-        $('#show-hide-password').click(function () {
-            if ($('#old-password').attr('type') === 'password') {
-                $('#old-password').attr('type', 'text');
-                $('#new-password').attr('type', 'text');
-                $('#new-password-confirmation').attr('type', 'text');
-                $('#show-hide-password-label').text("Hide Password");
-            } else {
-                $('#old-password').attr('type', 'password');
-                $('#new-password').attr('type', 'password');
-                $('#new-password-confirmation').attr('type', 'password');
-                $('#show-hide-password-label').text("Show Password");
-            }
-        });
-    </script>
-
-    <!-- requested book script -->
-    <script>
-        // request purpose
-        $('#request-purpose').change(function () {
-            filterRequestedBooks();
-        });
-
-        // request status
-        $('#request-state').change(function () {
-            filterRequestedBooks();
-        });
-
-        filterRequestedBooks = () => {
-            // purpose
-            $('.requested-book-tr').show();
-            switch ($('#request-purpose').val()) {
-                case 'requested-books-purpose-rent':
-                    $('.requested-book-purpose-buy-sell-tr').hide();
-                    break;
-                case 'requested-books-purpose-buy-sell':
-                    $('.requested-book-purpose-rent-tr').hide();
-                    break;
-            }
-
-            // state
-            switch ($('#request-state').val()) {
-                case 'requested-books-state-pending':
-                    $('.requested-book-state-completed-tr').hide();
-                    break;
-                case 'requested-books-state-completed':
-                    $('.requested-book-state-pending-tr').hide();
-                    break;
-            }
+        function showPopupAlert(msg) {
+            $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
+            $('#custom-popup-alert').html(msg).fadeIn();
+            setTimeout(function () {
+                $('#custom-popup-alert').fadeOut("slow").html("");
+            }, 4000);
         }
     </script>
 
-    <!-- earning script -->
     <script>
-        // earning purpose
-        $('#earning-purpose').change(function () {
-            filterEarning();
-        });
+        $(document).ready(function () {
+            // Generate CSRF token and set it to the forms
+            if (tab == "view") {
+                $('#profile-edit-cancel-btn').hide();
 
-        // earning state
-        $('#earning-state').change(function () {
-            filterEarning();
-        });
+                toggleInputFields = (set) => {
+                    $('#edit-profile-first-name').prop('disabled', set);
+                    $('#edit-profile-last-name').prop('disabled', set);
+                    $('#edit-profile-dob').prop('disabled', set);
+                    $('#edit-profile-gender').prop('disabled', set);
+                    $('#edit-profile-contact').prop('disabled', set);
+                    $('#eedit-profile-district').prop('disabled', set);
+                    $('#edit-profile-location').prop('disabled', set);
+                    $('#update-profile-btn').show();
+                    $('#edit-profile-form-photo-container').removeClass('d-none');
+                }
 
-        filterEarning = () => {
-            console.clear();
+                // user profile loading function
+                function loadUserProfileData(user_id, profile_task) {
+                    $.ajax({
+                        url: '/bookrack/sections/user-profile-fetch.php',
+                        type: "POST",
+                        data: { userId: user_id, tab: profile_task },
+                        success: function (data) {
+                            $('#profile-form').html(data);
+                            $('#update-profile-btn').hide();
+                        },
+                        error: function () {
+                            console.log("Error in fetching user detail.");
+                        }
+                    });
+                }
 
-            // earning purpose
-            $('.earning-tr').show();
-            switch ($('#earning-purpose').val()) {
-                case 'earning-purpose-rent':
-                    $('.earning-purpose-buy-sell-tr').hide();
-                    break;
-                case 'earning-purpose-buy-sell':
-                    $('.earning-purpose-rent-tr').hide();
-                    break;
+                // first name
+                $('#edit-profile-first-name').keydown(function () {
+                    var asciiValue = event.keyCode || event.which;
+                    if (asciiValue == 32) {
+                        event.preventDefault();
+                    }
+                });
+
+                // last name
+                $('#edit-profile-last-name').keydown(function () {
+                    var asciiValue = event.keyCode || event.which;
+                    if (asciiValue == 32) {
+                        event.preventDefault();
+                    }
+                });
+
+                // contact name
+                $('#edit-profile-contact').keydown(function () {
+                    var asciiValue = event.keyCode || event.which;
+                    if (asciiValue == 32) {
+                        event.preventDefault();
+                    }
+                });
+
+                loadUserProfileData("<?= $_SESSION['bookrack-user-id'] ?>", "<?= $tab ?>");
+
+                // edit button
+                $('#edit-profile-btn').click(function () {
+                    $('#profile-edit-cancel-btn').show();
+                    toggleInputFields(false);
+                });
+
+                // reset btn
+                $('#profile-edit-cancel-btn').click(function () {
+                    $('#profile-edit-cancel-btn').hide();
+                    loadUserProfileData("<?= $_SESSION['bookrack-user-id'] ?>", "<?= $tab ?>");
+                });
+
+                // update profile
+                $('#profile-form').submit(function (e) {
+                    e.preventDefault();
+                    var formData = new FormData($('#profile-form')[0]);
+                    $.ajax({
+                        url: '/bookrack/app/update-user.php',
+                        type: "POST",
+                        data: formData,
+                        beforeSend: function () {
+                            $('#update-profile-btn').html('Updating...').prop('disabled', true);
+                        },
+                        success: function (data) {
+                            $('#custom-popup-alert').html(data).fadeIn();
+                            setTimeout(function () {
+                                $('#custom-popup-alert').fadeOut();
+                            }, 4000);
+                            if (data == "Profile updated successfully.") {
+                                toggleInputFields(true);
+                                $('#profile-edit-cancel-btn').click();
+                            }
+                            $('#update-profile-btn').html('Update').prop('disabled', false);
+                        },
+                        error: function () {
+                            $('#update-profile-btn').html('Update').prop('disabled', false);
+                            $('#custom-popup-alert').html("Error occured. Please try later.").fadeIn();
+                            setTimeout(function () {
+                                $('#custom-popup-alert').fadeOut();
+                            }, 4000);
+                        }
+                    });
+                });
+
+                // account verification
+                function setCsrfTokenForAccountVerification() {
+                    $.get('/bookrack/app/csrf-token.php', function (data) {
+                        $('#csrf_token_account_verification').val(data);
+                    });
+                }
+
+                setCsrfTokenForAccountVerification();
+
+                $('#account-verification-form').submit(function (event) {
+                    event.preventDefault();
+                    var formData = $('#account-verification-form').serialize()
+                    $.ajax({
+                        url: '/bookrack/app/account-verification.php',
+                        type: "POST",
+                        data: formData,
+                        beforeSend: function () {
+                            $('#account-verification-btn').html('Verifying...');
+                        },
+                        success: function (data) {
+                            if (data == "success") {
+                                showPopupAlert("Your account has been verified.");
+                                $('#account-verification-btn').html('Account Verified').prop('disabled', true);
+                            } else {
+                                showPopupAlert("Your account couldn't be verified.");
+                                $('#account-verification-btn').html('Apply for Account Verification');
+                            }
+                        },
+                        error: function () {
+                            $('#account-verification-btn').html('Apply for Account Verification');
+
+                        },
+                    });
+                });
+
+
+            } else if (tab == "password-change") {
+                $('#show-hide-password').click(function () {
+                    if ($('#old-password').attr('type') === 'password') {
+                        $('#old-password').attr('type', 'text');
+                        $('#new-password').attr('type', 'text');
+                        $('#new-password-confirmation').attr('type', 'text');
+                        $('#show-hide-password-label').text("Hide Password");
+                    } else {
+                        $('#old-password').attr('type', 'password');
+                        $('#new-password').attr('type', 'password');
+                        $('#new-password-confirmation').attr('type', 'password');
+                        $('#show-hide-password-label').text("Show Password");
+                    }
+                });
+
+                // change password script
+                function setCsrfTokenForPassword() {
+                    $.get('/bookrack/app/csrf-token.php', function (data) {
+                        $('#csrf_token_password').val(data);
+                    });
+                }
+
+                setCsrfTokenForPassword();
+
+                $('#change-password-form').on('submit', function (event) {
+                    event.preventDefault();
+                    // same old and new password
+                    var oldPassword = $('#old-password').val();
+                    var newPassword = $('#new-password').val();
+                    var newPasswordConfirmation = $('#new-password-confirmation').val();
+
+                    if (oldPassword == newPassword) {
+                        showPopupAlert("Please use different password for old password and new password field.");
+                    } else if (newPassword != newPasswordConfirmation) {
+                        showPopupAlert("Please enter the new password and password for confirmation same.");
+                    } else {
+                        const updatePasswordBtn = $('#update-password-btn');
+                        var formData = $('#change-password-form').serialize()
+                        $.ajax({
+                            url: '/bookrack/app/update-password.php',
+                            type: "POST",
+                            data: formData,
+                            beforeSend: function () {
+                                updatePasswordBtn.html("Updating password...").prop('disabled', true);
+                            },
+                            success: function (data) {
+                                showPopupAlert(data);
+                                updatePasswordBtn.html("Update Password").prop('disabled', false);
+                                if (data == "Password changed successfully.") {
+                                    $('#change-password-form').trigger("reset");
+                                }
+                            },
+                            error: function () {
+                                updatePasswordBtn.html("Update Password").prop('disabled', false);
+                                showPopupAlert("Please enter the new password and password for confirmation same.");
+                            }
+                        });
+                    }
+                });
+            } else if (tab == "kyc") {
+                // kyc           
+                $('#document-type-select').on('change', function () {
+                    if ($('#document-type-select').val() == 1)
+                        $('#kyc-back-field').hide();
+                    else
+                        $('#kyc-back-field').show();
+                });
+
+                $('#kyc-form').submit(function (e) {
+                    e.preventDefault();
+
+                    // check if empty
+                    error = true;
+                    if ($('#document-type-select').val() == 2) {
+                        if ($('#kyc-back').val() == "") {
+                            $('#custom-popup-alert').html("Please attach back side of your citizenship.").show();
+                            setTimeout(function () {
+                                $('#custom-popup-alert').fadeOut();
+                            }, 4000);
+                        } else {
+                            error = false;
+                        }
+                    } else {
+                        error = false;
+                    }
+
+                    if (!error) {
+                        var formData = new FormData($('#kyc-form')[0]);
+                        $.ajax({
+                            url: '/bookrack/app/kyc.php',
+                            type: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function () {
+                                $('#upload-kyc-btn').html('Uploading...');
+                                $('#upload-kyc-btn').prop('disabled', true);
+                            },
+                            success: function (data) {
+                                $('#upload-kyc-btn').html('Upload KYC');
+                                $('#upload-kyc-btn').prop('disabled', false);
+                                $('#custom-popup-alert').html(data).show();
+
+                                if (data == "Document submitted successfully.") {
+                                    $('#kyc-form').trigger("reset");
+                                    location.reload(true);
+                                }
+                                setTimeout(function () {
+                                    $('#custom-popup-alert').fadeOut();
+                                }, 4000);
+                            },
+                            error: function () {
+                                $('#upload-kyc-btn').html('Upload KYC');
+                                $('#upload-kyc-btn').prop('disabled', false);
+                                $('#custom-popup-alert').html("An unexpected error occured. Please try again.").show();
+                                setTimeout(function () {
+                                    $('#custom-popup-alert').fadeOut();
+                                }, 4000);
+                            }
+                        });
+                    }
+                });
+            } else if (tab == 'my-books') {
+                $myBookStatus = "all";
+                $('.book-container').show();
+
+                // my books - all
+                $('#my-book-status-all').click(function () {
+                    $myBookStatus = "all";
+                    toggleMyBooks();
+                });
+
+                // my books - active
+                $('#my-book-status-active').click(function () {
+                    $myBookStatus = "active";
+                    toggleMyBooks();
+                });
+
+                // my books - inactive
+                $('#my-book-status-inactive').click(function () {
+                    $myBookStatus = "inactive";
+                    toggleMyBooks();
+                });
+
+                // my books - sold out
+                $('#my-book-status-sold-out').click(function () {
+                    $myBookStatus = "sold-out";
+                    toggleMyBooks();
+                });
+
+                function toggleMyBooks() {
+                    $('.my-book').show();
+                    switch ($myBookStatus) {
+                        case 'active':
+                            $('.my-book-inactive').hide();
+                            $('.my-book-sold-out').hide();
+                            break;
+                        case 'inactive':
+                            $('.my-book-active').hide();
+                            $('.my-book-sold-out').hide();
+                            break;
+                        case 'sold-out':
+                            $('.my-book-active').hide();
+                            $('.my-book-inactive').hide();
+                            break;
+                    };
+                };
+
+                toggleMyBooks();
+            } else if (tab == "requested-books") {
+                // request purpose
+                $('#request-purpose').change(function () {
+                    filterRequestedBooks();
+                });
+
+                // request status
+                $('#request-state').change(function () {
+                    filterRequestedBooks();
+                });
+
+                function filterRequestedBooks() {
+                    // purpose
+                    $('.requested-book-tr').show();
+                    switch ($('#request-purpose').val()) {
+                        case 'requested-books-purpose-rent':
+                            $('.requested-book-purpose-buy-sell-tr').hide();
+                            break;
+                        case 'requested-books-purpose-buy-sell':
+                            $('.requested-book-purpose-rent-tr').hide();
+                            break;
+                    }
+
+                    // state
+                    switch ($('#request-state').val()) {
+                        case 'requested-books-state-pending':
+                            $('.requested-book-state-completed-tr').hide();
+                            break;
+                        case 'requested-books-state-completed':
+                            $('.requested-book-state-pending-tr').hide();
+                            break;
+                    }
+                }
+            } else if (tab == "earning") {
+                $('#earning-purpose').change(function () {
+                    filterEarning();
+                });
+
+                // earning state
+                $('#earning-state').change(function () {
+                    filterEarning();
+                });
+
+                filterEarning = () => {
+                    console.clear();
+
+                    // earning purpose
+                    $('.earning-tr').show();
+                    switch ($('#earning-purpose').val()) {
+                        case 'earning-purpose-rent':
+                            $('.earning-purpose-buy-sell-tr').hide();
+                            break;
+                        case 'earning-purpose-buy-sell':
+                            $('.earning-purpose-rent-tr').hide();
+                            break;
+                    }
+
+                    // earning state
+                    switch ($('#earning-state').val()) {
+                        case 'earning-state-active':
+                            $('.earning-state-completed-tr').hide();
+                            break;
+                        case 'earning-state-completed':
+                            $('.earning-state-active-tr').hide();
+                            break;
+                    }
+                };
             }
-
-            // earning state
-            switch ($('#earning-state').val()) {
-                case 'earning-state-active':
-                    $('.earning-state-completed-tr').hide();
-                    break;
-                case 'earning-state-completed':
-                    $('.earning-state-active-tr').hide();
-                    break;
-            }
-        };
+        });
     </script>
 </body>
 

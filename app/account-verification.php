@@ -1,27 +1,20 @@
 <?php
-
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
 if (!isset($_SESSION['bookrack-user-id']))
     header("Location: /bookrack/");
 
-require_once __DIR__ . '/connection.php';
+// Validate CSRF token
+if ($_POST['csrf_token_account_verification'] !== $_SESSION['csrf_token']) {
+    echo 'Invalid CSRF token.';
+    exit;
+}
 
-global $database;
-$status = 0;
+require_once __DIR__ . '/../classes/user.php';
 
-$userId = $_SESSION['bookrack-user-id'];
-
-$properties['account_status'] = "verified";
-
-$response = $database->getReference("users/{$userId}")->update($properties);
-
-if ($response)
-    $status = 1;
-
-$_SESSION['status'] = $status;
-$_SESSION['status-message'] = $status ? "Your account has been verified." : "Your account couldn't be verified.";
-
-header("Location: /bookrack/profile/view-profile");
-exit();
+$status = false;
+$user = new User();
+$status = $user->accountVerification($_SESSION['bookrack-user-id']);
+echo $status ? "success" : "failure";
+exit;

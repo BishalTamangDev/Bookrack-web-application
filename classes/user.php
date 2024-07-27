@@ -469,4 +469,12 @@ class User
         
         return $userName;
     }
+
+    // account verification
+    public function accountVerification($userId){
+        global $database;
+        $properties['account_status'] = "verified";
+        $response = $database->getReference("users/{$userId}")->update($properties);
+        return $response ? true : false;
+    }
 }
