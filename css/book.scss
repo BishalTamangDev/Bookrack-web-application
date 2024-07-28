@@ -36,7 +36,7 @@
             flex-direction: row;
             justify-content: space-between;
             // align-items: center;
-            
+
             .book-title {
                 font-size: 1.2rem;
                 font-weight: bold;
@@ -69,6 +69,56 @@
     }
 }
 
+@keyframes skeleton-loading {
+    0% {
+        background-color: rgb(236, 236, 236);
+    }
+
+    100% {
+        background-color: rgb(204, 204, 204);
+    }
+}
+
+.skeletion-book-main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .skeleton-book-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .image {
+            min-width: 131px;
+            width: 100%;
+            aspect-ratio: 3/4;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            animation: skeleton-loading 1s linear infinite alternate;
+
+        }
+
+        .text {
+            width: 100%;
+
+            p {
+                width: 100%;
+                height: 1rem;
+                margin-bottom: 0.35rem;
+                border-radius: 0.125rem;
+                opacity: 0.7;
+                animation: skeleton-loading 1s linear infinite alternate;
+
+                &:last-child {
+                    margin-bottom: 0;
+                    width: 80%;
+                }
+            }
+        }
+    }
+}
 
 @media screen and (min-width: 768px) {
     .book-container {
@@ -79,6 +129,24 @@
             width: 170px;
             min-width: 170px;
             max-width: 170px;
+        }
+    }
+
+    .skeletion-book-main-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .skeleton-book-container {
+            flex-direction: row;
+            width: 49%;
+
+            .image {
+                max-width: 170px;
+            }
+
+            .text {
+                padding: 0.7rem;
+            }
         }
     }
 }

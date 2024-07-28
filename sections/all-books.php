@@ -15,7 +15,7 @@ require_once __DIR__ . '/../classes/wishlist.php';
 
 $allBookObj = new Book();
 
-$contentCount = 5;
+$contentCount = 2;
 
 $page = $_POST['page'];
 $offset = $_POST['offset'];
@@ -52,21 +52,9 @@ foreach ($allBookList as $allBookId) {
             
             foreach($allBookObj->genre as $genre) {
                 $genreClass = "";
-
-                // if(preg_match('/\'/', $genre)){
                 $genreClass = str_replace("'","", $genre);
-                // } else {
-                    // $genreClass = $genre;
-                // }
-
-                // if(preg_match('/\s/', $genreClass)){
-                    $genreClass = preg_replace('/\s+/',"-", $genreClass);
-                // }
-
-
+                $genreClass = preg_replace('/\s+/',"-", $genreClass);
                 $genreClass = $genreClass.'-element';
-
-                // $genreClass = str_replace([" ","'"],["-", ""], $genre).'-element';
                 $finalGenreClasses .= $genreClass.' ';
             }
             ?>
@@ -146,7 +134,7 @@ foreach ($allBookList as $allBookId) {
 
 if (sizeof($allBookList) > $endIndex) {
     ?>
-    <div class="w-100 mt-3 load-more-btn-container" id="load-more-btn-container">
+    <div class="w-100 mt-2 load-more-btn-container" id="load-more-btn-container">
         <button class="load-more-btn" id="load-more-btn" data-offset="<?= $offset + $contentCount ?>"> Load More </button>
     </div>
     <?php

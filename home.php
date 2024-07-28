@@ -160,26 +160,68 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
             </section>
 
             <div class="d-flex justify-content-between align-items-center mt-4 heading">
-                    <p class="m-0 fw-bold heading text-secondary fs-4">
-                        <?= $searchState ? "Search results" : "All Books" ?>
-                    </p>
-                    <i class="fa fa-filter text-secondary pointer" id="filter-show-trigger-2"></i>
+                <p class="m-0 fw-bold heading text-secondary fs-4">
+                    <?= $searchState ? "Search results" : "All Books" ?>
+                </p>
+                <i class="fa fa-filter pointer" id="filter-show-trigger-2"></i>
+            </div>
+
+            <?php
+            if ($searchState) {
+                ?>
+                <div class="d-flex flex-column gap-2 mt-3">
+                    <a href="/bookrack/home" class="btn btn-danger" style="width:fit-content;"> Clear search </a>
+                </div>
+                <?php
+            }
+            ?>
+
+            <!-- skeleton container -->
+            <div class="skeletion-book-main-container mt-4" id="skeletion-book-main-container">
+                <!-- skeleton 1 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
                 </div>
 
-                <?php
-                if ($searchState) {
-                    ?>
-                    <div class="d-flex flex-column gap-2 mt-3">
-                        <a href="/bookrack/home" class="btn btn-danger" style="width:fit-content;"> Clear search </a>
+                <!-- skeleton 2 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
                     </div>
-                    <?php
-                }
-                ?>
+                </div>
+
+                <!-- skeleton 3 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
+
+                <!-- skeleton 4 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
+            </div>
 
             <!-- all books section -->
             <section class="d-flex flex-column gap-4 mt-4 all-books-section">
                 <div class="d-flex flex-row flex-wrap gap-3 all-book-container" id="all-book-container">
-                    <!-- <p class="m-0"> Initial data... </p> -->
                 </div>
 
                 <!-- pagination -->
@@ -232,7 +274,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                         $('#load-more-btn').html("Loading...").prop('disabled', true);
                     },
                     success: function (data) {
-                        // $('#break').remove();
+                        $('#skeletion-book-main-container').remove();
                         $('#load-more-btn').remove();
                         $('#load-more-btn-container').remove();
                         $('#all-book-container').append(data);
@@ -305,37 +347,36 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
             function filterContent() {
                 // genre
                 $('.book-element').hide();
-                if(book_genre == "all") {
+                if (book_genre == "all") {
                     $('.book-element').show();
                 } else {
                     genre_to_show = book_genre.replace(/ /g, "-").replace(/'/g, "") + '-element';
                     $('.' + genre_to_show).show();
                 }
 
-                    //  price filtering
-                    $('.book-element').each(function(){
-                        var price = parseFloat($(this).data('price'));
-                        if(price >= book_min_price && price <= book_max_price) {
-                            $(this).show();
-                        } else {
-                            $(this).hide();
-                        }
-                    });
+                //  price filtering
+                $('.book-element').each(function () {
+                    var price = parseFloat($(this).data('price'));
+                    if (price >= book_min_price && price <= book_max_price) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
             }
 
             var filterTriggerState = false;
-            const aside = $('#aside');
 
             // filter
             $('#filter-show-trigger-2').on('click', function () {
-                aside.css({
+                $('#aside').css({
                     'display': 'block'
                 });
                 filterTriggerState = !filterTriggerState;
             });
 
             $('#filter-hide-trigger').on('click', function () {
-                aside.css({
+                $('#aside').css({
                     'display': 'none'
                 });
                 filterTriggerState = !filterTriggerState;

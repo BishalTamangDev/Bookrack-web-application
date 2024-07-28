@@ -83,7 +83,7 @@
   -moz-column-gap: 1rem;
        column-gap: 1rem;
 }
-.article .all-books-section .heading #filter-show-trigger-2 {
+.article .heading #filter-show-trigger-2 {
   display: block;
 }
 .article .empty-context-container {
@@ -94,9 +94,8 @@
   max-width: 200px;
 }
 .article .load-more-btn {
-  padding: 0.7rem 1.6rem;
-  width: -moz-fit-content;
-  width: fit-content;
+  padding: 0.5rem 1.6rem;
+  width: 100%;
   border: none;
   border-radius: 6px;
   color: white;
@@ -106,6 +105,10 @@
 @media (min-width: 768px) {
   .main .aside .filter-section {
     max-width: 340px;
+  }
+  .load-more-btn {
+    min-width: 150px;
+    max-width: 150px;
   }
 }
 @media (min-width: 1188px) {
@@ -132,7 +135,7 @@
   .main .aside .advertisement-section {
     display: block;
   }
-  .main .article .all-books-section .heading #filter-show-trigger-2 {
+  .main .article .heading #filter-show-trigger-2 {
     display: none;
   }
 }/*# sourceMappingURL=home.css.map */
