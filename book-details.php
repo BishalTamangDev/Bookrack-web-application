@@ -23,8 +23,6 @@ if (!$userExists)
 require_once __DIR__ . '/classes/book.php';
 $selectedBook = new Book();
 $bookExists = $selectedBook->fetch($bookId);
-
-
 ?>
 
 <!DOCTYPE html>

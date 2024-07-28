@@ -269,7 +269,7 @@ if (!$bookFound) {
     ?>
 
     <!-- footer -->
-    <?php include 'footer.php'; ?>
+    <?php include_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- modal -->
     <div class="modal fade" id="joinModal" tabindex="-1" aria-labelledby="joinModalLabel" aria-hidden="true">
@@ -291,7 +291,7 @@ if (!$bookFound) {
     </div>
 
     <!-- jquery, bootstrap [cdn + local] -->
-    <?php require_once __DIR__ . '/include/script.php'; ?>
+    <?php require_once __DIR__ . '/includes/script.php'; ?>
 </body>
 
 </html>

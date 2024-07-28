@@ -26,29 +26,9 @@ require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
 
 // search
-$searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? true : false;
+$searchState = isset($_GET['search-content']) && $_GET['search-content'] != '' ? 1 : 0;
 
-if (!$searchState) {
-    $bookIdList = $bookObj->fetchAvailableBookIdList();
-} else {
-    $searchContent = strtolower($_GET['search-content']);
-    $bookIdList = $bookObj->searchBook($searchContent);
-}
-
-// wishlist object
-require_once __DIR__ . '/classes/wishlist.php';
-$wishlist = new Wishlist();
-$wishlist->setUserId($userId);
-
-// filter
-$filterState = (isset($_GET['min-price']) && isset($_GET['max-price']) && isset($_GET['purpose']) && isset($_GET['genre'])) ? true : false;
-
-if ($filterState) {
-    $minPrice = $_GET['min-price'] != '' ? $_GET['min-price'] : 0;
-    $maxPrice = $_GET['max-price'] != '' ? $_GET['max-price'] : 0;
-    $filterPurpose = $_GET['purpose'];
-    $filterGenre = $_GET['genre'];
-}
+$searchContent = $searchState ? strtolower($_GET['search-content']) : "";
 ?>
 
 <!DOCTYPE html>
@@ -94,17 +74,13 @@ if ($filterState) {
                 <!-- filter parameters -->
                 <section class="mt-3 filter-parameter-section">
                     <form method="GET" class="d-flex flex-column gap-3" id="filter-form">
-                        <!-- search content -->
-                        <input type="hidden" name="search-content" id="" value="<?php if ($searchState)
-                            echo $searchContent; ?>">
-
                         <!-- price -->
                         <div class="filter-parameter">
                             <!-- heading -->
                             <div class="heading">
                                 <label for="min-price" class="form-label"> Price </label>
                                 <abbr title="Reset">
-                                    <a href="/bookrack/home">
+                                    <a id="form-reset">
                                         <i class="fa-solid fa-rotate-left text-secondary pointer"></i>
                                     </a>
                                 </abbr>
@@ -112,26 +88,18 @@ if ($filterState) {
 
                             <div class="d-flex gap-2 align-items-center">
                                 <!-- min price -->
-                                <input type="number" name="min-price" class="form-control" id="min-price" min="0" value="<?php if ($filterState) {
-                                    if ($minPrice != 0) {
-                                        echo $minPrice;
-                                    }
-                                }
-                                ?>" aria-describedby="min price" placeholder="Min">
+                                <input type="number" name="min-price" class="form-control" id="min-price" min="0"
+                                    aria-describedby="min price" placeholder="Min">
 
                                 <p class="m-0 fw-bold"> - </p>
 
                                 <!-- max price -->
-                                <input type="number" name="max-price" class="form-control" id="max-price" min="0" value="<?php if ($filterState) {
-                                    if ($maxPrice != 0) {
-                                        echo $maxPrice;
-                                    }
-                                }
-                                ?>" aria-describedby="max price" placeholder="Max">
+                                <input type="number" name="max-price" class="form-control" id="max-price" min="0"
+                                    aria-describedby="max price" placeholder="Max">
                             </div>
                         </div>
 
-                        <!-- book purpoe -->
+                        <!-- book purpose -->
                         <div class="d-none filter-parameter">
                             <!-- heading -->
                             <div class="heading">
@@ -140,24 +108,7 @@ if ($filterState) {
 
                             <select class="form-select form-select-md" name="purpose" id="purpose"
                                 aria-label="Small select example">
-                                <?php
-                                if ($filterState) {
-                                    if ($filterPurpose != 'all') {
-                                        ?>
-                                        <option value="<?= $filterPurpose ?>" selected hidden> <?= ucfirst($filterPurpose) ?>
-                                        </option>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <option value="all" selected> All </option>
-                                        <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <option value="all" selected hidden> All </option>
-                                    <?php
-                                }
-                                ?>
+                                <option value="all" selected> All </option>
                                 <option value="renting"> Renting </option>
                                 <option value="buy/sell"> Buy/Sell </option>
                                 <option value="giveaway"> Giveaway </option>
@@ -173,20 +124,7 @@ if ($filterState) {
 
                             <select class="form-select form-select-md" name="genre" id="genre"
                                 aria-label="Small select example">
-                                <?php
-                                if ($filterState) {
-                                    if ($filterGenre != 'all') {
-                                        ?>
-                                        <option value="<?= $filterGenre ?>" selected hidden> <?= $filterGenre ?> </option>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <option value="all" selected hidden> All genre </option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                                <option value="all"> All genre </option>
+                                <option value="all" selected> All genre </option>
                                 <?php
                                 foreach ($genreArray as $genre) {
                                     ?>
@@ -212,47 +150,16 @@ if ($filterState) {
         <!-- article -->
         <article class="article bg-md-success bg-sm-danger">
             <!-- top genre  -->
-            <?php
-            if (!$searchState) {
-                ?>
-                <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
-                    <p class="m-0 fs-5"> Top Genre </p>
-
-                    <?php
-                    $genreObj = new Genre();
-                    $genreList = [];
-                    $genreList = $genreObj->fetchGenreList();
-                    ?>
-
-                    <!-- fetch all the genres -->
-                    <div class="d-flex flex-row flex-wrap gap-2 genre-container">
-                        <?php
-                        if (sizeof($genreList) > 0) {
-                            foreach ($genreList as $genre) {
-                                ?>
-                                <div class="genre">
-                                    <p class="m-0 text-secondary"> <?= $genre ?> </p>
-                                </div>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                            <div class="genre">
-                                <p class="m-0 text-secondary"> No trending genre yet! </p>
-                            </div>
-                            <?php
-                        }
-                        ?>
+            <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
+                <p class="m-0 fs-5"> Top Genre </p>
+                <div class="d-flex flex-row flex-wrap gap-2 genre-container" id="trending-genre-container">
+                    <div class="genre">
+                        <p class="m-0 text-secondary"> Loading... </p>
                     </div>
-                </section>
-                <?php
-            }
-            ?>
+                </div>
+            </section>
 
-            <!-- all books section -->
-            <section class="d-flex flex-column gap-3 <?php if (!$searchState)
-                echo "section"; ?> all-books-section">
-                <div class="d-flex justify-content-between align-items-center heading">
+            <div class="d-flex justify-content-between align-items-center mt-4 heading">
                     <p class="m-0 fw-bold heading text-secondary fs-4">
                         <?= $searchState ? "Search results" : "All Books" ?>
                     </p>
@@ -262,204 +169,21 @@ if ($filterState) {
                 <?php
                 if ($searchState) {
                     ?>
-                    <div class="d-flex flex-column gap-2 mb-2">
-                        <p class="m-0 text-secondary">
-                            <?php
-                            $searchResultCount = sizeof($bookIdList);
-                            switch ($searchResultCount) {
-                                case 0:
-                                    echo "No book found.";
-                                    break;
-                                case 1:
-                                    echo "$searchResultCount book found.";
-                                    break;
-                                default:
-                                    echo "$searchResultCount books found.";
-                            }
-                            ?>
-                        </p>
+                    <div class="d-flex flex-column gap-2 mt-3">
                         <a href="/bookrack/home" class="btn btn-danger" style="width:fit-content;"> Clear search </a>
                     </div>
                     <?php
                 }
                 ?>
 
-                <?php
-                // fetch user's book
-                $userBookIdList = $bookObj->fetchUserBookId($userId);
-
-                // fetch user wishlist
-                $userWishlist = $wishlist->fetchWishlist();
-                ?>
-
-                <!-- all book container -->
-                <div class="d-flex flex-row flex-wrap gap-3 all-book-container">
-                    <?php
-                    if (sizeof($bookIdList) > 0) {
-                        foreach ($bookIdList as $bookId) {
-                            // filtering
-                            $bookObj->fetch($bookId);
-                            $isOwner = ($bookObj->getOwnerId() == $userId) ? "true" : "false";
-                            if ($filterState) {
-                                // purpose
-                                if ($filterPurpose != "all") {
-                                    if ($bookObj->purpose != $filterPurpose) {
-                                        continue;
-                                    }
-                                }
-
-                                // genre
-                                if ($filterGenre != "all") {
-                                    if (!in_array($filterGenre, $bookObj->genre)) {
-                                        continue;
-                                    }
-                                }
-
-                                // price
-                                $rent = 0.20 * $bookObj->price['actual'];
-
-                                if ($minPrice != 0 || $maxPrice != 0) {
-                                    if ($minPrice != 0 && $maxPrice == 0) {
-                                        if ($bookObj->purpose == 'renting') {
-                                            if ($rent < $minPrice) {
-                                                continue;
-                                            }
-                                        } elseif ($bookObj->purpose == 'buy/sell') {
-                                            // buy/sell
-                                            if ($bookObj->price['offer'] < $minPrice) {
-                                                continue;
-                                            }
-                                        }
-                                    } elseif ($minPrice == 0 && $maxPrice != 0) {
-                                        if ($bookObj->purpose == 'renting') {
-                                            if ($rent > $maxPrice) {
-                                                continue;
-                                            }
-                                        } elseif ($bookObj->purpose == 'buy/sell') {
-                                            // buy/sell
-                                            if ($bookObj->price['offer'] > $maxPrice) {
-                                                continue;
-                                            }
-                                        }
-                                    } else {
-                                        // both min and max price provided
-                                        if ($bookObj->purpose == 'renting') {
-                                            if ($rent < $minPrice || $rent > $maxPrice) {
-                                                continue;
-                                            }
-                                        } elseif ($bookObj->purpose == 'buy/sell') {
-                                            // buy/sell
-                                            if ($bookObj->price['offer'] < $minPrice || $bookObj->price['offer'] > $maxPrice) {
-                                                continue;
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                // $bookObj->fetch($bookId);
-                            }
-                            ?>
-                            <div class="book-container">
-                                <!-- book image -->
-                                <div class="book-image">
-                                    <?php $bookObj->setPhotoUrl(); ?>
-                                    <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
-                                </div>
-
-                                <!-- book details -->
-                                <div class="book-details">
-                                    <!-- book title -->
-                                    <div class="book-title-wishlist">
-                                        <p class="book-title">
-                                            <?= ucwords($bookObj->title) ?>
-                                        </p>
-
-                                        <?php
-                                        if (!in_array($bookId, $userBookIdList)) {
-                                            ?>
-                                            <div class="wishlist">
-                                                <a
-                                                    href="/bookrack/app/wishlist-code.php?book-id=<?= $bookObj->getId() ?>&ref_url=<?= $url ?>">
-                                                    <?php
-                                                    if (in_array($bookId, $userWishlist)) {
-                                                        ?>
-                                                        <i class="fa-solid fa-bookmark"></i>
-                                                        <?php
-                                                    } else {
-                                                        ?>
-                                                        <i class="fa-regular fa-bookmark"></i>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </a>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <!-- book purpose -->
-                                    <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
-
-                                    <!-- book description -->
-                                    <div class="book-description-container">
-                                        <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
-                                    </div>
-
-                                    <!-- book price -->
-                                    <div class="book-price">
-                                        <p class="book-price">
-                                            <?php
-                                            if ($bookObj->purpose == "renting") {
-                                                $rent = $bookObj->price['actual'] * 0.20;
-                                                echo "NPR." . number_format($rent, 2) . "/week";
-                                            } elseif ($bookObj->purpose == "buy/sell") {
-                                                $price = $bookObj->price['offer'];
-                                                echo "NPR." . number_format($price, 2);
-                                            }
-                                            ?>
-                                    </div>
-
-                                    <a class="btn show-more-btn" data-book-id="<?= $bookId ?>" data-is-owner="<?= $isOwner ?>">
-                                        Show More </a>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    }
-                    ?>
+            <!-- all books section -->
+            <section class="d-flex flex-column gap-4 mt-4 all-books-section">
+                <div class="d-flex flex-row flex-wrap gap-3 all-book-container" id="all-book-container">
+                    <!-- <p class="m-0"> Initial data... </p> -->
                 </div>
 
                 <!-- pagination -->
-                <div class="d-flex d-none flex-row mt-3 mx-md-auto mx-lg-0 align-items-center pagination-container">
-                    <div class="pagination-controller">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </div>
-
-                    <div class="pagination-stamp">
-                        <p> 1 </p>
-                    </div>
-
-                    <div class="pagination-stamp active">
-                        <p> 2 </p>
-                    </div>
-
-                    <div class="pagination-stamp">
-                        <p> 3 </p>
-                    </div>
-
-                    <div class="pagination-stamp">
-                        <p> 4 </p>
-                    </div>
-
-                    <div class="pagination-stamp">
-                        <p> 5 </p>
-                    </div>
-
-                    <div class="pagination-controller">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                </div>
+                <button class="invisible load-more-btn" id="load-more-btn" data-offset="0"> Load More </button>
             </section>
 
             <!-- empty context -->
@@ -480,12 +204,130 @@ if ($filterState) {
     <script>
         // filter
         $(document).ready(function () {
+            let page_count = 0;
+            let offset_data = 0;
+            let search_state = <?= $searchState ?>;
+            let search_content = (search_state == 1) ? "<?= $searchContent ?>" : "";
+            let book_min_price = 0;
+            let book_max_price = Infinity;
+            let book_genre = "all";
+
+            // load all books
+            function loadMoreBooks(search_content, book_genre, book_min_price, book_max_price) {
+                page_count++;
+                offset_data = $('#load-more-btn').data("offset");
+
+                $.ajax({
+                    url: '/bookrack/sections/all-books.php',
+                    method: "POST",
+                    data: {
+                        page: page_count,
+                        offset: offset_data,
+                        searchContent: search_content,
+                        genre: book_genre,
+                        minPrice: book_min_price,
+                        maxPrice: book_max_price,
+                    },
+                    beforeSend: function () {
+                        $('#load-more-btn').html("Loading...").prop('disabled', true);
+                    },
+                    success: function (data) {
+                        // $('#break').remove();
+                        $('#load-more-btn').remove();
+                        $('#load-more-btn-container').remove();
+                        $('#all-book-container').append(data);
+                        $('#load-more-btn').html("Load More").prop('disabled', false);
+                    },
+                    error: function () {
+                        console.log("Error in fetching the books..");
+                        $('#load-more-btn').html("Loading...").prop('disabled', false);
+                    },
+                });
+            }
+
+            // load more
+            $(document).on('click', '#load-more-btn', function () {
+                loadMoreBooks(search_content, book_genre, book_min_price, book_max_price);
+            });
+
+            loadMoreBooks(search_content, book_genre, book_min_price, book_max_price);
+
+            // show more button clicked
+            $(document).on('click', '.show-more-btn', function () {
+                let book_id = $(this).data("book-id");
+                let is_owner = $(this).data("is-owner");
+
+                let link = "/bookrack/book-details/" + book_id;
+
+                if (is_owner === false) {
+                    $.ajax({
+                        url: '/bookrack/app/click.php',
+                        type: "POST",
+                        data: { bookId: book_id },
+                        success: function (response) {
+                        }
+                    });
+                }
+
+                window.location.href = link;
+            });
+
+            // load trending genre
+            $.get('/bookrack/sections/trending-genre.php', function (data) {
+                $('#trending-genre-container').html(data);
+            });
+
+            // filter form submission
+            $('#filter-form').submit(function (e) {
+                e.preventDefault();
+                book_min_price = $('#min-price').val() != '' ? parseFloat($('#min-price').val()) : 0;
+                book_max_price = $('#max-price').val() != '' ? parseFloat($('#max-price').val()) : Infinity;
+                book_genre = $('#genre').val();
+
+                filterContent();
+            });
+
+            // reset filter form
+            $('#form-reset').click(function () {
+                book_min_price = 0;
+                $('#min-price').val(book_min_price);
+
+                book_max_price = Infinity;
+                $('#max-price').val(book_max_price);
+
+                book_genre = "all";
+                $('#genre').val(book_genre);
+
+                filterContent();
+            });
+
+            // filter contents
+            function filterContent() {
+                // genre
+                $('.book-element').hide();
+                if(book_genre == "all") {
+                    $('.book-element').show();
+                } else {
+                    genre_to_show = book_genre.replace(/ /g, "-").replace(/'/g, "") + '-element';
+                    $('.' + genre_to_show).show();
+                }
+
+                    //  price filtering
+                    $('.book-element').each(function(){
+                        var price = parseFloat($(this).data('price'));
+                        if(price >= book_min_price && price <= book_max_price) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+            }
+
             var filterTriggerState = false;
             const aside = $('#aside');
 
             // filter
             $('#filter-show-trigger-2').on('click', function () {
-                console.log("Show filter");
                 aside.css({
                     'display': 'block'
                 });
@@ -501,28 +343,35 @@ if ($filterState) {
 
             // empty context
             if ($('.book-container').length == 0) {
-                $('#empty-context-container').show();
+                $('#empty-context-container').hide();
             } else {
                 $('#empty-context-container').hide();
             }
 
-            // show more button clicked
-            $(document).on('click', '.show-more-btn', function () {
-                book_id = $(this).data("book-id");
-                is_owner = $(this).data("is-owner");
+            // wishlist toggle
+            $(document).on('click', '.wishlist-toggle-icon', function () {
+                let wishlist_book_id = $(this).data("book-id");
+                let wishlist_task = $(this).data("task");
 
-                link = "/bookrack/book-details/" + book_id;
-                window.location.href = link;
+                // $(this).closest("a").html(nextWishlistState);
+                const targetA = $(this).closest("a");
 
-                if (is_owner == "false") {
-                    $.ajax({
-                        url: '/bookrack/app/click.php',
-                        type: "POST",
-                        data: { bookId: book_id },
-                        success: function (response) {
+                $.ajax({
+                    url: '/bookrack/app/toggle-wishlist-home.php',
+                    type: "POST",
+                    data: { bookId: wishlist_book_id, page: 1 },
+                    beforeSend: function () {
+                        let nextWishlistState = "";
+                        if (wishlist_task == "add") {
+                            nextWishlistState = "<i class='fa-solid fa-bookmark wishlist-toggle-icon' data-book-id=" + wishlist_book_id + " data-task='remove'></i>";
+                        } else {
+                            nextWishlistState = "<i class='fa-regular fa-bookmark wishlist-toggle-icon' data-book-id=" + wishlist_book_id + " data-task='add'></i>";
                         }
-                    });
-                }
+                        targetA.html(nextWishlistState);
+                    },
+                    success: function (response) {
+                    }
+                });
             });
         });
     </script>

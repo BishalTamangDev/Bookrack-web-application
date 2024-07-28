@@ -122,39 +122,13 @@
         }
     }
 
-    .pagination-container {
-
-        i,
-        p {
-            line-height: 30px;
-        }
-
-        .pagination-controller {
-            width: 30px;
-            color: white;
-            cursor: pointer;
-            text-align: center;
-            background-color: var(--brand-color);
-        }
-
-        .pagination-stamp {
-            width: 30px;
-            cursor: pointer;
-            text-align: center;
-            border: 1px solid whitesmoke;
-
-            p {
-                margin: 0;
-            }
-
-            &:hover {
-                background-color: grey;
-            }
-        }
-
-        .active {
-            background-color: rgb(163, 161, 161);
-        }
+    .load-more-btn{
+        padding: 0.7rem 1.6rem;
+        width: fit-content;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        background-color: var(--brand-color);
     }
 }
 

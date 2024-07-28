@@ -1,5 +1,8 @@
 <?php
 
+if(session_status() === PHP_SESSION_NONE)
+    session_start();
+
 require_once __DIR__ . '/../app/connection.php';
 
 class Book
@@ -206,7 +209,7 @@ class Book
     public function fetchAllBooks()
     {
         global $database;
-        $list = array();
+        $list = [];
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
         if ($response != null) {
@@ -224,13 +227,33 @@ class Book
     {
         global $database;
         $idList = [];
-        $response = $database->getReference("books")->getSnapshot()->getValue();
+        // $response = $database->getReference("books")->getSnapshot()->getValue();
+        $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
         if ($response != null) {
             foreach ($response as $key => $res) {
                 $idList[] = $key;
             }
         }
         return $idList;
+    }
+
+    // fetch all books for home
+    public function fetchAllBookIdForHome()
+    {
+        global $database;
+        $idList = [];
+        $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
+        // $response = $database->getReference("books")->getSnapshot()->getValue();
+        // $response = $database->getReference("books")->orderByChild('added_date')->limitToFirst($contentCount)->getSnapshot()->getValue();
+        // $response = $database->getReference("books")->orderByChild('added_date')->startAfter($offsetDate)->limitToFirst($contentCount)->getSnapshot()->getValue();
+        
+        if ($response != null) {
+            foreach ($response as $key => $res) {
+                $idList[] = $key;
+            }
+        }
+        $_SESSION['book-id-list'] = array_reverse($idList);
+        return $_SESSION['book-id-list'];
     }
 
     public function fetchAvailableBookIdList(){
@@ -280,7 +303,8 @@ class Book
     {
         global $database;
         $bookIdList = [];
-        $response = $database->getReference("books")->getSnapshot()->getValue();
+        $searchContent = strtolower($searchContent);
+        $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
 
         if ($response) {
             foreach ($response as $key => $res) {
@@ -291,6 +315,25 @@ class Book
         }
 
         return $bookIdList;
+    }
+
+    // search book for home
+    // search content || min price || max-price || genre
+    public function searchBookForHome($searchContent)
+    {
+        $searchContent = strtolower($searchContent);
+        global $database;
+        $bookIdList = [];
+        $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
+
+        if ($response) {
+            foreach ($response as $key => $res)
+                if (strpos($res['title'], $searchContent) !== false)
+                    $bookIdList[] = $key;
+        }
+
+        $_SESSION['book-id-list'] = array_reverse($bookIdList);
+        return $_SESSION['book-id-list'];
     }
 
     public function checkIfUserHasContributed($userId)
