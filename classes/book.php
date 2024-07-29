@@ -1,6 +1,6 @@
 <?php
 
-if(session_status() === PHP_SESSION_NONE)
+if (session_status() === PHP_SESSION_NONE)
     session_start();
 
 require_once __DIR__ . '/../app/connection.php';
@@ -243,10 +243,10 @@ class Book
         global $database;
         $idList = [];
         $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
-        
+
         if ($response != null) {
             foreach ($response as $key => $res) {
-                if($res['flag'] == "verified") {
+                if ($res['flag'] == "verified") {
                     $idList[] = $key;
                 }
             }
@@ -255,13 +255,14 @@ class Book
         return $_SESSION['book-id-list'];
     }
 
-    public function fetchAvailableBookIdList(){
+    public function fetchAvailableBookIdList()
+    {
         global $database;
         $idList = [];
         $response = $database->getReference("books")->getSnapshot()->getValue();
         if ($response != null) {
             foreach ($response as $key => $res) {
-                if($res['flag'] == "verified") 
+                if ($res['flag'] == "verified")
                     $idList[] = $key;
             }
         }
@@ -312,7 +313,6 @@ class Book
                 }
             }
         }
-
         return $bookIdList;
     }
 
@@ -326,9 +326,12 @@ class Book
         $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
 
         if ($response) {
-            foreach ($response as $key => $res)
-                if (strpos($res['title'], $searchContent) !== false)
-                    $bookIdList[] = $key;
+            foreach ($response as $key => $res) {
+                if (strpos($res['title'], $searchContent) !== false) {
+                    if ($res['flag'] == "verified")
+                        $bookIdList[] = $key;
+                }
+            }
         }
 
         $_SESSION['book-id-list'] = array_reverse($bookIdList);

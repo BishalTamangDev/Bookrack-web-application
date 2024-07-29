@@ -10,4 +10,4 @@ session_destroy();
 
 header("Location: /bookrack/");
 
-exit();
+exit;

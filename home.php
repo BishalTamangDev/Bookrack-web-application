@@ -229,7 +229,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
             </section>
 
             <!-- empty context -->
-            <section class="flex-column mt-3 gap-3 align-items-center empty-context-container"
+            <section class="d-none flex-column mt-3 gap-3 align-items-center empty-context-container"
                 id="empty-context-container">
                 <img src="assets/icons/empty.svg" alt="empty icon">
                 <p class="m-0 text-danger"> Empty! </p>
@@ -323,9 +323,8 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
             $('#filter-form').submit(function (e) {
                 e.preventDefault();
                 book_min_price = $('#min-price').val() != '' ? parseFloat($('#min-price').val()) : 0;
-                book_max_price = $('#max-price').val() != '' ? parseFloat($('#max-price').val()) : Infinity;
+                book_max_price = $('#max-price').val() != '' && $('#max-price').val() != 0 ? parseFloat($('#max-price').val()) : Infinity;
                 book_genre = $('#genre').val();
-
                 filterContent();
             });
 
@@ -335,7 +334,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                 $('#min-price').val(book_min_price);
 
                 book_max_price = Infinity;
-                $('#max-price').val(book_max_price);
+                $('#max-price').val(0);
 
                 book_genre = "all";
                 $('#genre').val(book_genre);
@@ -345,17 +344,20 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
 
             // filter contents
             function filterContent() {
-                // genre
                 $('.book-element').hide();
+                console.clear();
+                console.log("Filter");
+                // genre
                 if (book_genre == "all") {
                     $('.book-element').show();
                 } else {
-                    genre_to_show = book_genre.replace(/ /g, "-").replace(/'/g, "") + '-element';
-                    $('.' + genre_to_show).show();
+                    genre_to_show = book_genre.replace(/ /g, "-").replace(/'/g, "").replace(/\(/g, '').replace('\)', '') + '-element';
+                    let finalClass = '.' + genre_to_show;
+                    $(finalClass).show();
                 }
 
-                //  price filtering
-                $('.book-element').each(function () {
+                // //  price filtering
+                $('.book-element:visible').each(function () {
                     var price = parseFloat($(this).data('price'));
                     if (price >= book_min_price && price <= book_max_price) {
                         $(this).show();
