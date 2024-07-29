@@ -252,7 +252,6 @@ class Cart
 
         if ($reference) {
             $response = $reference->getSnapshot()->getValue();
-            // print_r($response);
 
             foreach ($response as $key => $res) {
                 if ($res['status'] == 'current') {
@@ -270,6 +269,28 @@ class Cart
                 }
             }
         }
+
+        return $cartFound;
+    }
+
+    // fetch current cart id
+    public function fetchCurrentCartId()
+    {
+        global $database;
+        $cartId = "";
+        $reference = $database->getReference("carts")->orderByChild("user_id")->equalTo($this->userId);
+
+        if ($reference) {
+            $response = $reference->getSnapshot()->getValue();
+
+            foreach ($response as $key => $res) {
+                if ($res['status'] == 'current') {
+                    $cartId = $key;
+                }
+            }
+        }
+
+        return $cartId;
     }
 
     // fetch cart

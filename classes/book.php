@@ -243,13 +243,12 @@ class Book
         global $database;
         $idList = [];
         $response = $database->getReference("books")->orderByChild('added_date')->getSnapshot()->getValue();
-        // $response = $database->getReference("books")->getSnapshot()->getValue();
-        // $response = $database->getReference("books")->orderByChild('added_date')->limitToFirst($contentCount)->getSnapshot()->getValue();
-        // $response = $database->getReference("books")->orderByChild('added_date')->startAfter($offsetDate)->limitToFirst($contentCount)->getSnapshot()->getValue();
         
         if ($response != null) {
             foreach ($response as $key => $res) {
-                $idList[] = $key;
+                if($res['flag'] == "verified") {
+                    $idList[] = $key;
+                }
             }
         }
         $_SESSION['book-id-list'] = array_reverse($idList);

@@ -18,12 +18,10 @@ if (!$userExists)
 
 if (!isset($tab)) {
     $tab = "current";
-    // header("Location: /bookrack/cart/current");
 }
 
 require_once __DIR__ . '/classes/cart.php';
 $cart = new Cart();
-
 $cart->setUserId($userId);
 ?>
 
@@ -70,25 +68,33 @@ $cart->setUserId($userId);
         <!-- current cart section -->
         <?php
         if ($tab == "current") {
-            require_once __DIR__ . '/classes/book.php';
-            $bookObj = new Book();
-            $cart->fetchCurrent();
-
-            $total = 0;
-            ?>
-
-            <!-- staus message -->
-            <?php
-            if (isset($_SESSION['status']) && isset($_SESSION['status-message'])) {
-                ?>
-                <p class="m-0 text-danger"> <?= $_SESSION['status-message'] ?> </p>
-                <?php
-            }
             ?>
             <!-- current cart section -->
-            <?php $allBooksAvailable = true; ?>
-            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section">
-                <div class="rounded p-1 cart-detail">
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between current-cart-section"
+                id="current-cart-section">
+
+                <!-- skeleton cart -->
+                <div class="cart-loading-container">
+                    <div class="loading-table">
+                        <div class="loading-heading">
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                        </div>
+
+                        <div class="loading-content">
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                        </div>
+                    </div>
+
+                    <div class="loading-checkout"> </div>
+                </div>
+
+                <div class="d-none rounded p-1 cart-detail">
                     <table class="table cart-table">
                         <thead>
                             <tr>
@@ -96,146 +102,117 @@ $cart->setUserId($userId);
                                 <th scope="col">Book</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Availability</th>
-                                <!-- <th scope="col">Starting date </th> -->
-                                <!-- <th scope="col">Ending date</th> -->
                                 <th scope="col">Price</th>
                                 <th scope="col">Remove</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <!-- book 1 -->
-                            <?php
-                            $serial = 1;
-                            if (sizeof($cart->bookList) != 0) {
-                                foreach ($cart->bookList as $book) {
-                                    // fetch book details
-                                    $bookObj->fetch($book['id']);
-                                    $bookObj->setPhotoUrl();
-                                    $available = $bookObj->flag == "verified" ? true : false;
+                            <tr>
+                                <th scope="row"> 1 </th>
+                                <td>
+                                    <div class="book-image">
+                                        <img src="/bookrack/assets/images/book-1.jpg" alt="" loading="lazy">
+                                    </div>
+                                </td>
+                                <td class="title"> Title </td>
+                                <td class="availability"> Available || Not-available </td>
+                                <td class="price"> NPR. 00.00 </td>
+                                <td class="remove">
+                                    <i class="fa-solid fa-multiply fs-4" data-book-id=""></i>
+                                </td>
+                            </tr>
 
-                                    if (!$available)
-                                        $allBooksAvailable = false;
-                                    ?>
-                                    <tr>
-                                        <th scope="row"> <?= $serial++ ?> </th>
-                                        <td>
-                                            <div class="book-image">
-                                                <img src="<?= $bookObj->photoUrl ?>" alt="" loading="lazy">
-                                            </div>
-                                        </td>
-                                        <td class="title" onclick="window.location.href='/bookrack/book-details'">
-                                            <?= ucwords($bookObj->title) ?>
-                                        </td>
-
-                                        <td class="availability <?= $available ? '' : 'text-danger' ?>">
-                                            <?= $available ? "Available" : "Not-available" ?>
-                                        </td>
-
-                                        <td class="price">
-                                            <?php
-                                            if ($bookObj->purpose == "renting") {
-                                                $rent = $bookObj->price['actual'] * 0.20;
-                                                echo "NPR." . number_format($rent, 2) . "/week";
-                                            } elseif ($bookObj->purpose == "buy/sell") {
-                                                echo "NPR." . number_format($bookObj->price['offer'], 2);
-                                                $total += $bookObj->price['offer'];
-                                            }
-                                            ?>
-                                        </td>
-
-                                        <td class="remove">
-                                            <a
-                                                href="/bookrack/app/cart-code.php?task=remove&bookId=<?= $book['id'] ?>&url=<?= $url ?>">
-                                                <i class="fa-solid fa-multiply fs-4"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                ?>
-                                <tr>
-                                    <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your
-                                        cart is empty! </td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
+                            <tr>
+                                <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your cart is
+                                    empty!
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- order summary -->
-                <?php
-                if ($total != 0) {
-                    ?>
-                    <div class="d-flex flex-column rounded p-3 gap-3 checkout">
-                        <div class="heading">
-                            <p class="m-0"> ORDER SUMMARY </p>
-                        </div>
+                <div class="d-none d-flex flex-column rounded p-3 gap-3 checkout">
+                    <div class="heading">
+                        <p class="m-0"> ORDER SUMMARY </p>
+                    </div>
 
-                        <hr class="m-0">
+                    <hr class="m-0">
 
-                        <div class="d-flex flex-column gap-1 checkout-detail-div">
-                            <div class="d-flex flex-row justify-content-between  checkout-detail">
-                                <p class="m-0"> Total </p>
-                                <p class="m-0"> <?= "NPR. " . number_format($total, 2) ?> </p>
-                            </div>
-                        </div>
-
-                        <div class="checkout-btn-div">
-                            <?php
-                            if ($allBooksAvailable) {
-                                if ($profileUser->accountStatus == 'verified') {
-                                    ?>
-                                    <a href="/bookrack/cart/checkout" class="btn w-100 text-light py-2 checkout-btn"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        CHECKOUT NOW
-                                    </a>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <p class="m-0 text-light mb-3"> Update your details first to proceed. </p>
-                                    <button class="btn w-100 text-secondary py-2 checkout-btn">
-                                        CHECKOUT NOW
-                                    </button>
-                                    <?php
-                                }
-                            } else {
-                                ?>
-                                <p class="m-0 text-light mb-3"> Some books as now available. </p>
-                                <button class="btn w-100 text-secondary py-2 checkout-btn">
-                                    CHECKOUT NOW
-                                </button>
-                                <?php
-                            }
-                            ?>
-                        </div>
-
-                        <div class="payment-partner-div">
-                            <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
-                                <p class="m-0 small"> Our payment partner </p>
-                                <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
-                            </div>
+                    <div class="d-flex flex-column gap-1 checkout-detail-div">
+                        <div class="d-flex flex-row justify-content-between  checkout-detail">
+                            <p class="m-0"> Total </p>
+                            <p class="m-0"> NPR. 00.00 </p>
                         </div>
                     </div>
-                    <?php
-                }
-                ?>
+
+                    <div class="checkout-btn-div">
+                        <a href="/bookrack/cart/checkout" class="btn w-100 text-light py-2 checkout-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"> CHECKOUT NOW </a>
+                        <p class="m-0 text-light mb-3"> Update your details first to proceed. </p>
+                        <button class="btn w-100 text-secondary py-2 checkout-btn"> CHECKOUT NOW </button>
+                        <p class="m-0 text-light mb-3"> Some books as now available. </p>
+                        <button class="btn w-100 text-secondary py-2 checkout-btn"> CHECKOUT NOW </button>
+                    </div>
+
+                    <div class="payment-partner-div">
+                        <div class="d-flex flex-row justify-content-between align-items-center payment-partner">
+                            <p class="m-0 small"> Our payment partner </p>
+                            <img src="/bookrack/assets/icons/esewa-logo.webp" alt="" loading="lazy">
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <?php if ($total != 0) {
-                ?>
-                <div class="mt-3 note-section">
-                    <p class="m-0 fst-italic text-danger"> Note: The order arrival day might differ eachtime as we need to
-                        receive books from different providers. </p>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel"> Checkout </h1>
+                            <button type="button" class="btn-close" id="modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <form method="POST" class="d-flex flex-column gap-3 p-3 form checkout-form" id="checkout-form">
+                            <!-- csrf token -->
+                            <input type="hidden" name="csrf_token_cart" class="form-control" id="csrf_token_cart" required>
+                            
+                            <!-- cart id -->
+                            <input type="hidden" name="cart-id" class="form-control" id="current-cart-id" required>
+
+                            <!-- checkout option -->
+                            <div class="d-flex flex-column gap-2">
+                                <label for="checkout-select"> Checkout Option </label>
+                                <select name="checkout-option" id="checkout-option" class="form-select" required>
+                                    <option value="click-and-collect" selected> Click and Collect </option>
+                                    <option value="cash-on-delivery"> Cash on Delivery </option>
+                                    <option value="digital-wallet"> Digital Wallet </option>
+                                </select>
+                            </div>
+
+                            <!-- shipping addesss -->
+                            <div class="=gap-2" id="shipping-address-container">
+                                <div class="d-flex flex-row justify-content-between top">
+                                    <label for=""> Shipping Address </label>
+                                    <a href="/bookrack/profile/" class="text-primary small"> Change </a>
+                                </div>
+                                <input type="text" name="shipping-address" id="shipping-address"
+                                    onkeypress="event.preventDefault()" onkeydown="event.preventDefault()"
+                                    value="<?=$profileUser->getFullAddress()?>" id="" class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn text-white" name="checkout-btn" id="place-order-btn"> Place
+                                order </button>
+                        </form>
+                    </div>
                 </div>
-                <?php
-            } ?>
+            </div>
             <?php
         } elseif ($tab == "pending") {
+            require_once __DIR__ . '/classes/cart.php';
             require_once __DIR__ . '/classes/book.php';
+            $cart = new Cart();
             $bookObj = new Book();
             $pendingCartIds = $cart->fetchPendingCartId();
 
@@ -243,6 +220,27 @@ $cart->setUserId($userId);
                 foreach ($pendingCartIds as $pendingCartId) {
                     $cart->fetch($pendingCartId);
                     ?>
+                    <!-- skeleton cart -->
+                    <div class="cart-loading-container">
+                        <div class="loading-table">
+                            <div class="loading-heading">
+                                <p class=""> </p>
+                                <p class=""> </p>
+                                <p class=""> </p>
+                                <p class=""> </p>
+                            </div>
+
+                            <div class="loading-content">
+                                <p class=""> </p>
+                                <p class=""> </p>
+                                <p class=""> </p>
+                                <p class=""> </p>
+                            </div>
+                        </div>
+
+                        <div class="loading-checkout"> </div>
+                    </div>
+
                     <!-- status details -->
                     <div class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-div">
                         <div class="pending-cart-status">
@@ -414,6 +412,26 @@ $cart->setUserId($userId);
             ?>
             <!-- completed cart -->
             <section class="d-flex flex-column-reverse flex-lg-row justify-content-between completed-cart-section">
+                <!-- skeleton cart -->
+                <div class="cart-loading-container">
+                    <div class="loading-table">
+                        <div class="loading-heading">
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                        </div>
+
+                        <div class="loading-content">
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                            <p class=""> </p>
+                        </div>
+                    </div>
+                    <div class="loading-checkout"> </div>
+                </div>
+
                 <div class="rounded p-1 cart-detail">
                     <table class="table cart-table">
                         <thead>
@@ -426,16 +444,14 @@ $cart->setUserId($userId);
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- book 1 -->
                             <tr>
                                 <th scope="row">1</th>
                                 <td>
                                     <div class="book-image">
-                                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
+                                        <img src="/bookrack/assets/images/book-1.jpg" alt="book photo" loading="lazy">
                                     </div>
                                 </td>
-                                <td class="title cursor" onclick="window.location.href='/bookrack/book-details'"> The Black
-                                    Universe </td>
+                                <td class="title cursor"> The Black Universe </td>
                                 <td> Rent </td>
                                 <td class="price"> NRs. 140 </td>
                                 <td class="action"> <i class="fa fa-multiply fs-4"></i> </td>
@@ -484,56 +500,8 @@ $cart->setUserId($userId);
         ?>
     </main>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel"> Checkout </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form action="/bookrack/app/checkout-code.php" method="POST"
-                    class="d-flex flex-column gap-3 p-3 form checkout-form">
-                    <!-- cart id -->
-                    <input type="hidden" name="cart-id" value="<?= $cart->getId() ?>" id="" class="form-control"
-                        required>
-
-                    <!-- url -->
-                    <input type="hidden" name="url" value="cart" id="" class="form-control" required>
-
-                    <!-- checkout option -->
-                    <div class="d-flex flex-column gap-2">
-                        <label for="checkout-select"> Checkout Option </label>
-                        <select name="checkout-option" id="checkout-option" class="form-select" required>
-                            <option value="click-and-collect" selected> Click and Collect </option>
-                            <option value="cash-on-delivery"> Cash on Delivery </option>
-                            <option value="digita-wallet"> Digital Wallet </option>
-                        </select>
-                    </div>
-
-                    <!-- shipping addesss -->
-                    <div class="=gap-2" id="shipping-address-container">
-                        <div class="d-flex flex-row justify-content-between top">
-                            <label for=""> Shipping Address </label>
-                            <a href="/bookrack/profile/edit-profile" class="text-primary small"> Change </a>
-                        </div>
-                        <input type="text" name="shipping-address" id="shipping-address"
-                            onkeypress="event.preventDefault()" onkeydown="event.preventDefault()"
-                            value="district, location" id="" class="form-control">
-                    </div>
-
-                    <button type="submit" class="btn text-white" name="checkout-btn"> Place order </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- unset the session status and message -->
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-    ?>
+    <!-- popup alert -->
+    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
 
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
@@ -543,22 +511,136 @@ $cart->setUserId($userId);
 
     <!-- checkout modal script -->
     <script>
-        const checkoutOption = $('#checkout-option');
-        const shippingAddress = $('#shipping-address');
-        const shippingAddressContainer = $('#shipping-address-container');
+        $(document).ready(function () {
+            const checkoutOption = $('#checkout-option');
+            const shippingAddress = $('#shipping-address');
+            const shippingAddressContainer = $('#shipping-address-container');
 
-        checkoutOption.on('change', function () {
-            if (checkoutOption.val() != 'click-and-collect') {
-                shippingAddress.show();
-                shippingAddressContainer.show();
-            } else {
-                shippingAddress.hide();
-                shippingAddressContainer.hide();
+            // current cart
+            const current_tab = "<?= $tab ?>";
+
+            function showPopupAlert(msg) {
+                $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
+                $('#custom-popup-alert').html(msg).fadeIn();
+                setTimeout(function () {
+                    $('#custom-popup-alert').fadeOut("slow").html("");
+                }, 4000);
             }
-        });
 
-        shippingAddress.hide();
-        shippingAddressContainer.hide();
+            if (current_tab == "current") {
+                $('#custom-popup-alert').hide();
+                // Generate CSRF token and set it to the forms
+                function setCSRFToken() {
+                    $.get('/bookrack/app/csrf-token.php', function (data) {
+                        $('#csrf_token_cart').val(data);
+                    });
+                }
+
+                function setCurrentCartId(){
+                    $.post('/bookrack/app/current-cart-id.php', function (data) {
+                        $('#current-cart-id').val(data);
+                    });
+                }
+
+                // load current cart
+                function loadCurrentCart() {
+                    $.ajax({
+                        url: '/bookrack/sections/current-cart-table.php',
+                        type: "POST",
+                        success: function (data) {
+                            $('#current-cart-section').html(data);
+                            setCSRFToken();
+                            setCurrentCartId();
+                        },
+                        error: function () {
+                            console.log("Current fetching failed...");
+                        }
+                    });
+                }
+
+                loadCurrentCart();
+
+                // deleting the book from cart
+                $(document).on('click', '.current-cart-remove-icon', function () {
+                    let book_id = $(this).data('book-id');
+                    let price = $(this).data("price");
+                    let closestTr = $(this).closest("tr");
+
+                    $.ajax({
+                        url: '/bookrack/app/remove-book-current-cart.php',
+                        type: "POST",
+                        data: { bookId: book_id },
+                        beforeSend: function () {
+                            $('#current-cart-total').html("Calculating");
+                            // $('#checkout-btn').prop('disabled', true);
+                            $('#checkout-btn').html('Please wait');
+                            $('#checkout-btn').removeAttr('data-bs-toggle');
+                            if ($('.current-cart-tr').length == 1) {
+                                output = "<tr> <td rowspan='2' colspan='8' class='text-danger pt-4' style='text-align:center'> Your cart is empty! </td> </tr>";
+                                closestTr.replaceWith(output);
+                            } else {
+                                closestTr.remove();
+                            }
+                        },
+                        success: function (response) {
+                            loadCurrentCart();
+                        }
+                    });
+                });
+            }
+
+            // checkout option
+            shippingAddress.hide();
+            shippingAddressContainer.hide();
+
+            checkoutOption.on('change', function () {
+                if (checkoutOption.val() != 'click-and-collect') {
+                    shippingAddress.show();
+                    shippingAddressContainer.show();
+                } else {
+                    shippingAddress.hide();
+                    shippingAddressContainer.hide();
+                }
+            });
+
+            // checkout form submission
+            $('#checkout-form').submit(function (e) {
+                e.preventDefault();
+                let checkoutMethod = $('#checkout-option').val();
+
+                let formData = $('#checkout-form').serialize();
+                
+                if (checkoutMethod == "click-and-collect" || checkoutMethod == "cash-on-delivery") {
+                    // just update current cart
+                    $.ajax({
+                        url: '/bookrack/app/click-and-collect-cash-on-delivery.php',
+                        method: "POST",
+                        data: formData,
+                        beforeSend: function () {
+                            $('#place-order-btn').html("Placing order...").prop("disabled", true);
+                        },
+                        success: function (response) {
+                            $('#modal-close-btn').click();
+                            $('#place-order-btn').html("Place order").prop("disabled", false);
+                            if (response == true) {
+                                showPopupAlert("Cart has been proceeded.");
+                                window.location.href = '/bookrack/cart/pending';
+                            } else {
+                                // showPopupAlert("Cart couldn't be proceeded.");
+                                showPopupAlert(response);
+                            }
+                        },
+                        error: function () {
+                            $('#place-order-btn').html("Place order").prop("disabled", false);
+                            showPopupAlert("An error occured.");
+                        }
+                    });
+                } else if (checkoutMethod == "digital-wallet") {
+                    // redirect ro mobile wallet
+                }
+            });
+
+        });
     </script>
 </body>
 

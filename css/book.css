@@ -17,6 +17,7 @@
   aspect-ratio: 3/4;
   border-radius: 1rem;
   overflow: hidden;
+  background-color: whitesmoke;
 }
 .book-container .book-details {
   display: flex;

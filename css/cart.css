@@ -24,6 +24,43 @@
   background-color: rgb(224, 224, 224);
 }
 
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgb(236, 236, 236);
+  }
+  100% {
+    background-color: rgb(204, 204, 204);
+  }
+}
+.cart-loading-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.cart-loading-container .loading-table {
+  width: 75%;
+  height: 300px;
+  padding: 0.5rem 1rem 0 0;
+  border-radius: 1rem;
+}
+.cart-loading-container .loading-table .loading-heading, .cart-loading-container .loading-table .loading-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.cart-loading-container .loading-table .loading-heading p, .cart-loading-container .loading-table .loading-content p {
+  width: 24%;
+  height: 0.8rem;
+  border-radius: 0.2rem;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+.cart-loading-container .loading-checkout {
+  width: 25%;
+  height: 150px;
+  border-radius: 0.4rem;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
 .pending-cart-status-div {
   text-align: center;
 }

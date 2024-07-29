@@ -21,8 +21,6 @@ if (!$userExists)
     header("Location: /bookrack/signin");
 
 require_once __DIR__ . '/classes/book.php';
-$selectedBook = new Book();
-$bookExists = $selectedBook->fetch($bookId);
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +31,7 @@ $bookExists = $selectedBook->fetch($bookId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> <?= $bookExists ? ucWords($selectedBook->title) : "Book details" ?> </title>
+    <title> Book details </title>
 
     <?php require_once __DIR__ . '/includes/header.php' ?>
 
@@ -47,6 +45,8 @@ $bookExists = $selectedBook->fetch($bookId);
 
     <!-- main -->
     <?php
+    $selectedBook = new Book();
+    $bookExists = $selectedBook->fetch($bookId);
     if ($bookExists) {
         ?>
         <main class="d-flex flex-column gap-3 pb-5 container main">
@@ -338,7 +338,7 @@ $bookExists = $selectedBook->fetch($bookId);
             // check wishlist
             function checkWishlist() {
                 $.ajax({
-                    url: '/bookrack/app/load-wishlist-btn-book-detail.php',
+                    url: '/bookrack/sections/load-wishlist-btn-book-detail.php',
                     type: "POST",
                     data: { bookId: book_id, userId: user_id },
                     success: function (response) {

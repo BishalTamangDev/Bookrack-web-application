@@ -216,7 +216,7 @@ if ($task == 'edit') {
                                         }
                                         $count++;
                                     }
-                                } ?>" placeholder="Choose atleast one genre" value="" id="book-genre-label" required>
+                                } ?>" placeholder="Choose atleast one genre" value="" id="book-genre-label" autocomplete="off" required>
                         </div>
 
                         <div class="gap-1 rounded px-2 genre-container">
@@ -447,8 +447,10 @@ if ($task == 'edit') {
                                 showPopupAlert("Book detail updated successfully.");
                                 $('#add-book-form').trigger("reset");
 
+                                book_id = <?php echo isset($bookId) ? $bookId : "0"; ?>;
+
                                 // redirect to another page after successful book addition
-                                let link = "/bookrack/book-details/" + "<?= $bookId ?>";
+                                let link = "/bookrack/book-details/" + book_id;
                                 window.location.href = link;
                             } else {
                                 if (response == "false") {
