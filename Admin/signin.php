@@ -4,6 +4,9 @@ if (session_status() == PHP_SESSION_NONE)
 
 if (isset($_SESSION['bookrack-admin-id']))
     header("Location: /bookrack/admin/admin-dashboard");
+
+if (isset($_SESSION['bookrack-user-id']))
+    header("Location: /bookrack/home");
 ?>
 
 <!DOCTYPE html>
@@ -50,31 +53,22 @@ if (isset($_SESSION['bookrack-admin-id']))
                     </div>
 
                     <!-- sign in form -->
-                    <form method="POST" action="/bookrack/admin/app/admin-authentication.php"
-                        class="d-flex flex-column signin-form" id="admin-signin-form">
-                        <!-- session status and status message -->
-                        <?php
-                        if (isset($_SESSION['status']) && isset($_SESSION['status-message'])) {
-                            ?>
-                            <p class="m-0 mb-3 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
-                                <?= $_SESSION['status-message'] ?>
-                            </p>
-                            <?php
-                        }
-                        ?>
-
+                    <form method="POST" class="d-flex flex-column signin-form" id="admin-signin-form">
+                        <!-- message -->
+                        <p class="m-0 mb-3 text-danger" id="error-message"> </p>
+                        
+                        <!-- token -->
+                        <input type="hidden" name="csrf_token_signin" class="form-control" id="csrf_token_signin">
+                        
                         <!-- email address -->
                         <div class="input-group mb-3">
                             <span class="input-group-text px-4">
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" value="<?php
-                                if (isset($_SESSION['temp-email'])) {
-                                    echo $_SESSION['temp-email'];
-                                }
-                                ?>" class="form-control" id="admin-email" placeholder="someone@gmail.com"
-                                    aria-label="email address" aria-describedby="email address" required>
+                                <input type="email" name="email" class="form-control" id="admin-email"
+                                    placeholder="someone@gmail.com" aria-label="email address"
+                                    aria-describedby="email address" required>
                                 <label for="admin-email">Email address</label>
                             </div>
                         </div>
@@ -85,11 +79,8 @@ if (isset($_SESSION['bookrack-admin-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="admin-password" value="<?php
-                                if (isset($_SESSION['temp-password'])) {
-                                    echo $_SESSION['temp-password'];
-                                }
-                                ?>" placeholder="********" aria-label="password" aria-describedby="password"
+                                <input type="password" name="password" class="form-control" id="admin-password"
+                                    placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="admin-password">Password</label>
                             </div>
@@ -117,33 +108,62 @@ if (isset($_SESSION['bookrack-admin-id']))
         </div>
     </main>
 
-    <!-- unset session status and message -->
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-
-    unset($_SESSION['temp-email']);
-    unset($_SESSION['temp-password']);
-    ?>
-
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <script>
-        // password input : // prevent space as input
-        $('#admin-password').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
+        $(document).ready(function () {
+            function setCsrfToken() {
+                $.get('/bookrack/app/csrf-token.php', function (data) {
+                    $('#csrf_token_signin').val(data);
+                });
             }
-        });
 
-        // email input
-        $('#admin-email').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
+            setCsrfToken();
+
+            // password input : // prevent space as input
+            $('#error-message').hide();
+            $('#admin-password').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // email input
+            $('#admin-email').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // form submission
+            $('#admin-signin-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/bookrack/admin/app/admin-signin.php',
+                    type: "POST",
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        $('#signin-btn').html("Signing in").prop("disabled", true);
+                    },
+                    success: function (response) {
+                        if (response == true) {
+                            $('#error-message').html("").hide();
+                            $('#admin-signin-form').trigger("reset");
+                            window.location.href = "/bookrack/admin/admin-dashboard";
+                        } else {
+                            $('#error-message').html(response).show();
+                            $('#signin-btn').html("Sign in Now").prop("disabled", false);
+                        }
+                    },
+                    error: function () {
+                        alert("Error occured");
+                        $('#signin-btn').html("Sign in Now").prop("disabled", false);
+                    }
+                });
+            });
         });
     </script>
 </body>

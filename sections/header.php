@@ -167,7 +167,7 @@ if (!isset($searchState))
                 <div class="position-relative profile-div">
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
                         <?php
-                        if ($profileUser->photo != " ") {
+                        if ($profileUser->photo != " " && $profileUser->photo != "") {
                             $profileUser->fetchUserPhotoUrl();
                             $userPhotoUrl = $profileUser->photoUrl;
                             ?>

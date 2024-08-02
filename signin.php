@@ -62,12 +62,9 @@ if (isset($_SESSION['bookrack-user-id']))
                     </div>
 
                     <!-- sign in form -->
-                    <form method="POST" class="d-flex flex-column signin-form" id="signin-form"
-                        autocomplete="on">
+                    <form method="POST" class="d-flex flex-column signin-form" id="signin-form" autocomplete="on">
                         <!-- message section -->
-                        <div class="mb-3" id="signin-message-div">
-                            <p class="m-0 mb-3" id="message"> Message appears here.. </p>
-                        </div>
+                        <p class="m-0 mb-3 text-danger" id="signin-message"> Message appears here.. </p>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -88,7 +85,8 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput" placeholder="********" aria-label="password" aria-describedby="password"
+                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
+                                    placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
@@ -122,6 +120,9 @@ if (isset($_SESSION['bookrack-user-id']))
     <!-- script -->
     <script>
         $(document).ready(function () {
+            // status message
+            $('#signin-message').hide();
+
             // Generate CSRF token and set it to the forms
             function setCSRFToken() {
                 $.get('/bookrack/app/csrf-token.php', function (data) {
@@ -146,8 +147,6 @@ if (isset($_SESSION['bookrack-user-id']))
             });
 
             setCSRFToken();
-
-            $('#signin-message-div').hide();
 
             // password input
             // prevent space as input
@@ -174,23 +173,21 @@ if (isset($_SESSION['bookrack-user-id']))
                     url: 'app/signin.php',
                     type: "POST",
                     data: $(this).serialize(),
-                    success: function (data) {
-                        $('#signin-message-div').html(data).show();
-
-                        if($('#message').hasClass("success")) {
-                            $('#signin-form').trigger("reset");
-                            window.location.href = '/bookrack/home';
-                        }
-
-                        $('#signin-btn').html("Signin");
-                        $('#signin-btn').prop("disabled", false);
-                    },
                     beforeSend: function () {
-                        $('#signin-btn').prop("disabled", true);
-                        $('#signin-btn').html("Please wait...");
+                        $('#signin-btn').html("Signing in...").prop("disabled", true);
+                    },
+                    success: function (response) {
+                        if (response == "true") {
+                            $('#signin-message').html("").hide();
+                            window.location.href = "/bookrack/home";
+                            $('#signin-form').trigger("reset");
+                        } else {
+                            $('#signin-message').html(response).show();
+                            $('#signin-btn').html("Signin").prop("disabled", false);
+                        }
                     },
                     error: function () {
-                        $('#signin-message-div').html(data).show();
+                        $('#signin-message').html(response).show();
                         $('#signin-btn').html("Signin Now");
                         $('#signin-btn').prop("disabled", false);
                     }

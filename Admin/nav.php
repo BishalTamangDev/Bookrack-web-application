@@ -138,15 +138,15 @@ if (isset($_GET['admin-search-content'])) {
             </div>
 
             <!-- notification -->
-            <div class="notification-container">
+            <div class="notification-container" id="notification-main-container">
                 <div class="d-flex flex-row gap-2 icon-count pointer" id="notification-trigger">
                     <i class="fa fa-bell fs-4"></i>
                     <div class="position-absolute notification-count-div text-align-center">
-                        <p class="m-0 text-danger"> 9+ </p>
+                        <p class="m-0 text-danger"> </p>
                     </div>
                 </div>
 
-                <div class="position-absolute bg-white notification-div" id="notification-container">
+                <div class="d-none position-absolute bg-white notification-div" id="notification-container">
                     <div class="d-flex flex-row justify-content-between align-items-center p-2 py-2 heading-div">
                         <div class="title">
                             <p class="m-0 font-weight-bold"> Notifications </p>
@@ -156,118 +156,28 @@ if (isset($_GET['admin-search-content'])) {
                     <hr class="m-0">
 
                     <div class="d-flex flex-column mt-2 pb-2 px-2 notifications">
-                        <?php
-                        require_once __DIR__ . '/../classes/notification.php';
-                        $notificationObj = new Notification();
-
-                        $notificationIdList = $notificationObj->fetchAdminNotificationId();
-
-                        foreach ($notificationIdList as $notificationId) {
-                            $notificationObj->fetch($notificationId);
-                            $type = $notificationObj->type;
-
-                            switch ($type) {
-                                case 'new user':
-                                    $link = "/bookrack/admin/admin-user-details/{$notificationObj->userId}";
-                                    break;
-                                case 'new book':
-                                    $link = "/bookrack/admin/admin-book-details/{$notificationObj->bookId}";
-                                    break;
-                                case 'cart checkout':
-                                    $link = "/bookrack/admin/admin-book-requests";
-                                    break;
-                                default:
-                                    $link = "";
-                            }
-                            ?>
-
-                            <!-- notification -->
-                            <div class="d-flex flex-row gap-2 pointer p-2 notification"
-                                onclick='window.location.href="<?= $link ?>"'>
-                                <div class="d-flex flex-row justify-content-around align-items-center icon-div">
-                                    <!-- icon -->
-                                    <?php
-                                    if ($type == 'new user') {
-                                        ?>
-                                        <img src="/bookrack/assets/icons/notification/new-user.png" alt="">
-                                        <?php
-                                    } elseif ($type == 'cart checkout') {
-                                        ?>
-                                        <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-
-                                <div class="details">
-                                    <!-- notification detail -->
-                                    <div class="detail">
-                                        <?php if ($type == 'new user') {
-                                            ?>
-                                            <p class="m-0">
-                                                A new user joined.
-                                            </p>
-                                            <?php
-                                        } else if ($type == 'new book') {
-                                            ?>
-                                                <p class="m-0">
-                                                <?= $notificationObj->userId ?> added a new book..
-                                                </p>
-                                            <?php
-                                        } else if ($type == 'cart checkout') {
-                                            ?>
-                                                    <p class="m-0">
-                                                <?= $notificationObj->userId ?> checkout the cart.
-                                                    </p>
-                                            <?php
-                                        } else {
-                                            ?>
-                                                    <p class="m-0">
-                                                        Other notification...
-                                                    </p>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <!-- date -->
-                                    <div class="date">
-                                        <p class="m-0 small text-secondary">
-                                            <?= $notificationObj->date ?>
-                                        </p>
-                                    </div>
-                                </div>
+                        <!-- backup -->
+                        <div class="d-flex flex-row gap-2 pointer p-2 notification">
+                            <div class="d-flex flex-row justify-content-around align-items-center icon-div">
+                                <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
                             </div>
 
-                            <!-- backup -->
-                            <div class="d-none d-flex flex-row gap-2 pointer p-2 notification">
-                                <div class="d-flex flex-row justify-content-around align-items-center icon-div">
-                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                            <div class="details">
+                                <!-- notification detail -->
+                                <div class="detail">
+                                    <p class="m-0">
+                                        Notification details appears here...
+                                    </p>
                                 </div>
 
-                                <div class="details">
-                                    <!-- notification detail -->
-                                    <div class="detail">
-                                        <p class="m-0">
-                                            Notification details appears here...
-                                        </p>
-                                    </div>
-
-                                    <!-- date -->
-                                    <div class="date">
-                                        <p class="m-0 small text-secondary">
-                                            0000-00-00 00-00-00
-                                        </p>
-                                    </div>
+                                <!-- date -->
+                                <div class="date">
+                                    <p class="m-0 small text-secondary">
+                                        0000-00-00 00-00-00
+                                    </p>
                                 </div>
                             </div>
-                            <?php
-                        }
-                        ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -290,7 +200,7 @@ if (isset($_GET['admin-search-content'])) {
                     <img src="<?= $photoUrl ?>" alt="">
                 </div>
 
-                <div class="position-absolute bg-white profile-menu-container" id="profile-menu-container">
+                <div class="invisible position-absolute bg-white profile-menu-container" id="profile-menu-container">
                     <ul class="d-flex flex-column profile-menu m-0 p-0">
                         <li onclick="window.location.href='/bookrack/admin/admin-profile'">
                             <i class="fa fa-user"> </i>
@@ -312,55 +222,63 @@ if (isset($_GET['admin-search-content'])) {
 
     <!-- header script -->
     <script>
-        var profileMenuState = false;
-        var notificationState = false;
+        $(document).ready(function () {
+            let profileMenuState = false;
+            let notificationState = false;
 
-        const profileMenuTrigger = $('#profile-menu-trigger');
-        const notificationTrigger = $('#notification-trigger');
-
-        const profileMenu = $('#profile-menu-container');
-        const notificationContainer = $('#notification-container');
-
-        // notification trigger
-        notificationTrigger.on('click', function () {
-            notificationState = !notificationState;
-            toggleNotification();
-        });
-
-        // profile menu trigger
-        profileMenuTrigger.on('click', function () {
-            profileMenuState = !profileMenuState;
-            toggleProfileMenu();
-        });
-
-        // function to toggle notification container
-        toggleNotification = () => {
-            if (notificationState) {
-                if (profileMenuState) {
-                    profileMenuState = !profileMenuState;
-                    toggleProfileMenu();
-                }
-                notificationContainer.show();
-            } else {
-                notificationContainer.hide();
-            }
-        }
-
-        // function to toggle profile menu
-        toggleProfileMenu = () => {
-            if (profileMenuState) {
+            // function to toggle notification container
+            function toggleNotification() {
                 if (notificationState) {
-                    notificationState = !notificationState;
-                    toggleNotification();
+                    if (profileMenuState) {
+                        profileMenuState = !profileMenuState;
+                        toggleProfileMenu();
+                    }
+                    $('#notification-container').removeClass("invisible");
+                } else {
+                    $('#notification-container').addClass("invisible");
                 }
-                profileMenu.show();
-            } else {
-                profileMenu.hide();
             }
-        }
 
-        toggleNotification();
-        toggleProfileMenu();
+            // function to toggle profile menu
+            function toggleProfileMenu() {
+                if (profileMenuState) {
+                    if (notificationState) {
+                        notificationState = !notificationState;
+                        toggleNotification();
+                    }
+                    $('#profile-menu-container').removeClass("invisible");
+                } else {
+                    $('#profile-menu-container').addClass("invisible");
+                }
+            }
+
+            function loadHeaderNotification() {
+                $.ajax({
+                    url: '/bookrack/admin/sections/header-notification.php',
+                    type: "POST",
+                    success: function (data) {
+                        $('#notification-main-container').replaceWith(data);
+                    },
+                    error: function () {
+                        console.log("An error occured.");
+                    }
+                });
+            }
+
+            loadHeaderNotification();
+
+            // notification trigger
+            $(document).on('click', '#notification-trigger', function () {
+                notificationState = !notificationState;
+                toggleNotification();
+            });
+
+            // profile menu trigger
+            $(document).on('click', '#profile-menu-trigger', function () {
+                profileMenuState = !profileMenuState;
+                toggleProfileMenu();
+            });
+        });
     </script>
 </body>
 

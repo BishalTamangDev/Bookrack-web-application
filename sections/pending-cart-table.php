@@ -107,7 +107,7 @@ if (sizeof($pendingCartIds) > 0) {
                             ?>
                             <!-- book -->
                             <tr>
-                                <td>
+                                <td class="px-2">
                                     <div class="book-image">
                                         <img src="<?= $bookObj->photoUrl ?>" alt="">
                                     </div>
@@ -120,7 +120,7 @@ if (sizeof($pendingCartIds) > 0) {
                                 <td class="arrival-date">
                                     <?= isset($list['arrived_date']) && $list['arrived_date'] != '' ? $list['arrived_date'] : "Not-arrived" ?>
                                 </td>
-                                <td class="price text-success"> <?= "NPR. " . number_format($list['price'], 2) ?> </td>
+                                <td class="price text-success"> <?= "NPR. " . number_format($bookObj->getOfferPrice(), 2) ?> </td>
                             </tr>
                             <?php
                         }

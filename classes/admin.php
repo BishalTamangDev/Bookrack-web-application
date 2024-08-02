@@ -1,7 +1,6 @@
 <?php
-
-require_once __DIR__ . '/../functions/district-array.php';
 require_once __DIR__ . '/../app/connection.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 class Admin
 {
@@ -79,7 +78,7 @@ class Admin
         $this->gender = $gender;
         $this->name = [
             "first" => $this->name['first'] != '' ? $name['first'] : '',
-            "last" => $name['last'],
+            "last" => $this->name['last'] != '' ? $name['last'] : '',
         ];
         $this->address = [
             "district" => $address['district'],
@@ -248,6 +247,7 @@ class Admin
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
             $this->adminId = $adminId;
             $this->name['first'] = $response['name']['first'];
+            $this->name['last'] = $response['name']['last'];
             $this->accountStatus = $response['account_status'];
             $this->photo = $response['photo'];
             $status = true;
@@ -400,5 +400,14 @@ class Admin
         }
 
         return $isAdmin;
+    }
+
+    // verify admin account
+    function verifyAdminAccount($adminId)
+    {
+        global $database;
+        $properties['account_status'] = "verified";
+        $response = $database->getReference("admins/{$adminId}")->update($properties);
+        return $response ? true : false;
     }
 }

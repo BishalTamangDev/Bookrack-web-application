@@ -49,27 +49,20 @@ if (isset($_SESSION['bookrack-admin-id']))
                     </div>
 
                     <!-- sign up form -->
-                    <form method="POST" action="/bookrack/admin/app/admin-authentication.php"
-                        class="d-flex flex-column signin-form" id="admin-signup-form">
-                        <!-- session status and status message -->
-                        <?php
-                        if (isset($_SESSION['status'])) {
-                            ?>
-                            <p class="m-0 mb-2 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>">
-                                <?= $_SESSION['status-message'] ?>
-                            </p>
-                            <?php
-                        }
-                        ?>
+                    <form method="POST" class="d-flex flex-column signin-form" id="admin-signup-form">
+                        <!-- message -->
+                        <p class="m-0 mb-3 text-danger" id="error-message"> </p>
 
+                        <!-- token -->
+                        <input type="hidden" name="csrf_token_signup" class="form-control mb-3" id="csrf_token_signup">
+                        
                         <!-- email address -->
                         <div class="input-group mb-3">
                             <span class="input-group-text px-4">
                                 <i class="fa-regular fa-envelope"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="email" name="email" class="form-control" id="admin-email" value="<?php if (isset($_SESSION['temp-email']))
-                                    echo $_SESSION['temp-email']; ?>" placeholder="someone@gmail.com"
+                                <input type="email" name="email" class="form-control" id="admin-email" placeholder="someone@gmail.com"
                                     aria-label="admin email address" aria-describedby="admin email address" required>
                                 <label for="admin-email">Email address</label>
                             </div>
@@ -81,8 +74,7 @@ if (isset($_SESSION['bookrack-admin-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="admin-password" value="<?php if (isset($_SESSION['temp-password']))
-                                    echo $_SESSION['temp-password']; ?>" placeholder="********" aria-label="password"
+                                <input type="password" name="password" class="form-control" id="admin-password" placeholder="********" aria-label="password"
                                     aria-describedby="password" minlength="8" required>
                                 <label for="admin-password"> Password </label>
                             </div>
@@ -100,35 +92,66 @@ if (isset($_SESSION['bookrack-admin-id']))
         </div>
     </main>
 
-    <!-- unset session status and message -->
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-
-    unset($_SESSION['temp-email']);
-    unset($_SESSION['temp-password']);
-    ?>
-
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <!-- js :: current file -->
     <script>
-        // password input
-        // prevent space as input
-        $('#admin-password').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
-        });
+        $(document).ready(function(){
+            // error message
+            $('#error-message').html("").hide();
 
-        // email input
-        $('#admin-email').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
+            // csrf token
+            function setCsrfToken(){
+                $.get('/bookrack/app/csrf-token.php', function(data){
+                    $('#csrf_token_signup').val(data);
+                });
             }
+
+            setCsrfToken();
+
+            // password input
+            // prevent space as input
+            $('#admin-password').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+    
+            // email input
+            $('#admin-email').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // signup form submission
+            $('#admin-signup-form').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: '/bookrack/admin/app/admin-signup.php',
+                    type: "POST",
+                    data: $(this).serialize(),
+                    beforeSend: function () {
+                        $('#signup-btn').html("Signing up...").prop("disabled", true);
+                    },
+                    success: function (response) {
+                        if (response == true) {
+                            window.location.href = "/bookrack/admin/admin-signin";
+                            $('#admin-signup-form').trigger("reset");
+                        } else {
+                            $('#error-message').html(response).show();
+                            $('#signup-btn').html("Sign up").prop("disabled", false);
+                        }
+                    },
+                    error: function () {
+                        $('#error-message').html("An error occured.").show();
+                        $('#signup-btn').html("Sign up").prop("disabled", false);
+                    }
+                });
+            });
         });
     </script>
 </body>

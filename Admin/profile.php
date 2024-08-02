@@ -1,4 +1,5 @@
 <?php
+
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
@@ -10,7 +11,8 @@ $adminId = $_SESSION['bookrack-admin-id'];
 
 require_once __DIR__ . '/../classes/admin.php';
 $profileAdmin = new Admin();
-$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
+$adminExists = $profileAdmin->
+    checkAdminExistenceById($adminId);
 
 if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");
@@ -73,7 +75,7 @@ $profileAdmin->fetch($adminId);
         if ($profileAdmin->accountStatus != "verified") {
             ?>
             <div class="alert alert-danger mb-0" role="alert">
-                Your account is not verified yet. Please wait sometime.
+                Your account is not verified yet.
             </div>
             <?php
         }
@@ -106,16 +108,15 @@ $profileAdmin->fetch($adminId);
                 <?php
                 if ($profileAdmin->checkAccountVerificationEligibility()) {
                     ?>
-                    <a href="app/account-verification.php" class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary" id="account-verification-btn">
                         Apply for Account Verification
-                    </a>
+                    </button>
                     <?php
                 } ?>
             </div>
             <?php
         }
         ?>
-
 
         <!-- profile details -->
         <div class="d-flex flex-column flex-lg-row gap-4 article">
@@ -302,7 +303,8 @@ $profileAdmin->fetch($adminId);
                 if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "" && $profileAdmin->accountStatus != "verified") {
                     ?>
                     <div class="border-top border-bottom py-2 mb-3">
-                        <p class="m-0 text-secondary"> Note: Your documents are being verified. Please wait sometime. </p>
+                        <p class="m-0 text-secondary"> Note: Your documents are being verified. Please wait sometime.
+                        </p>
                     </div>
                     <?php
                 }
@@ -337,7 +339,8 @@ $profileAdmin->fetch($adminId);
                         <?php
                         if (isset($_SESSION['status'])) {
                             ?>
-                            <p class="m-0 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>"> KYC has been submitted.
+                            <p class="m-0 <?= $_SESSION['status'] ? "text-success" : "text-danger" ?>"> KYC has been
+                                submitted.
                             </p>
                             <?php
                         }
@@ -355,7 +358,8 @@ $profileAdmin->fetch($adminId);
                         </div>
 
                         <div class="action">
-                            <button type="submit" name="admin-upload-kyc-btn" class="btn btn-warning px-5"> Sumbit </button>
+                            <button type="submit" name="admin-upload-kyc-btn" class="btn btn-warning px-5"> Sumbit
+                            </button>
                         </div>
                     </form>
                     <?php
@@ -365,6 +369,9 @@ $profileAdmin->fetch($adminId);
             </div>
         </div>
     </main>
+
+    <!-- popup alert -->
+    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
 
     <!-- unset session status & message -->
     <?php
@@ -377,28 +384,65 @@ $profileAdmin->fetch($adminId);
 
     <!-- edit profile script -->
     <script>
-        // first name
-        $('#first-name').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
-        });
+        $(document).ready(function () {
+            $('#custom-popup-alert').hide();
 
-        // last name
-        $('#last-name').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
+            function showPopupAlert(msg) {
+                $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
+                $('#custom-popup-alert').html(msg).fadeIn();
+                setTimeout(function () {
+                    $('#custom-popup-alert').fadeOut("slow");
+                }, 4000);
             }
-        });
 
-        // contact name
-        $('#phone-number').keydown(function () {
-            var asciiValue = event.keyCode || event.which;
-            if (asciiValue == 32) {
-                event.preventDefault();
-            }
+            // first name
+            $('#first-name').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // last name
+            $('#last-name').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // contact name
+            $('#phone-number').keydown(function () {
+                var asciiValue = event.keyCode || event.which;
+                if (asciiValue == 32) {
+                    event.preventDefault();
+                }
+            });
+
+            // account verification
+            $('#account-verification-btn').click(function () {
+                $.ajax({
+                    url: '/bookrack/admin/app/account-verification.php',
+                    type: "POST",
+                    beforeSend: function () {
+                        $('#account-verification-btn').html("Verifying...").prop('disabled', true);
+                    }, success: function (response) {
+                        console.log(response);
+                        if (response == true) {
+                            $('#account-verification-btn').html("Account Verified").prop('disabled', true);
+                            location.reload();
+                        } else {
+                            // show popup alert
+                            showPopupAlert("Your account couldn't be verified. Please try again.");
+                            $('#account-verification-btn').html("Apply for Account Verification").prop('disabled', false);
+                        }
+                    },
+                    error: function () {
+                        showPopupAlert("Your account couldn't be verified due to an error. Please try again.");
+                        $('#account-verification-btn').html("Apply for Account Verification").prop('disabled', false);
+                    }
+                });
+            });
         });
     </script>
 </body>

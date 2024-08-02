@@ -18,12 +18,12 @@ use Kreait\Firebase\Exception\Auth\InvalidPassword;
 use Kreait\Firebase\Exception\AuthException;
 use Kreait\Firebase\Contract\Auth;
 
-$status = false;
 $message = "";
 
 // Retrieve form data
 if (!isset($_POST['email']) || !isset($_POST['password'])) {
-
+    echo 'An error occured.';
+    exit;
 } else {
     global $auth;
 
@@ -50,8 +50,7 @@ if (!isset($_POST['email']) || !isset($_POST['password'])) {
             $isUser = $userObj->checkIfUser($uid);
 
             if ($isUser) {
-                $status = true;
-                $message = "Signin successfully";
+                $message = "true";
                 $_SESSION['bookrack-user-id'] = $uid;
                 $_SESSION['idTokenString'] = $idTokenString;
             } else {
@@ -68,11 +67,5 @@ if (!isset($_POST['email']) || !isset($_POST['password'])) {
         $message = "Invalid password.";
     }
 }
-
-$className = $status ? "text-success success" : "text-danger";
-
-$output = "<p class='m-0 $className' id='message'> $message </p>";
-
-echo $output;
-
+echo $message;
 exit;

@@ -134,4 +134,5 @@ img {
   max-width: 400px;
   background-color: white;
   box-shadow: 0 0 1rem rgb(216, 215, 215);
+  z-index: 200;
 }/*# sourceMappingURL=style.css.map */
