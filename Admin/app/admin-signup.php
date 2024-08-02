@@ -60,7 +60,7 @@ try {
         'account_status' => 'pending',
         'role' => 'admin'
     ];
-    $database->getReference("admins/ $uid")->set($extraAdminProperties);
+    $database->getReference("admins/$uid")->set($extraAdminProperties);
     $message = true;
 } catch (EmailExists $e) {
     $message = "This email address is already in use.";

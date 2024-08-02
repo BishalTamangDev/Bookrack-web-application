@@ -17,6 +17,9 @@ if (!isset($profileUser)) {
 
     if (!$userExists)
         header("Location: /bookrack/signin");
+} else {
+    $profileUser->fetchUserPhotoUrl();
+    $userPhotoUrl = $profileUser->photoUrl;
 }
 
 // search
@@ -168,8 +171,6 @@ if (!isset($searchState))
                     <div class="d-none d-md-block profile-photo" id="profile-menu-trigger">
                         <?php
                         if ($profileUser->photo != " " && $profileUser->photo != "") {
-                            $profileUser->fetchUserPhotoUrl();
-                            $userPhotoUrl = $profileUser->photoUrl;
                             ?>
                             <img src="<?= $userPhotoUrl ?>" alt="" class="pointer bg-light" loading="lazy">
                             <?php

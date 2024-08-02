@@ -12,7 +12,6 @@ use Kreait\Firebase\Exception\AuthException;
 use Kreait\Firebase\Contract\Auth;
 
 $message = "";
-$status = false;
 
 // Validate CSRF token
 if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
@@ -78,8 +77,7 @@ if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
                 require_once __DIR__ . '/../classes/notification.php';
                 $notificationObj = new Notification();
                 $notificationObj->newUser($uid);
-                $status = true;
-                $message = "Signed up successfully.";
+                $message = "true";
             }
         } catch (EmailExists $e) {
             $message = "This email address is already in use.";
@@ -93,10 +91,5 @@ if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
     }
 }
 
-$className = $status ? "text-success" : "text-danger";
-
-$output = "<p class='m-0 $className'>" . $message . "<p/>";
-
-echo $output;
-
-exit();
+echo $message;
+exit;

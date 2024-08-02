@@ -40,6 +40,7 @@ $genreArray = array(
     "Philosophy",
     "Poetry",
     "Politics",
+    "Psychological Fiction",
     "Psychology",
     "Religion",
     "Romance",

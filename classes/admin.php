@@ -245,12 +245,15 @@ class Admin
 
             // id, name, email, account status
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
-            $this->adminId = $adminId;
-            $this->name['first'] = $response['name']['first'];
-            $this->name['last'] = $response['name']['last'];
-            $this->accountStatus = $response['account_status'];
-            $this->photo = $response['photo'];
-            $status = true;
+
+            if (!is_null($response)) {
+                $this->adminId = $adminId;
+                $this->name['first'] = $response['name']['first'];
+                $this->name['last'] = $response['name']['last'];
+                $this->accountStatus = $response['account_status'];
+                $this->photo = $response['photo'];
+                $status = true;
+            }
         } catch (Exception $e) {
         }
         return $status;
@@ -380,7 +383,21 @@ class Admin
     // check if the account is eligible to be verified
     public function checkAccountVerificationEligibility()
     {
-        return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
+        if (
+            $this->name['first'] == '' ||
+            $this->name['last'] == '' ||
+            is_null($this->dob) ||
+            is_null($this->gender) ||
+            is_null($this->photo) ||
+            is_null($this->kyc["document_type"]) ||
+            is_null($this->kyc["back"]) ||
+            is_null($this->kyc["front"]) ||
+            $this->accountStatus != "pending") 
+        {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // function to check if the id belong to the admin
@@ -388,10 +405,9 @@ class Admin
     {
         global $database;
         $isAdmin = false;
-        $reference = $database->getReference('admins')->getChild($id);
 
-        if ($reference) {
-            $response = $reference->getSnapshot()->getValue();
+        $response = $database->getReference("admins")->getChild($id)->getSnapshot()->getValue();
+        if (!is_null($response)) {
             if (isset($response['role'])) {
                 if ($response['role'] == "admin") {
                     $isAdmin = true;
@@ -401,6 +417,7 @@ class Admin
 
         return $isAdmin;
     }
+
 
     // verify admin account
     function verifyAdminAccount($adminId)

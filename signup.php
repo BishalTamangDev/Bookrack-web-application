@@ -64,10 +64,9 @@ if (isset($_SESSION['bookrack-user-id']))
                         </div>
 
                         <!-- sign up form -->
-                        <form method="POST" action="" class="d-flex flex-column signin-form"
-                            id="signup-form">
+                        <form method="POST" action="" class="d-flex flex-column signin-form" id="signup-form">
                             <!-- message section -->
-                            <div id="signup-message-div"> </div>
+                            <p class="m-0 mb-3 text-danger" id="signup-message"> Error message appears here </p>
 
                             <!-- email address -->
                             <div class="input-group mb-3">
@@ -167,7 +166,7 @@ if (isset($_SESSION['bookrack-user-id']))
 
             setCSRFToken();
 
-            $('#signup-message-div').hide();
+            $('#signup-message').hide();
 
             // password input
             // prevent space as input
@@ -194,18 +193,23 @@ if (isset($_SESSION['bookrack-user-id']))
                     url: 'app/signup.php',
                     type: "POST",
                     data: $(this).serialize(),
-                    success: function (data) {
-                        $('#signup-message-div').html(data).show();
-                        $('#signup-form').trigger("reset");
-                        $('#signup-btn').html("Signup Now");
-                        $('#signup-btn').prop("disabled", false);
+                    success: function (response) {
+                        if (response == "true") {
+                            $('#signup-form').trigger("reset");
+                            window.location.href = "/bookrack/signin";
+                            $('#signup-message').html("").hide();
+                        } else {
+                            $('#signup-message').html(data).show();
+                            $('#signup-btn').html("Signup Now");
+                            $('#signup-btn').prop("disabled", false);
+                        }
                     },
                     beforeSend: function () {
                         $('#signup-btn').prop("disabled", true);
                         $('#signup-btn').html("Please wait...");
                     },
                     error: function () {
-                        $('#signup-message-div').html(data).show();
+                        $('#signup-message').html(data).show();
                         $('#signup-btn').html("Signup Now");
                         $('#signup-btn').prop("disabled", false);
                     }

@@ -186,7 +186,11 @@ $bookObj = new Book();
                 <?php
                 if ($tab == "view") {
                     ?>
-                    <button ton class="btn" id="edit-profile-btn"> Edit </button>
+                    <button class="btn" id="edit-profile-btn"> Edit </button>
+                    <?php
+                } elseif($tab == "kyc" || $tab == "password-change") {
+                    ?>
+                    <a href="/bookrack/profile/" class="btn" id="view-profile-btn"> Show Profile Detail </a>
                     <?php
                 }
                 ?>
@@ -254,15 +258,20 @@ $bookObj = new Book();
                             <p class="m-0 text-light"> Change Password </p>
                         </div>
 
-                        <?php if ($profileUser->accountStatus != "verified") {
-                            ?>
-                            <form class="d-flex flex-column" id="account-verification-form">
-                                <input type="hidden" class="form-control" id="csrf_token_account_verification"
-                                    name="csrf_token_account_verification">
-                                <button type="submit" class="m-0 btn btn-outline-primary p-2 px-3"
-                                    id="account-verification-btn"> Apply for Account Verification </button>
-                            </form>
-                            <?php
+                        <?php 
+                        // if ($profileUser->accountStatus != "verified") {
+                        if ($profileUser->accountStatus == "pending") {
+                            // check if all the data has been provided
+                            if($profileUser->checkAccountVerificationEligibility()) {
+                                ?>
+                                <form class="d-flex flex-column" id="account-verification-form">
+                                    <input type="hidden" class="form-control" id="csrf_token_account_verification"
+                                        name="csrf_token_account_verification">
+                                    <button type="submit" class="m-0 btn btn-outline-primary p-2 px-3"
+                                        id="account-verification-btn"> Apply for Account Verification </button>
+                                </form>
+                                <?php
+                            }
                         } ?>
 
                         <p class="m-0 btn btn-outline-success p-2 px-3"
@@ -995,6 +1004,7 @@ $bookObj = new Book();
                         success: function (data) {
                             if (data == "success") {
                                 showPopupAlert("Your account has been verified.");
+                                location.reload();
                                 $('#account-verification-btn').html('Account Verified').prop('disabled', true);
                             } else {
                                 showPopupAlert("Your account couldn't be verified.");

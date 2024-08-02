@@ -436,7 +436,24 @@ class User
     // check if the account is eligible to be verified
     public function checkAccountVerificationEligibility()
     {
-        return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
+        if(
+            is_null($this->name['first']) ||
+            is_null($this->name['last']) ||
+            is_null($this->dob) ||
+            is_null($this->gender) ||
+            is_null($this->phoneNumber) ||
+            is_null($this->address['district']) ||
+            is_null($this->address['location']) ||
+            is_null($this->phoneNumber) ||
+            is_null($this->photo) ||
+            is_null($this->kyc["document_type"])  ||
+            is_null($this->kyc["front"]) ||
+            $this->accountStatus != "pending") {
+                return false;
+            } else {
+                return true;
+            }
+        // return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
     }
 
     // function to check if the id belong to the user

@@ -39,13 +39,12 @@ try {
 
         // check if the id belongs to the admin
         $adminObj = new Admin();
-
         if ($adminObj->checkIfAdmin($uid)) {
             $response = true;
             $_SESSION['bookrack-admin-id'] = $uid;
             $_SESSION['idTokenString'] = $idTokenString;
         } else {
-            $response = 'This email address has not been registered yet!';
+            $response = 'Not registered asdsfsf an admin!';
         }
     } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
         $response = 'An error occured.';

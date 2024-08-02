@@ -11,8 +11,7 @@ $adminId = $_SESSION['bookrack-admin-id'];
 
 require_once __DIR__ . '/../classes/admin.php';
 $profileAdmin = new Admin();
-$adminExists = $profileAdmin->
-    checkAdminExistenceById($adminId);
+$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
 
 if (!$adminExists)
     header("Location: /bookrack/admin/app/admin-signout.php");

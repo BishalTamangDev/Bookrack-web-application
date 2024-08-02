@@ -15,7 +15,7 @@ require_once __DIR__ . '/../classes/wishlist.php';
 
 $allBookObj = new Book();
 
-$contentCount = 2;
+$contentCount = 3;
 
 $page = $_POST['page'];
 $offset = $_POST['offset'];
