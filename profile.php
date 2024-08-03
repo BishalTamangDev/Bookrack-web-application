@@ -356,8 +356,8 @@ $bookObj = new Book();
                                 <!-- phone number -->
                                 <div class="w-100 w-md-50 contact-div">
                                     <label for="edit-profile-contact" class="form-label"> Contact </label>
-                                    <input type="text" class="form-control" id="edit-profile-contact"
-                                        name="edit-profile-contact" aria-describedby="contact">
+                                    <input type="number" class="form-control" id="edit-profile-contact"
+                                        name="edit-profile-contact" aria-describedby="contact" minlength="10" maxlength="10">
                                 </div>
                             </div>
 
@@ -878,11 +878,12 @@ $bookObj = new Book();
 
     <script>
         $(document).ready(function () {
-            // Generate CSRF token and set it to the forms
+            tab = "<?=$tab?>";
+
             if (tab == "view") {
                 $('#profile-edit-cancel-btn').hide();
 
-                toggleInputFields = (set) => {
+                function toggleInputFields(set) {
                     $('#edit-profile-first-name').prop('disabled', set);
                     $('#edit-profile-last-name').prop('disabled', set);
                     $('#edit-profile-dob').prop('disabled', set);
@@ -910,16 +911,17 @@ $bookObj = new Book();
                     });
                 }
 
-                // first name
-                $('#edit-profile-first-name').keydown(function () {
-                    var asciiValue = event.keyCode || event.which;
-                    if (asciiValue == 32) {
-                        event.preventDefault();
-                    }
+                // // first name
+                $(document).on('keydown', '#edit-profile-first-name', function(){
+                        var asciiValue = event.keyCode || event.which;
+                        if (asciiValue == 32) {
+                            event.preventDefault();
+                        }
                 });
 
                 // last name
-                $('#edit-profile-last-name').keydown(function () {
+                
+                $(document).on('keydown', '#edit-profile-last-name', function (event) {
                     var asciiValue = event.keyCode || event.which;
                     if (asciiValue == 32) {
                         event.preventDefault();
@@ -927,9 +929,13 @@ $bookObj = new Book();
                 });
 
                 // contact name
-                $('#edit-profile-contact').keydown(function () {
+                $(document).on('keydown', '#edit-profile-contact', function (event) {
                     var asciiValue = event.keyCode || event.which;
-                    if (asciiValue == 32) {
+                    if(asciiValue >= 48 && asciiValue <=57) {
+                        // allow input
+                    } else if(asciiValue == 8 || asciiValue == 37 || asciiValue == 39 || asciiValue == 46) {
+
+                    } else {
                         event.preventDefault();
                     }
                 });

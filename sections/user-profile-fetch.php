@@ -103,7 +103,7 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
                 <label for="edit-profile-contact" class="form-label"> Contact </label>
                 <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getPhoneNumber() != "")
                     echo str_replace('+977', '', $profileUser->getPhoneNumber()); ?>" name="edit-profile-contact"
-                    aria-describedby="contact" disabled>
+                    aria-describedby="contact" minlength="10" maxlength="10" disabled>
             </div>
         </div>
 

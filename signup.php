@@ -199,7 +199,7 @@ if (isset($_SESSION['bookrack-user-id']))
                             window.location.href = "/bookrack/signin";
                             $('#signup-message').html("").hide();
                         } else {
-                            $('#signup-message').html(data).show();
+                            $('#signup-message').html(response).show();
                             $('#signup-btn').html("Signup Now");
                             $('#signup-btn').prop("disabled", false);
                         }
@@ -209,7 +209,7 @@ if (isset($_SESSION['bookrack-user-id']))
                         $('#signup-btn').html("Please wait...");
                     },
                     error: function () {
-                        $('#signup-message').html(data).show();
+                        $('#signup-message').html(response).show();
                         $('#signup-btn').html("Signup Now");
                         $('#signup-btn').prop("disabled", false);
                     }

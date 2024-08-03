@@ -15,7 +15,7 @@ require_once __DIR__ . '/../classes/wishlist.php';
 
 $allBookObj = new Book();
 
-$contentCount = 3;
+$contentCount = 5;
 
 $page = $_POST['page'];
 $offset = $_POST['offset'];
@@ -70,7 +70,7 @@ if (sizeof($allBookList) == 0) {
                     $finalGenreClasses .= $genreClass . ' ';
                 }
                 ?>
-                <div class="book-container <?= $finalGenreClasses ?> book-element" data-price="<?= $allBookObj->price['offer'] ?>">
+                <div class="book-container mb-3 <?= $finalGenreClasses ?> book-element" data-price="<?= $allBookObj->price['offer'] ?>">
                     <!-- book image -->
                     <div class="book-image">
                         <?php $allBookObj->setPhotoUrl(); ?>
