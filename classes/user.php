@@ -426,7 +426,7 @@ class User
         $list = array();
         // fetching all users
         $response = $database->getReference("users")->getSnapshot()->getValue();
-        if($response) {
+        if ($response) {
             foreach ($response as $key => $res)
                 $list[] = $key;
         }
@@ -436,24 +436,24 @@ class User
     // check if the account is eligible to be verified
     public function checkAccountVerificationEligibility()
     {
-        if(
-            is_null($this->name['first']) ||
-            is_null($this->name['last']) ||
-            is_null($this->dob) ||
-            is_null($this->gender) ||
-            is_null($this->phoneNumber) ||
-            is_null($this->address['district']) ||
-            is_null($this->address['location']) ||
-            is_null($this->phoneNumber) ||
-            is_null($this->photo) ||
-            is_null($this->kyc["document_type"])  ||
-            is_null($this->kyc["front"]) ||
-            $this->accountStatus != "pending") {
-                return false;
-            } else {
-                return true;
-            }
-        // return ($this->phoneNumber != '' && $this->photo != '' && $this->kyc["document_type"] != '' && $this->kyc["front"] != '' && $this->accountStatus == "pending") ? true : false;
+        if (
+            $this->name['first'] == '' ||
+            $this->name['last'] == '' ||
+            $this->dob == '' ||
+            $this->gender == '' ||
+            $this->phoneNumber == '' ||
+            $this->address['district'] == '' ||
+            $this->address['location'] == '' ||
+            $this->phoneNumber == '' ||
+            $this->photo == '' ||
+            $this->kyc["document_type"] == '' ||
+            $this->kyc["front"] == '' ||
+            $this->accountStatus != "pending"
+        ) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // function to check if the id belong to the user
@@ -476,19 +476,21 @@ class User
     }
 
     // fetch user name
-    public function fetchUserName($userId) {
+    public function fetchUserName($userId)
+    {
         global $database;
         $userName = "-";
         $response = $database->getReference("users")->getChild($userId)->getSnapshot()->getValue();
 
-        if($response) 
-            $userName = $response['name']['first'].' '.$response['name']['last'];
-        
+        if ($response)
+            $userName = $response['name']['first'] . ' ' . $response['name']['last'];
+
         return $userName;
     }
 
     // account verification
-    public function accountVerification($userId){
+    public function accountVerification($userId)
+    {
         global $database;
         $properties['account_status'] = "verified";
         $response = $database->getReference("users/{$userId}")->update($properties);

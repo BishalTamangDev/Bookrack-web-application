@@ -386,14 +386,14 @@ class Admin
         if (
             $this->name['first'] == '' ||
             $this->name['last'] == '' ||
-            is_null($this->dob) ||
-            is_null($this->gender) ||
-            is_null($this->photo) ||
-            is_null($this->kyc["document_type"]) ||
-            is_null($this->kyc["back"]) ||
-            is_null($this->kyc["front"]) ||
-            $this->accountStatus != "pending") 
-        {
+            $this->dob == '' ||
+            $this->gender == '' ||
+            $this->photo == '' ||
+            $this->kyc["document_type"] == '' ||
+            $this->kyc["back"] == '' ||
+            $this->kyc["front"] == '' ||
+            $this->accountStatus != "pending"
+        ) {
             return false;
         } else {
             return true;

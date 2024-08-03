@@ -52,6 +52,7 @@ if ($task == 'edit') {
 
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/css/add-book.css">
+    <link rel="stylesheet" href="/bookrack/css/file-input.css">
 </head>
 
 <body>
@@ -216,7 +217,8 @@ if ($task == 'edit') {
                                         }
                                         $count++;
                                     }
-                                } ?>" placeholder="Choose atleast one genre" value="" id="book-genre-label" autocomplete="off" required>
+                                } ?>" placeholder="Choose atleast one genre" value="" id="book-genre-label"
+                                autocomplete="off" required>
                         </div>
 
                         <div class="gap-1 rounded px-2 genre-container">
@@ -333,15 +335,38 @@ if ($task == 'edit') {
                     }
                     ?>
 
-                    <div class="d-flex flex-column gap-3 book-images">
-                        <!-- photo -->
-                        <div class="input-group">
-                            <!-- <label for="cover-page">Cover page</label> -->
-                            <input type="file" name="book-photo" id="cover-page" class="form-control"
-                                aria-label="book photo" accept="image/*" aria-describedby="book photo" <?php if ($task != "edit")
+                    <div class="image-input-container">
+                        <!-- image container -->
+                        <div class="image-container" id="image-container-1">
+                            <!-- background-image -->
+                            <img src="/bookrack/assets/images/blank.jpg" alt="image-file-1" id="image-file-1">
+
+                            <!-- delete icon -->
+                            <div class="delete-div" id="delete-image-1">
+                                <i class="fa fa-trash"> </i>
+                            </div>
+
+                            <!-- file input -->
+                            <input type="file" name="book-photo" id="cover-page" accept="image/*" <?php if ($task != "edit")
                                     echo "required"; ?>>
                         </div>
+
+                        <label for="cover-page" class="upload-label"> <i class="fa-solid fa-upload"></i> Upload Cover Page
+                        </label>
                     </div>
+
+                    <!-- <div class="d-flex flex-column gap-3 book-images"> -->
+                        <!-- photo -->
+                        <!-- <div class="input-group"> -->
+                            <!-- <label for="cover-page">Cover page</label> -->
+                            <!-- <input type="file" name="book-photo" id="cover-page" class="form-control" aria-label="book photo" accept="image/*" aria-describedby="book photo" -->
+                                 <?php 
+                                //  if ($task != "edit")
+                                    // echo "required";
+                                ?>
+                                <!-- > -->
+                        <!-- </div> -->
+                    <!-- </div> -->
 
                     <div class="mt-1 operation">
                         <?php
@@ -377,6 +402,26 @@ if ($task == 'edit') {
             var genreState = true;
 
             $('#custom-popup-alert').hide();
+
+            $('#cover-page').on('change', function (event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#image-file-1').attr('src', e.target.result).show();
+                    }
+                    reader.readAsDataURL(file);
+                    $('#image-container').show();
+                } else {
+                    event.preventDefault();
+                    $('#image-file-1').attr('src', '/bookrack/assets/images/blank.jpg').show();
+                }
+            });
+
+            $('#delete-image-1').click(function () {
+                $('#image-file-1').attr('src', '/bookrack/assets/images/blank.jpg').show();
+                $('#cover-page').val('');
+            });
 
             function showPopupAlert(msg) {
                 $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
@@ -416,6 +461,7 @@ if ($task == 'edit') {
                             if (response == "true") {
                                 showPopupAlert("Book added successfully.");
                                 $('#add-book-form').trigger("reset");
+                                $('#image-file-1').attr('src', '/bookrack/assets/images/blank.jpg').show();
                                 // redirect to another page after successful book addition
                             } else {
                                 if (response == "false") {

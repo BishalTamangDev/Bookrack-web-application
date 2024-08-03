@@ -1,0 +1,63 @@
+.image-input-container {
+  width: -moz-fit-content;
+  width: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.image-input-container .upload-label {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgb(201, 201, 201);
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+.image-container img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
+  z-index: 20;
+  position: absolute;
+}
+.image-container .delete-div {
+  z-index: 21;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 0.6rem;
+  top: 0;
+  right: 0;
+  color: white;
+  border-bottom-left-radius: 0.5rem;
+  background-color: black;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.image-container input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}/*# sourceMappingURL=file-input.css.map */

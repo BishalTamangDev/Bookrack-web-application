@@ -968,6 +968,7 @@ $bookObj = new Book();
                             }, 4000);
                             if (data == "Profile updated successfully.") {
                                 toggleInputFields(true);
+                                location.reload();
                                 $('#profile-edit-cancel-btn').click();
                             }
                             $('#update-profile-btn').html('Update').prop('disabled', false);
