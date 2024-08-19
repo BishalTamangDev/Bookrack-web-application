@@ -66,7 +66,9 @@ if (isset($_SESSION['bookrack-user-id']))
                         <!-- sign up form -->
                         <form method="POST" action="" class="d-flex flex-column signin-form" id="signup-form">
                             <!-- message section -->
-                            <p class="m-0 mb-3 text-danger" id="signup-message"> Error message appears here </p>
+                            <p class="m-0 mb-3 text-danger error-message" id="error-message"> Error message appears here </p>
+
+                            <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
 
                             <!-- email address -->
                             <div class="input-group mb-3">
@@ -74,10 +76,10 @@ if (isset($_SESSION['bookrack-user-id']))
                                     <i class="fa-regular fa-envelope"></i>
                                 </span>
                                 <div class="form-floating">
-                                    <input type="email" name="email" class="form-control" id="user-password"
+                                    <input type="email" name="email" class="form-control" id="user-email"
                                         placeholder="someone@gmail.com" aria-label="email address"
                                         aria-describedby="email address" required>
-                                    <label for="user-password">Email address</label>
+                                    <label for="user-email">Email address</label>
                                 </div>
                             </div>
 
@@ -87,14 +89,19 @@ if (isset($_SESSION['bookrack-user-id']))
                                     <i class="fa-solid fa-unlock"></i>
                                 </span>
                                 <div class="form-floating">
-                                    <input type="password" name="password" class="form-control" id="user-email"
+                                    <input type="password" name="password" class="form-control" id="user-password"
                                         placeholder="********" aria-label="password" aria-describedby="password"
                                         minlength="8" required>
-                                    <label for="user-email">Password</label>
+                                    <label for="user-password">Password</label>
                                 </div>
                             </div>
 
-                            <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
+                            <!-- password toggle -->
+                            <div class="d-flex flex-row gap-2 mt-3 mb-3 pointer fit-content password-toggle-div" id="password-toggle-div">
+                                <i class="pt-1 fa fa-eye" id="show-password-icon"></i>
+                                <i class="d-none pt-1 fa-regular fa-eye-slash" id="hide-password-icon"></i>
+                                <span id="password-toggle-div-label"> Show Password </span>
+                            </div>
 
                             <div class="mb-3">
                                 <p class="m-0 text-secondary"> Note: make sure you complete your profile setting to use
@@ -166,8 +173,6 @@ if (isset($_SESSION['bookrack-user-id']))
 
             setCSRFToken();
 
-            $('#signup-message').hide();
-
             // password input
             // prevent space as input
             $('#user-email').keydown(function () {
@@ -197,9 +202,9 @@ if (isset($_SESSION['bookrack-user-id']))
                         if (response == "true") {
                             $('#signup-form').trigger("reset");
                             window.location.href = "/bookrack/signin";
-                            $('#signup-message').html("").hide();
+                            $('#error-message').html("").hide();
                         } else {
-                            $('#signup-message').html(response).show();
+                            $('#error-message').html(response).show();
                             $('#signup-btn').html("Signup Now");
                             $('#signup-btn').prop("disabled", false);
                         }
@@ -209,11 +214,26 @@ if (isset($_SESSION['bookrack-user-id']))
                         $('#signup-btn').html("Please wait...");
                     },
                     error: function () {
-                        $('#signup-message').html(response).show();
+                        $('#error-message').html(response).show();
                         $('#signup-btn').html("Signup Now");
                         $('#signup-btn').prop("disabled", false);
                     }
                 });
+            });
+
+            // toggle password
+            $('#password-toggle-div').click(function () {
+                var type = $('#user-password').attr('type') === 'password' ? 'text' : 'password';
+                $('#user-password').attr('type', type);
+                if (type === 'password') {
+                    $('#hide-password-icon').addClass('d-none');
+                    $('#show-password-icon').removeClass('d-none');
+                    $('#password-toggle-div-label').html("Show Password");
+                } else {
+                    $('#hide-password-icon').removeClass('d-none');
+                    $('#show-password-icon').addClass('d-none');
+                    $('#password-toggle-div-label').html("Hide Password");
+                }
             });
         });
     </script>

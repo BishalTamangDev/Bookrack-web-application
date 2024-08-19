@@ -86,13 +86,6 @@
 .article .heading #filter-show-trigger-2 {
   display: block;
 }
-.article .empty-context-container {
-  display: flex;
-}
-.article .empty-context-container img {
-  width: 100%;
-  max-width: 200px;
-}
 .article .load-more-btn {
   padding: 0.5rem 1.6rem;
   width: 100%;

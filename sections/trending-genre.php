@@ -11,8 +11,8 @@ $genreList = $genreObj->fetchGenreList();
 if (sizeof($genreList) > 0) {
     foreach ($genreList as $genre) {
         ?>
-        <div class="genre">
-            <p class="m-0 text-secondary"> <?= $genre ?> </p>
+        <div class="genre bg-dark text-white">
+            <p class="m-0"> <?= $genre ?> </p>
         </div>
         <?php
     }

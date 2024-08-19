@@ -95,14 +95,21 @@ if (!isset($searchState))
 
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/profile/my-books'">
+                    onclick="window.location.href='/bookrack/my-books'">
                     <i class="fa fa-book"></i>
                     <span> My Books </span>
                 </div>
 
+                <!-- extra: my books -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/bookrack/book-requests'">
+                    <i class="fa fa-book"></i>
+                    <span> Book Requests </span>
+                </div>
+
                 <!-- wishlist -->
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2 border p-2 rounded pointer wishlist"
-                    onclick="window.location.href='/bookrack/profile/wishlist'">
+                    onclick="window.location.href='/bookrack/wishlist'">
                     <i class="fa fa-bookmark"></i>
                     <span> Wishlist </span>
                 </div>
@@ -187,11 +194,11 @@ if (!isset($searchState))
                         <ul>
                             <li onclick="window.location.href='/bookrack/profile'"> <i class="fa fa-user"></i> <span>My
                                     Profile</span> </li>
-                            <li onclick="window.location.href='/bookrack/profile/my-books'"> <i class="fa fa-book"></i>
-                                <span>My Books</span>
+                            <li onclick="window.location.href='/bookrack/my-books'"> <i class="fa fa-book"></i>
+                                <span> My Books </span>
                             </li>
-                            <li onclick="window.location.href='/bookrack/profile/earning'"> <i class="fa fa-dollar"></i>
-                                <span>Earning</span>
+                            <li onclick="window.location.href='/bookrack/requests'"> <i class="fa fa-book"></i>
+                                <span> Requests </span>
                             </li>
                             <li onclick="window.location.href='/bookrack/app/signout.php'"> <i
                                     class="fa fa-sign-out"></i>

@@ -1,9 +1,8 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE)
-    session_start();
+$userId = $_POST['userId'] ?? 0;
 
-if (!isset($_SESSION['bookrack-user-id'])) {
+if($userId == 0) {
     echo "Empty!";
     exit;
 }
@@ -12,16 +11,22 @@ require_once __DIR__ . '/../classes/wishlist.php';
 require_once __DIR__ . '/../classes/book.php';
 
 $wishlist = new Wishlist();
-$bookObj =  new Book();
+$bookObj = new Book();
 
-$userId = $_SESSION['bookrack-user-id'];
 $wishlist->setUserId($userId);
 $userWishlist = $wishlist->fetchWishlist();
 ?>
 
 <div class="d-flex flex-column gap-4 my-book-content wishlist-content">
     <?php
-    if (sizeof($userWishlist) > 0) {
+    if (sizeof($userWishlist) == 0) {
+        ?>
+        <div class="empty-div">
+            <img src="/bookrack/assets/icons/empty.svg" alt="" loading="lazy">
+            <p class="empty-message"> Your wishlist is empty! </p>
+        </div>
+        <?php
+    } else {
         ?>
         <div class="d-flex flex-row flex-wrap gap-3 wishlist-container">
             <?php
@@ -61,26 +66,35 @@ $userWishlist = $wishlist->fetchWishlist();
                             </div>
                         </div>
 
-                        <!-- book purpose -->
-                        <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
+                        <!-- book authors -->
+                        <div class="book-author-container">
+                            <p class="book-author">
+                                <?php
+                                $authorCount = sizeof($bookObj->author);
+                                $count = 0;
+                                foreach ($bookObj->author as $author) {
+                                    $count++;
+                                    echo ucwords($author);
 
-                        <!-- book description -->
-                        <div class="book-description-container">
-                            <p class="book-description"> <?= ucfirst($bookObj->description) ?>
+                                    if ($count < $authorCount) {
+                                        echo ", ";
+                                    }
+                                }
+                                ?>
                             </p>
+                        </div>
+
+                        <!-- description -->
+                        <div class="book-description-container">
+                            <p class=""> <?= ucfirst($bookObj->description) ?> </p>
                         </div>
 
                         <!-- book price -->
                         <div class="book-price">
                             <p class="book-price">
                                 <?php
-                                if ($bookObj->purpose == "renting") {
-                                    $rent = 0.20 * $bookObj->price['actual'];
-                                    echo "NPR." . number_format($rent, 2) . "/week";
-                                } else {
-                                    $price = $bookObj->price['offer'];
-                                    echo "NPR." . number_format($price, 2);
-                                }
+                                $price = $bookObj->price['offer'];
+                                echo "NPR. " . number_format($price, 2);
                                 ?>
                             </p>
                         </div>
@@ -95,17 +109,6 @@ $userWishlist = $wishlist->fetchWishlist();
             ?>
         </div>
         <?php
-    } else {
-        ?>
-        <div class="empty-div">
-            <img src="/bookrack/assets/icons/empty.svg" alt="" loading="lazy">
-            <p class="empty-message"> Your wishlist is empty! </p>
-        </div>
-        <?php
     }
     ?>
 </div>
-
-<?php
-exit;
-?>

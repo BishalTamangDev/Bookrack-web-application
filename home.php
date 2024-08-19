@@ -55,7 +55,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
     <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
-    <main class="d-flex flex-row gap-lg-3 pb-5 container main">
+    <main class="d-flex flex-row gap-lg-4 pb-5 container main">
         <!-- aside :: filter & advertisement  -->
         <aside class="aside gap-3" id="aside">
             <!-- filter -->
@@ -69,6 +69,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                         <i class="fa fa-multiply fs-3 text-secondary pointer" id="filter-hide-trigger"></i>
                     </div>
                 </section>
+
                 <hr>
 
                 <!-- filter parameters -->
@@ -153,7 +154,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
             <section class="d-flex flex-row gap-4 flex-wrap mt-2 align-items-center top-genre-section">
                 <p class="m-0 fs-5"> Top Genre </p>
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container" id="trending-genre-container">
-                    <div class="genre">
+                    <div class="genre bg-dark text-white">
                         <p class="m-0 text-secondary"> Loading... </p>
                     </div>
                 </div>
@@ -269,6 +270,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                         genre: book_genre,
                         minPrice: book_min_price,
                         maxPrice: book_max_price,
+                        userId: '<?=$userId?>',
                     },
                     beforeSend: function () {
                         $('#load-more-btn').html("Loading...").prop('disabled', true);

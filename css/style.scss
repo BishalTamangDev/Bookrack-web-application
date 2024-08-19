@@ -47,7 +47,7 @@ html {
 }
 
 
-a{
+a {
     text-decoration: none;
 }
 
@@ -61,79 +61,99 @@ body {
     box-sizing: inherit;
 }
 
-.main{
+.main {
     min-height: 80vh;
     display: flex;
     margin-top: 7rem;
     flex-direction: column;
 }
 
-.input[type="text"]{
+.input[type="text"] {
     background-color: red;
 }
 
-.f-reset{
+.f-reset {
     padding: 0;
     margin: 0;
 }
 
-.section{
+.section {
     margin-top: 30px;
 }
 
-.pointer{
+.pointer {
     cursor: pointer;
 }
 
-img{
+img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
 }
 
-.empty-div{
+.empty-div {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     width: 100%;
     align-items: center;
     padding: 2rem 0;
-    img{
+
+    img {
         width: 200px;
     }
-    .empty-message{
+
+    .empty-message {
         font-size: 1.2rem;
         color: var(--danger-color);
     }
 }
 
+.error-message{
+    display: none;
+}
+
+// empty context
+.empty-context-container {
+    display: flex;
+
+    img {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+
 // overriding bootstrap classes
 // table class
-.table{
+.table {
     width: 100%;
 
-    thead{
-        tr{
-            th{
+    thead {
+        tr {
+            th {
                 vertical-align: top;
             }
         }
     }
 
-    tbody{
-        tr{
-            th, td{
+    tbody {
+        tr {
+
+            th,
+            td {
                 vertical-align: top;
 
-                abbr{
+                abbr {
                     text-decoration: none;
                 }
 
-                a{
+                a {
                     color: black;
                 }
-                &:hover{
+
+                &:hover {
                     // background-color: whitesmoke;
                     cursor: default;
                 }
@@ -141,9 +161,9 @@ img{
         }
     }
 
-    #table-foot{
-        tr{
-            td{
+    #table-foot {
+        tr {
+            td {
                 color: var(--brand-color);
                 text-align: center;
             }
@@ -151,17 +171,50 @@ img{
     }
 }
 
-#custom-popup-alert{
+
+// brand
+.brand-color{
+    color: var(--brand-color);
+}
+
+.brand-bg {
+    background-color: var(--brand-color);
+}
+
+.btn-brand{
+    border-radius: 0.4rem;
+    background-color: var(--brand-color);
+    color: white;
+}
+
+.btn-outline-brand{
+    border-radius: 0.4rem;
+    background-color: white;
+    border: 1px solid var(--brand-color);
+    color: var(--brand-color);
+
+    &:hover{
+        color: white;
+        background-color: var(--brand-color);
+    }
+}
+
+.fit-content{
+    width: fit-content;
+    height: fit-content;
+}
+
+#custom-popup-alert {
     position: fixed;
     bottom: 1rem;
     left: 1rem;
     display: flex;
     flex-direction: row;
-    padding: 1rem 1.5rem; 
+    padding: 1rem 1.5rem;
     border-radius: 12px;
     width: fit-content;
     max-width: 400px;
     background-color: white;
-    box-shadow : 0 0 1rem rgb(216, 215, 215);
+    box-shadow: 0 0 1rem rgb(216, 215, 215);
     z-index: 200;
 }

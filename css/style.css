@@ -98,27 +98,75 @@ img {
   color: var(--danger-color);
 }
 
+.error-message {
+  display: none;
+}
+
+.empty-context-container {
+  display: flex;
+}
+.empty-context-container img {
+  width: 100%;
+  max-width: 200px;
+}
+
 .table {
   width: 100%;
 }
 .table thead tr th {
   vertical-align: top;
 }
-.table tbody tr th, .table tbody tr td {
+.table tbody tr th,
+.table tbody tr td {
   vertical-align: top;
 }
-.table tbody tr th abbr, .table tbody tr td abbr {
+.table tbody tr th abbr,
+.table tbody tr td abbr {
   text-decoration: none;
 }
-.table tbody tr th a, .table tbody tr td a {
+.table tbody tr th a,
+.table tbody tr td a {
   color: black;
 }
-.table tbody tr th:hover, .table tbody tr td:hover {
+.table tbody tr th:hover,
+.table tbody tr td:hover {
   cursor: default;
 }
 .table #table-foot tr td {
   color: var(--brand-color);
   text-align: center;
+}
+
+.brand-color {
+  color: var(--brand-color);
+}
+
+.brand-bg {
+  background-color: var(--brand-color);
+}
+
+.btn-brand {
+  border-radius: 0.4rem;
+  background-color: var(--brand-color);
+  color: white;
+}
+
+.btn-outline-brand {
+  border-radius: 0.4rem;
+  background-color: white;
+  border: 1px solid var(--brand-color);
+  color: var(--brand-color);
+}
+.btn-outline-brand:hover {
+  color: white;
+  background-color: var(--brand-color);
+}
+
+.fit-content {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 #custom-popup-alert {

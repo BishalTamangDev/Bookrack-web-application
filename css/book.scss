@@ -27,6 +27,7 @@
         padding: 0.6rem;
         padding-top: 0.3rem;
         row-gap: 0.5rem;
+        width: 100%;
 
         p {
             margin: 0;
@@ -35,11 +36,13 @@
         .book-title-wishlist {
             display: flex;
             flex-direction: row;
+            width: 100%;
+            border-image-slice: lavender;
             justify-content: space-between;
             // align-items: center;
 
             .book-title {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
                 font-weight: bold;
             }
 
@@ -48,6 +51,12 @@
                 color: black;
                 padding-top: 2px;
                 cursor: pointer;
+            }
+        }
+
+        .book-author-container{
+            .book-author{
+                font-weight: 550;
             }
         }
 

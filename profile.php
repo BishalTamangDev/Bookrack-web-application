@@ -19,8 +19,6 @@ $userExists = $profileUser->fetch($userId);
 if (!$userExists)
     header("Location: /bookrack/signout");
 
-require_once __DIR__ . '/classes/book.php';
-$bookObj = new Book();
 ?>
 
 <!DOCTYPE html>
@@ -40,18 +38,6 @@ $bookObj = new Book();
             case "kyc":
                 echo "KYC";
                 break;
-            case "my-books":
-                echo "My books";
-                break;
-            case "wishlist":
-                echo "Wishlist";
-                break;
-            case "requested-books":
-                echo "Requested books";
-                break;
-            case "earning":
-                echo "Earning";
-                break;
             default:
                 echo "My profile";
         }
@@ -67,17 +53,14 @@ $bookObj = new Book();
 
 <body>
     <!-- header -->
-    <?php
-    require_once __DIR__ . '/sections/header.php'; ?>
-
-    <?php $userBookList = $bookObj->fetchBookByUserId($userId); ?>
+    <?php require_once __DIR__ . '/sections/header.php'; ?>
 
     <!-- main -->
     <main class="d-flex d-column flex-lg-row gap-lg-4 container main">
         <!-- aside :: profile detail  -->
         <aside class="aside gap-3" id="aside">
             <!-- profile section -->
-            <section class="d-flex flex-column p-3 py-4 mb-4 gap-3 profile-section">
+            <section class="d-flex flex-column shadow-sm p-3 py-4 mb-4 gap-3 profile-section">
                 <!-- profile picture -->
                 <div class="d-flex flex-column gap-2 align-items-center profile-top">
                     <div class="profile-image">
@@ -116,20 +99,6 @@ $bookObj = new Book();
 
                 <!-- bottom -->
                 <div class="d-flex flex-column gap-2 profile-bottom">
-                    <!-- address -->
-                    <div class="d-flex flex-row profile-detail">
-                        <div class="title-div">
-                            <i class="fa fa-map-pin"></i>
-                            <span> From </span>
-                        </div>
-                        <div class="data-div">
-                            <p class="m-0">
-                                <?php
-                                echo $profileUser->getAddressDistrict() != "" ? $profileUser->getFullAddress() : "-"; ?>
-                            </p>
-                        </div>
-                    </div>
-
                     <?php
                     // extract only the date from joined date
                     $fullDateTime = $profileUser->joinedDate;
@@ -165,7 +134,7 @@ $bookObj = new Book();
                         </div>
 
                         <div class="data-div">
-                            <p class="m-0 fw-bold"> <?= sizeof($userBookList) ?> </p>
+                            <p class="m-0 fw-bold" id="book-offer-count"> - </p>
                         </div>
                     </div>
 
@@ -181,19 +150,6 @@ $bookObj = new Book();
                         </div>
                     </div>
                 </div>
-
-                <!-- <button class="btn" id="edit-profile-btn" onclick="window.location.href='/bookrack/profile/edit-profile'"> Edit </button> -->
-                <?php
-                if ($tab == "view") {
-                    ?>
-                    <button class="btn" id="edit-profile-btn"> Edit </button>
-                    <?php
-                } elseif($tab == "kyc" || $tab == "password-change") {
-                    ?>
-                    <a href="/bookrack/profile/" class="btn" id="view-profile-btn"> Show Profile Detail </a>
-                    <?php
-                }
-                ?>
             </section>
         </aside>
 
@@ -211,79 +167,39 @@ $bookObj = new Book();
             }
             ?>
 
-            <!-- tab -->
-            <section class="d-flex flex-row flex-wrap gap-3 gap-md-3 mt-1 mb-3 tab-section">
-                <!-- profile tab -->
-                <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/'"> MY PROFILE </p>
-                    <div
-                        class="indicator <?php echo ($tab == "view" || $tab == "password-change" || $tab == "kyc") ? "active" : "inactive"; ?>">
-                    </div>
-                </div>
-
-                <!-- my books tab -->
-                <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/my-books'"> MY BOOKS </p>
-                    <div class="indicator <?php echo ($tab == "my-books") ? "active" : "inactive"; ?>"></div>
-                </div>
-
-                <!-- wihslist tab -->
-                <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/wishlist'"> WISHLIST </p>
-                    <div class="indicator <?php echo ($tab == "wishlist") ? "active" : "inactive"; ?>"></div>
-                </div>
-
-                <!-- requested books tab -->
-                <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/requested-books'"> REQUESTED BOOKS </p>
-                    <div class="indicator <?php echo ($tab == "requested-books") ? "active" : "inactive"; ?>"></div>
-                </div>
-
-                <!-- earning tab -->
-                <div class="tab">
-                    <p onclick="window.location.href='/bookrack/profile/earning'"> EARNING </p>
-                    <div class="indicator <?php echo ($tab == "earning") ? "active" : "inactive"; ?>"></div>
-                </div>
-            </section>
-
             <!-- contents -->
             <section class="d-flex flex-column gap-3 contents">
+                <!-- tab -->
+                <div class="d-flex flex-row gap-2 tab-container">
+                    <!-- my profile -->
+                    <a href="/bookrack/profile/" class="btn tab <?= $tab == 'view' ? 'active-tab' : 'inactive-tab' ?>">
+                        <i class="fa fa-user"></i>
+                        <p class="m-0"> My Profile </p>
+                    </a>
+
+                    <!-- Password & Security -->
+                    <a href="/bookrack/profile/password-change"
+                        class="btn tab <?= $tab == 'password-change' ? 'active-tab' : 'inactive-tab' ?>">
+                        <i class="fa fa-lock"></i>
+                        <p class="m-0"> Password & Security </p>
+                    </a>
+
+                    <!-- kyc -->
+                    <a href="/bookrack/profile/kyc"
+                        class="btn tab <?= $tab == 'kyc' ? 'active-tab' : 'inactive-tab' ?>">
+                        <i class="fa-regular fa-note-sticky"></i>
+                        <p class="m-0"> MY KYC </p>
+                    </a>
+                </div>
+
                 <!-- profile :: view & edit -->
                 <?php if ($tab == "view") {
                     ?>
-                    <div class="d-flex flex-row gap-2">
-                        <div class="d-flex flex-row gap-2 align-items-center bg-dark p-2 px-3 rounded change-password pointer"
-                            onclick="window.location.href='/bookrack/profile/password-change'">
-                            <i class="fa fa-lock text-light"></i>
-                            <p class="m-0 text-light"> Change Password </p>
-                        </div>
-
-                        <?php 
-                        // if ($profileUser->accountStatus != "verified") {
-                        if ($profileUser->accountStatus == "pending") {
-                            // check if all the data has been provided
-                            if($profileUser->checkAccountVerificationEligibility()) {
-                                ?>
-                                <form class="d-flex flex-column" id="account-verification-form">
-                                    <input type="hidden" class="form-control" id="csrf_token_account_verification"
-                                        name="csrf_token_account_verification">
-                                    <button type="submit" class="m-0 btn btn-outline-primary p-2 px-3"
-                                        id="account-verification-btn"> Apply for Account Verification </button>
-                                </form>
-                                <?php
-                            }
-                        } ?>
-
-                        <p class="m-0 btn btn-outline-success p-2 px-3"
-                            onclick="window.location.href='/bookrack/profile/kyc'"> My KYC </p>
-                    </div>
-
                     <div class="d-flex flex-column gap-3 edit-profile-content">
                         <!-- top-section -->
                         <div class="d-flex flex-row align-items-center justify-content-between gap-3 top-section">
                             <!-- heading -->
                             <div class="d-flex flex-row align-items-center gap-2 heading">
-                                <i class="fa fa-edit fs-4 text-secondary"></i>
                                 <h4 class="m-0"> My Profile </h4>
                             </div>
 
@@ -357,7 +273,8 @@ $bookObj = new Book();
                                 <div class="w-100 w-md-50 contact-div">
                                     <label for="edit-profile-contact" class="form-label"> Contact </label>
                                     <input type="number" class="form-control" id="edit-profile-contact"
-                                        name="edit-profile-contact" aria-describedby="contact" minlength="10" maxlength="10">
+                                        name="edit-profile-contact" aria-describedby="contact" minlength="10"
+                                        maxlength="10">
                                 </div>
                             </div>
 
@@ -384,6 +301,33 @@ $bookObj = new Book();
                             <!-- <button type="submit" class="btn rounded" id="update-profile-btn" name="update-profile-btn"> Update </button> -->
                         </form>
                     </div>
+
+                    <?php
+                    if ($tab == "view") {
+                        ?>
+                        <div class="d-flex flex-row gap-2 action">
+
+                            <a class="btn btn-success fit-content d-flex flex-row gap-2 align-items-center"
+                                id="edit-profile-btn"> <i class="fa fa-edit"> </i> Edit </a>
+                            <?php
+                            if ($profileUser->accountStatus == "pending") {
+                                // check if all the data has been provided
+                                if ($profileUser->checkAccountVerificationEligibility()) {
+                                    ?>
+                                    <form class="d-flex flex-column" id="account-verification-form">
+                                        <input type="hidden" class="form-control" id="csrf_token_account_verification"
+                                            name="csrf_token_account_verification">
+                                        <button type="submit" class="m-0 btn btn-outline-primary p-2 px-3"
+                                            id="account-verification-btn"> Apply for Account Verification </button>
+                                    </form>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <?php
                 }
                 ?>
@@ -590,265 +534,6 @@ $bookObj = new Book();
                     <?php
                 }
                 ?>
-
-                <!-- my books -->
-                <?php if ($tab == "my-books") {
-                    ?>
-                    <div class="d-flex flex-column gap-4 my-book-content">
-                        <!-- my book filter -->
-                        <div class="d-flex flex-row flex-wrap gap-2 book-status-container">
-                            <div class="book-status active-book-status" id="my-book-status-all">
-                                <p> All Books </p>
-                            </div>
-
-                            <div class="book-status inactive-book-status" id="my-book-status-active">
-                                <p> Active Books </p>
-                            </div>
-
-                            <div class="book-status inactive-book-status" id="my-book-status-inactive">
-                                <p> Inactive Books </p>
-                            </div>
-
-                            <div class="book-status inactive-book-status" id="my-book-status-sold-out">
-                                <p> Sold Out </p>
-                            </div>
-                        </div>
-
-                        <!-- my books container-->
-                        <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                            <?php
-                            foreach ($userBookList as $bookId) {
-                                $bookObj->fetch($bookId);
-                                ?>
-                                <div class="book-container my-book my-book-active">
-                                    <!-- book image -->
-                                    <div class="book-image">
-                                        <?php $bookObj->setPhotoUrl(); ?>
-                                        <img src="<?= $bookObj->photoUrl ?>" alt="">
-                                    </div>
-
-                                    <!-- book details -->
-                                    <div class="book-details">
-                                        <!-- book title -->
-                                        <div class="book-title-wishlist">
-                                            <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
-                                        </div>
-
-                                        <!-- book purpose -->
-                                        <p class="book-purpose"> <?= ucfirst($bookObj->purpose) ?> </p>
-
-                                        <!-- book description -->
-                                        <div class="book-description-container">
-                                            <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
-                                        </div>
-
-                                        <!-- book price -->
-                                        <div class="book-price">
-                                            <p class="book-price">
-                                                <?php
-                                                if ($bookObj->purpose == "renting") {
-                                                    $rent = 0.20 * $bookObj->price['actual'];
-                                                    echo "NPR." . number_format($rent, 2) . "/week";
-                                                } else {
-                                                    $price = $bookObj->price['offer'];
-                                                    echo "NPR." . number_format($price, 2);
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-
-                                        <button class="btn"
-                                            onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'">
-                                            Show More
-                                        </button>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                        </div>
-
-                        <!-- add book -->
-                        <div class="d-flex flex-column justify-content-center add-book-container"
-                            onclick="window.location.href='/bookrack/add-book'">
-                            <div class="add-book">
-                                <i class="fa fa-plus text-light"></i>
-                            </div>
-                            <p class="m-0 text-dark"> Add New Book </p>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <!-- wishlist -->
-                <?php
-                if ($tab == "wishlist") {
-                    ?>
-                    <!-- skeleton container -->
-                    <div class="skeletion-book-main-container" id="skeletion-book-main-container">
-                        <!-- skeleton 1 -->
-                        <div class="skeleton-book-container">
-                            <div class="image"> </div>
-                            <div class="text">
-                                <p class="skeletion-text"> </p>
-                                <p class="skeletion-text"> </p>
-                                <p class="skeletion-text"> </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- my books container-->
-                    <div class="d-flex flex-column gap-4 my-book-content wishlist-content" id="wishlist-container"> </div>
-
-                    <div class="empty-div" id="empty-wishlist-div">
-                        <img src="/bookrack/assets/icons/empty.svg" alt="" loading="lazy">
-                        <p class="empty-message"> Your wishlist is empty! </p>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <!-- requested books -->
-                <?php
-                if ($tab == "requested-books") {
-                    ?>
-                    <div class="d-flex flex-column gap-4 requested-book-content">
-                        <!-- requested books filter -->
-                        <div class="d-flex flex-row gap-2 requested-book-filter">
-                            <select class="form-select" name="book-request-purpose" id="request-purpose"
-                                aria-label="book request purpose">
-                                <option value="requested-books-purpose-all"> All purpose </option>
-                                <option value="requested-books-purpose-rent"> Rent </option>
-                                <option value="requested-books-purpose-buy-sell"> Buy/Sell </option>
-                            </select>
-
-                            <select class="form-select" name="book-request-state" id="request-state"
-                                aria-label="book request purpose">
-                                <option value="requested-books-state-all"> All State </option>
-                                <option value="requested-books-state-pending"> Pending </option>
-                                <option value="requested-books-state-completed"> Completed </option>
-                            </select>
-                        </div>
-
-                        <div class="requested-book-table-container">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"> SN </th>
-                                        <th scope="col"> Title </th>
-                                        <th scope="col"> Price </th>
-                                        <th scope="col"> Purpose </th>
-                                        <th scope="col"> Starting Date </th>
-                                        <th scope="col"> Ending Date </th>
-                                        <th scope="col"> State </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        class="requested-book-tr requested-book-purpose-rent-tr requested-book-state-pending-tr">
-                                        <th scope="row">1</th>
-                                        <td> The Great Gatsby </td>
-                                        <td> NRs. 120 </td>
-                                        <td> Rent </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> Pending </td>
-                                    </tr>
-
-                                    <tr
-                                        class="requested-book-tr requested-book-purpose-buy-sell-tr requested-book-state-completed-tr">
-                                        <th scope="row">2</th>
-                                        <td> Harry Porter and the Socerer's Stonr </td>
-                                        <td> NRs. 75 </td>
-                                        <td> Sell </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> Completed </td>
-                                    </tr>
-                                </tbody>
-
-                                <tfoot>
-                                    <tr style="text-align: center;">
-                                        <td colspan="7" style="color: rgb(194, 16, 16);"> You haven't requested any book
-                                            yet! </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                <!-- earning -->
-                <?php
-                if ($tab == "earning") {
-                    ?>
-                    <div class="d-flex flex-column gap-4 requested-book-content earning-content">
-                        <!-- earning filter -->
-                        <div class="d-flex flex-row gap-2 requested-book-filter">
-                            <select class="form-select" name="earning-purpose" id="earning-purpose"
-                                aria-label="earning purpose select">
-                                <option value="earning-purpose-all" selected> All Purpose </option>
-                                <option value="earning-purpose-rent"> Rent </option>
-                                <option value="earning-purpose-buy-sell"> Buy/ Sell </option>
-                            </select>
-
-                            <select class="form-select" name="earning-state" name="earning-state" id="earning-state"
-                                aria-label="earning state select">
-                                <option value="earning-state-all" selected> All state </option>
-                                <option value="earning-state-active"> Active </option>
-                                <option value="earning-state-completed"> Completed </option>
-                            </select>
-                        </div>
-
-                        <div class="requested-book-table-container">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"> SN </th>
-                                        <th scope="col"> Title </th>
-                                        <th scope="col"> Price </th>
-                                        <th scope="col"> Purpose </th>
-                                        <th scope="col"> Starting Date </th>
-                                        <th scope="col"> Ending Date </th>
-                                        <th scope="col"> State </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="earning-tr earning-purpose-rent-tr earning-state-active-tr">
-                                        <th scope="row">1</th>
-                                        <td> The Great Gatsby </td>
-                                        <td> NRs. 120 </td>
-                                        <td> Rent </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> Active </td>
-                                    </tr>
-
-                                    <tr class="earning-tr earning-purpose-buy-sell-tr earning-state-completed-tr">
-                                        <th scope="row">2</th>
-                                        <td> Harry Porter and the Socerer's Stonr </td>
-                                        <td> NRs. 75 </td>
-                                        <td> Sell </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> 2024/02/05 </td>
-                                        <td> Completed </td>
-                                    </tr>
-                                </tbody>
-
-                                <tfoot>
-                                    <tr style="text-align: center;">
-                                        <td colspan="7" style="color: rgb(194, 16, 16);"> No earning yet! </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
             </section>
         </article>
     </main>
@@ -878,7 +563,7 @@ $bookObj = new Book();
 
     <script>
         $(document).ready(function () {
-            tab = "<?=$tab?>";
+            tab = "<?= $tab ?>";
 
             if (tab == "view") {
                 $('#profile-edit-cancel-btn').hide();
@@ -911,16 +596,15 @@ $bookObj = new Book();
                     });
                 }
 
-                // // first name
-                $(document).on('keydown', '#edit-profile-first-name', function(){
-                        var asciiValue = event.keyCode || event.which;
-                        if (asciiValue == 32) {
-                            event.preventDefault();
-                        }
+                // first name
+                $(document).on('keydown', '#edit-profile-first-name', function () {
+                    var asciiValue = event.keyCode || event.which;
+                    if (asciiValue == 32) {
+                        event.preventDefault();
+                    }
                 });
 
                 // last name
-                
                 $(document).on('keydown', '#edit-profile-last-name', function (event) {
                     var asciiValue = event.keyCode || event.which;
                     if (asciiValue == 32) {
@@ -928,12 +612,12 @@ $bookObj = new Book();
                     }
                 });
 
-                // contact name
+                // contact
                 $(document).on('keydown', '#edit-profile-contact', function (event) {
                     var asciiValue = event.keyCode || event.which;
-                    if(asciiValue >= 48 && asciiValue <=57) {
+                    if (asciiValue >= 48 && asciiValue <= 57) {
                         // allow input
-                    } else if(asciiValue == 8 || asciiValue == 37 || asciiValue == 39 || asciiValue == 46) {
+                    } else if (asciiValue == 8 || asciiValue == 37 || asciiValue == 39 || asciiValue == 46) {
 
                     } else {
                         event.preventDefault();
@@ -945,12 +629,15 @@ $bookObj = new Book();
                 // edit button
                 $('#edit-profile-btn').click(function () {
                     $('#profile-edit-cancel-btn').show();
+                    $('#edit-profile-btn').addClass('d-none');
+                    console.log("Edit");
                     toggleInputFields(false);
                 });
 
                 // reset btn
                 $('#profile-edit-cancel-btn').click(function () {
                     $('#profile-edit-cancel-btn').hide();
+                    $('#edit-profile-btn').removeClass('d-none');
                     loadUserProfileData("<?= $_SESSION['bookrack-user-id'] ?>", "<?= $tab ?>");
                 });
 
@@ -1146,171 +833,6 @@ $bookObj = new Book();
                         });
                     }
                 });
-            } else if (tab == 'my-books') {
-                $myBookStatus = "all";
-                $('.book-container').show();
-
-                // my books - all
-                $('#my-book-status-all').click(function () {
-                    $myBookStatus = "all";
-                    toggleMyBooks();
-                });
-
-                // my books - active
-                $('#my-book-status-active').click(function () {
-                    $myBookStatus = "active";
-                    toggleMyBooks();
-                });
-
-                // my books - inactive
-                $('#my-book-status-inactive').click(function () {
-                    $myBookStatus = "inactive";
-                    toggleMyBooks();
-                });
-
-                // my books - sold out
-                $('#my-book-status-sold-out').click(function () {
-                    $myBookStatus = "sold-out";
-                    toggleMyBooks();
-                });
-
-                function toggleMyBooks() {
-                    $('.my-book').show();
-                    switch ($myBookStatus) {
-                        case 'active':
-                            $('.my-book-inactive').hide();
-                            $('.my-book-sold-out').hide();
-                            break;
-                        case 'inactive':
-                            $('.my-book-active').hide();
-                            $('.my-book-sold-out').hide();
-                            break;
-                        case 'sold-out':
-                            $('.my-book-active').hide();
-                            $('.my-book-inactive').hide();
-                            break;
-                    };
-                };
-
-                toggleMyBooks();
-            } else if (tab == "wishlist") {
-                $('#empty-wishlist-div').hide();
-                // load wishlist
-                $.ajax({
-                    url: '/bookrack/sections/profile-wishlist.php',
-                    type: "POST",
-                    success: function (data) {
-                        $('#skeletion-book-main-container').remove();
-                        $('#wishlist-container').replaceWith(data);
-                    }
-                });
-
-                // wishlist toggle
-                $(document).on('click', '.wishlist-toggle-icon', function () {
-                    let wishlist_book_id = $(this).data("book-id");
-                    let wishlist_task = $(this).data("task");
-
-                    // $(this).closest("a").html(nextWishlistState);
-                    const targetA = $(this).closest("a");
-
-                    const targetContainer = $(this).closest(".book-container");
-
-                    $.ajax({
-                        url: '/bookrack/app/toggle-wishlist-home.php',
-                        type: "POST",
-                        data: { bookId: wishlist_book_id, page: 1 },
-                        beforeSend: function () {
-                            let nextWishlistState = "";
-                            if (wishlist_task == "add") {
-                                nextWishlistState = "<i class='fa-solid fa-bookmark wishlist-toggle-icon' data-book-id=" + wishlist_book_id + " data-task='remove'></i>";
-                            } else {
-                                nextWishlistState = "<i class='fa-regular fa-bookmark wishlist-toggle-icon' data-book-id=" + wishlist_book_id + " data-task='add'></i>";
-                            }
-                            targetA.html(nextWishlistState);
-                            targetContainer.remove();
-                            checkPageWishlist();
-                        },
-                        success: function (response) {
-                        }
-                    });
-                });
-
-                // show empty wishlist message
-                function checkPageWishlist() {
-                    const bookCount = $('.book-container:visible').length;
-
-                    if (bookCount == 0) {
-                        $('#empty-wishlist-div').show();
-                    }
-                }
-
-            } else if (tab == "requested-books") {
-                // request purpose
-                $('#request-purpose').change(function () {
-                    filterRequestedBooks();
-                });
-
-                // request status
-                $('#request-state').change(function () {
-                    filterRequestedBooks();
-                });
-
-                function filterRequestedBooks() {
-                    // purpose
-                    $('.requested-book-tr').show();
-                    switch ($('#request-purpose').val()) {
-                        case 'requested-books-purpose-rent':
-                            $('.requested-book-purpose-buy-sell-tr').hide();
-                            break;
-                        case 'requested-books-purpose-buy-sell':
-                            $('.requested-book-purpose-rent-tr').hide();
-                            break;
-                    }
-
-                    // state
-                    switch ($('#request-state').val()) {
-                        case 'requested-books-state-pending':
-                            $('.requested-book-state-completed-tr').hide();
-                            break;
-                        case 'requested-books-state-completed':
-                            $('.requested-book-state-pending-tr').hide();
-                            break;
-                    }
-                }
-            } else if (tab == "earning") {
-                $('#earning-purpose').change(function () {
-                    filterEarning();
-                });
-
-                // earning state
-                $('#earning-state').change(function () {
-                    filterEarning();
-                });
-
-                filterEarning = () => {
-                    console.clear();
-
-                    // earning purpose
-                    $('.earning-tr').show();
-                    switch ($('#earning-purpose').val()) {
-                        case 'earning-purpose-rent':
-                            $('.earning-purpose-buy-sell-tr').hide();
-                            break;
-                        case 'earning-purpose-buy-sell':
-                            $('.earning-purpose-rent-tr').hide();
-                            break;
-                    }
-
-                    // earning state
-                    switch ($('#earning-state').val()) {
-                        case 'earning-state-active':
-                            $('.earning-state-completed-tr').hide();
-                            break;
-                        case 'earning-state-completed':
-                            $('.earning-state-active-tr').hide();
-                            break;
-                    }
-                };
             }
         });
     </script>

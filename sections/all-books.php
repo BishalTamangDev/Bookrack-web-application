@@ -1,13 +1,10 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
+$userId = $_POST['userId'] ?? 0;
 
-if (!isset($_SESSION['bookrack-user-id'])) {
-    echo "Sign in required to proceed";
+if($userId == 0) {
+    echo "Empty!";
     exit;
 }
-
-$userId = $_SESSION['bookrack-user-id'];
 
 // wishlist object
 require_once __DIR__ . '/../classes/book.php';
@@ -111,26 +108,37 @@ if (sizeof($allBookList) == 0) {
                             ?>
                         </div>
 
-                        <!-- book purpose -->
-                        <p class="book-purpose"> <?= ucfirst($allBookObj->purpose) ?> </p>
+                        <!-- book author -->
+                        <div class="book-author-container">
+                            <p class="book-author">
+                            <?php
+                                $authorCount = sizeof($allBookObj->author);
+                                $count = 0;
+                                foreach ($allBookObj->author as $author) {
+                                    $count++;
+                                    echo ucwords($author);
 
-                        <!-- book description -->
+                                    if ($count < $authorCount) {
+                                        echo ", ";
+                                    }
+                                }
+                                ?>
+                            </p>
+                        </div>
+
+                        <!-- description -->
                         <div class="book-description-container">
-                            <p class="book-description"> <?= ucfirst($allBookObj->description) ?> </p>
+                            <p class=""> <?=ucfirst($allBookObj->description)?> </p>
                         </div>
 
                         <!-- book price -->
                         <div class="book-price">
                             <p class="book-price">
                                 <?php
-                                if ($allBookObj->purpose == "renting") {
-                                    $rent = $allBookObj->price['actual'] * 0.20;
-                                    echo "NPR." . number_format($rent, 2) . "/week";
-                                } elseif ($allBookObj->purpose == "buy/sell") {
                                     $price = $allBookObj->price['offer'];
                                     echo "NPR." . number_format($price, 2);
-                                }
                                 ?>
+                            </p>
                         </div>
 
                         <?php $isOwner = in_array($allBookId, $userBookList) ? "true" : "false"; ?>

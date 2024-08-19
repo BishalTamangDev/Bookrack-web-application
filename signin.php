@@ -64,7 +64,7 @@ if (isset($_SESSION['bookrack-user-id']))
                     <!-- sign in form -->
                     <form method="POST" class="d-flex flex-column signin-form" id="signin-form" autocomplete="on">
                         <!-- message section -->
-                        <p class="m-0 mb-3 text-danger" id="signin-message"> Message appears here.. </p>
+                        <p class="m-0 mb-3 text-danger error-message" id="signin-message"> Message appears here.. </p>
 
                         <!-- email address -->
                         <div class="input-group mb-3">
@@ -85,7 +85,7 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" class="form-control" id="floatingPasswordInput"
+                                <input type="password" name="password" id="password" class="form-control" id="floatingPasswordInput"
                                     placeholder="********" aria-label="password" aria-describedby="password"
                                     minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
@@ -93,6 +93,13 @@ if (isset($_SESSION['bookrack-user-id']))
                         </div>
 
                         <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
+
+                        <!-- password toggle -->
+                        <div class="d-flex flex-row gap-2 mt-3 mb-3 pointer fit-content password-toggle-div" id="password-toggle-div">
+                                <i class="pt-1 fa fa-eye" id="show-password-icon"></i>
+                                <i class="d-none pt-1 fa-regular fa-eye-slash" id="hide-password-icon"></i>
+                                <span id="password-toggle-div-label"> Show Password </span>
+                            </div>
 
                         <div
                             class="d-none d-flex flex-row gap-3 flex-wrap justify-content-between align-items-center remember-me-forgot-password mb-3">
@@ -120,9 +127,6 @@ if (isset($_SESSION['bookrack-user-id']))
     <!-- script -->
     <script>
         $(document).ready(function () {
-            // status message
-            $('#signin-message').hide();
-
             // Generate CSRF token and set it to the forms
             function setCSRFToken() {
                 $.get('/bookrack/app/csrf-token.php', function (data) {
@@ -192,6 +196,21 @@ if (isset($_SESSION['bookrack-user-id']))
                         $('#signin-btn').prop("disabled", false);
                     }
                 });
+            });
+
+            // toggle password
+            $('#password-toggle-div').click(function () {
+                var type = $('#password').attr('type') === 'password' ? 'text' : 'password';
+                $('#password').attr('type', type);
+                if (type === 'password') {
+                    $('#hide-password-icon').addClass('d-none');
+                    $('#show-password-icon').removeClass('d-none');
+                    $('#password-toggle-div-label').html("Show Password");
+                } else {
+                    $('#hide-password-icon').removeClass('d-none');
+                    $('#show-password-icon').addClass('d-none');
+                    $('#password-toggle-div-label').html("Hide Password");
+                }
             });
         });
     </script>

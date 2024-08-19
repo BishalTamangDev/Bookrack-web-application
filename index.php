@@ -25,7 +25,7 @@ require_once __DIR__ . '/app/connection.php';
 // Set the default timezone to Nepal
 date_default_timezone_set("Asia/Kathmandu");
 
-$profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc|my-books|wishlist|requested-books|earning)/';
+$profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc)/';
 $adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
 $tab = "";
 
@@ -109,6 +109,24 @@ elseif ($router == '/forgot-password' || $router == '/forgot-password/' || preg_
 }
 
 
+// wishlist
+elseif($router == '/wishlist') {
+    include 'wishlist.php';
+}
+
+
+// my books
+elseif($router == '/my-books') {
+    include 'my-books.php';
+}
+
+
+// book requests
+elseif($router == '/requests') {
+    include 'requests.php';
+}
+
+
 // profile
 elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePagePattern, $router)) {
     $tab = "view";
@@ -134,13 +152,7 @@ elseif ($router == '/profile' || $router == '/profile/' || preg_match($profilePa
         } elseif (preg_match('/kyc/', $arr[2])) { // wishlist
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
-        } elseif (preg_match('/wishlist/', $arr[2])) { // wishlist
-            $arr = explode('/', $arr[2]);
-            $tab = $arr[0];
         } elseif (preg_match('/requested-books/', $arr[2])) { // requested-books
-            $arr = explode('/', $arr[2]);
-            $tab = $arr[0];
-        } elseif (preg_match('/earning/', $arr[2])) { // earning
             $arr = explode('/', $arr[2]);
             $tab = $arr[0];
         } elseif (preg_match('/password-change/', $arr[2])) { // password change

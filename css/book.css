@@ -25,6 +25,7 @@
   padding: 0.6rem;
   padding-top: 0.3rem;
   row-gap: 0.5rem;
+  width: 100%;
 }
 .book-container .book-details p {
   margin: 0;
@@ -32,16 +33,21 @@
 .book-container .book-details .book-title-wishlist {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  border-image-slice: lavender;
   justify-content: space-between;
 }
 .book-container .book-details .book-title-wishlist .book-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
 }
 .book-container .book-details .book-title-wishlist i {
   color: black;
   padding-top: 2px;
   cursor: pointer;
+}
+.book-container .book-details .book-author-container .book-author {
+  font-weight: 550;
 }
 .book-container .book-details .book-description-container {
   height: 3rem;
