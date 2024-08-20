@@ -1,41 +1,9 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-signin");
-
 $url = "books";
-$adminId = $_SESSION['bookrack-admin-id'];
-
-// fetching the admin profile details
-require_once __DIR__ . '/../classes/admin.php';
-
-// profile admin object
-$profileAdmin = new Admin();
-$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
-
-if (!$adminExists)
-    header("Location: /bookrack/admin/app/admin-signout.php");
+$page = "books";
 
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
-
-require_once __DIR__ . '/../functions/genre-array.php';
-require_once __DIR__ . '/../classes/user.php';
-require_once __DIR__ . '/../classes/book.php';
-
-// user object
-$userObj = new User();
-
-// book object
-$bookObj = new Book();
-
-// fetching all books
-$bookIdList = $bookObj->fetchAllBookId();
-
-// book count
-$rentBookCount = 0;
 ?>
 
 <!DOCTYPE html>
@@ -60,40 +28,30 @@ $rentBookCount = 0;
     <!-- main content -->
     <main class="main">
         <!-- cards -->
-        <?php
-        if (!$search) {
-            ?>
-            <section class="section mt-5 pt-3 card-container">
-                <!-- number of books -->
-                <div class="card-v1">
-                    <p class="card-v1-title"> Number of Books </p>
-                    <p class="card-v1-detail"> <?= sizeof($bookIdList) ?> </p>
-                </div>
-
-                <!-- number of books on rent -->
-                <div class="card-v1">
-                    <p class="card-v1-title"> Books on Rent </p>
-                    <p class="card-v1-detail"> <?= $rentBookCount ?> </p>
-                </div>
-            </section>
-            <?php
-        } else {
-            // chear search
-            ?>
-            <div class="mt-5 pt-3 d-flex flex-row">
-                <a href="/bookrack/admin/admin-books" class="btn btn-danger d-flex flex-row align-items-center gap-2">
-                    <p class="m-0"> Clear Search </p>
-                    <i class="fa fa-multiply text-white fs-5"></i>
-                </a>
+        <section class="section mt-5 pt-3 card-container">
+            <!-- total books -->
+            <div class="card-v1">
+                <p class="card-v1-title"> Number of Books </p>
+                <p class="card-v1-detail" id="total-book-count"> - </p>
             </div>
-            <?php
-        }
-        ?>
+
+            <!-- on-hold -->
+            <div class="card-v1">
+                <p class="card-v1-title"> On-hold </p>
+                <p class="card-v1-detail" id="on-hold-book-count"> - </p>
+            </div>
+
+            <!-- sold-out -->
+            <div class="card-v1">
+                <p class="card-v1-title"> Sold out </p>
+                <p class="card-v1-detail" id="sold-out-book-count"> - </p>
+            </div>
+        </section>
 
         <!-- table to section -->
         <div class="section table-top-section">
             <!-- filter -->
-            <div class="filter-div">
+            <div class="filter-div flex-wrap">
                 <i class="fa fa-filter" id="filter-icon"></i>
 
                 <!-- rent / stock -->
@@ -134,205 +92,227 @@ $rentBookCount = 0;
         </div>
 
         <!-- book table -->
-        <table class="table table-striped user-table">
-            <!-- header -->
-            <thead>
-                <tr>
-                    <th scope="col"> SN </th>
-                    <th scope="col"> Title </th>
-                    <th scope="col"> ISBN </th>
-                    <th scope="col"> Genre </th>
-                    <th scope="col"> Author[s] </th>
-                    <th scope="col"> Language </th>
-                    <th scope="col"> Owner </th>
-                    <th scope="col"> Book State </th>
-                    <th scope="col"> Action </th>
-                </tr>
-            </thead>
+        <div class="table-container">
+            <table class="table table-striped book-table">
+                <!-- header -->
+                <thead>
+                    <tr>
+                        <th scope="col"> SN </th>
+                        <th scope="col"> Title </th>
+                        <th scope="col"> ISBN </th>
+                        <th scope="col"> Genre </th>
+                        <th scope="col"> Author[s] </th>
+                        <th scope="col"> Language </th>
+                        <th scope="col"> Book State </th>
+                        <th scope="col"> Action </th>
+                    </tr>
+                </thead>
 
-            <!-- body -->
-            <?php
-            if (sizeof($bookIdList) > 0) {
-                ?>
-                <tbody>
-                    <?php
-                    $serial = 1;
-                    foreach ($bookIdList as $bookId) {
-                        $bookObj->fetch($bookId);
-                        $show = true;
-                        $ownerName = $userObj->fetchUserName($bookObj->getOwnerId());
-
-                        if ($search)
-                            $show = (strpos(strtolower($bookObj->title), $searchContent) !== false || strpos($ownerName, $searchContent) !== false || strpos($bookObj->isbn, $searchContent) !== false) ? true : false;
-
-                        if ($show) {
-                            ?>
-                            <tr class="book-tr <?php
-                            if ($bookObj->flag == 'verified')
-                                echo 'available-tr';
-                            elseif ($bookObj->flag == 'on-stock')
-                                echo 'on-stock-tr';
-                            elseif ($bookObj->flag == 'sold-out')
-                                echo 'sold-out-tr';
-                            ?> <?= "{$bookObj->language}-tr" ?>">
-                                <th scope="row"> <?= $serial++ ?> </th>
-                                <td> <?= ucWords($bookObj->title) ?> </td>
-                                <td> <?= $bookObj->isbn ?> </td>
-                                <td>
-                                    <?php
-                                    $count = 0;
-                                    foreach ($bookObj->genre as $genre) {
-                                        $count++;
-                                        echo $count != count($bookObj->genre) ? $genre . ', ' : $genre;
-                                    }
-                                    ?>
-                                </td>
-                                <td> <?php foreach ($bookObj->author as $author)
-                                    echo ucWords($author) . ', '; ?> </td>
-                                <td> <?= ucfirst($bookObj->language) ?></td>
-                                <td>
-                                    <a href="/bookrack/admin/admin-user-details/<?= $bookObj->getOwnerId() ?>">
-                                        <?= ucwords($ownerName) ?>
-                                </td>
-                                </a>
-                                <td> <?= $bookObj->flag ?></td>
-                                <td>
-                                    <abbr title="Show full details">
-                                        <a href="/bookrack/admin/admin-book-details/<?= $bookId ?>">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </abbr>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        <?php
-                    }
-                    ?>
+                <!-- body -->
+                <tbody id="book-table-body">
+                    <tr>
+                        <td colspan="9">
+                            <div class="d-flex flex-row gap-2 table-loading-gif-container">
+                                <img src="/bookrack/assets/gif/filled-fading-balls.gif" alt="" style="width: 20px;">
+                                <p class="m-0 text-secondary"> Fetching books </p>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
-                <?php
-            }
-            ?>
-            <!-- footer -->
-            <tfoot id="table-foot">
-                <tr>
-                    <td colspan="10"> No book found! </td>
-                </tr>
-            </tfoot>
+            </table>
 
-        </table>
+            <button class="invisible btn btn-danger mt-2" id="clear-search-btn"> Clear search </button>
+        </div>
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
     <script>
-        // filtering
-        var sort = false;
-
-        const clearSort = $('#clear-sort');
-
-        const flagSelect = $('#flag-select');
-        const flagAvailable = $('.available-tr');
-        const flagOnStock = $('.on-stock-tr');
-        const flagSoldOut = $('.sold-out-tr');
-
-        const languageSelect = $('#language-select');
-        const languageChinese = $('.chinese-tr');
-        const languageEnglish = $('.english-tr');
-        const languageHindi = $('.hindi-tr');
-        const languageNepali = $('.nepali-tr');
-
-        var flag = "all";
-        var language = "all";
-
-        // flag select
-        flagSelect.on('change', function () {
-            flag = flagSelect.val();
-            filterBook();
-        });
-
-        // language select
-        languageSelect.on('change', function () {
-            language = languageSelect.val();
-            filterBook();
-        });
-
-        // clear sort
-        clearSort.on('click', function () {
-            sort = false;
-            flag = "all";
-            language = "all";
-            flagSelect.val("all");
-            languageSelect.val('all');
-            filterBook();
-        });
-
-
-        // show empty row
-        toggleEmptyRow = () => {
-            if ($('.book-tr').is(':visible'))
-                $('#table-foot').hide();
-            else
-                $('#table-foot').show();
-        }
-
-        filterBook = () => {
-            $('.book-tr').show();
-
-            sort = false;
-            // flag
-            if (flag != "all") {
-                sort = true;
-                if (flag == 'available-tr') {
-                    flagOnStock.hide();
-                    flagSoldOut.hide();
-                } else if (flag == 'on-stock') {
-                    flagAvailable.hide();
-                    flagSoldOut.hide();
-                } else if (flag == 'sold-out') {
-                    flagAvailable.hide();
-                    flagSoldOut.hide();
-                }
+        $(document).ready(function () {
+            // fetch books
+            function fetchBooks() {
+                $.ajax({
+                    url: "/bookrack/admin/sections/book-table.php",
+                    beforeSend: function () {
+                        $('#book-table-body').html("<tr> <td colspan = '8'> <div class='d-flex flex-row gap-2 table-loading-gif-container'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width: 20px;'> <p class='m-0 text-secondary'> Fetching all books... </p> </div> </td> </tr>");
+                    },
+                    success: function (data) {
+                        $('#book-table-body').html(data);
+                    }
+                });
             }
 
-            // language
-            if (language != "all") {
-                sort = true;
-                if (language == "chinese") {
-                    languageEnglish.hide();
-                    languageHindi.hide();
-                    languageNepali.hide();
-                } else if (language == "english") {
-                    languageChinese.hide();
-                    languageHindi.hide();
-                    languageNepali.hide();
-                } else if (language == "hindi") {
-                    languageChinese.hide();
-                    languageEnglish.hide();
-                    languageNepali.hide();
-                } else if (language == "nepali") {
-                    languageChinese.hide();
-                    languageEnglish.hide();
-                    languageHindi.hide();
-                }
+            // count total books
+            function countBooks() {
+                // total books
+                $.ajax({
+                    url: "/bookrack/admin/app/count-total-books.php",
+                    success: function (data) {
+                        $('#total-book-count').html(data);
+                    }
+                });
+
+                // on-hold
+                $.ajax({
+                    url: "/bookrack/admin/app/count-on-hold-books.php",
+                    success: function (data) {
+                        $('#on-hold-book-count').html(data);
+                    }
+                });
+
+                // sold out
+                $.ajax({
+                    url: "/bookrack/admin/app/count-sold-out-books.php",
+                    success: function (data) {
+                        $('#sold-out-book-count').html(data);
+                    }
+                });
             }
 
-            toggleClearSort();
+            countBooks();
+
+            fetchBooks();
+
+            // filtering
+            var sort = false;
+
+            const clearSort = $('#clear-sort');
+
+            const flagSelect = $('#flag-select');
+            const flagAvailable = $('.available-tr');
+            const flagOnStock = $('.on-stock-tr');
+            const flagSoldOut = $('.sold-out-tr');
+
+            const languageSelect = $('#language-select');
+            const languageChinese = $('.chinese-tr');
+            const languageEnglish = $('.english-tr');
+            const languageHindi = $('.hindi-tr');
+            const languageNepali = $('.nepali-tr');
+
+            var flag = "all";
+            var language = "all";
+
+            // flag select
+            flagSelect.on('change', function () {
+                flag = flagSelect.val();
+                filterBook();
+            });
+
+            // language select
+            languageSelect.on('change', function () {
+                language = languageSelect.val();
+                filterBook();
+            });
+
+            // clear sort
+            clearSort.on('click', function () {
+                sort = false;
+                flag = "all";
+                language = "all";
+                flagSelect.val("all");
+                languageSelect.val('all');
+                filterBook();
+            });
+
+
+            // show empty row
+            toggleEmptyRow = () => {
+                if ($('.book-tr').is(':visible'))
+                    $('#table-foot').hide();
+                else
+                    $('#table-foot').show();
+            }
+
+            filterBook = () => {
+                $('.book-tr').show();
+
+                sort = false;
+                // flag
+                if (flag != "all") {
+                    sort = true;
+                    if (flag == 'available-tr') {
+                        flagOnStock.hide();
+                        flagSoldOut.hide();
+                    } else if (flag == 'on-stock') {
+                        flagAvailable.hide();
+                        flagSoldOut.hide();
+                    } else if (flag == 'sold-out') {
+                        flagAvailable.hide();
+                        flagSoldOut.hide();
+                    }
+                }
+
+                // language
+                if (language != "all") {
+                    sort = true;
+                    if (language == "chinese") {
+                        languageEnglish.hide();
+                        languageHindi.hide();
+                        languageNepali.hide();
+                    } else if (language == "english") {
+                        languageChinese.hide();
+                        languageHindi.hide();
+                        languageNepali.hide();
+                    } else if (language == "hindi") {
+                        languageChinese.hide();
+                        languageEnglish.hide();
+                        languageNepali.hide();
+                    } else if (language == "nepali") {
+                        languageChinese.hide();
+                        languageEnglish.hide();
+                        languageHindi.hide();
+                    }
+                }
+
+                toggleClearSort();
+                toggleEmptyRow();
+            }
+
+            // clear filtering
+            toggleClearSort = () => {
+                if (sort == true)
+                    clearSort.show();
+                else
+                    clearSort.hide();
+            }
+
+            filterBook();
             toggleEmptyRow();
-        }
 
-        // clear filtering
-        toggleClearSort = () => {
-            if (sort == true)
-                clearSort.show();
-            else
-                clearSort.hide();
-        }
+            // search books
+            $('#search-form').submit(function (e) {
+                e.preventDefault();
+                var search_content = $('#admin-search-content').val();
 
-        filterBook();
-        toggleEmptyRow();
+                search_content = $.trim(search_content).toLowerCase();
+
+                searchBook(search_content);
+            });
+
+            function searchBook(search_content) {
+                $('#clear-search-btn').removeClass('d-none');
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/sections/search-book.php",
+                    data: { content: search_content },
+                    beforeSend: function () {
+                        $('#book-table-body').html("<tr> <td colspan = '8'> <div class='d-flex flex-row gap-2 table-loading-gif-container'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width: 20px;'> <p class='m-0 text-secondary'> Searching book... </p> </div> </td> </tr>");
+                    },
+                    success: function (data) {
+                        $('#book-table-body').html(data);
+                        $('#clear-search-btn').removeClass('invisible');
+                    }
+                });
+            }
+
+            // clear search
+            $('#clear-search-btn').click(function () {
+                fetchBooks();
+                $('#clear-search-btn').addClass('invisible');
+                $('#search-form').trigger("reset");
+            });
+        });
     </script>
 </body>
 

@@ -1,28 +1,13 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-signin");
-
 $url = "book-details";
-$adminId = $_SESSION['bookrack-admin-id'];
-
-require_once __DIR__ . '/../classes/admin.php';
-require_once __DIR__ . '/../functions/district-array.php';
-
-// fetching the admin profile details
-$profileAdmin = new Admin();
-$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
-
-if (!$adminExists)
-    header("Location: /bookrack/admin/app/admin-signout.php");
 
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
+require_once __DIR__ . '/../classes/admin.php';
 require_once __DIR__ . '/../classes/user.php';
 require_once __DIR__ . '/../classes/book.php';
+require_once __DIR__ . '/../functions/district-array.php';
 
 // user object
 $userObj = new User();
@@ -62,26 +47,6 @@ if (!$bookExists)
         <section class="d-flex flex-column mt-4 heading-rating">
             <!-- heading -->
             <p class="page-heading"> <?= ucWords($bookObj->title) ?> </p>
-
-            <!-- rating -->
-            <div class="d-flex flex-row align-items-center gap-2 rating-count">
-                <div class="d-flex flex-row align-items-center gap-1 rating">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
-                        loading="lazy">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
-                        loading="lazy">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
-                        loading="lazy">
-                    <img src="/bookrack/assets/icons/full-rating.png" alt="rating-star" class="rating-icon"
-                        loading="lazy">
-                    <img src="/bookrack/assets/icons/half-rating.png" alt="rating-star" class="rating-icon"
-                        loading="lazy">
-                </div>
-
-                <div class="count">
-                    <p class="f-reset"> (<?= "0" ?>) </p>
-                </div>
-            </div>
         </section>
 
         <!-- book details -->
@@ -90,10 +55,6 @@ if (!$bookExists)
             <?php $bookObj->setPhotoUrl() ?>
             <div class="d-flex flex-row flex-lg-column gap-2 book-photo-div">
                 <div class="d-flex flex-row top">
-                    <img src="<?= $bookObj->photoUrl ?>" alt="Cover page photo" loading="lazy">
-                </div>
-
-                <div class="d-flex flex-column flex-lg-row gap-2 bottom">
                     <img src="<?= $bookObj->photoUrl ?>" alt="Cover page photo" loading="lazy">
                 </div>
             </div>
@@ -256,54 +217,6 @@ if (!$bookExists)
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- book rent history -->
-        <section class="section book-rent-history">
-            <p class="f-reset fw-bold fs-5 text-danger"> Book Rent History </p>
-
-            <table class="table mt-2 book-rent-history-table">
-                <!-- header -->
-                <thead>
-                    <tr>
-                        <th scope="col"> S.N. </th>
-                        <th scope="col"> Rented By </th>
-                        <th scope="col"> Issued Date </th>
-                        <th scope="col"> Returned Date </th>
-                        <th scope="col"> Fine </th>
-                        <th scope="col"> Rent Status </th>
-                    </tr>
-                </thead>
-
-                <!-- body -->
-                <tbody>
-                    <!-- dummy data -->
-                    <tr class="book-row on-rent-row on-stock-row">
-                        <td> 1. </td>
-                        <td> Rupak Dangi </td>
-                        <td> 2222-22-22 </td>
-                        <td> 2222-22-33 </td>
-                        <td> NRs. 120 </td>
-                        <td> Completed </td>
-                    </tr>
-
-                    <tr class="book-row on-rent-row on-stock-row">
-                        <td> 2. </td>
-                        <td> Shristi Pradhan </td>
-                        <td> 3333-33-33 </td>
-                        <td> - </td>
-                        <td> - </td>
-                        <td> Active </td>
-                    </tr>
-                </tbody>
-
-                <!-- footer -->
-                <tfoot id="table-foot">
-                    <tr>
-                        <td colspan="9"> No book rent history found! </td>
-                    </tr>
-                </tfoot>
-            </table>
         </section>
     </main>
 

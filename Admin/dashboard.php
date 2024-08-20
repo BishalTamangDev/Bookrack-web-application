@@ -1,26 +1,10 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-signin");
-
 $url = "dashboard";
-$adminId = $_SESSION['bookrack-admin-id'];
-
-// fetching the admin profile details
-require_once __DIR__ . '/../classes/admin.php';
-
-$profileAdmin = new Admin();
-$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
-
-if (!$adminExists)
-    header("Location: /bookrack/admin/app/admin-signout.php");
+$page = "dashboard";
 
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
 
-require_once __DIR__ . '/../functions/genre-array.php';
 require_once __DIR__ . '/../classes/user.php';
 require_once __DIR__ . '/../classes/book.php';
 
@@ -61,53 +45,22 @@ $bookIdList = $bookObj->fetchAllBookId();
                     <!-- number of users -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Users </p>
-                        <p class="card-v1-detail"> <?= sizeof($userIdList); ?> </p>
+                        <p class="card-v1-detail" id="user-count"> - </p>
                     </div>
 
                     <!-- number of books -->
                     <div class="card-v1">
                         <p class="card-v1-title"> Books </p>
-                        <p class="card-v1-detail"> <?= sizeof($bookIdList) ?> </p>
+                        <p class="card-v1-detail" id="book-count"> - </p>
                     </div>
 
-                    <!-- number of books on rent -->
+                    <!-- number of sold out books -->
                     <div class="card-v1">
-                        <p class="card-v1-title"> Books on Rent </p>
-                        <p class="card-v1-detail"> <?= "-" ?> </p>
+                        <p class="card-v1-title"> Sold out Books </p>
+                        <p class="card-v1-detail" id="sold-out-book-count"> - </p>
                     </div>
                 </div>
             </div>
-
-            <!-- new users joined -->
-            <?php
-            if (sizeof($userIdList) > 1000) {
-                ?>
-                <div class="d-flex flex-row align-items-center p-3 gap-2 rounded new-user-div">
-                    <div class="d-flex flex-row profile-container">
-                        <!-- user 1 -->
-                        <div class="profile-div">
-                            <img src="/bookrack/assets/images/user-1.png" alt="" loading="lazy">
-                        </div>
-
-                        <!-- user 2 -->
-                        <div class="profile-div">
-                            <img src="/bookrack/assets/images/user-2.jpg" alt="" loading="lazy">
-                        </div>
-
-                        <!-- user 3 -->
-                        <div class="profile-div">
-                            <img src="/bookrack/assets/images/user-3.jpg" alt="" loading="lazy">
-                        </div>
-                    </div>
-
-                    <!-- user joined label -->
-                    <div class="label">
-                        <p class="f-reset"> 3 users joined today. </p>
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
         </section>
 
         <!-- search -->
@@ -115,284 +68,113 @@ $bookIdList = $bookObj->fetchAllBookId();
             <!-- heading -->
             <p class="f-reset fs-5 fw-bold"> Searches </p>
 
-            <div class="d-flex flex-row flex-wrap gap-2 search-container">
-                <?php
-                require_once __DIR__ . '/../classes/search.php';
-                $search = new Search();
-
-                $search->fetchAllSearches();
-
-                if (sizeof($search->getList()) > 0) {
-                    $searchList = $search->getList();
-                    foreach ($searchList as $list) {
-                        ?>
-                        <div class="d-flex flex-row border rounded p-2 px-3 align-items-center">
-                            <p class="m-0"> <?php echo $list['title'] . " : " . $list['count']; ?>
-                            </p>
-                        </div>
-                        <?php
-                    }
-                    ?>
-
-                    <?php
-                } else {
-                    ?>
-                    <p class="m-0 text-secondary"> No search data found! </p>
-                    <?php
-                }
-                ?>
+            <div class="d-flex flex-row flex-wrap gap-2 search-container" id="search-container">
+                <div class="d-flex flex-row border rounded p-2 px-3 align-items-center">
+                    <p class="m-0"> Loading... </p>
+                </div>
             </div>
         </section>
 
         <!-- recently added books -->
-        <section class="section d-flex flex-column gap-4 recently-arrived-books-container">
-            <!-- heading -->
-            <p class="f-reset fs-5 fw-bold"> Recently arrived books </p>
+        <p class="f-reset fs-5 fw-bold mt-5 mb-4"> Recently arrived books </p>
 
-            <!-- empty arrived book -->
-            <?php
-            if (sizeof($bookIdList) == 0) {
-                ?>
-                <p class="f-reset text-danger"> No books found! </p>
-                <?php
-            } else {
-                ?>
-                <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div">
-                    <?php
-                    foreach ($bookIdList as $bookId) {
-                        $bookObj->fetch($bookId);
-                        ?>
-                        <div class="recently-arrived-book"
-                            onclick="window.location.href='/bookrack/admin/admin-book-details/<?= $bookObj->getId() ?>'">
-                            <div class="image-div">
-                                <?php $bookObj->setPhotoUrl() ?>
-                                <img src="<?= $bookObj->photoUrl ?>" alt="book cover photo" loading="lazy">
-                            </div>
-
-                            <div class="detail">
-                                <div class="title">
-                                    <p> <?= ucWords($bookObj->title) ?> </p>
-                                </div>
-
-                                <div class="genre">
-                                    <?php
-                                    $count = 0;
-                                    foreach ($bookObj->genre as $genre) {
-                                        $count++;
-                                        ?>
-                                        <p>
-                                            <?php
-                                            echo ($count != count($bookObj->genre)) ? $genre . ", " : $genre; ?>
-                                        </p>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
+        <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div" id="recently-arrived-books-div">
+            <div class="recently-arrived-book recently-arrived-book-skeleton">
+                <div class="image-div">
                 </div>
-                <?php
-            }
-            ?>
 
-            <a href="/bookrack/admin/admin-books" class="btn btn-outline-warning m-auto" id="show-all-recently-added">
-                Show all </a>
-        </section>
-
-        <!-- offer and request -->
-        <section class="section d-flex flex-column flex-lg-row gap-3 justify-content-between offer-request">
-            <!-- request -->
-            <div class="request-container w-50 w-md-50">
-                <!-- heading -->
-                <p class="f-reset fs-5 fw-bold"> New Requests </p>
-
-                <div class="mt-3 request-div">
-                    <!-- request table -->
-                    <table class="table table-striped request-table">
-                        <!-- table heading -->
-                        <thead>
-                            <tr>
-                                <th scope="col"> Title </th>
-                                <th scope="col"> Reader </th>
-                                <th scope="col"> Rent days </th>
-                                <th scope="col"> Price </th>
-                            </tr>
-                        </thead>
-
-                        <!-- table data -->
-                        <tbody>
-                            <!-- dummy data -->
-                            <tr>
-                                <td> Intuition </td>
-                                <td> Rupak Dangi </td>
-                                <td> 1 week </td>
-                                <td> NRs. 120.00 </td>
-                            </tr>
-                        </tbody>
-
-                        <!-- table footer -->
-                        <tfoot id="table-foot">
-                            <tr class="empty-request-tr">
-                                <td colspan="4"> No new request! </td>
-                            </tr>
-                            <tr>
-                                <td colspan="9">
-                                    <a href="/bookrack/admin/admin-book-requests"> Show all requests </a>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- rent ending -->
-        <section class="d-flex flex-column section gap-4 rent-ending-container">
-            <div class="heading">
-                <p class="f-reset fs-4 fw-bold"> Some books' returning date is arriving soon </p>
-            </div>
-
-            <p class="f-reset text-danger"> No books has been issued yet!</p>
-
-            <div class="d-flex flex-row flex-wrap gap-3 rent-ending-div">
-                <!-- dummy data 1 -->
-                <div class="rent-ending">
-                    <!-- image -->
-                    <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
+                <div class="detail">
+                    <div class="title">
                     </div>
 
-                    <!-- detail -->
-                    <div class="detail-div">
-                        <!-- title -->
-                        <div class="title-div">
-                            <a href="/bookrack/admin/admin-book-details">
-                                The Black Universe
-                            </a>
-                        </div>
-
-                        <!-- days remaining -->
-                        <div class="remaining-days-div">
-                            <p class="remaining-days"> 3 days <span> remaining </span> </p>
-                        </div>
-
-
-                        <!-- reader -->
-                        <div class="reader-div">
-                            <p> Shristi Pradhan </p>
-                        </div>
-
-                        <!-- contact -->
-                        <div class="contact-div">
-                            <a href="/bookrack/admin/admin-user-details" class="btn">Contact Reader</a>
-                        </div>
+                    <div class="genre">
                     </div>
                 </div>
             </div>
 
-            <a href="#" class="btn m-auto" id="show-all-rent-ending"> Show all </a>
-        </section>
-
-        <!-- book reviews -->
-        <section class="d-flex flex-column section gap-3 book-review-container">
-            <!-- heading -->
-            <p class="f-reset fs-4 fw-bold"> Book Reviews </p>
-
-            <p class="f-reset text-danger"> No book reviews has been submitted yet! </p>
-
-            <!-- book reviews -->
-            <div class="book-review-div">
-                <!-- review 1 -->
-                <div class="book-review">
-                    <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
-                    </div>
-
-                    <div class="detail-div">
-                        <div class="reader-div">
-                            <p> Shristi Pradhan </p>
-                        </div>
-
-                        <div class="review-div">
-                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum nulla
-                                architecto laborum ratione deserunt quae obcaecati rem commodi assumenda, error
-                                fugiat aperiam unde vero doloremque a quas ducimus dicta dignissimos voluptatem
-                                consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
-                                excepturi voluptatum deserunt rerum sed rem modi! </p>
-                        </div>
-
-                        <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
-                        </div>
-                    </div>
+            <div class="recently-arrived-book recently-arrived-book-skeleton">
+                <div class="image-div">
                 </div>
 
-                <!-- review 2 -->
-                <div class="book-review">
-                    <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-1.jpeg" alt="" loading="lazy">
+                <div class="detail">
+                    <div class="title">
                     </div>
 
-                    <div class="detail-div">
-                        <div class="reader-div">
-                            <p> Rupak Dangi </p>
-                        </div>
-
-                        <div class="review-div">
-                            <p> A quas ducimus dicta dignissimos voluptatem
-                                consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
-                                excepturi voluptatum deserunt rerum sed rem modi! </p>
-                        </div>
-
-                        <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- review 3 -->
-                <div class="book-review">
-                    <div class="image-div">
-                        <img src="/bookrack/assets/images/cover-3.jpg" alt="" loading="lazy">
-                    </div>
-
-                    <div class="detail-div">
-                        <div class="reader-div">
-                            <p> Bishal Tamang </p>
-                        </div>
-
-                        <div class="review-div">
-                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum nulla
-                                architecto laborum ratione deserunt quae obcaecati rem commodi assumenda, error
-                                fugiat aperiam unde vero doloremque a quas ducimus dicta dignissimos voluptatem
-                                consectetur perferendis minus nihil alias. Sequi, vel aperiam, dolor quidem eum
-                                excepturi voluptatum deserunt rerum sed rem modi! </p>
-                        </div>
-
-                        <div class="rating-div">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                            <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
-                        </div>
+                    <div class="genre">
                     </div>
                 </div>
             </div>
 
-            <a href="#" class="btn m-auto" id="show-all-reviews"> Show all </a>
-        </section>
+            <div class="recently-arrived-book recently-arrived-book-skeleton">
+                <div class="image-div">
+                </div>
+
+                <div class="detail">
+                    <div class="title">
+                    </div>
+
+                    <div class="genre">
+                    </div>
+                </div>
+            </div>
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
+
+    <!-- js -->
+    <script>
+        $(document).ready(function () {
+            // counting function
+            function countTotalBooks() {
+                // total users
+                $.ajax({
+                    url: "/bookrack/admin/app/count-total-users.php",
+                    success: function (data) {
+                        $('#user-count').html(data);
+                    }
+                });
+
+                // total books
+                $.ajax({
+                    url: "/bookrack/admin/app/count-total-books.php",
+                    success: function (data) {
+                        $('#book-count').html(data);
+                    }
+                });
+
+                // total sold out books
+                $.ajax({
+                    url: "/bookrack/admin/app/count-sold-out-books.php",
+                    success: function (data) {
+                        $('#sold-out-book-count').html(data);
+                    }
+                });
+            }
+
+            function fetchSearches() {
+                $.ajax({
+                    url: "/bookrack/admin/sections/fetch-search-histories.php",
+                    success: function (data) {
+                        $('#search-container').html(data);
+                    }
+                });
+            }
+
+            function fetchRecentlyAddedBooks() {
+                $.ajax({
+                    url: "/bookrack/admin/sections/fetch-recently-arrived-books.php",
+                    success: function (data) {
+                        $('#recently-arrived-books-div').html(data);
+                    }
+                });
+            }
+
+            countTotalBooks();
+            fetchSearches();
+            fetchRecentlyAddedBooks();
+        });
+    </script>
 </body>
 
 </html>

@@ -402,12 +402,19 @@ class User
         return $this->kycUrl['back'];
     }
 
+    // count total users
+    public function countTotalUsers(){
+        global $database;
+        $count = $database->getReference("users")->getSnapshot()->numChildren();
+        return $count;
+    }
+
     // fetch all users
     public function fetchAllUsers()
     {
         global $database;
 
-        $list = array();
+        $list = [];
 
         // fetching all users
         $response = $database->getReference("users")->getSnapshot()->getValue();
@@ -420,6 +427,7 @@ class User
         return $list;
     }
 
+    // fet all user id
     public function fetchAllUserId()
     {
         global $database;

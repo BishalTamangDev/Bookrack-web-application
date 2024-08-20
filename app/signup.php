@@ -74,9 +74,6 @@ if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
             $response = $database->getReference("users/$uid")->set($extraUserProperties);
 
             if ($response) {
-                require_once __DIR__ . '/../classes/notification.php';
-                $notificationObj = new Notification();
-                $notificationObj->newUser($uid);
                 $message = "true";
             }
         } catch (EmailExists $e) {

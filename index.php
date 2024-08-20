@@ -26,7 +26,7 @@ require_once __DIR__ . '/app/connection.php';
 date_default_timezone_set("Asia/Kathmandu");
 
 $profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc)/';
-$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-notification|admin-rent|admin-signin|admin-signup|admin-user-details|admin-users)/i';
+$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-signin|admin-signup|admin-user-details|admin-users)/i';
 $tab = "";
 
 $redirected = false;
@@ -84,14 +84,33 @@ if (!isset($_SESSION['bookrack-admin-id']) && !isset($_SESSION['bookrack-user-id
 
         include 'forgot-password.php';
         $redirected = true;
+    } elseif ($router == '/admin/admin-signin' || $router == '/admin/admin-signin/' || preg_match("/admin-signin\/(email)/i", $router)) {
+        // admin sign in
+        include 'admin/signin.php';
+        $redirected = true;
+    } elseif ($router == '/admin/admin-signup' || $router == 'admin/admin-signup/' || preg_match("/admin-signup\/(email|email-verification)/i", $router)) {
+        // admin signup
+        $arr = explode('/', $router);
+
+        $tab = "email";
+
+        if (isset($arr[2])) {
+            if ($arr[2] == "email" || $arr[2] == "email-verification") {
+                if ($arr[2] == "email-verification") {
+                    $tab = $arr[2];
+                }
+            }
+        }
+
+        include 'admin/signup.php';
+        $redirected = true;
     }
 }
 
 // user signed in
 if (isset($_SESSION['bookrack-user-id'])) {
-    $profileId = $_SESSION['bookrack-user-id'];
-
     require_once __DIR__ . '/classes/user.php';
+    $profileId = $_SESSION['bookrack-user-id'];
 
     $profileUser = new User();
     $userExists = $profileUser->checkUserExistenceById($profileId);
@@ -231,6 +250,15 @@ if (isset($_SESSION['bookrack-user-id'])) {
 
 // admin
 if (isset($_SESSION['bookrack-admin-id'])) {
+    require_once __DIR__ . '/classes/admin.php';
+    $adminId = $_SESSION['bookrack-admin-id'];
+
+    $profileAdmin = new Admin();
+    $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
+
+    if (!$adminExists)
+        header("Location: /bookrack/admin/app/admin-signout.php");
+
     if ($router == '/admin' || $router == '/admin/' || preg_match($adminPagesPattern, $router)) {
         if (preg_match($adminPagesPattern, $router)) {
             $arr = explode('/', $router);
@@ -255,9 +283,6 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                 } else {
                     include 'admin/profile.php';
                 }
-            } elseif ((preg_match('/admin-notification$/', $arr[2]))) {
-                $nav = "notification";
-                include 'admin/notification.php';
             } elseif ((preg_match('/admin-users/', $arr[2]))) {
                 $nav = "users";
                 include 'admin/users.php';
@@ -278,9 +303,6 @@ if (isset($_SESSION['bookrack-admin-id'])) {
             } elseif ((preg_match('/admin-request-details$/', $arr[2]))) {
                 $nav = "request-details";
                 include 'admin/book-request-details.php';
-            } elseif ((preg_match('/admin-rent-history/', $arr[2]))) {
-                $nav = "rent-history";
-                include 'admin/rent.php';
             } elseif ((preg_match('/admin-signin$/', $arr[2]))) {
                 include 'admin/signin.php';
             } elseif ((preg_match('/admin-signup$/', $arr[2]))) {

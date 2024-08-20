@@ -178,6 +178,35 @@ class Book
         return $immediateKey;
     }
 
+    // count total books
+    function countTotalBooks(){
+        global $database;
+        $count = 0;
+
+        $count = $database->getReference("books")->getSnapshot()->numChildren();
+
+        return $count;
+    }
+
+    // count on hold books
+    function countOnHoldBooks(){
+        global $database;
+        $count = 0;
+
+        $count = $database->getReference("books")->getSnapshot()->numChildren();
+
+        return $count;
+    }
+
+    // count on hold books
+    function countSoldOutBooks(){
+        global $database;
+        $count = 0;
+
+        $count = $database->getReference("books")->getSnapshot()->numChildren();
+
+        return $count;
+    }
 
     // fetch user details from the database
     function fetch($id)
@@ -235,6 +264,20 @@ class Book
             }
         }
         return $idList;
+    }
+
+    // fetch latest 3 books
+    public function fetchLatestBookId()
+    {
+        global $database;
+        $list = [];
+        $response = $database->getReference("books")->orderByChild('added_date')->limitToLast(3)->getValue();
+        if ($response != null) {
+            foreach ($response as $key => $res) {
+                $list[] = $key;
+            }
+        }
+        return array_reverse($list);
     }
 
     // fetch all books for home

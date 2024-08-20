@@ -1,32 +1,9 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-signin");
-
 $url = "users";
-$adminId = $_SESSION['bookrack-admin-id'];
-
-// fetching the admin profile details
-require_once __DIR__ . '/../classes/admin.php';
-require_once __DIR__ . '/../functions/district-array.php';
-
-$profileAdmin = new Admin();
-$adminExists = $profileAdmin->checkAdminExistenceById($adminId);
-
-if (!$adminExists)
-    header("Location: /bookrack/admin/app/admin-signout.php");
+$page = "users";
 
 if ($profileAdmin->accountStatus != "verified")
     header("Location: /bookrack/admin/admin-profile");
-
-// including user class
-require_once __DIR__ . '/../classes/user.php';
-$userObj = new User();
-
-// fetch all users
-$userIdList = $userObj->fetchAllUserId();
 ?>
 
 <!DOCTYPE html>
@@ -60,29 +37,12 @@ $userIdList = $userObj->fetchAllUserId();
                 <!-- number of users -->
                 <div class="card-v1">
                     <p class="card-v1-title"> Number of Users </p>
-                    <p class="card-v1-detail"> <?= sizeof($userIdList) ?> </p>
-                </div>
-
-                <!-- number of contributors -->
-                <?php
-                $contributor = 0;
-                require_once __DIR__ . '/../classes/book.php';
-                $bookObj = new Book();
-
-                foreach ($userIdList as $listId) {
-                    // check if the user has books                 
-                    if ($bookObj->checkIfUserHasContributed($listId))
-                        $contributor++;
-                }
-                ?>
-                <div class="card-v1">
-                    <p class="card-v1-title"> Contributors </p>
-                    <p class="card-v1-detail"> <?= $contributor ?> </p>
+                    <p class="card-v1-detail" id="total-user-counter"> - </p>
                 </div>
             </section>
             <?php
         } else {
-            // chear search
+            // clear search
             ?>
             <div class="mt-5 pt-3 d-flex flex-row">
                 <a href="/bookrack/admin/admin-users" class="btn btn-danger d-flex flex-row gap-2 align-items-center">
@@ -95,7 +55,7 @@ $userIdList = $userObj->fetchAllUserId();
         ?>
 
         <!-- table to section -->
-        <section class="section d-flex flex-column flex-lg-row justify-content-between gap-2 table-top-section">
+        <section class="section d-flex flex-column flex-lg-row gap-2 table-top-section">
             <div class="filter-div width-fit-content">
                 <i class="fa fa-filter" id="filter-icon"></i>
 
@@ -112,101 +72,38 @@ $userIdList = $userObj->fetchAllUserId();
                     <i class="fa fa-multiply"></i>
                 </div>
             </div>
-
-            <!-- search & clear section -->
-            <!-- <div class="search-clear width-fit-content"> -->
-            <!-- clear search -->
-            <!-- <div class="clear-search-div" id="clear-search"> -->
-            <!-- <p class="f-reset"> Clear Search </p> -->
-            <!-- <i class="fa fa-multiply"></i> -->
-            <!-- </div> -->
-            <!-- <form action="/bookrack/admin/admin-users" method="POST"> -->
-            <!-- <input type="search" name="search-content" class="form-control" placeholder="search user"> -->
-            <!-- </form> -->
-            <!-- </div> -->
         </section>
 
         <!-- user table -->
-        <table class="table table-striped user-table">
-            <!-- table heading -->
-            <thead>
-                <tr>
-                    <th scope="col"> S.N. </th>
-                    <th scope="col"> Name </th>
-                    <th scope="col"> Email Address </th>
-                    <th scope="col"> Phone Number </th>
-                    <th scope="col"> Address </th>
-                    <th scope="col"> Account State </th>
-                    <th scope="col"> Action </th>
-                </tr>
-            </thead>
+        <div class="table-container">
+            <table class="table user-table">
+                <!-- table heading -->
+                <thead>
+                    <tr>
+                        <th scope="col"> S.N. </th>
+                        <th scope="col"> Name </th>
+                        <th scope="col"> Email Address </th>
+                        <th scope="col"> Phone Number </th>
+                        <th scope="col"> Address </th>
+                        <th scope="col"> Account State </th>
+                        <th scope="col"> Action </th>
+                    </tr>
+                </thead>
 
-            <!-- table data -->
-            <?php
-            if (sizeof($userIdList) > 0) {
-                ?>
-                <tbody>
-                    <?php
-                    $serial = 1;
-
-                    foreach ($userIdList as $userId) {
-                        $show = true;
-                        $userObj->fetch($userId);
-
-                        if ($search) {
-                            if (strpos($userObj->name['first'], $searchContent) !== false || strpos($userObj->name['last'], $searchContent) !== false || strpos($userObj->email, $searchContent) !== false || strpos($userObj->getPhoneNumber(), $searchContent) !== false || strpos($userObj->getAddressLocation(), $searchContent) !== false) {
-                                $show = true;
-                            } else {
-                                $show = false;
-                            }
-                        }
-                        if ($show) {
-                            ?>
-                            <tr
-                                class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
-                                <th scope="row"> <?= $serial++ ?> </th>
-                                <td>
-                                    <?php
-                                    $fullName = $userObj->getFullName();
-                                    echo $fullName != ' ' ? $fullName : "-";
-                                    ?>
-                                </td>
-                                <td> <?= $userObj->email ?> </td>
-                                <td>
-                                    <?php
-                                    $phoneNumber = $userObj->getPhoneNumber();
-                                    echo $phoneNumber != "" ? $phoneNumber : "-";
-                                    ?>
-                                </td>
-                                <td> <?= $userObj->getFullAddress() ?>
-                                </td>
-                                <td> <?= ucfirst($userObj->accountStatus) ?> </td>
-                                <td>
-                                    <abbr title="Show full details">
-                                        <a href="/bookrack/admin/admin-user-details/<?= $userId ?>">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </abbr>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                        <?php
-                    }
-                    ?>
+                <tbody id="user-table-body">
+                    <tr>
+                        <td colspan="7">
+                            <div class="d-flex flex-row gap-2 table-loading-gif-container">
+                                <img src="/bookrack/assets/gif/filled-fading-balls.gif" alt="" style="width: 20px;">
+                                <p class="m-0 text-secondary"> Fetching users </p>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
-                <?php
-            }
-            ?>
+            </table>
 
-            <!-- table footer -->
-            <tfoot id="table-foot">
-                <tr>
-                    <td colspan="10"> No user found! </td>
-                </tr>
-            </tfoot>
-        </table>
+            <button class="invisible btn btn-danger mt-2" id="clear-search-btn"> Clear search </button>
+        </div>
     </main>
 
     <!-- jquery, bootstrap [cdn + local] -->
@@ -214,47 +111,107 @@ $userIdList = $userObj->fetchAllUserId();
 
     <!-- current file script -->
     <script>
-        var accountStateSelect = $("#user-account-state-select");
-        const clearFilter = $("#clear-filter");
-
-        clearFilter.hide();
-
-        clearFilter.click(function () {
-            accountStateSelect.val("all");
-            filter();
-        });
-
-        accountStateSelect.change(function () {
-            var accountType = accountStateSelect.val();
-            filter();
-        });
-
-        filter = () => {
-            $('.user-tr').show();
-
-            if (accountStateSelect.val() == "verified") {
-                $('.unverified-user-tr').hide();
-            } else if (accountStateSelect.val() == "unverified") {
-                $('.verified-user-tr').hide();
+        $(document).ready(function () {
+            function fetchUserTable() {
+                $.ajax({
+                    url: '/bookrack/admin/sections/user-table.php',
+                    beforeSend: function () {
+                        $('#user-table-body').html("<tr> <td colspan = '7'> <div class='d-flex flex-row gap-2 table-loading-gif-container'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width: 20px;'> <p class='m-0 text-secondary'> Fetching all users... </p> </div> </td> </tr>");
+                    },
+                    success: function (data) {
+                        $('#user-table-body').html(data);
+                    }
+                });
             }
 
-            if (accountStateSelect.val() != "all") {
-                clearFilter.show();
-            } else {
-                clearFilter.hide();
+            function countTotalUsers() {
+                $.ajax({
+                    url: '/bookrack/admin/app/count-total-users.php',
+                    success: function (data) {
+                        $('#total-user-counter').html(data);
+                    }
+                });
             }
-            toggleEmptyRow()
-        }
 
-        // show empty row
-        toggleEmptyRow = () => {
-            if ($('.user-tr').is(':visible'))
-                $('#table-foot').hide();
-            else
-                $('#table-foot').show();
-        }
+            countTotalUsers();
 
-        toggleEmptyRow();
+            fetchUserTable();
+
+            var accountStateSelect = $("#user-account-state-select");
+            const clearFilter = $("#clear-filter");
+
+            clearFilter.hide();
+
+            clearFilter.click(function () {
+                accountStateSelect.val("all");
+                filter();
+            });
+
+            accountStateSelect.change(function () {
+                var accountType = accountStateSelect.val();
+                filter();
+            });
+
+            filter = () => {
+                $('.user-tr').show();
+
+                if (accountStateSelect.val() == "verified") {
+                    $('.unverified-user-tr').hide();
+                } else if (accountStateSelect.val() == "unverified") {
+                    $('.verified-user-tr').hide();
+                }
+
+                if (accountStateSelect.val() != "all") {
+                    clearFilter.show();
+                } else {
+                    clearFilter.hide();
+                }
+                toggleEmptyRow()
+            }
+
+            // show empty row
+            toggleEmptyRow = () => {
+                if ($('.user-tr').is(':visible'))
+                    $('#table-foot').hide();
+                else
+                    $('#table-foot').show();
+            }
+
+            toggleEmptyRow();
+
+            // search user
+            $('#search-form').submit(function (e) {
+                e.preventDefault();
+                var search_content = $('#admin-search-content').val();
+
+                search_content = $.trim(search_content).toLowerCase();
+
+                searchUser(search_content);
+            });
+
+            function searchUser(search_content) {
+                $('#clear-search-btn').removeClass('d-none');
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/sections/search-user.php",
+                    data: { content: search_content },
+                    beforeSend: function () {
+                        $('#user-table-body').html("<tr> <td colspan = '7'> <div class='d-flex flex-row gap-2 table-loading-gif-container'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width: 20px;'> <p class='m-0 text-secondary'> Searching user... </p> </div> </td> </tr>");
+                    },
+                    success: function (data) {
+                        $('#user-table-body').html(data);
+                        $('#clear-search-btn').removeClass('invisible');
+                    }
+                });
+            }
+
+            // clear search
+            $('#clear-search-btn').click(function () {
+                fetchUserTable();
+                $('#clear-search-btn').addClass('invisible');
+                $('#search-form').trigger("reset");
+            });
+        });
     </script>
 </body>
 

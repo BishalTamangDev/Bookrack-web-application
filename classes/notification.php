@@ -41,43 +41,6 @@ class Notification
         $this->status = $status;
     }
 
-    // new user
-    public function newUser($userId)
-    {
-        global $database;
-
-        // for admin
-        $postData = [
-            'admin_id' => '',
-            'book_id' => '',
-            'cart_id' => '',
-            'status' => 'unseen',
-            'whose' => 'admin',
-            'user_id' => $userId,
-            'type' => 'new user',
-            'date' => date('y:m:d h:i:s')
-        ];
-
-        $response = $database->getReference("notifications")->push($postData);
-
-        if ($response) {
-            // for user
-            $postData = [
-                'admin_id' => '',
-                'book_id' => '',
-                'cart_id' => '',
-                'status' => 'unseen',
-                'whose' => 'user',
-                'user_id' => $userId,
-                'type' => 'new user',
-                'date' => date('y:m:d h:i:s')
-            ];
-            $response = $database->getReference("notifications")->push($postData);
-            $status = $response ? true : false;
-        }
-        return $status ? true : false;
-    }
-
     // new book
     public function newBook($bookId, $userId)
     {

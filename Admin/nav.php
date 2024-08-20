@@ -1,26 +1,7 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-signin");
 
 if (!isset($nav))
     $nav = "dashboard";
-
-require_once __DIR__ . '/../functions/genre-array.php';
-
-if (!isset($adminId)) {
-    require_once __DIR__ . '/../classes/admin.php';
-
-    $adminId = $_SESSION['bookrack-admin-id'];
-
-    $profileAdmin = new Admin();
-    $adminExists = $profileAdmin->checkAdminExistenceById($adminId);
-
-    if (!$adminExists)
-        header("Location: /bookrack/admin/app/admin-signout.php");
-}
 
 // searching
 $search = false;
@@ -83,25 +64,6 @@ if (isset($_GET['admin-search-content'])) {
                         <span class="d-none d-lg-block <?php if ($nav == "books" || $nav == "book-details")
                             echo "text-dark"; ?>">
                             Books </span>
-
-                    </li>
-
-                    <!-- request -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-book-requests'" class="<?php if ($nav == "requests" || $nav == "request-details")
-                        echo "active"; ?>">
-                        <i class="fa-solid fa-comment-dots nav-icon"></i>
-                        <span class="d-none d-lg-block <?php if ($nav == "requests" || $nav == "request-details")
-                            echo "text-dark"; ?>">
-                            Requests </span>
-                    </li>
-
-                    <!-- rent history -->
-                    <li onclick="window.location.href='/bookrack/admin/admin-rent-history'" class="<?php if ($nav == "rent-history")
-                        echo "active"; ?>">
-                        <i class="fa-regular fa-note-sticky nav-icon"></i>
-                        <span class="d-none d-lg-block <?php if ($nav == "rent-history")
-                            echo "text-dark"; ?>"> Rent
-                            History </span>
                     </li>
                 </ul>
             </nav>
@@ -115,67 +77,57 @@ if (isset($_GET['admin-search-content'])) {
         <div class="d-flex flex-row gap-4 align-items-center justify-content-between form-notification-profile">
             <!-- search form -->
             <div class="d-flex flex-row gap-2 search-form-container">
-                <form <?php
-                if (isset($url)) {
-                    if ($url == "users") {
-                        ?> action="/bookrack/admin/admin-users" <?php
-                    } elseif ($url == "books") {
-                        ?> action="/bookrack/admin/admin-books" <?php
-                    } elseif ($url == "book-requests") {
-                        ?> action="/bookrack/admin/admin-book-requests" <?php
-                    }
-                }
+                <?php
+                $eligiblePageList = ["users", "books"];
+                $visibilityClass = !in_array($page, $eligiblePageList) ? 'd-none' : '';
                 ?>
-                    class="d-flex flex-row search-form">
+                <form class="<?= $visibilityClass ?> d-flex flex-row search-form" id="search-form">
                     <div class="input-group">
-                        <input type="search" name="admin-search-content" class="form-control m-0" id="" value="<?php if (isset($_GET['admin-search-content']))
+                        <input type="search" name="admin-search-content" class="m-0 rounded" id="admin-search-content" value="<?php if (isset($_GET['admin-search-content']))
                             echo $searchContent; ?>" placeholder="search here" required>
                     </div>
-                    <button type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
                 </form>
             </div>
 
             <!-- notification -->
             <div class="notification-container" id="notification-main-container">
                 <div class="d-flex flex-row gap-2 icon-count pointer" id="notification-trigger">
-                    <i class="fa fa-bell fs-4"></i>
+                    <i class="fa fa-bell fs-5"></i>
                     <div class="position-absolute notification-count-div text-align-center">
                         <p class="m-0 text-danger"> </p>
                     </div>
                 </div>
 
-                <div class="d-none position-absolute bg-white notification-div" id="notification-container">
-                    <div class="d-flex flex-row justify-content-between align-items-center p-2 py-2 heading-div">
-                        <div class="title">
-                            <p class="m-0 font-weight-bold"> Notifications </p>
-                        </div>
+                <div class="invisible position-absolute bg-white p-0 notification-box" id="notification-box">
+                    <div class="d-flex flex-row justify-content-between align-items-center w-100 p-3 py-3 heading-div">
+                        <p class="m-0 fw-bold fs-4"> Notifications </p>
+                        <i class="fa fa-multiply fs-3 pointer" id="notification-trigger-close"></i>
                     </div>
 
-                    <hr class="m-0">
+                    <div class="d-flex flex-column notifications" id="notifications">
+                        <!-- empty -->
+                        <div class="d-none invisible p-3 empty-notification">
+                            <p class="m-0"> Empty! </p>
+                        </div>
 
-                    <div class="d-flex flex-column mt-2 pb-2 px-2 notifications">
                         <!-- backup -->
-                        <div class="d-flex flex-row gap-2 pointer p-2 notification">
-                            <div class="d-flex flex-row justify-content-around align-items-center icon-div">
+                        <div class="d-none invisible notification">
+                            <div class="icon-div">
                                 <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
                             </div>
 
                             <div class="details">
                                 <!-- notification detail -->
                                 <div class="detail">
-                                    <p class="m-0">
+                                    <p>
                                         Notification details appears here...
                                     </p>
                                 </div>
 
                                 <!-- date -->
-                                <div class="date">
-                                    <p class="m-0 small text-secondary">
-                                        0000-00-00 00-00-00
-                                    </p>
-                                </div>
+                                <p class="date">
+                                    0000-00-00 00-00-00
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -233,9 +185,9 @@ if (isset($_GET['admin-search-content'])) {
                         profileMenuState = !profileMenuState;
                         toggleProfileMenu();
                     }
-                    $('#notification-container').removeClass("invisible");
+                    $('#notification-box').removeClass("invisible");
                 } else {
-                    $('#notification-container').addClass("invisible");
+                    $('#notification-box').addClass("invisible");
                 }
             }
 
@@ -252,23 +204,30 @@ if (isset($_GET['admin-search-content'])) {
                 }
             }
 
-            function loadHeaderNotification() {
+            function fetchNotification() {
                 $.ajax({
                     url: '/bookrack/admin/sections/header-notification.php',
                     type: "POST",
-                    success: function (data) {
-                        $('#notification-main-container').replaceWith(data);
+                    beforeSend: function () {
+                        // $('#notifications').html("<p class='m-0 p-3'> Loading... </p>");
+                        $('#notifications').html("<div class='p-3 d-flex flex-row gap-3'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width:26px;'> <p class='m-0'> Loading notification... </p> </div>");
                     },
-                    error: function () {
-                        console.log("An error occured.");
-                    }
+                    success: function (data) {
+                        $('#notifications').html(data);
+                    },
                 });
             }
 
-            loadHeaderNotification();
-
             // notification trigger
             $(document).on('click', '#notification-trigger', function () {
+                notificationState = !notificationState;
+                toggleNotification();
+
+                // fetch notification
+                fetchNotification();
+            });
+
+            $(document).on('click', '#notification-trigger-close', function () {
                 notificationState = !notificationState;
                 toggleNotification();
             });
