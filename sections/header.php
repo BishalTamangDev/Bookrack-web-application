@@ -54,7 +54,10 @@ if (!isset($searchState))
             </div>
 
             <!-- menu bar -->
-            <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
+             <div class="d-flex flex-row gap-3">
+                 <i class="fa fa-bell fs-4"></i>
+                 <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
+                </div>
 
             <!-- menu -->
             <div class="flex-column d-md-flex flex-md-row gap-3 p-4 p-md-0 align-items-center menu" id="menu">
@@ -86,13 +89,6 @@ if (!isset($searchState))
                     <span> My Profile </span>
                 </div>
 
-                <!-- extra: notification -->
-                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href=''">
-                    <i class="fa fa-bell"></i>
-                    <span> Notification </span>
-                </div>
-
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
                     onclick="window.location.href='/bookrack/my-books'">
@@ -100,11 +96,11 @@ if (!isset($searchState))
                     <span> My Books </span>
                 </div>
 
-                <!-- extra: my books -->
+                <!-- extra: requests -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/bookrack/book-requests'">
+                    onclick="window.location.href='/bookrack/requests'">
                     <i class="fa fa-book"></i>
-                    <span> Book Requests </span>
+                    <span> Requests </span>
                 </div>
 
                 <!-- wishlist -->
@@ -122,8 +118,8 @@ if (!isset($searchState))
                 </div>
 
                 <!-- notification -->
-                <div class="position-relative notification-section" id="notification-trigger">
-                    <div class="position-relative icon-container">
+                <div class="position-relative notification-section">
+                    <div class="position-relative icon-container" id="notification-trigger">
                         <i class="fa fa-bell fs-5 pointer"></i>
                         <b>
                             <p class="position-absolute m-0 notification-counter pointer"> 9+ </p>

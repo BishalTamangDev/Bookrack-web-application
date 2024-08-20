@@ -1,18 +1,13 @@
 <?php
+require_once __DIR__ . '/classes/book.php';
+require_once __DIR__ . '/functions/genre-array.php';
 
 if (!isset($bookId) || $bookId == "")
     header("Location: /bookrack/home");
 
-// starting the session
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
 $url = "book-details-unsigned";
 
 // fetch book details
-require_once __DIR__ . '/classes/book.php';
-require_once __DIR__ . '/functions/genre-array.php';
-
 $selectedBook = new Book();
 
 $bookFound = $selectedBook->fetch($bookId);
@@ -57,21 +52,6 @@ if (!$bookFound) {
             <section class="d-flex flex-column title-rating-count-container">
                 <!-- book title -->
                 <p class="f-reset fw-bold fs-3"> <?= ucwords($selectedBook->title) ?> </p>
-
-                <!-- rating & count-->
-                <div class="d-flex flex-row gap-2 align-items-center rating-count-container">
-                    <!-- rating -->
-                    <div class="d-flex flex-row align-items-center rating-container">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
-                    </div>
-
-                    <!-- count -->
-                    <p class="f-reset count-container"> (<?= "-" ?>) </p>
-                </div>
             </section>
 
             <section class="d-flex flex-column flex-lg-row gap-4 book-detail-container">

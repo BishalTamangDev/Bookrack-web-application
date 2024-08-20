@@ -14,7 +14,7 @@ $userBookList = $tempBook->fetchBookByUserId($userId);
 if (sizeof($userBookList) == 0) {
     ?>
     <!-- empty context -->
-    <section class="flex-column mt-3 gap-3 align-items-center empty-context-container" id="empty-context-container">
+    <section class="flex-column gap-3 align-items-center empty-context-container" id="empty-context-container">
         <img src="assets/icons/empty.svg" alt="empty icon">
         <p class="m-0 text-danger"> You haven't added any book yet! </p>
     </section>

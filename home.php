@@ -1,28 +1,11 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/genre.php';
+require_once __DIR__ . '/classes/book.php';
 
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
-
-$userId = $_SESSION['bookrack-user-id'];
 $url = "home";
 
-require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/classes/user.php';
-require_once __DIR__ . '/classes/genre.php';
-
-// get user details
-$profileUser = new User();
-$userExists = $profileUser->checkUserExistenceById($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/app/signout.php");
-
-$profileUser->setUserId($userId);
-
 // book obj 
-require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
 
 // search
@@ -155,7 +138,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                 <p class="m-0 fs-5"> Top Genre </p>
                 <div class="d-flex flex-row flex-wrap gap-2 genre-container" id="trending-genre-container">
                     <div class="genre bg-dark text-white">
-                        <p class="m-0 text-secondary"> Loading... </p>
+                        <p class="m-0 text-light"> Loading... </p>
                     </div>
                 </div>
             </section>
@@ -270,7 +253,7 @@ $searchContent = $searchState ? strtolower($_GET['search-content']) : "";
                         genre: book_genre,
                         minPrice: book_min_price,
                         maxPrice: book_max_price,
-                        userId: '<?=$userId?>',
+                        userId: '<?=$profileId?>',
                     },
                     beforeSend: function () {
                         $('#load-more-btn').html("Loading...").prop('disabled', true);

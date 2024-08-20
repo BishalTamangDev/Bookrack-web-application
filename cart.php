@@ -1,28 +1,17 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
+require_once __DIR__ . '/classes/cart.php';
+require_once __DIR__ . '/classes/user.php';
 
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/home");
-
-$userId = $_SESSION['bookrack-user-id'];
 $url = "cart";
 
-require_once __DIR__ . '/classes/user.php';
-$profileUser = new User();
-
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signin");
+$response = $profileUser->fetch($profileId);
 
 if (!isset($tab)) {
     $tab = "current";
 }
 
-require_once __DIR__ . '/classes/cart.php';
 $cart = new Cart();
-$cart->setUserId($userId);
+$cart->setUserId($profileId);
 ?>
 
 <!DOCTYPE html>
@@ -368,7 +357,7 @@ $cart->setUserId($userId);
                         <p class=""> </p>
                         <p class=""> </p>
                     </div>
-                    
+
                     <div class="loading-content">
                         <p class=""> </p>
                         <p class=""> </p>
@@ -378,9 +367,10 @@ $cart->setUserId($userId);
                 </div>
                 <div class="loading-checkout"> </div>
             </div>
-            
+
             <!-- completed cart -->
-            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between completed-cart-section" id="completed-cart-section">
+            <section class="d-flex flex-column-reverse flex-lg-row justify-content-between completed-cart-section"
+                id="completed-cart-section">
                 <div class="rounded p-1 cart-detail">
                     <table class="table cart-table">
                         <thead>
@@ -419,7 +409,7 @@ $cart->setUserId($userId);
                             <p class="m-0"> Checkout Type </p>
                             <p class="m-0"> Cash on Delivery </p>
                         </div>
-                        
+
                         <div class="d-flex flex-row justify-content-between checkout-detail">
                             <p class="m-0"> Shipping address </p>
                             <p class="m-0"> Bansbari, Kathmandu </p>

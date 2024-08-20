@@ -1,25 +1,11 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
-
-$userId = $_SESSION['bookrack-user-id'];
-
-$url = "profile";
-
 require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/functions/district-array.php';
-require_once __DIR__ . '/classes/user.php';
 require_once __DIR__ . '/classes/wishlist.php';
 
-$profileUser = new User();
+$url = "profile";
 $wishlistObj = new Wishlist();
-$userExists = $profileUser->fetch($userId);
 
-if (!$userExists)
-    header("Location: /bookrack/signout");
+$userExists = $profileUser->fetch($profileId);
 
 require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
@@ -95,16 +81,22 @@ $bookObj = new Book();
     <script>
         $(document).ready(function () {
             $('#empty-wishlist-div').hide();
-            // load wishlist
-            $.ajax({
-                url: '/bookrack/sections/fetch-wishlist.php',
-                type: "POST",
-                data: {userId : '<?=$userId?>'},
-                success: function (data) {
-                    $('#skeletion-book-main-container').remove();
-                    $('#wishlist-container').replaceWith(data);
-                }
-            });
+
+            function fetchWishlist() {
+
+                // load wishlist
+                $.ajax({
+                    url: '/bookrack/sections/fetch-wishlist.php',
+                    type: "POST",
+                    data: { userId: '<?= $profileId ?>' },
+                    success: function (data) {
+                        $('#skeletion-book-main-container').remove();
+                        $('#wishlist-container').replaceWith(data);
+                    }
+                });
+            }
+
+            fetchWishlist();
 
             // wishlist toggle
             $(document).on('click', '.wishlist-toggle-icon', function () {

@@ -1,12 +1,3 @@
-<?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-// if user is saved in the session, redirect to homepage
-if (isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/home");
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +24,7 @@ if (isset($_SESSION['bookrack-user-id']))
                 <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="/bookrack/landing">
+                <a href="/bookrack/">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>
@@ -85,9 +76,9 @@ if (isset($_SESSION['bookrack-user-id']))
                                 <i class="fa-solid fa-unlock"></i>
                             </span>
                             <div class="form-floating">
-                                <input type="password" name="password" id="password" class="form-control" id="floatingPasswordInput"
-                                    placeholder="********" aria-label="password" aria-describedby="password"
-                                    minlength="8" required>
+                                <input type="password" name="password" id="password" class="form-control"
+                                    id="floatingPasswordInput" placeholder="********" aria-label="password"
+                                    aria-describedby="password" minlength="8" required>
                                 <label for="floatingPasswordInput">Password</label>
                             </div>
                         </div>
@@ -95,11 +86,12 @@ if (isset($_SESSION['bookrack-user-id']))
                         <input type="hidden" class="form-control" id="csrf_token" name="csrf_token">
 
                         <!-- password toggle -->
-                        <div class="d-flex flex-row gap-2 mt-3 mb-3 pointer fit-content password-toggle-div" id="password-toggle-div">
-                                <i class="pt-1 fa fa-eye" id="show-password-icon"></i>
-                                <i class="d-none pt-1 fa-regular fa-eye-slash" id="hide-password-icon"></i>
-                                <span id="password-toggle-div-label"> Show Password </span>
-                            </div>
+                        <div class="d-flex flex-row gap-2 mt-3 mb-3 pointer fit-content password-toggle-div"
+                            id="password-toggle-div">
+                            <i class="pt-1 fa fa-eye" id="show-password-icon"></i>
+                            <i class="d-none pt-1 fa-regular fa-eye-slash" id="hide-password-icon"></i>
+                            <span id="password-toggle-div-label"> Show Password </span>
+                        </div>
 
                         <div
                             class="d-none d-flex flex-row gap-3 flex-wrap justify-content-between align-items-center remember-me-forgot-password mb-3">

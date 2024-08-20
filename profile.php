@@ -1,24 +1,10 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
-
-$userId = $_SESSION['bookrack-user-id'];
-
-$url = "profile";
-
 require_once __DIR__ . '/functions/genre-array.php';
 require_once __DIR__ . '/functions/district-array.php';
 require_once __DIR__ . '/classes/user.php';
 
-$profileUser = new User();
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signout");
-
+$userExists = $profileUser->fetch($profileId);
+$url = "profile";
 ?>
 
 <!DOCTYPE html>
@@ -214,7 +200,7 @@ if (!$userExists)
                         <form method="POST" class="d-flex flex-column gap-3 edit-profile-form" enctype="multipart/form-data"
                             id="profile-form">
                             <!-- user id -->
-                            <input type="hidden" name="user-id" id="user-id" value="<?= $userId ?>">
+                            <input type="hidden" name="user-id" id="user-id" value="<?= $profileId ?>">
 
                             <!-- profile picture -->
                             <!-- <div class="d-flex flex-column gap-1 w-100 w-md-50 flex-grow-1 profile-picture">

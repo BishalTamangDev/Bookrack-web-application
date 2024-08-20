@@ -1,26 +1,14 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/home");
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/book.php';
+require_once __DIR__ . '/classes/user.php';
 
 if (!isset($bookId) || $bookId == "")
     header("Location: /bookrack/home");
 
 $url = "book-details";
-$userId = $_SESSION['bookrack-user-id'];
 
-require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/classes/user.php';
-
-$profileUser = new User();
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signin");
-
-require_once __DIR__ . '/classes/book.php';
+$userExists = $profileUser->fetch($profileId);
 ?>
 
 <!DOCTYPE html>
@@ -54,21 +42,6 @@ require_once __DIR__ . '/classes/book.php';
             <section class="d-flex flex-column title-rating-count-container">
                 <!-- book title -->
                 <p class="f-reset fw-bold fs-3"> <?= ucWords($selectedBook->title) ?> </p>
-
-                <!-- rating & count-->
-                <div class="d-flex flex-row gap-2 align-items-center rating-count-container">
-                    <!-- rating -->
-                    <div class="d-flex flex-row align-items-center rating-container">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/full-rating.png" alt="" loading="lazy">
-                        <img src="/bookrack/assets/icons/half-rating.png" alt="" loading="lazy">
-                    </div>
-
-                    <!-- count -->
-                    <p class="f-reset count-container"> (<?= "-" ?>) </p>
-                </div>
             </section>
 
             <section class="d-flex flex-column flex-lg-row gap-4 book-detail-container">
@@ -92,18 +65,7 @@ require_once __DIR__ . '/classes/book.php';
                             <p class="p f-reset fw-bold fs-4 text-secondary"> Description </p>
 
                             <div class="d-flex flex-row align-items-center bg-success px-3 availability-div">
-                                <?php
-                                $purpose = $selectedBook->purpose;
-                                if ($purpose == "renting") {
-                                    ?>
-                                    <p class="f-reset text-light"> Available for Rent </p>
-                                    <?php
-                                } elseif ($purpose == "buy/sell") {
-                                    ?>
-                                    <p class="f-reset text-light"> Available for Buy/Sell </p>
-                                    <?php
-                                }
-                                ?>
+                                <p class="f-reset text-light"> Available for Buy/Sell </p>
                             </div>
                         </div>
 
@@ -204,13 +166,8 @@ require_once __DIR__ . '/classes/book.php';
                             <div class="data">
                                 <p class="m-0 text-success fw-bold">
                                     <?php
-                                    if ($selectedBook->purpose == "renting") {
-                                        $rent = 0.20 * $selectedBook->price['actual'];
-                                        echo "NPR." . number_format($rent, 2) . "/week";
-                                    } else {
-                                        $price = $selectedBook->price['offer'];
-                                        echo "NPR." . number_format($price, 2);
-                                    }
+                                    $price = $selectedBook->price['offer'];
+                                    echo "NPR. " . number_format($price, 2);
                                     ?>
                                 </p>
                             </div>
@@ -239,7 +196,7 @@ require_once __DIR__ . '/classes/book.php';
 
                     <!-- action -->
                     <?php
-                    if ($selectedBook->getOwnerId() != $userId) {
+                    if ($selectedBook->getOwnerId() != $profileId) {
                         ?>
                         <div class="d-flex flex-wrap flex-md-row operation-container">
                             <!-- wishlist -->
@@ -333,7 +290,7 @@ require_once __DIR__ . '/classes/book.php';
         $(document).ready(function () {
             // load wishlist btn
             book_id = "<?= $bookId ?>";
-            user_id = "<?= $userId ?>";
+            user_id = "<?= $profileId ?>";
 
             // check wishlist
             function checkWishlist() {

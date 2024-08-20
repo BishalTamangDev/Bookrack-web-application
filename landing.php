@@ -1,12 +1,4 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/home");
-elseif (isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/admin/admin-dashboard");
-
 $url = "landing";
 
 require_once __DIR__ . '/functions/genre-array.php';

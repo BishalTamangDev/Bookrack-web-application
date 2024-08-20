@@ -1,11 +1,3 @@
-<?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-// if user is saved in the session, redirect to homepage
-if (isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/home");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +24,7 @@ if (isset($_SESSION['bookrack-user-id']))
                 <img src="/bookrack/assets/brand/bookrack-logo-color.png" alt="" loading="lazy">
 
                 <!-- cancel -->
-                <a href="/bookrack/landing">
+                <a href="/bookrack/">
                     <i class="fa fa-multiply fs-2 pointer text-secondary"></i>
                 </a>
             </div>

@@ -1,23 +1,7 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
-
-$userId = $_SESSION['bookrack-user-id'];
-
-$url = "my-books";
-
 require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/functions/district-array.php';
-require_once __DIR__ . '/classes/user.php';
-
-$profileUser = new User();
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signout");
+$url = "my-books";
+$res = $profileUser->fetch($profileId);
 ?>
 
 <!DOCTYPE html>
@@ -43,12 +27,13 @@ if (!$userExists)
 
     <main class="d-flex flex-column gap-lg-3 pb-5 container main">
         <!-- heading -->
-        <h2 class="m-0 fs-3 fw-semibold mb-3"> My Books </h2>
+        <h2 class="m-0 fs-3 fw-semibold mb-4"> My Books </h2>
 
-        <a href="/bookrack/add-book" class="btn btn-outline-brand fit-content mb-3"> <i class="fa fa-add"></i> Add New Book </a>
+        <a href="/bookrack/add-book" class="btn btn-outline-brand fit-content mb-4"> <i class="fa fa-add"></i> Add New
+            Book </a>
 
         <!-- my book filter -->
-        <div class="d-flex flex-row flex-wrap gap-2 mb-3 book-status-container">
+        <div class="d-flex flex-row flex-wrap gap-2 mb-4 book-status-container">
             <div class="book-status active-book-status" id="my-book-status-all">
                 <p> All Books </p>
             </div>
@@ -89,10 +74,10 @@ if (!$userExists)
             </div>
         </div>
 
-            <!-- my books container-->
-            <div class="d-flex flex-row flex-wrap gap-3 my-book-container" id="my-book-container">
+        <!-- my books container-->
+        <div class="d-flex flex-row flex-wrap gap-3 my-book-container" id="my-book-container">
 
-            </div>
+        </div>
     </main>
 
     <!-- footer -->
@@ -112,9 +97,9 @@ if (!$userExists)
                 $.ajax({
                     url: '/bookrack/sections/fetch-my-books.php',
                     type: 'POST',
-                    data: {userId : '<?=$userId?>'},
-                    success : function(data) {
-                        $('#my-book-container').html(data);
+                    data: { userId: '<?= $profileId ?>' },
+                    success: function (data) {
+                        $('#my-book-container').append(data);
                         $('#skeletion-book-main-container').hide();
                     }
                 });

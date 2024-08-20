@@ -1,27 +1,12 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
-
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
-
-$userId = $_SESSION['bookrack-user-id'];
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/functions/district-array.php';
+require_once __DIR__ . '/classes/book.php';
 
 $url = "profile";
 
-require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/functions/district-array.php';
-require_once __DIR__ . '/classes/user.php';
-require_once __DIR__ . '/classes/wishlist.php';
+$userExists = $profileUser->fetch($profileId);
 
-$profileUser = new User();
-$wishlistObj = new Wishlist();
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signout");
-
-require_once __DIR__ . '/classes/book.php';
 $bookObj = new Book();
 ?>
 
@@ -81,7 +66,8 @@ $bookObj = new Book();
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-4">
                 <h2 class="m-0 mb-3"> If you accept this request, you must submit your book to out physical shop within
-                    <span class="text-danger"> 3 days </span> . </h2>
+                    <span class="text-danger"> 3 days </span> .
+                </h2>
 
                 <p class="text-secondary mb-3"> Request left unresponded withing 3 days will be set as expired. </p>
 
@@ -106,7 +92,7 @@ $bookObj = new Book();
                 $.ajax({
                     url: '/bookrack/sections/fetch-users-requests.php',
                     type: 'POST',
-                    data : {userId : '<?=$userId?>'},
+                    data: { userId: '<?= $profileId ?>' },
                     success: function (data) {
                         $('#request-table-body').html(data);
                     }

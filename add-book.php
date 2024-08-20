@@ -1,40 +1,23 @@
 <?php
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
+require_once __DIR__ . '/functions/genre-array.php';
+require_once __DIR__ . '/classes/user.php';
+require_once __DIR__ . '/classes/book.php';
 
-if (!isset($_SESSION['bookrack-user-id'])) {
-    header("Location: /bookrack/home");
-    exit;
-}
+$book = new Book();
 
 $url = "add-book";
 
-$userId = $_SESSION['bookrack-user-id'];
-
-require_once __DIR__ . '/classes/user.php';
-require_once __DIR__ . '/functions/genre-array.php';
-
-$profileUser = new User();
-$userExists = $profileUser->fetch($userId);
-
-if (!$userExists)
-    header("Location: /bookrack/signout");
+$response = $profileUser->fetch($profileId);
 
 if ($task == 'edit') {
-    require_once __DIR__ . '/classes/book.php';
-    $book = new Book();
     $bookExists = $book->fetch($bookId);
 
-    if (!$bookExists) {
+    if (!$bookExists)
         header("Location: /bookrack/profile/my-books");
-        exit;
-    }
 
     // check if the user is owner or not
-    if ($book->getOwnerId() != $userId) {
+    if ($book->getOwnerId() != $profileId)
         header("Location: /bookrack/home");
-        exit;
-    }
 }
 ?>
 
@@ -348,24 +331,25 @@ if ($task == 'edit') {
 
                             <!-- file input -->
                             <input type="file" name="book-photo" id="cover-page" accept="image/*" <?php if ($task != "edit")
-                                    echo "required"; ?>>
+                                echo "required"; ?>>
                         </div>
 
-                        <label for="cover-page" class="upload-label"> <i class="fa-solid fa-upload"></i> Upload Cover Page
+                        <label for="cover-page" class="upload-label"> <i class="fa-solid fa-upload"></i> Upload Cover
+                            Page
                         </label>
                     </div>
 
                     <!-- <div class="d-flex flex-column gap-3 book-images"> -->
-                        <!-- photo -->
-                        <!-- <div class="input-group"> -->
-                            <!-- <label for="cover-page">Cover page</label> -->
-                            <!-- <input type="file" name="book-photo" id="cover-page" class="form-control" aria-label="book photo" accept="image/*" aria-describedby="book photo" -->
-                                 <?php 
-                                //  if ($task != "edit")
-                                    // echo "required";
-                                ?>
-                                <!-- > -->
-                        <!-- </div> -->
+                    <!-- photo -->
+                    <!-- <div class="input-group"> -->
+                    <!-- <label for="cover-page">Cover page</label> -->
+                    <!-- <input type="file" name="book-photo" id="cover-page" class="form-control" aria-label="book photo" accept="image/*" aria-describedby="book photo" -->
+                    <?php
+                    //  if ($task != "edit")
+                    // echo "required";
+                    ?>
+                    <!-- > -->
+                    <!-- </div> -->
                     <!-- </div> -->
 
                     <div class="mt-1 operation">
