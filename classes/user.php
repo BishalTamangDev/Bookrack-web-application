@@ -23,7 +23,9 @@ class User
     private $dob;
     private $address = [
         'district' => '',
-        'location' => ''
+        'municipality' => '',
+        'ward' => '',
+        'tole_village' => ''
     ];
     private $kyc = [
         'document_type' => '',
@@ -58,7 +60,9 @@ class User
         $this->gender = "";
         $this->address = [
             "district" => "",
-            "location" => "",
+            "municipality" => "",
+            'ward' => '',
+            'tole_village' => ''
         ];
         $this->photo = "";
         $this->kyc = [
@@ -81,7 +85,9 @@ class User
         ];
         $this->address = [
             "district" => $address['district'],
-            "location" => $address['location'],
+            "municipality" => $address['municipality'],
+            'ward' => $address['ward'],
+            'tole_village' =>$address['tole_village'],
         ];
         $this->photo = $photo;
         $this->kyc = [
@@ -136,16 +142,24 @@ class User
         return $this->address["district"];
     }
 
-    public function getAddressLocation()
+    public function getAddressMunicipality()
     {
-        return $this->address["location"];
+        return $this->address["municipality"];
+    }
+
+    public function getAddressWard(){
+        return $this->address['ward'];
+    }
+
+    public function getAddressToleVillage(){
+        return $this->address['tole_village'];
     }
 
     public function getFullAddress()
     {
         global $districtArray;
         if ($this->address['district'] != '')
-            return ucWords($this->address['location'] . ', ' . $districtArray[$this->address['district']]);
+            return ucWords($this->address['municipality'] . '-' . $this->address['ward'] . ', '. ucfirst($this->address['tole_village']).', '. ucwords($this->address['district']));
         else
             return '-';
     }
@@ -202,9 +216,9 @@ class User
         $this->address["district"] = $addressDistrict;
     }
 
-    public function setAddressLocation($addressLocation)
+    public function setAddressMunicipality($addressMunicipality)
     {
-        $this->address["location"] = $addressLocation;
+        $this->address["municipality"] = $addressMunicipality;
     }
 
 
@@ -243,7 +257,9 @@ class User
             'phoneNumber' => $this->phoneNumber,
             'address' => [
                 'district' => $this->address['district'],
-                'location' => $this->address['location']
+                'municipality' => $this->address['municipality'],
+                'ward' => $this->address['ward'],
+                'tole_village' => $this->address['tole_village'],
             ],
             'photo' => $this->photo,
             'kyc' => [
@@ -451,7 +467,9 @@ class User
             $this->gender == '' ||
             $this->phoneNumber == '' ||
             $this->address['district'] == '' ||
-            $this->address['location'] == '' ||
+            $this->address['municipality'] == '' ||
+            $this->address['ward'] == '' ||
+            $this->address['tole_village'] == '' ||
             $this->phoneNumber == '' ||
             $this->photo == '' ||
             $this->kyc["document_type"] == '' ||

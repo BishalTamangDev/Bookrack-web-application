@@ -47,9 +47,17 @@ if (isset($_POST['edit-profile-contact']) && $_POST['edit-profile-contact'] != "
 if (isset($_POST['edit-profile-district']))
     $properties['address']['district'] = $_POST['edit-profile-district'];
 
-// location
-if (isset($_POST['edit-profile-location']))
-    $properties['address']['location'] = strtolower($_POST['edit-profile-location']);
+// municipality
+if (isset($_POST['edit-profile-municipality']))
+    $properties['address']['municipality'] = strtolower($_POST['edit-profile-municipality']);
+
+// ward
+if (isset($_POST['edit-profile-ward']))
+    $properties['address']['ward'] = strtolower($_POST['edit-profile-ward']);
+
+// tole-village
+if (isset($_POST['edit-profile-tole-village']))
+$properties['address']['tole_village'] = strtolower($_POST['edit-profile-tole-village']);
 
 if ($hasProfilePhoto) {
     global $auth;

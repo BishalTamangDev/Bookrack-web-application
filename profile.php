@@ -239,9 +239,9 @@ $url = "profile";
                                     <select class="form-select" name="edit-profile-gender"
                                         aria-label="Default select example">
                                         <option value="">Gender</option>
-                                        <option value="0">Male</option>
-                                        <option value="1">Female</option>
-                                        <option value="2">Others</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="others">Others</option>
                                     </select>
                                 </div>
                             </div>
@@ -264,21 +264,56 @@ $url = "profile";
                                 </div>
                             </div>
 
-                            <!-- address -->
+                            <!-- district && municipality -->
                             <div class="d-flex flex-column flex-md-row gap-3 address-div">
                                 <!-- district -->
                                 <div class="w-100 w-md-50 district-div">
                                     <label for="edit-profile-district" class="form-label"> District </label>
-                                    <select class="form-select" name="edit-profile-district" aria-label="district select">
-                                        <option value="" selected hidden> District </option>
+                                    <select class="form-select" name="edit-profile-district" id="edit-profile-district"
+                                        aria-label="district select" disabled>
+                                        <?php
+                                        // if value is already set
+                                        if ($profileUser->getAddressDistrict() != "") {
+                                            ?>
+                                            <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
+                                                <?=  ucwords($profileUser->getAddressDistrict()) ?>
+                                            </option>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="" selected hidden> Select district </option>
+                                            <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
 
-                                <!-- location -->
-                                <div class="w-100 w-md-50 location-div">
-                                    <label for="edit-profile-location" class="form-label"> Location </label>
-                                    <input type="text" class="form-control" id="edit-profile-location"
-                                        name="edit-profile-location" aria-describedby="location">
+                                <!-- municipality -->
+                                <div class="w-100 w-md-50 municipality-div">
+                                    <label for="edit-profile-municipality" class="form-label"> Municipality </label>
+                                    <input type="text" class="form-control" id="edit-profile-municipality" value="<?php if ($profileUser->getAddressMunicipality() != "")
+                                        echo ucfirst($profileUser->getAddressMunicipality()); ?>" name="edit-profile-municipality"
+                                        aria-describedby="municipality" disabled>
+                                </div>
+                            </div>
+
+                            <!-- ward && tole && village -->
+                            <div class="d-flex flex-column flex-md-row w-100 w-md-50 gap-3">
+                                <!-- ward -->
+                                <div class="w-100 w-md-50">
+                                    <label for="edit-profile-ward" class="form-label"> Ward </label>
+                                    <select name="edit-profile-ward" id="edit-profile-ward" class="form-control w-100"
+                                        disabled>
+                                        <option value="" selected hidden> Select Ward </option>
+                                    </select>
+                                </div>
+
+                                <!-- tole/ village -->
+                                <div class="w-100 w-md-50 ">
+                                    <label for="edit-profile-tole-village" class="form-label"> Tole/ Village </label>
+                                    <input type="text" class="form-control" id="edit-profile-tole-village" value="<?php if ($profileUser->getAddressToleVillage() != "")
+                                        echo ucfirst($profileUser->getAddressToleVillage()); ?>" name="edit-profile-tole-village"
+                                        aria-describedby="tole-village" disabled>
                                 </div>
                             </div>
 
@@ -295,6 +330,7 @@ $url = "profile";
 
                             <a class="btn btn-success fit-content d-flex flex-row gap-2 align-items-center"
                                 id="edit-profile-btn"> <i class="fa fa-edit"> </i> Edit </a>
+
                             <?php
                             if ($profileUser->accountStatus == "pending") {
                                 // check if all the data has been provided
@@ -560,7 +596,10 @@ $url = "profile";
                     $('#edit-profile-dob').prop('disabled', set);
                     $('#edit-profile-gender').prop('disabled', set);
                     $('#edit-profile-contact').prop('disabled', set);
-                    $('#eedit-profile-district').prop('disabled', set);
+                    $('#edit-profile-district').prop('disabled', set);
+                    $('#edit-profile-municipality').prop('disabled', set);
+                    $('#edit-profile-ward').prop('disabled', set);
+                    $('#edit-profile-tole-village').prop('disabled', set);
                     $('#edit-profile-location').prop('disabled', set);
                     $('#update-profile-btn').show();
                     $('#edit-profile-form-photo-container').removeClass('d-none');
@@ -616,15 +655,14 @@ $url = "profile";
                 $('#edit-profile-btn').click(function () {
                     $('#profile-edit-cancel-btn').show();
                     $('#edit-profile-btn').addClass('d-none');
-                    console.log("Edit");
                     toggleInputFields(false);
                 });
 
                 // reset btn
                 $('#profile-edit-cancel-btn').click(function () {
                     $('#profile-edit-cancel-btn').hide();
-                    $('#edit-profile-btn').removeClass('d-none');
                     loadUserProfileData("<?= $_SESSION['bookrack-user-id'] ?>", "<?= $tab ?>");
+                    $('#edit-profile-btn').removeClass('d-none');
                 });
 
                 // update profile

@@ -37,7 +37,15 @@
   border-image-slice: lavender;
   justify-content: space-between;
 }
-.book-container .book-details .book-title-wishlist .book-title {
+.book-container .book-details .book-title-wishlist .title-div {
+  width: 100%;
+  max-height: 4.2rem;
+  overflow: hidden;
+}
+.book-container .book-details .book-title-wishlist .title-div abbr {
+  text-decoration: none;
+}
+.book-container .book-details .book-title-wishlist .title-div .book-title {
   font-size: 1.4rem;
   font-weight: bold;
 }
@@ -50,7 +58,7 @@
   font-weight: 550;
 }
 .book-container .book-details .book-description-container {
-  height: 3rem;
+  max-height: 3rem;
   overflow: hidden;
 }
 .book-container .book-details .book-price {

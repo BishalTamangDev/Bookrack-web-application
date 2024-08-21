@@ -22,8 +22,23 @@ if (sizeof($userBookList) == 0) {
 } else {
     foreach ($userBookList as $bookId) {
         $tempBook->fetch($bookId);
+        
+        $statusClass = "";
+        switch($tempBook->flag) {
+            case 'verified':
+                $statusClass = "on-stock-book";
+                break;
+            case 'on-hold':
+                $statusClass = "on-hold-book";
+                break;
+            case 'sold-out':
+                $statusClass = 'sold-out-book';
+                break;
+            default:
+                $statusClass = "";
+        }
         ?>
-        <div class="book-container my-book my-book-active">
+        <div class="book-container my-book <?=$statusClass?>">
             <!-- book image -->
             <div class="book-image">
                 <?php $tempBook->setPhotoUrl(); ?>
@@ -34,7 +49,11 @@ if (sizeof($userBookList) == 0) {
             <div class="book-details">
                 <!-- book title -->
                 <div class="book-title-wishlist">
-                    <p class="book-title"> <?= ucwords($tempBook->title) ?> </p>
+                    <div class="title-div">
+                        <abbr title="<?= ucwords($tempBook->title) ?>">
+                            <p class="book-title"> <?= ucwords($tempBook->title) ?> </p>
+                        </abbr>
+                    </div>
                 </div>
 
                 <!-- book purpose -->
@@ -49,13 +68,8 @@ if (sizeof($userBookList) == 0) {
                 <div class="book-price">
                     <p class="book-price">
                         <?php
-                        if ($tempBook->purpose == "renting") {
-                            $rent = 0.20 * $tempBook->price['actual'];
-                            echo "NPR." . number_format($rent, 2) . "/week";
-                        } else {
-                            $price = $tempBook->price['offer'];
-                            echo "NPR." . number_format($price, 2);
-                        }
+                        $price = $tempBook->price['offer'];
+                        echo "NPR. " . number_format($price, 2);
                         ?>
                     </p>
                 </div>

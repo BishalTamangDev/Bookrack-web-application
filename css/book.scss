@@ -39,13 +39,19 @@
             width: 100%;
             border-image-slice: lavender;
             justify-content: space-between;
-            // align-items: center;
 
-            .book-title {
-                font-size: 1.4rem;
-                font-weight: bold;
+            .title-div{
+                width: 100%;
+                max-height: calc(1.4rem + 1.4rem + 1.4rem);
+                overflow: hidden;
+                abbr{
+                    text-decoration: none;
+                }
+                .book-title {
+                    font-size: 1.4rem;
+                    font-weight: bold;
+                }
             }
-
 
             i {
                 color: black;
@@ -61,7 +67,7 @@
         }
 
         .book-description-container {
-            height: 3rem;
+            max-height: 3rem;
             overflow: hidden;
         }
 

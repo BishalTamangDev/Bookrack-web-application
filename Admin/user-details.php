@@ -93,16 +93,7 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0"> Gender </p>
-                            <p class="m-0 fw-semibold"> <?php
-                            if ($selectedUser->gender == 0)
-                                echo "Male";
-                            elseif ($selectedUser->gender == 1)
-                                echo "Female";
-                            elseif ($selectedUser->gender == 2)
-                                echo "Others";
-                            else
-                                echo "-";
-                            ?> </p>
+                            <p class="m-0 fw-semibold"> <?=ucfirst($selectedUser->gender)?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
@@ -129,16 +120,29 @@ $fullName = $selectedUser->getFullName();
                         </div>
                     </div>
 
-                    <!-- address -->
+                    <!-- district & municipality -->
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0"> District </p>
-                            <p class="m-0 fw-semibold"> <?= $selectedUser->getFullAddress() ?> </p>
+                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressDistrict()) ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
-                            <p class="m-0"> Location </p>
-                            <p class="m-0 fw-semibold"> - </p>
+                            <p class="m-0"> Municipality </p>
+                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressMunicipality()) ?> </p>
+                        </div>
+                    </div>
+
+                    <!-- ward & tole/ village -->
+                    <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
+                        <div class="w-100 w-md-50">
+                            <p class="m-0"> Ward </p>
+                            <p class="m-0 fw-semibold"> <?= $selectedUser->getAddressWard() ?> </p>
+                        </div>
+
+                        <div class="w-100 w-md-50">
+                            <p class="m-0"> Tole/ Village </p>
+                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressToleVillage()) ?> </p>
                         </div>
                     </div>
 

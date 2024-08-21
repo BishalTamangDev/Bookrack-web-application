@@ -1,7 +1,7 @@
 <?php
 $userId = $_POST['userId'] ?? 0;
 
-if($userId == 0) {
+if ($userId == 0) {
     echo "Empty!";
     exit;
 }
@@ -79,9 +79,11 @@ if (sizeof($allBookList) == 0) {
                         <!-- title & wishlist toggle -->
                         <div class="book-title-wishlist">
                             <!-- book title -->
-                            <p class="book-title">
-                                <?= ucwords($allBookObj->title) ?>
-                            </p>
+                            <div class="title-div">
+                                <abbr title="<?= ucwords($allBookObj->title) ?>">
+                                    <p class="book-title"> <?= ucwords($allBookObj->title) ?> </p>
+                                </abbr>
+                            </div>
 
                             <?php
                             // check if user is the owner
@@ -111,7 +113,7 @@ if (sizeof($allBookList) == 0) {
                         <!-- book author -->
                         <div class="book-author-container">
                             <p class="book-author">
-                            <?php
+                                <?php
                                 $authorCount = sizeof($allBookObj->author);
                                 $count = 0;
                                 foreach ($allBookObj->author as $author) {
@@ -128,15 +130,15 @@ if (sizeof($allBookList) == 0) {
 
                         <!-- description -->
                         <div class="book-description-container">
-                            <p class=""> <?=ucfirst($allBookObj->description)?> </p>
+                            <p class=""> <?= ucfirst($allBookObj->description) ?> </p>
                         </div>
 
                         <!-- book price -->
                         <div class="book-price">
                             <p class="book-price">
                                 <?php
-                                    $price = $allBookObj->price['offer'];
-                                    echo "NPR." . number_format($price, 2);
+                                $price = $allBookObj->price['offer'];
+                                echo "NPR. " . number_format($price, 2);
                                 ?>
                             </p>
                         </div>

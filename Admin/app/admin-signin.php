@@ -44,7 +44,7 @@ try {
             $_SESSION['bookrack-admin-id'] = $uid;
             $_SESSION['idTokenString'] = $idTokenString;
         } else {
-            $response = 'Not registered asdsfsf an admin!';
+            $response = 'Email not registered!';
         }
     } catch (Kreait\Firebase\Auth\SignIn\FailedToSignIn $e) {
         $response = 'An error occured.';

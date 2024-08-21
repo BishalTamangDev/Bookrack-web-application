@@ -19,6 +19,12 @@ $res = $profileUser->fetch($profileId);
     <!-- css files -->
     <link rel="stylesheet" href="/bookrack/css/book.css">
     <link rel="stylesheet" href="/bookrack/css/my-books.css">
+
+    <style>
+        #empty-context-container{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,12 +44,12 @@ $res = $profileUser->fetch($profileId);
                 <p> All Books </p>
             </div>
 
-            <div class="book-status inactive-book-status" id="my-book-status-active">
-                <p> Active Books </p>
+            <div class="book-status inactive-book-status" id="my-book-status-on-stock">
+                <p> On Stock </p>
             </div>
 
-            <div class="book-status inactive-book-status" id="my-book-status-inactive">
-                <p> Inactive Books </p>
+            <div class="book-status inactive-book-status" id="my-book-status-on-hold">
+                <p> On-hold </p>
             </div>
 
             <div class="book-status inactive-book-status" id="my-book-status-sold-out">
@@ -78,6 +84,12 @@ $res = $profileUser->fetch($profileId);
         <div class="d-flex flex-row flex-wrap gap-3 my-book-container" id="my-book-container">
 
         </div>
+
+        <!-- empty context -->
+        <section class="d-none flex-column mt-4 gap-3 align-items-center empty-context-container" id="empty-context-container">
+            <img src="assets/icons/empty.svg" alt="empty icon">
+            <p class="m-0 text-danger"> Empty! </p>
+        </section>
     </main>
 
     <!-- footer -->
@@ -101,6 +113,7 @@ $res = $profileUser->fetch($profileId);
                     success: function (data) {
                         $('#my-book-container').append(data);
                         $('#skeletion-book-main-container').hide();
+                        toggleMyBooks();
                     }
                 });
             }
@@ -114,14 +127,14 @@ $res = $profileUser->fetch($profileId);
             });
 
             // my books - active
-            $('#my-book-status-active').click(function () {
-                $myBookStatus = "active";
+            $('#my-book-status-on-stock').click(function () {
+                $myBookStatus = "on-stock";
                 toggleMyBooks();
             });
 
             // my books - inactive
-            $('#my-book-status-inactive').click(function () {
-                $myBookStatus = "inactive";
+            $('#my-book-status-on-hold').click(function () {
+                $myBookStatus = "on-hold";
                 toggleMyBooks();
             });
 
@@ -133,23 +146,58 @@ $res = $profileUser->fetch($profileId);
 
             function toggleMyBooks() {
                 $('.my-book').show();
+
+                // toggle books
                 switch ($myBookStatus) {
-                    case 'active':
-                        $('.my-book-inactive').hide();
-                        $('.my-book-sold-out').hide();
+                    case 'on-stock':
+                        $('.on-hold-book').hide();
+                        $('.sold-out-book').hide();
                         break;
-                    case 'inactive':
-                        $('.my-book-active').hide();
-                        $('.my-book-sold-out').hide();
+                    case 'on-hold':
+                        $('.on-stock-book').hide();
+                        $('.sold-out-book').hide();
                         break;
                     case 'sold-out':
-                        $('.my-book-active').hide();
-                        $('.my-book-inactive').hide();
+                        $('.on-stock-book').hide();
+                        $('.on-hold-book').hide();
                         break;
                 };
-            };
 
-            toggleMyBooks();
+                // toggle active and inactive cards
+                switch ($myBookStatus) {
+                    case 'all':
+                        $('#my-book-status-all').addClass('active-book-status');
+                        $('#my-book-status-on-stock').removeClass('active-book-status');
+                        $('#my-book-status-on-hold').removeClass('active-book-status');
+                        $('#my-book-status-sold-out').removeClass('active-book-status');
+                        break;
+                    case 'on-stock':
+                        $('#my-book-status-all').removeClass('active-book-status');
+                        $('#my-book-status-on-stock').addClass('active-book-status');
+                        $('#my-book-status-on-hold').removeClass('active-book-status');
+                        $('#my-book-status-sold-out').removeClass('active-book-status');
+                        break;
+                    case 'on-hold':
+                        $('#my-book-status-all').removeClass('active-book-status');
+                        $('#my-book-status-on-stock').removeClass('active-book-status');
+                        $('#my-book-status-on-hold').addClass('active-book-status');
+                        $('#my-book-status-sold-out').removeClass('active-book-status');
+                        break;
+                    case 'sold-out':
+                        $('#my-book-status-all').removeClass('active-book-status');
+                        $('#my-book-status-on-stock').removeClass('active-book-status');
+                        $('#my-book-status-on-hold').removeClass('active-book-status');
+                        $('#my-book-status-sold-out').addClass('active-book-status');
+                        break;
+                }
+
+                // toggle empty 
+                if($('.my-book:visible').length == 0) {
+                    $('#empty-context-container').addClass('d-flex').removeClass('d-none');
+                } else{
+                    $('#empty-context-container').addClass('d-none').removeClass('d-flex');
+                }
+            };
         });
     </script>
 </body>

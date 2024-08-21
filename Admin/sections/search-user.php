@@ -19,7 +19,7 @@ $serial = 1;
 foreach ($userIdList as $userId) {
     $tempUser->fetch($userId);
 
-    if ($content == $tempUser->getAddressLocation() || $content == $tempUser->name['first'] || $content == $tempUser->name['last']) {
+    if ($content == $tempUser->getAddressMunicipality() || $content == $tempUser->getAddressToleVillage() || $content == $tempUser->name['first'] || $content == $tempUser->name['last']) {
         $searchCount++;
         ?>
         <tr class="user-tr <?= ($tempUser->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">

@@ -58,7 +58,9 @@ if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
                 'gender' => '',
                 'address' => [
                     'district' => '',
-                    'location' => ''
+                    'municipality' => '',
+                    'ward' => '',
+                    'tole_village' => ''
                 ],
                 'photo' => '',
                 'kyc' => [

@@ -31,14 +31,14 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
         <!-- name -->
         <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
             <div class="flex-grow-1 first-name-div">
-                <label for="edit-profile-first-name" class="form-label">First name </label>
+                <label for="edit-profile-first-name" class="form-label"> First name </label>
                 <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
                     echo ucfirst($profileUser->name['first']); ?>" name="edit-profile-first-name"
                     aria-describedby="first name" disabled>
             </div>
 
             <div class="flex-grow-1 last-name-div">
-                <label for="edit-profile-last-name" class="form-label">Last name</label>
+                <label for="edit-profile-last-name" class="form-label"> Last name</label>
                 <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['last'] != "")
                     echo ucfirst($profileUser->name['last']); ?>" name="edit-profile-last-name"
                     aria-describedby="last name" disabled>
@@ -62,7 +62,7 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
                     <?php
                     if ($profileUser->gender == "") {
                         ?>
-                        <option value="" selected hidden>Select gender</option>
+                        <option value="" selected hidden> Select gender </option>
                         <?php
                     } else {
                         ?>
@@ -82,9 +82,9 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
                         <?php
                     }
                     ?>
-                    <option value="0">Male</option>
-                    <option value="1">Female</option>
-                    <option value="2">Others</option>
+                    <option value="male"> Male </option>
+                    <option value="female"> Female </option>
+                    <option value="others"> Others </option>
                 </select>
             </div>
         </div>
@@ -100,36 +100,37 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
 
             <!-- phone number -->
             <div class="w-100 w-md-50 contact-div">
-                <label for="edit-profile-contact" class="form-label"> Contact </label>
+                <label for="edit-profile-contact" class="form-label"> Phone Number </label>
                 <input type="text" class="form-control" id="edit-profile-contact" value="<?php if ($profileUser->getPhoneNumber() != "")
                     echo str_replace('+977', '', $profileUser->getPhoneNumber()); ?>" name="edit-profile-contact"
                     aria-describedby="contact" minlength="10" maxlength="10" disabled>
             </div>
         </div>
 
-        <!-- address -->
+        <!-- district && municipality -->
         <div class="d-flex flex-column flex-md-row gap-3 address-div">
             <!-- district -->
             <div class="w-100 w-md-50 district-div">
                 <label for="edit-profile-district" class="form-label"> District </label>
-                <select class="form-select" name="edit-profile-district" aria-label="district select">
+                <select class="form-select" name="edit-profile-district" id="edit-profile-district" aria-label="district select"
+                    disabled>
                     <?php
                     // if value is already set
                     if ($profileUser->getAddressDistrict() != "") {
                         ?>
                         <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
-                            <?= $districtArray[$profileUser->getAddressDistrict()] ?>
+                            <?= ucwords($profileUser->getAddressDistrict()) ?>
                         </option>
                         <?php
                     } else {
                         ?>
-                        <option value="" selected hidden> Select district </option>
+                        <option value="" selected hidden> Select District </option>
                         <?php
                     }
 
                     foreach ($districtArray as $district) {
                         ?>
-                        <option value="<?php echo getDistrictIndexValue($district); ?>">
+                        <option value="<?= strtolower($district); ?>">
                             <?= $district ?>
                         </option>
                         <?php
@@ -138,12 +139,54 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
                 </select>
             </div>
 
-            <!-- location -->
-            <div class="w-100 w-md-50 location-div">
-                <label for="edit-profile-location" class="form-label"> Location </label>
-                <input type="text" class="form-control" id="edit-profile-location" value="<?php if ($profileUser->getAddressLocation() != "")
-                    echo ucfirst($profileUser->getAddressLocation()); ?>" name="edit-profile-location"
-                    aria-describedby="location" disabled>
+            <!-- municipality -->
+            <div class="w-100 w-md-50 municipality-div">
+                <label for="edit-profile-municipality" class="form-label"> Municipality </label>
+                <input type="text" class="form-control" id="edit-profile-municipality" value="<?php if ($profileUser->getAddressMunicipality() != "")
+                    echo ucfirst($profileUser->getAddressMunicipality()); ?>" name="edit-profile-municipality"
+                    aria-describedby="municipality" disabled>
+            </div>
+        </div>
+
+        <!-- ward && tole/ village -->
+        <div class="d-flex flex-column flex-md-row w-100 w-md-50 gap-3">
+            <!-- ward -->
+            <div class="w-100 w-md-50">
+                <label for="edit-profile-ward" class="form-label"> Ward </label>
+                <select name="edit-profile-ward" id="edit-profile-ward" class="form-control w-100" disabled>
+                    <?php
+                    // if value is already set
+                    if ($profileUser->getAddressWard() != "") {
+                        ?>
+                        <option value="<?= $profileUser->getAddressWard() ?>" selected hidden>
+                            <?= $profileUser->getAddressWard() ?>
+                        </option>
+                        <?php
+                    } else {
+                        ?>
+                        <option value="" selected hidden> Select Ward </option>
+                        <?php
+                    }
+                    ?>
+                    <option value="1"> 1 </option>
+                    <option value="2"> 2 </option>
+                    <option value="3"> 3 </option>
+                    <option value="4"> 4 </option>
+                    <option value="5"> 5 </option>
+                    <option value="6"> 6 </option>
+                    <option value="7"> 7 </option>
+                    <option value="8"> 8 </option>
+                    <option value="9"> 9 </option>
+                    <option value="10"> 10 </option>
+                </select>
+            </div>
+
+            <!-- tole/ village -->
+            <div class="w-100 w-md-50 ">
+                <label for="edit-profile-tole-village" class="form-label"> Tole/ Village </label>
+                <input type="text" class="form-control" id="edit-profile-tole-village" value="<?php if ($profileUser->getAddressToleVillage() != "")
+                    echo ucfirst($profileUser->getAddressToleVillage()); ?>" name="edit-profile-tole-village"
+                    aria-describedby="tole-village" disabled>
             </div>
         </div>
 

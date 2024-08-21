@@ -3,21 +3,20 @@
         padding: 0.4rem 1rem;
         border-radius: 0.5rem;
         cursor: pointer;
-        p{
+        background-color: rgb(230, 228, 228);
+
+        p {
             margin: 0;
         }
-    }
-    
-    .active-book-status {
-        background-color: black;
-        color: white;
-    }
-    
-    .inactive-book-status {
-        background-color: rgb(207, 207, 207);
+
         &:hover {
             background-color: black;
             color: white;
         }
+    }
+
+    .active-book-status {
+        background-color: black;
+        color: white;
     }
 }

@@ -2,18 +2,16 @@
   padding: 0.4rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
+  background-color: rgb(230, 228, 228);
 }
 .book-status-container .book-status p {
   margin: 0;
 }
-.book-status-container .active-book-status {
+.book-status-container .book-status:hover {
   background-color: black;
   color: white;
 }
-.book-status-container .inactive-book-status {
-  background-color: rgb(207, 207, 207);
-}
-.book-status-container .inactive-book-status:hover {
+.book-status-container .active-book-status {
   background-color: black;
   color: white;
 }/*# sourceMappingURL=my-books.css.map */
