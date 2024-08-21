@@ -19,10 +19,28 @@ $serial = 1;
 foreach ($userIdList as $userId) {
     $tempUser->fetch($userId);
 
+    $accountStatusClass = "";
+        switch($userObj->accountStatus) {
+            case 'verified':
+                $accountStatusClass = "verified-user-tr";
+                break;
+            case 'unverified':
+                $accountStatusClass = "unverified-user-tr";
+                break;
+            case 'pending':
+                $accountStatusClass = "pending-user-tr";
+                break;
+            case 'on-hold':
+                    $accountStatusClass = "on-hold-user-tr";
+                    break;
+            default:
+                $accountStatusClass = "unknown";
+        }
+
     if ($content == $tempUser->getAddressMunicipality() || $content == $tempUser->getAddressToleVillage() || $content == $tempUser->name['first'] || $content == $tempUser->name['last']) {
         $searchCount++;
         ?>
-        <tr class="user-tr <?= ($tempUser->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+        <tr class="user-tr <?= $accountStatusClass ?>">
             <th scope="row"> <?= $serial++ ?> </th>
             <td>
                 <?php

@@ -65,6 +65,7 @@ if ($profileAdmin->accountStatus != "verified")
                     <option value="verified"> Verified </option>
                     <option value="unverified"> Unverified </option>
                     <option value="pending"> Pending </option>
+                    <option value="on-hold"> On-hold </option>
                 </select>
 
                 <!-- clear filter -->
@@ -159,10 +160,17 @@ if ($profileAdmin->accountStatus != "verified")
                 if (accountStateSelect.val() == "verified") {
                     $('.unverified-user-tr').hide();
                     $('.pending-user-tr').hide();
+                    $('.on-hold-user-tr').hide();
                 } else if (accountStateSelect.val() == "unverified") {
                     $('.verified-user-tr').hide();
                     $('.pending-user-tr').hide();
+                    $('.on-hold-user-tr').hide();
                 } else if (accountStateSelect.val() == "pending") {
+                    $('.verified-user-tr').hide();
+                    $('.unverified-user-tr').hide();
+                    $('.on-hold-user-tr').hide();
+                } else if (accountStateSelect.val() == "on-hold") {
+                    $('.pending-user-tr').hide();
                     $('.verified-user-tr').hide();
                     $('.unverified-user-tr').hide();
                 }

@@ -29,6 +29,9 @@ if (sizeof($userIdList) == 0) {
             case 'pending':
                 $accountStatusClass = "pending-user-tr";
                 break;
+            case 'on-hold':
+                    $accountStatusClass = "on-hold-user-tr";
+                    break;
             default:
                 $accountStatusClass = "unknown";
         }

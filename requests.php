@@ -34,31 +34,33 @@ $bookObj = new Book();
         <!-- heading -->
         <h2 class="m-0 fs-3 fw-semibold mb-4"> Requests </h2>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col"> # </th>
-                    <th scope="col"> Title </th>
-                    <th scope="col"> Price </th>
-                    <th scope="col"> Request Date </th>
-                    <th scope="col"> Served Date </th>
-                    <th scope="col"> Status </th>
-                    <th scope="col"> Action </th>
-                </tr>
-            </thead>
-            <tbody id="request-table-body">
-                <tr class="d-none invisible">
-                    <th scope="row"> 1 </th>
-                    <td> Title </td>
-                    <td> Price </td>
-                    <td> 0000-00-00 </td>
-                    <td> 0000-00-00 </td>
-                    <td> Accepted </td>
-                    <td> <a href="" class="text-primary" data-bs-toggle="modal" data-bs-target="#request-modal"
-                            data-request-id=""> Show detail </a> </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"> # </th>
+                        <th scope="col"> Title </th>
+                        <th scope="col"> Price </th>
+                        <th scope="col"> Request Date </th>
+                        <th scope="col"> Served Date </th>
+                        <th scope="col"> Status </th>
+                        <th scope="col"> Action </th>
+                    </tr>
+                </thead>
+                <tbody id="request-table-body">
+                    <tr class="d-none invisible">
+                        <th scope="row"> 1 </th>
+                        <td> Title </td>
+                        <td> Price </td>
+                        <td> 0000-00-00 </td>
+                        <td> 0000-00-00 </td>
+                        <td> Accepted </td>
+                        <td> <a href="" class="text-primary" data-bs-toggle="modal" data-bs-target="#request-modal"
+                                data-request-id=""> Show detail </a> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <!-- Modal -->

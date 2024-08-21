@@ -42,7 +42,8 @@ class Notification
     }
 
     // account verification for admin
-    public function applyForAccountVerification($userId){
+    public function applyForAccountVerification($userId)
+    {
         global $database;
         $postData = [
             'admin_id' => '',
@@ -59,7 +60,8 @@ class Notification
     }
 
     // account verified
-    public function accountVerified($userId) {
+    public function accountVerified($userId)
+    {
         global $database;
         $postData = [
             'admin_id' => '',
@@ -76,7 +78,8 @@ class Notification
     }
 
     // account verified
-    public function accountUnverified($userId) {
+    public function accountUnverified($userId)
+    {
         global $database;
         $postData = [
             'admin_id' => '',
@@ -160,7 +163,9 @@ class Notification
     public function fetchUserNotificationId($userId)
     {
         global $database;
+
         $notificationIdList = [];
+
         $response = $database->getReference("notifications")->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
 
         if ($response) {
@@ -168,6 +173,30 @@ class Notification
                 if ($res['whose'] == 'user')
                     $notificationIdList[] = $key;
         }
+
         return $notificationIdList;
+    }
+
+    // count adin notification
+    public function countAdminNotification()
+    {
+        global $database;
+        $response = $database->getReference("notifications")->orderByChild('whose')->equalTo('admin')->getSnapshot()->getValue();
+        return count($response);
+    }
+
+    // count user notification
+    public function countUserNotification($userId)
+    {
+        global $database;
+        $count = 0;
+        $list = [];
+        $response = $database->getReference('notifications')->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
+        if ($response) {
+            foreach ($response as $key => $res)
+                if ($res['whose'] == 'user')
+                $list[] = $key;
+        }
+        return sizeof($list);
     }
 }

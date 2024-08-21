@@ -40,6 +40,7 @@ if (!isset($searchState))
     <?php require_once __DIR__ . '/../includes/header.php' ?>
 
     <!-- css files -->
+    <link rel="stylesheet" href="/bookrack/css/header-notification.css">
     <link rel="stylesheet" href="/bookrack/css/header.css">
 </head>
 
@@ -54,10 +55,10 @@ if (!isset($searchState))
             </div>
 
             <!-- menu bar -->
-             <div class="d-flex flex-row gap-3">
-                 <i class="fa fa-bell fs-4"></i>
-                 <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
-                </div>
+            <div class="d-flex flex-row gap-3">
+                <!-- menu bar -->
+                <i class="fa fa-bars pointer fs-3 d-md-none" id="open-menu"></i>
+            </div>
 
             <!-- menu -->
             <div class="flex-column d-md-flex flex-md-row gap-3 p-4 p-md-0 align-items-center menu" id="menu">
@@ -89,6 +90,16 @@ if (!isset($searchState))
                     <span> My Profile </span>
                 </div>
 
+                <!-- extra: notification -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    data-bs-toggle="modal" data-bs-target="#notification-modal" id="notification-trigger-secondary">
+                    <i class="fa fa-bell"></i>
+                    <span> Notification </span>
+                    <div>
+                        <p class="m-0 text-danger fs-4 fw-semibold" id="notification-count-secondary"> </p>
+                    </div>
+                </div>
+
                 <!-- extra: my books -->
                 <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
                     onclick="window.location.href='/bookrack/my-books'">
@@ -117,56 +128,59 @@ if (!isset($searchState))
                     <span> Cart </span>
                 </div>
 
-                <!-- notification -->
-                <div class="position-relative notification-section">
-                    <div class="position-relative icon-container" id="notification-trigger">
-                        <i class="fa fa-bell fs-5 pointer"></i>
-                        <b>
-                            <p class="position-absolute m-0 notification-counter pointer"> 9+ </p>
-                        </b>
-                    </div>
+                <!-- extra: my books -->
+                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
+                    onclick="window.location.href='/bookrack/app/signout.php'">
+                    <i class="fa fa-sign-out"></i>
+                    <span> Sign out </span>
+                </div>
 
-                    <!-- notification section -->
-                    <div class="position-absolute bg-white rounded p-0 notification-main-container"
-                        id="notification-main-container">
-                        <div class="top p-2">
-                            <p class="m-0 p-0 heading fs-5"> Notification </p>
+                <!-- notification section -->
+                <div class="d-none d-md-flex flex-row gap-2 align-items-center">
+                    <div class="position-relative notification-container" id="notification-main-container">
+                        <div class="d-flex flex-row gap-2 pointer icon-count" id="notification-trigger">
+                            <i class="fa fa-bell fs-5"></i>
+                            <div class="position-absolute notification-count-div text-align-center">
+                                <p class="m-0 text-danger fw-semibold" id="notification-count"> </p>
+                            </div>
                         </div>
 
-                        <hr class="m-0 p">
+                        <div class="invisible position-absolute bg-white p-0 notification-box" id="notification-box">
+                            <div
+                                class="d-flex flex-row justify-content-between align-items-center w-100 p-3 py-3 heading-div">
+                                <p class="m-0 fw-bold fs-4"> Notifications </p>
+                                <i class="fa fa-multiply fs-3 pointer" id="notification-trigger-close"></i>
+                            </div>
 
-                        <!-- notification container -->
-                        <div class="d-flex flex-column px-1 notification-container">
-                            <!-- notification 1 -->
-                            <div class="d-flex flex-row gap-2 pointer notification unclicked-notification">
-                                <!-- icon -->
-                                <div
-                                    class="d-flex flex-row align-items-center justify-content-around notification-icon">
-                                    <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
+                            <div class="d-flex flex-column notifications" id="notifications">
+                                <!-- empty -->
+                                <div class="d-none invisible p-3 empty-notification">
+                                    <p class="m-0"> Empty! </p>
                                 </div>
 
-                                <!-- details -->
-                                <div class="details">
-                                    <div class="details">
-                                        <p class="m-0"> Notification details appears here... </p>
+                                <!-- backup -->
+                                <div class="d-none invisible notification">
+                                    <div class="icon-div">
+                                        <img src="/bookrack/assets/icons/notification/book-added.png" alt="">
                                     </div>
 
-                                    <div class="date">
-                                        <p class="m-0 small text-secondary">
-                                            0000-00-00 00-00
+                                    <div class="details">
+                                        <!-- notification detail -->
+                                        <div class="detail">
+                                            <p>
+                                                Notification details appears here...
+                                            </p>
+                                        </div>
+
+                                        <!-- date -->
+                                        <p class="date">
+                                            0000-00-00 00-00-00
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- extra: my books -->
-                <div class="align-items-center justify-content-center gap-2 border p-2 rounded pointer cart extra"
-                    onclick="window.location.href='/bookrack/app/signout.php'">
-                    <i class="fa fa-sign-out"></i>
-                    <span> Sign out </span>
                 </div>
 
                 <!-- profile menu -->
@@ -207,6 +221,23 @@ if (!isset($searchState))
         </div>
     </header>
 
+    <!-- Modal -->
+    <div class="modal fade" id="notification-modal" tabindex="-1" aria-labelledby="notification-modal-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-3 fw-semibold" id="notification-modal-label"> Notifications </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-0" id="notifications-modal">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
@@ -217,8 +248,8 @@ if (!isset($searchState))
 
         const menu = document.getElementById("menu");
         var notificationState = false;
-        const notificationTrigger = $('#notification-trigger');
-        const notificationContainer = $('#notification-main-container');
+        const notificationBox = $('#notification-box');
+        const notificationModal = $('#notification-modal');
 
         // profile menu
         var profileMenuState = false;
@@ -255,11 +286,6 @@ if (!isset($searchState))
             }
         }
 
-        // notification
-        notificationTrigger.on('click', function () {
-            notificationState = !notificationState;
-            toggleNotification();
-        });
 
         toggleNotification = () => {
             if (notificationState) {
@@ -267,9 +293,9 @@ if (!isset($searchState))
                     profileMenuState = !profileMenuState;
                     toggleProfileMenu();
                 }
-                notificationContainer.show();
+                notificationBox.removeClass('invisible');
             } else {
-                notificationContainer.hide();
+                notificationBox.addClass('invisible');
             }
         }
 
@@ -298,6 +324,60 @@ if (!isset($searchState))
         menu.style.display = "none";
         profileMenu.style.display = "none";
         widthCheck();
+
+        $(document).ready(function () {
+            function countUnseenNotification(){
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/app/count-unseen-notification.php",
+                    data: {userId : '<?=$userId?>'},
+                    success: function (data) {
+                        $('#notification-count').html(data);                        
+                        $('#notification-count-secondary').html(data);                        
+                    }
+                });
+            }
+
+            function fetchNotification(which) {
+                notificationState = !notificationState;
+                toggleNotification();
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/sections/header-notification.php",
+                    data: { userId: '<?= $userId ?>' },
+                    beforeSend: function () {
+                        if (which == 'primary') {
+                            $('#notifications').html("<div class='p-3 d-flex flex-row gap-3'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width:26px;'> <p class='m-0'> Loading notification... </p> </div>");
+                        } else {
+                            $('#notifications-modal').html("<div class='p-3 d-flex flex-row gap-3'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width:26px;'> <p class='m-0'> Loading notification... </p> </div>");
+                        }
+                    },
+                    success: function (data) {
+                        if (which == 'primary') {
+                            $('#notifications').html(data);
+                        } else {
+                            $('#notifications-modal').html(data);
+                        }
+                    },
+                });
+            }
+
+            countUnseenNotification();
+
+            $('#notification-trigger').click(function () {
+                fetchNotification('primary');
+            });
+
+            // notification modal
+            $('#notification-trigger-secondary').click(function () {
+                fetchNotification('secondary');
+            });
+
+            $(document).on('click', '#notification-trigger-close', function () {
+                notificationState = !notificationState;
+                toggleNotification();
+            });
+        });
     </script>
 </body>
 

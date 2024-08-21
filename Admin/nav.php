@@ -83,8 +83,9 @@ if (isset($_GET['admin-search-content'])) {
                 ?>
                 <form class="<?= $visibilityClass ?> d-flex flex-row search-form" id="search-form">
                     <div class="input-group">
-                        <input type="search" name="admin-search-content" class="m-0 rounded" id="admin-search-content" value="<?php if (isset($_GET['admin-search-content']))
-                            echo $searchContent; ?>" placeholder="search here" required>
+                        <input type="search" name="admin-search-content" class="m-0 rounded" id="admin-search-content"
+                            value="<?php if (isset($_GET['admin-search-content']))
+                                echo $searchContent; ?>" placeholder="search here" required>
                     </div>
                 </form>
             </div>
@@ -94,7 +95,7 @@ if (isset($_GET['admin-search-content'])) {
                 <div class="d-flex flex-row gap-2 icon-count pointer" id="notification-trigger">
                     <i class="fa fa-bell fs-5"></i>
                     <div class="position-absolute notification-count-div text-align-center">
-                        <p class="m-0 text-danger"> </p>
+                        <p class="m-0 text-danger" id="notification-count"> </p>
                     </div>
                 </div>
 
@@ -209,7 +210,6 @@ if (isset($_GET['admin-search-content'])) {
                     url: '/bookrack/admin/sections/header-notification.php',
                     type: "POST",
                     beforeSend: function () {
-                        // $('#notifications').html("<p class='m-0 p-3'> Loading... </p>");
                         $('#notifications').html("<div class='p-3 d-flex flex-row gap-3'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width:26px;'> <p class='m-0'> Loading notification... </p> </div>");
                     },
                     success: function (data) {
@@ -217,6 +217,17 @@ if (isset($_GET['admin-search-content'])) {
                     },
                 });
             }
+
+            function countUnseenNotification(){
+                $.ajax({
+                    url: "/bookrack/admin/app/count-unseen-admin-notification.php",
+                    success: function (data) {
+                        $('#notification-count').html(data);                        
+                    }
+                });
+            }
+            
+            countUnseenNotification();
 
             // notification trigger
             $(document).on('click', '#notification-trigger', function () {
