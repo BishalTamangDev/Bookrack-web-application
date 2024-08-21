@@ -522,4 +522,28 @@ class User
         $response = $database->getReference("users/{$userId}")->update($properties);
         return $response ? true : false;
     }
+
+    // apply for account verification
+    public function applyForVerification($userId){
+        global $database;
+        $properties['account_status'] = "on-hold";
+        $response = $database->getReference("users/{$userId}")->update($properties);
+        return $response ? true : false;
+    }
+
+    // verify account
+    public function verifyAccount($userId) {
+        global $database;
+        $properties['account_status'] = "verified";
+        $response = $database->getReference("users/{$userId}")->update($properties);
+        return $response ? true : false;
+    }
+
+    // unverify account
+    public function unverifyAccount($userId) {
+        global $database;
+        $properties['account_status'] = "unverified";
+        $response = $database->getReference("users/{$userId}")->update($properties);
+        return $response ? true : false;
+    }
 }

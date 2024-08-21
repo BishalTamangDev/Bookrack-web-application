@@ -172,6 +172,10 @@ img {
   background-color: var(--brand-color);
   color: white;
 }
+.btn-brand:hover {
+  border: 1px solid var(--brand-color);
+  color: var(--brand-color);
+}
 
 .btn-outline-brand {
   border-radius: 0.4rem;

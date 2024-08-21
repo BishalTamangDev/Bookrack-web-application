@@ -64,6 +64,7 @@ if ($profileAdmin->accountStatus != "verified")
                     <option value="all" selected> All account state </option>
                     <option value="verified"> Verified </option>
                     <option value="unverified"> Unverified </option>
+                    <option value="pending"> Pending </option>
                 </select>
 
                 <!-- clear filter -->
@@ -157,8 +158,13 @@ if ($profileAdmin->accountStatus != "verified")
 
                 if (accountStateSelect.val() == "verified") {
                     $('.unverified-user-tr').hide();
+                    $('.pending-user-tr').hide();
                 } else if (accountStateSelect.val() == "unverified") {
                     $('.verified-user-tr').hide();
+                    $('.pending-user-tr').hide();
+                } else if (accountStateSelect.val() == "pending") {
+                    $('.verified-user-tr').hide();
+                    $('.unverified-user-tr').hide();
                 }
 
                 if (accountStateSelect.val() != "all") {

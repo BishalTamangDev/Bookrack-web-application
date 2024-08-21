@@ -92,18 +92,6 @@ $url = "profile";
                     $dateOnly = $dateTime->format('Y-m-d');
                     ?>
 
-                    <!-- membership -->
-                    <div class="d-flex flex-row profile-detail">
-                        <div class="title-div">
-                            <i class="fa fa-user"></i>
-                            <span> Member since </span>
-                        </div>
-                        <div class="data-div">
-                            <p class="m-0"> <?php echo $profileUser->joinedDate != "" ? $dateOnly : "-"; ?>
-                            </p>
-                        </div>
-                    </div>
-
                     <!-- stat -->
                     <div class="d-flex flex-row profile-detail">
                         <div class="title-div">
@@ -146,8 +134,10 @@ $url = "profile";
             if ($profileUser->accountStatus != "verified") {
                 ?>
                 <div class="alert alert-danger mb-4" role="alert">
-                    Your account is still not verified. Make sure you have provided all your details. If you have provided
-                    every details already, please wait sometime to get your account verified.
+                    <?php
+                    echo $profileUser->accountStatus == 'pending' ? "Your account is still not verified. Make sure you have provided all your details. If you have provided
+                    every details already, please wait sometime to get your account verified." : "Your account is being verified. Please wait sometime.";
+                    ?>
                 </div>
                 <?php
             }
@@ -561,7 +551,7 @@ $url = "profile";
     </main>
 
     <!-- popup alert -->
-    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
+    <?php include 'sections/popup-alert.php';?>
 
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
@@ -569,19 +559,8 @@ $url = "profile";
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
 
-    <!-- script -->
-    <script>
-        tab = "<?= $tab ?>";
-        $('#custom-popup-alert').hide();
-
-        function showPopupAlert(msg) {
-            $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
-            $('#custom-popup-alert').html(msg).fadeIn();
-            setTimeout(function () {
-                $('#custom-popup-alert').fadeOut("slow").html("");
-            }, 4000);
-        }
-    </script>
+    <!-- popup alert -->
+     <script src="/bookrack/js/popup-alert.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -716,22 +695,21 @@ $url = "profile";
                         url: '/bookrack/app/account-verification.php',
                         type: "POST",
                         data: formData,
-                        beforeSend: function () {
-                            $('#account-verification-btn').html('Verifying...');
+                        beforeSend : function () {
+                            $('#account-verification-btn').html('Please wait..').prop('disabled', true);
                         },
-                        success: function (data) {
-                            if (data == "success") {
-                                showPopupAlert("Your account has been verified.");
-                                location.reload();
-                                $('#account-verification-btn').html('Account Verified').prop('disabled', true);
+                        success: function (response) {
+                            if (response == true) {
+                                showPopupAlert("Your account has been submitted for the verification process.");
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 2000);
                             } else {
-                                showPopupAlert("Your account couldn't be verified.");
-                                $('#account-verification-btn').html('Apply for Account Verification');
+                                showPopupAlert("Your account coundn't be submitted for the verification process.");
                             }
                         },
                         error: function () {
                             $('#account-verification-btn').html('Apply for Account Verification');
-
                         },
                     });
                 });

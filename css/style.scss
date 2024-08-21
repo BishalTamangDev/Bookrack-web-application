@@ -208,6 +208,11 @@ img {
     border-radius: 0.4rem;
     background-color: var(--brand-color);
     color: white;
+
+    &:hover{
+        border: 1px solid var(--brand-color);
+        color: var(--brand-color);
+    }
 }
 
 .btn-outline-brand{

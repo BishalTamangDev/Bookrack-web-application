@@ -67,17 +67,7 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
                     } else {
                         ?>
                         <option value="<?= $profileUser->gender ?>" selected hidden>
-                            <?php
-                            if ($profileUser->gender == 0) {
-                                echo "Male";
-                            } elseif ($profileUser->gender == 1) {
-                                echo "Female";
-                            } elseif ($profileUser->gender == 2) {
-                                echo "Others";
-                            } else {
-                                echo "Select gender";
-                            }
-                            ?>
+                            <?= ucfirst($profileUser->gender) ?>
                         </option>
                         <?php
                     }

@@ -1,17 +1,19 @@
 <?php
-$message = "";
-if (session_status() == PHP_SESSION_NONE)
-    session_start();
+$status = false;
 
-if (!isset($_SESSION['bookrack-admin-id']))
-    header("Location: /bookrack/");
+$adminId = $_POST['adminId'] ?? 0;
+
+if($adminId == 0){
+    echo $status;
+    exit;
+}
 
 require_once __DIR__ . '/../../classes/admin.php';
 
 $admin = new Admin();
 
-$message = $admin->verifyAdminAccount($_SESSION['bookrack-admin-id']);
+$status = $admin->verifyAdminAccount($_SESSION['bookrack-admin-id']);
 
-echo $message;
+echo $status;
 
 exit;

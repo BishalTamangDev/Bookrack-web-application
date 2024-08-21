@@ -29,7 +29,7 @@ if (sizeof($bookIdList) == 0) {
             <td> <?= $count++ ?> </td>
             <td> <?= ucwords($tempBook->title) ?> </td>
             <td class="text-success fw-semibold"> <?= "NPR. " . number_format($tempBook->price['offer'], 2) ?> </td>
-            <td> <?= $tempBook->flag ?> </td>
+            <td> <?= ucfirst($tempBook->flag) ?> </td>
         </tr>
         <?php
     }

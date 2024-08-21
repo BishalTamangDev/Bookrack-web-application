@@ -104,6 +104,9 @@ if (!isset($_SESSION['bookrack-admin-id']) && !isset($_SESSION['bookrack-user-id
 
         include 'admin/signup.php';
         $redirected = true;
+    } else {
+        include 'home.php';
+        $redirected = true;
     }
 }
 

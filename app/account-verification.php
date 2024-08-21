@@ -2,19 +2,32 @@
 if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-if (!isset($_SESSION['bookrack-user-id']))
-    header("Location: /bookrack/");
+$userId = $_SESSION['bookrack-user-id'] ?? 0;
+
+if ($userId == 0) {
+    echo false;
+    exit;
+}
 
 // Validate CSRF token
 if ($_POST['csrf_token_account_verification'] !== $_SESSION['csrf_token']) {
-    echo 'Invalid CSRF token.';
+    echo false;
     exit;
 }
 
 require_once __DIR__ . '/../classes/user.php';
+require_once __DIR__ . '/../classes/notification.php';
 
-$status = false;
-$user = new User();
-$status = $user->accountVerification($_SESSION['bookrack-user-id']);
-echo $status ? "success" : "failure";
+$tempUser = new User();
+$tempNotification = new Notification();
+
+$status = $tempUser->applyForVerification($_SESSION['bookrack-user-id']);
+
+if ($status) {
+    // notification
+    $status = $tempNotification->applyForAccountVerification($userId);
+}
+
+echo $status ? true : false;
+
 exit;

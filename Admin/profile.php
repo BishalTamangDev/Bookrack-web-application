@@ -1,5 +1,6 @@
 <?php
 $url = "profile";
+$page = "profile";
 
 $profileAdmin->fetch($adminId);
 ?>
@@ -28,7 +29,7 @@ $profileAdmin->fetch($adminId);
     <main class="d-flex flex-column mt-5 gap-3 main">
         <!-- heading -->
         <div class="d-flex flex-row align-items-center justify-content-between heading">
-            <h4 class="fw-bold"> My Profile </h4>
+            <h4 class="fw-bold mt-4"> My Profile </h4>
 
             <?php
             if ($tab == "edit" || $tab == "password" || $tab == "document") {
@@ -106,19 +107,8 @@ $profileAdmin->fetch($adminId);
             <div class="<?php if ($tab != "view" && $tab != "edit" && $tab != "password")
                 echo "d-none"; ?> profile w-100">
                 <!-- my profile form -->
-                <form action="/bookrack/admin/app/admin-update-profile.php" method="POST" class="<?php if ($tab != "view" && $tab != "edit")
+                <form action="/bookrack/admin/app/admin-update-profile.php" id="edit-profile-form" method="POST" class="<?php if ($tab != "view" && $tab != "edit")
                     echo "d-none"; ?> d-flex flex-column gap-3 my-profile" enctype="multipart/form-data">
-
-                    <!-- status message section -->
-                    <?php
-                    if (isset($_SESSION['status-message'])) {
-                        ?>
-                        <p class="m-0 <?= $_SESSION['status'] ? 'text-success' : 'text-danger' ?>">
-                            <?= $_SESSION['status-message'] ?>
-                        </p>
-                        <?php
-                    }
-                    ?>
 
                     <!-- profile picture -->
                     <?php
@@ -132,6 +122,9 @@ $profileAdmin->fetch($adminId);
                         <?php
                     }
                     ?>
+
+                    <!-- admin id -->
+                    <input type="hidden" name="edit-admin-id" id="edit-admin-id" value="<?=$adminId?>" class="form-control mb-3">
 
                     <!-- name -->
                     <div class="d-flex flex-column flex-lg-row gap-3">
@@ -171,14 +164,7 @@ $profileAdmin->fetch($adminId);
                                 if ($profileAdmin->gender != "") {
                                     ?>
                                     <option value="<?= $profileAdmin->gender ?>" selected hidden>
-                                        <?php
-                                        if ($profileAdmin->gender == 0)
-                                            echo "Male";
-                                        elseif ($profileAdmin->gender == 1)
-                                            echo "Female";
-                                        else
-                                            echo "Others";
-                                        ?>
+                                        <?= ucfirst($profileAdmin->gender) ?>
                                     </option>
                                     <?php
                                 } else {
@@ -187,9 +173,9 @@ $profileAdmin->fetch($adminId);
                                     <?php
                                 }
                                 ?>
-                                <option value="0"> Male </option>
-                                <option value="1"> Female </option>
-                                <option value="2"> Others </option>
+                                <option value="male"> Male </option>
+                                <option value="female"> Female </option>
+                                <option value="others"> Others </option>
                             </select>
                         </div>
                     </div>
@@ -216,7 +202,8 @@ $profileAdmin->fetch($adminId);
                     if ($tab == "edit") {
                         ?>
                         <div class="action mt-2">
-                            <button type="submit" name="admin-update-profile-btn" class="btn btn-warning  px-5"> Update
+                            <button type="submit" name="admin-update-profile-btn" id="admin-update-profile-btn"
+                                class="btn btn-brand px-5"> Update
                             </button>
                         </div>
                         <?php
@@ -316,7 +303,7 @@ $profileAdmin->fetch($adminId);
                 <?php
                 if ($tab == "document") {
                     ?>
-                    <form action="/bookrack/admin/app/admin-kyc.php" method="POST"
+                    <form action="/bookrack/admin/app/admin-kyc.php" id="document-form" method="POST"
                         class="d-flex flex-column gap-3 form kyc-form" enctype="multipart/form-data">
                         <!-- error message -->
                         <?php
@@ -328,6 +315,7 @@ $profileAdmin->fetch($adminId);
                             <?php
                         }
                         ?>
+                        <input type="hidden" name="document-admin-id" id="document-admin-id" value="<?=$adminId?>" class="form-control mb-3">
 
                         <div class="d-flex flex-column gap-2 w-100">
                             <label for="kyc-front"> Front side </label>
@@ -341,8 +329,7 @@ $profileAdmin->fetch($adminId);
                         </div>
 
                         <div class="action">
-                            <button type="submit" name="admin-upload-kyc-btn" class="btn btn-warning px-5"> Sumbit
-                            </button>
+                            <button type="submit" name="admin-upload-kyc-btn" id="admin-upload-kyc-btn" class="btn btn-brand px-5"> Upload KYC </button>
                         </div>
                     </form>
                     <?php
@@ -354,30 +341,17 @@ $profileAdmin->fetch($adminId);
     </main>
 
     <!-- popup alert -->
-    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
-
-    <!-- unset session status & message -->
-    <?php
-    unset($_SESSION['status']);
-    unset($_SESSION['status-message']);
-    ?>
+    <?php require_once __DIR__ . '/../sections/popup-alert.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
+    <!-- popup script -->
+    <script type="text/javascript" src="/bookrack/js/popup-alert.js"> </script>
+
     <!-- edit profile script -->
     <script>
         $(document).ready(function () {
-            $('#custom-popup-alert').hide();
-
-            function showPopupAlert(msg) {
-                $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
-                $('#custom-popup-alert').html(msg).fadeIn();
-                setTimeout(function () {
-                    $('#custom-popup-alert').fadeOut("slow");
-                }, 4000);
-            }
-
             // first name
             $('#first-name').keydown(function () {
                 var asciiValue = event.keyCode || event.which;
@@ -407,12 +381,13 @@ $profileAdmin->fetch($adminId);
                 $.ajax({
                     url: '/bookrack/admin/app/account-verification.php',
                     type: "POST",
+                    data : {adminId : '<?=$adminId?>'},
                     beforeSend: function () {
                         $('#account-verification-btn').html("Verifying...").prop('disabled', true);
                     }, success: function (response) {
-                        console.log(response);
-                        if (response == true) {
+                        if (response) {
                             $('#account-verification-btn').html("Account Verified").prop('disabled', true);
+                            showPopupAlert("Account verified.");
                             location.reload();
                         } else {
                             // show popup alert
@@ -423,6 +398,67 @@ $profileAdmin->fetch($adminId);
                     error: function () {
                         showPopupAlert("Your account couldn't be verified due to an error. Please try again.");
                         $('#account-verification-btn').html("Apply for Account Verification").prop('disabled', false);
+                    }
+                });
+            });
+
+            // update user profile
+            $('#edit-profile-form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($('#edit-profile-form')[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/admin-update-profile.php",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $('#admin-update-profile-btn').html('Updating details...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        msg = response ? "Account updated." : "Account couldn't be updated.";
+                        showPopupAlert(msg);
+
+                        if (response) {
+                            setTimeout(function () {
+                                window.location.href = '/bookrack/admin/admin-profile';
+                            }, 2000);
+                            $('#admin-update-profile-btn').html('Account updated').prop('disabled', true);
+                        } else {
+                            $('#admin-update-profile-btn').html('Update').prop('disabled', false);
+                        }
+                    }
+                });
+            });
+
+            // document submission
+            $('#document-form').submit(function (e) {
+                e.preventDefault();
+                var formData = new FormData($('#document-form')[0]);
+                $.ajax({
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    url: "/bookrack/admin/app/admin-kyc.php",
+                    beforeSend: function () {
+                        $('#admin-upload-kyc-btn').html('Uploading KYC...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        msg = response ? "KYC Uploaded." : "KYC couldn't be uploaded.";
+                        showPopupAlert(msg);
+
+                        if(response) {
+                            $('#admin-upload-kyc-btn').html('KYC Uploaded').prop('disabled', true);
+                            setTimeout(function () {
+                                window.location.href = '/bookrack/admin/admin-profile';
+                            }, 1000);
+                        } else {
+                            $('#admin-upload-kyc-btn').html('Upload KYC').prop('disabled', false);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
                     }
                 });
             });

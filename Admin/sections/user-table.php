@@ -17,8 +17,23 @@ if (sizeof($userIdList) == 0) {
     $serial = 1;
     foreach ($userIdList as $userId) {
         $userObj->fetch($userId);
+
+        $accountStatusClass = "";
+        switch($userObj->accountStatus) {
+            case 'verified':
+                $accountStatusClass = "verified-user-tr";
+                break;
+            case 'unverified':
+                $accountStatusClass = "unverified-user-tr";
+                break;
+            case 'pending':
+                $accountStatusClass = "pending-user-tr";
+                break;
+            default:
+                $accountStatusClass = "unknown";
+        }
         ?>
-        <tr class="user-tr <?= ($userObj->accountStatus == "verified") ? "verified-user-tr" : "unverified-user-tr" ?>">
+        <tr class="user-tr <?= $accountStatusClass ?>">
             <th scope="row"> <?= $serial++ ?> </th>
             <td>
                 <?php

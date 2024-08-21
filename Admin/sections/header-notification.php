@@ -21,22 +21,44 @@ if (sizeof($notificationIdList) == 0) {
     foreach ($notificationIdList as $notificationId) {
         $notificationObj->fetch($notificationId);
         $type = $notificationObj->type;
-        $data = $notificationObj->date;
+        $date = $notificationObj->date;
 
-        if ($notificationObj->type == "new book") {
+        if($notificationObj->type == "account-verification-apply") {
+            $userObj->fetch($notificationObj->userId);
+            $userName = $userObj->getFullName();
+            $link = "/bookrack/admin/admin-user-details/{$notificationObj->userId}";
+            ?>
+            <div class="notification" onclick="window.location.href='<?=$link?>'">
+                <div class="icon-div">
+                    <img src="/bookrack/assets/icons/notification/account-verification-apply.png" alt="">
+                </div>
+
+                <div class="details">
+                    <div class="detail">
+                        <p class="m-0">
+                            <?= "$userName applied for account verification. " ?>
+                        </p>
+                    </div>
+
+                    <p class="date">
+                        <?= $date ?>
+                    </p>
+                </div>
+            </div>
+            <?php
+        } elseif ($notificationObj->type == "new book") {
             $userObj->fetch($notificationObj->userId);
             $userName = $userObj->getFullName();
             $bookObj->fetch($notificationObj->bookId);
             $bookTitle = $bookObj->title;
             $link = "/bookrack/admin/admin-book-details/{$notificationObj->bookId}";
             ?>
-            <div class="notification">
+            <div class="notification" onclick="window.location.href='<?=$link?>'">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/new-book.png" alt="">
                 </div>
 
                 <div class="details">
-                    <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
                             <?= "$userName added a new book " ?>
@@ -44,9 +66,8 @@ if (sizeof($notificationIdList) == 0) {
                         </p>
                     </div>
 
-                    <!-- date -->
                     <p class="date">
-                        <?= $data ?>
+                        <?= $date ?>
                     </p>
                 </div>
             </div>
@@ -56,7 +77,7 @@ if (sizeof($notificationIdList) == 0) {
             $cartObj->fetch($notificationObj->cartId);
             $link = "/bookrack/admin/admin-book-requests/{$cartObj->getId()}";
             ?>
-            <div class="notification">
+            <div class="notification" onclick="window.location.href='<?=$link?>'">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/cart.png" alt="">
                 </div>
@@ -71,7 +92,7 @@ if (sizeof($notificationIdList) == 0) {
 
                     <!-- date -->
                     <p class="date">
-                        <?= $data ?>
+                        <?= $date ?>
                     </p>
                 </div>
             </div>

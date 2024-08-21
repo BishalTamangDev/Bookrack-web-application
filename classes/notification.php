@@ -41,6 +41,57 @@ class Notification
         $this->status = $status;
     }
 
+    // account verification for admin
+    public function applyForAccountVerification($userId){
+        global $database;
+        $postData = [
+            'admin_id' => '',
+            'cart_id' => '',
+            'status' => 'unseen',
+            'whose' => 'admin',
+            'user_id' => $userId,
+            'book_id' => '',
+            'type' => 'account-verification-apply',
+            'date' => date('y:m:d h:i:s')
+        ];
+        $postRef = $database->getReference("notifications")->push($postData);
+        return $postRef ? true : false;
+    }
+
+    // account verified
+    public function accountVerified($userId) {
+        global $database;
+        $postData = [
+            'admin_id' => '',
+            'cart_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'book_id' => '',
+            'type' => 'account-verified',
+            'date' => date('y:m:d h:i:s')
+        ];
+        $postRef = $database->getReference("notifications")->push($postData);
+        return $postRef ? true : false;
+    }
+
+    // account verified
+    public function accountUnverified($userId) {
+        global $database;
+        $postData = [
+            'admin_id' => '',
+            'cart_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'book_id' => '',
+            'type' => 'account-unverified',
+            'date' => date('y:m:d h:i:s')
+        ];
+        $postRef = $database->getReference("notifications")->push($postData);
+        return $postRef ? true : false;
+    }
+
     // new book
     public function newBook($bookId, $userId)
     {
