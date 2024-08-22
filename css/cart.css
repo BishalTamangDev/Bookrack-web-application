@@ -8,20 +8,19 @@
   width: fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  padding: 2px 12px;
-  color: rgb(182, 181, 181);
+  padding: 4px 12px;
   border: 1px solid rgb(182, 181, 181);
 }
 .main .cart-status-container #current-cart-btn:hover,
 .main .cart-status-container #pending-cart-btn:hover,
 .main .cart-status-container #completed-cart-btn:hover {
-  color: black;
-  border: 1px solid rgb(224, 224, 224);
-  background-color: rgb(224, 224, 224);
+  color: white;
+  background-color: black;
 }
 .main .cart-status-container .active-cart {
-  border: 1px solid rgb(224, 224, 224);
-  background-color: rgb(224, 224, 224);
+  color: white;
+  border: none;
+  background-color: rgb(0, 0, 0);
 }
 
 @keyframes skeleton-loading {

@@ -26,7 +26,7 @@ require_once __DIR__ . '/app/connection.php';
 date_default_timezone_set("Asia/Kathmandu");
 
 $profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc)/';
-$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-book-request-details|admin-book-requests|admin-books|admin-dashboard|admin-index|admin-nav|admin-signin|admin-signup|admin-user-details|admin-users)/i';
+$adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-books|admin-dashboard|admin-index|admin-nav|admin-signin|admin-signup|admin-user-details|admin-users|admin-order|admin-order-summary|admin-arrivals)/i';
 $tab = "";
 
 $redirected = false;
@@ -267,7 +267,7 @@ if (isset($_SESSION['bookrack-admin-id'])) {
             $arr = explode('/', $router);
 
             // dashboard
-            if (preg_match('/admin-dashboard/', $arr[2])) {
+            if (preg_match('/admin-dashboard$/', $arr[2])) {
                 $nav = "dashboard";
                 include 'admin/dashboard.php';
             } elseif (preg_match('/admin-profile$/', $arr[2])) {
@@ -286,26 +286,31 @@ if (isset($_SESSION['bookrack-admin-id'])) {
                 } else {
                     include 'admin/profile.php';
                 }
-            } elseif ((preg_match('/admin-users/', $arr[2]))) {
+            } elseif ((preg_match('/admin-users$/', $arr[2]))) {
                 $nav = "users";
                 include 'admin/users.php';
             } elseif (preg_match('/admin-user-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
                 $nav = "user-details";
                 $userId = $arr[3];
                 include 'admin/user-details.php';
-            } elseif ((preg_match('/admin-books/', $arr[2]))) {
+            } elseif ((preg_match('/admin-books$/', $arr[2]))) {
                 $nav = "books";
                 include 'admin/books.php';
             } elseif (preg_match('/admin-book-details$/', $arr[2]) && isset($arr[3]) && $arr[3] != "") {
                 $nav = "book-details";
+                $page = "book-details";
                 $bookId = $arr[3];
                 include 'admin/book-details.php';
-            } elseif ((preg_match('/admin-book-requests/', $arr[2]))) {
-                $nav = "requests";
-                include 'admin/book-requests.php';
-            } elseif ((preg_match('/admin-request-details$/', $arr[2]))) {
-                $nav = "request-details";
-                include 'admin/book-request-details.php';
+            } elseif ((preg_match('/admin-orders$/', $arr[2]))) {
+                $nav = "orders";
+                include 'admin/order.php';
+            } elseif ((preg_match('/admin-order-summary$/', $arr[2])) && isset($arr[3]) && $arr[3] != "") {
+                $nav = "order-summary";
+                $cartId = $arr[3];
+                include 'admin/order-summary.php';
+            } elseif ((preg_match('/admin-arrivals$/', $arr[2]))) {
+                $nav = "arrivals";
+                include 'admin/arrivals.php';
             } elseif ((preg_match('/admin-signin$/', $arr[2]))) {
                 include 'admin/signin.php';
             } elseif ((preg_match('/admin-signup$/', $arr[2]))) {

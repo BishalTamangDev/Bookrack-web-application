@@ -44,7 +44,7 @@ foreach ($bookIdList as $bookId) {
             <td> <?php foreach ($tempBook->author as $author)
                 echo ucWords($author) . ', '; ?> </td>
             <td> <?= ucfirst($tempBook->language) ?></td>
-            </a>
+
             <td> <?= $tempBook->flag ?></td>
             <td>
                 <abbr title="Show full details">

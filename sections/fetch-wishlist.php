@@ -45,7 +45,12 @@ $userWishlist = $wishlist->fetchWishlist();
                     <div class="book-details">
                         <!-- book title -->
                         <div class="book-title-wishlist">
-                            <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
+                            <!-- book title -->
+                            <div class="title-div">
+                                <abbr title="<?= ucwords($bookObj->title) ?>">
+                                    <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
+                                </abbr>
+                            </div>
 
                             <div class="wishlist">
                                 <?php

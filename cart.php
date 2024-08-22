@@ -39,7 +39,6 @@ $cart->setUserId($profileId);
     <main class="d-flex flex-column gap-4 container main">
         <!-- heading section -->
         <section class="d-flex flex-row align-items-center gap-3 heading">
-            <i class="fa fa-shopping-cart fs-5"></i>
             <h4 class="m-0 fw-bold"> MY CART </h4>
         </section>
 
@@ -139,7 +138,7 @@ $cart->setUserId($profileId);
                     <div class="checkout-btn-div">
                         <a href="/bookrack/cart/checkout" class="btn w-100 text-light py-2 checkout-btn"
                             data-bs-toggle="modal" data-bs-target="#exampleModal"> CHECKOUT NOW </a>
-                        <p class="m-0 text-light mb-3"> Update your details first to proceed. </p>
+                        <p class="m-0 text-light mb-3"> Verify you account first to proceed. </p>
                         <button class="btn w-100 text-secondary py-2 checkout-btn"> CHECKOUT NOW </button>
                         <p class="m-0 text-light mb-3"> Some books as now available. </p>
                         <button class="btn w-100 text-secondary py-2 checkout-btn"> CHECKOUT NOW </button>
@@ -201,6 +200,8 @@ $cart->setUserId($profileId);
             <?php
         } elseif ($tab == "pending") {
             ?>
+            <h4 class="m-0 fw-bold mb-1 mt-4"> Order Status </h4>
+
             <div class="cart-loading-container" id="pending-cart-skeleton-loading">
                 <div class="loading-table">
                     <div class="loading-heading">
@@ -445,13 +446,16 @@ $cart->setUserId($profileId);
     </main>
 
     <!-- popup alert -->
-    <p class="" id="custom-popup-alert"> Popup message appears here... </p>
+    <?php include 'sections/popup-alert.php'; ?>
 
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
+
+    <!-- popup alert -->
+    <script src="/bookrack/js/popup-alert.js"></script>
 
     <!-- checkout modal script -->
     <script>
@@ -463,14 +467,6 @@ $cart->setUserId($profileId);
 
             // current cart
             const current_tab = "<?= $tab ?>";
-
-            function showPopupAlert(msg) {
-                $('#custom-popup-alert').removeClass('text-success').addClass('text-danger');
-                $('#custom-popup-alert').html(msg).fadeIn();
-                setTimeout(function () {
-                    $('#custom-popup-alert').fadeOut("slow").html("");
-                }, 4000);
-            }
 
             if (current_tab == "current") {
                 // Generate CSRF token and set it to the forms
@@ -577,11 +573,11 @@ $cart->setUserId($profileId);
                             $('#modal-close-btn').click();
                             $('#place-order-btn').html("Place order").prop("disabled", false);
                             if (response == true) {
-                                showPopupAlert("Cart has been proceeded.");
+                                showPopupAlert("Order has been placed.");
                                 window.location.href = '/bookrack/cart/pending';
                             } else {
                                 // showPopupAlert("Cart couldn't be proceeded.");
-                                showPopupAlert(response);
+                                showPopupAlert("An error occured.");
                             }
                         },
                         error: function () {

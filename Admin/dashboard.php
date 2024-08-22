@@ -76,7 +76,7 @@ $bookIdList = $bookObj->fetchAllBookId();
         </section>
 
         <!-- recently added books -->
-        <p class="f-reset fs-5 fw-bold mt-5 mb-4"> Recently arrived books </p>
+        <p class="f-reset fs-5 fw-bold mt-5 mb-4"> Recently added books </p>
 
         <div class="d-flex flex-row flex-wrap gap-3 recently-arrived-books-div" id="recently-arrived-books-div">
             <div class="recently-arrived-book recently-arrived-book-skeleton">

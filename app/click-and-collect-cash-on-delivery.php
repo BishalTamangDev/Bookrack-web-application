@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 // Validate CSRF token
 if ($_POST['csrf_token_cart'] !== $_SESSION['csrf_token']) {
-    echo 'Invalid CSRF token.';
+    echo false;
     exit;
 }
 
@@ -14,6 +14,7 @@ if (!isset($_SESSION['bookrack-user-id'])) {
 }
 
 $status = false;
+
 $userId = $_SESSION['bookrack-user-id'];
 
 if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
@@ -68,6 +69,12 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
             'order_delivered' => '',
             'order_completed' => ''
         ],
+        'shipping_address' => [
+            'district' => '',
+            'municipality' => '',
+            'ward' => '',
+            'tole_village' => '',
+        ],
         'status' => 'pending'
     ];
 
@@ -79,7 +86,9 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
 
         $postData['shipping_charge'] = $shippingCharge;
         $postData['shipping_address']['district'] = $user->getAddressDistrict();
-        $postData['shipping_address']['location'] = $user->getAddressLocation();
+        $postData['shipping_address']['municipality'] = $user->getAddressMunicipality();
+        $postData['shipping_address']['ward'] = $user->getAddressWard();
+        $postData['shipping_address']['tole_village'] = $user->getAddressToleVillage();
     }
 
     $response = $database->getReference("carts/{$cartId}")->update($postData);

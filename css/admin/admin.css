@@ -68,4 +68,18 @@
   margin: 0;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+}
+
+.loading-div {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.loading-div img {
+  width: 32px;
+}
+.loading-div p {
+  margin: 0;
 }/*# sourceMappingURL=admin.css.map */

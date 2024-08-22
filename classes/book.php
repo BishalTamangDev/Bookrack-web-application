@@ -341,7 +341,7 @@ class Book
         return $list;
     }
 
-    // search book
+    // search book id
     public function searchBook($searchContent)
     {
         global $database;
@@ -351,7 +351,7 @@ class Book
 
         if ($response) {
             foreach ($response as $key => $res) {
-                if (strpos($res['title'], $searchContent) !== false) {
+                if (strpos($res['title'], $searchContent) !== false || strpos($res['isbn'], $searchContent) !== false) {
                     $bookIdList[] = $key;
                 }
             }

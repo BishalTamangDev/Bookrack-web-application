@@ -59,11 +59,28 @@ if (isset($_GET['admin-search-content'])) {
                     <!-- books -->
                     <li onclick="window.location.href='/bookrack/admin/admin-books'" class="<?php if ($nav == "books" || $nav == "book-details")
                         echo "active"; ?>">
-
                         <i class="fa fa-book nav-icon"></i>
                         <span class="d-none d-lg-block <?php if ($nav == "books" || $nav == "book-details")
                             echo "text-dark"; ?>">
                             Books </span>
+                    </li>
+
+                    <!-- order summary -->
+                    <li onclick="window.location.href='/bookrack/admin/admin-orders'" class="<?php if ($nav == "orders" || $nav == "order-summary")
+                        echo "active"; ?>">
+                        <i class="fa-solid fa-cart-shopping nav-icon"></i>
+                        <span class="d-none d-lg-block <?php if ($nav == "orders" || $nav == "order-summary")
+                            echo "text-dark"; ?>">
+                            Orders </span>
+                    </li>
+
+                    <!-- arrival -->
+                    <li onclick="window.location.href='/bookrack/admin/admin-arrivals'" class="<?php if ($nav == "arrival")
+                        echo "active"; ?>">
+                        <i class="fa-solid fa-arrow-right-to-bracket nav-icon"></i>
+                        <span class="d-none d-lg-block <?php if ($nav == "arrival")
+                            echo "text-dark"; ?>">
+                            Arrivals </span>
                     </li>
                 </ul>
             </nav>
@@ -78,7 +95,7 @@ if (isset($_GET['admin-search-content'])) {
             <!-- search form -->
             <div class="d-flex flex-row gap-2 search-form-container">
                 <?php
-                $eligiblePageList = ["users", "books"];
+                $eligiblePageList = ["users", "books", "arrivals"];
                 $visibilityClass = !in_array($page, $eligiblePageList) ? 'd-none' : '';
                 ?>
                 <form class="<?= $visibilityClass ?> d-flex flex-row search-form" id="search-form">

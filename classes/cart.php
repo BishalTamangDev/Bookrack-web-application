@@ -29,7 +29,9 @@ class Cart
 
     public $shippingAddress = [
         'district' => '',
-        'location' => ''
+        'municipality' => '',
+        'ward' => '',
+        'tole_village' => '',
     ];
     public $checkoutOption;
     public $status;
@@ -43,6 +45,13 @@ class Cart
     public function userId()
     {
         return $this->userId;
+    }
+
+    public function getFullAddress(){
+        if($this->shippingAddress['municipality'] == '') {
+            return "-";
+        }
+        return ucfirst($this->shippingAddress['municipality']).' - '. ucfirst($this->shippingAddress['ward']). ', '.ucfirst($this->shippingAddress['tole_village']). ', '. ucfirst($this->shippingAddress['district']);
     }
 
     // setters
@@ -96,7 +105,9 @@ class Cart
 
         $this->shippingAddress = [
             'district' => '',
-            'location' => ''
+            'municipality' => '',
+            'ward' => '',
+            'tole_village' => ''
         ];
 
         $this->checkoutOption = '';
@@ -170,7 +181,9 @@ class Cart
                     ],
                     'shipping_address' => [
                         'district' => '',
-                        'location' => ''
+                        'municipality' => '',
+                        'ward' => '',
+                        'tole_village' => ''
                     ],
                     'checkout_option' => '',
                     'status' => 'current'
@@ -195,7 +208,9 @@ class Cart
                 ],
                 'shipping_address' => [
                     'district' => '',
-                    'location' => ''
+                    'municipality' => '',
+                    'ward' => '',
+                    'tole_village' => ''
                 ],
                 'checkout_option' => '',
                 'status' => 'current'
@@ -240,6 +255,72 @@ class Cart
             }
         }
         return $bookRemoved ? true : false;
+    }
+
+    // fetch all carts for admin except current
+    public function fetchAllCartIdExceptCurrent()
+    {
+        global $database;
+        $list = [];
+        $response = $database->getReference("carts")->getSnapshot()->getValue();
+
+        foreach ($response as $key => $res) {
+            if ($res['status'] != 'current') {
+                $list[] = $key;
+            }
+        }
+
+        return $list;
+    }
+
+    // count all carts for admin except current
+    public function countAllCartIdExceptCurrent()
+    {
+        global $database;
+        $list = [];
+        $response = $database->getReference("carts")->getSnapshot()->getValue();
+
+        foreach ($response as $key => $res) {
+            if ($res['status'] != 'current') {
+                $list[] = $key;
+            }
+        }
+
+        return count($list);
+    }
+
+
+    // count completed cart
+    public function countCompletedCartId()
+    {
+        global $database;
+        $list = [];
+        $response = $database->getReference("carts")->getSnapshot()->getValue();
+
+        foreach ($response as $key => $res) {
+            if ($res['status'] == 'completed') {
+                $list[] = $key;
+            }
+        }
+
+        return count($list);
+    }
+
+
+    // count completed cart
+    public function countPendingCartId()
+    {
+        global $database;
+        $list = [];
+        $response = $database->getReference("carts")->getSnapshot()->getValue();
+
+        foreach ($response as $key => $res) {
+            if ($res['status'] == 'pending') {
+                $list[] = $key;
+            }
+        }
+
+        return count($list);
     }
 
 
@@ -336,7 +417,6 @@ class Cart
     public function fetchPendingCartId()
     {
         global $database;
-        $cartFound = false;
         $pendingCarts = [];
         $reference = $database->getReference("carts")->orderByChild("user_id")->equalTo($this->userId);
 

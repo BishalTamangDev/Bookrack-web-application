@@ -75,7 +75,7 @@ if (sizeof($notificationIdList) == 0) {
         } elseif ($notificationObj->type == "cart checkout") {
             $userObj->fetch($notificationObj->userId);
             $cartObj->fetch($notificationObj->cartId);
-            $link = "/bookrack/admin/admin-book-requests/{$cartObj->getId()}";
+            $link = "/bookrack/admin/admin-order-summary/{$cartObj->getId()}";
             ?>
             <div class="notification" onclick="window.location.href='<?=$link?>'">
                 <div class="icon-div">

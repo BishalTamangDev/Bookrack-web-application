@@ -1,0 +1,17 @@
+.order-status-div .cart-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 76px;
+}
+.order-status-div .cart-status .status-image-div {
+  width: 54px;
+}
+.order-status-div .cart-status .status-image-div .status-image {
+  filter: grayscale(100%);
+}
+.order-status-div .cart-status .status-image-div .completed-status-image {
+  filter: grayscale(0%);
+}/*# sourceMappingURL=order-details.css.map */

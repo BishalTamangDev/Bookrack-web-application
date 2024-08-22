@@ -81,3 +81,19 @@
     margin-bottom: 1rem;
     margin-top: 1.5rem;
 }
+
+.loading-div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+
+    img {
+        width: 32px;
+    }
+
+    p{
+        margin: 0;
+    }
+}
