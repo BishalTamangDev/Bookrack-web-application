@@ -195,8 +195,67 @@ class Notification
         if ($response) {
             foreach ($response as $key => $res)
                 if ($res['whose'] == 'user')
-                $list[] = $key;
+                    $list[] = $key;
         }
         return sizeof($list);
+    }
+
+    // request book to provider
+    public function requestBook($ownerId, $bookId)
+    {
+        global $database;
+        $currentDate = date('y:m:d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => $bookId,
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $ownerId,
+            'cart_id' => '',
+            'type' => 'book-request',
+            'date' => $currentDate
+        ];
+
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // notify reader for order confirmation
+    public function orderConfirmed($userId, $cartId)
+    {
+        global $database;
+        $currentDate = date('y:m:d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'cart_id' => $cartId,
+            'type' => 'order-confirmation',
+            'date' => $currentDate
+        ];
+        
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // notify providers as thier book received
+    public function bookReceived($bookId, $ownerId, $currentDate){
+        global $database;
+        $currentDate = date('y:m:d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => $bookId,
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $ownerId,
+            'cart_id' => '',
+            'type' => 'book-received',
+            'date' => $currentDate
+        ];
+
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
     }
 }

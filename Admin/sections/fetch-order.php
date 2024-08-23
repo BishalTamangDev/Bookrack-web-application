@@ -31,6 +31,14 @@ if (!$exists) {
     $orderDate['shipped'] = $tempCart->date['order_shipped'] != '' ? $tempCart->date['order_shipped'] : 0;
     $orderDate['delivered'] = $tempCart->date['order_delivered'] != '' ? $tempCart->date['order_delivered'] : 0;
     $orderDate['completed'] = $tempCart->date['order_completed'] != '' ? $tempCart->date['order_completed'] : 0;
+
+    // check of all the books has arrived
+    $allBooksArrived = true;
+    foreach($tempCart->bookList as $bookList) {
+        if($bookList['arrived_date'] == ''){
+            $allBooksArrived = false;
+        }
+    }
     ?>
 
     <!-- order status -->
@@ -142,19 +150,32 @@ if (!$exists) {
         if ($tempCart->checkoutOption == 'click-and-collect') {
             if ($orderDate['placed'] != 0 && $orderDate['confirmed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status--btn"> <i class="fa fa-check"></i> Mark as Order Confirmed </button>
+                <button class="btn btn-brand" id="order-status-confirmed-btn"> <i class="fa fa-check"></i> Mark as Order Confirmed
+                </button>
                 <?php
             } elseif ($orderDate['confirmed'] != 0 && $orderDate['arrived'] == 0) {
+                if ($allBooksArrived) {
+                    ?>
+                    <button class="btn btn-brand" id="order-status-arrived-btn"> <i class="fa fa-check"></i> Mark as Order Arrived
+                    </button>
+                    <?php
+                } else {
+                    ?>
+                    <button class="btn btn-danger" id="order-status-arrived-btn" data-bs-toggle="modal"
+                        data-bs-target="#order-not-arrived-modal"> <i class="fa fa-check"></i> Mark as Order Arrived </button>
+                    <?php
+                }
                 ?>
-                <button class="btn btn-brand" id="order-status--btn"> <i class="fa fa-check"></i> Mark as Order Arrived </button>
                 <?php
             } elseif ($orderDate['arrived'] != 0 && $orderDate['packed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status--btn"> <i class="fa fa-check"></i> Mark as Order Packed </button>
+                <button class="btn btn-brand" id="order-status-packed-btn"> <i class="fa fa-check"></i> Mark as Order Packed
+                </button>
                 <?php
             } elseif ($orderDate['packed'] != 0 && $orderDate['completed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status--btn"> <i class="fa fa-check"></i> Mark as Order Completed </button>
+                <button class="btn btn-brand" id="order-status-completed-btn"> <i class="fa fa-check"></i> Mark as Order Completed
+                </button>
                 <?php
             }
             ?>
@@ -164,7 +185,7 @@ if (!$exists) {
     </div>
 
     <?php
-    $tempUser->fetch($tempCart->userId());
+    $tempUser->fetch($tempCart->getUserId());
     $customerName = $tempUser->getFullName();
     $phoneNumber = $tempUser->getPhoneNumber();
     ?>
@@ -195,7 +216,7 @@ if (!$exists) {
                         <td class="border"> Shipping Charge </td>
                         <td class="border"> <?= ucwords($tempCart->shippingCharge) ?> </td>
                     </tr>
-    
+
                     <!-- shipping address -->
                     <tr class="border">
                         <td class="border"> Shipping Address </td>
@@ -239,14 +260,16 @@ if (!$exists) {
                 <tr class="border">
                     <td class="border"> Confirmed </td>
                     <td class="border">
-                        <?= $tempCart->date['order_confirmed'] != '' ? $tempCart->date['order_confirmed'] : '-' ?> </td>
+                        <?= $tempCart->date['order_confirmed'] != '' ? $tempCart->date['order_confirmed'] : '-' ?>
+                    </td>
                 </tr>
 
                 <!-- arrived -->
                 <tr class="border">
                     <td class="border"> Arrived </td>
                     <td class="border">
-                        <?= $tempCart->date['order_arrived'] != '' ? $tempCart->date['order_arrived'] : '-' ?> </td>
+                        <?= $tempCart->date['order_arrived'] != '' ? $tempCart->date['order_arrived'] : '-' ?>
+                    </td>
                 </tr>
 
                 <!-- packed -->
@@ -263,14 +286,16 @@ if (!$exists) {
                     <tr class="border">
                         <td class="border"> Shipped </td>
                         <td class="border">
-                            <?= $tempCart->date['order_shipped'] != '' ? $tempCart->date['order_shipped'] : '-' ?> </td>
+                            <?= $tempCart->date['order_shipped'] != '' ? $tempCart->date['order_shipped'] : '-' ?>
+                        </td>
                     </tr>
 
                     <!-- delivered -->
                     <tr class="border">
                         <td class="border"> Delivered </td>
                         <td class="border">
-                            <?= $tempCart->date['order_delivered'] != '' ? $tempCart->date['order_delivered'] : '-' ?> </td>
+                            <?= $tempCart->date['order_delivered'] != '' ? $tempCart->date['order_delivered'] : '-' ?>
+                        </td>
                     </tr>
                     <?php
                 }
@@ -280,7 +305,8 @@ if (!$exists) {
                 <tr class="border">
                     <td class="border"> Completed </td>
                     <td class="border">
-                        <?= $tempCart->date['order_completed'] != '' ? $tempCart->date['order_completed'] : '-' ?> </td>
+                        <?= $tempCart->date['order_completed'] != '' ? $tempCart->date['order_completed'] : '-' ?>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -363,6 +389,17 @@ if (!$exists) {
                 </tr>
             </tfoot>
         </table>
+    </div>
+
+    <!-- order not arrived modal -->
+    <div class="modal fade" id="order-not-arrived-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3 d-flex flex-column align-items-center">
+                <p class="fs-3 fw-semibold"> All books has not arrived yet! </p>
+                <img src="/bookrack/assets/icons/arrived.png" alt="" style="width:30%;" class="mb-3">
+            </div>
+        </div>
     </div>
     <?php
 }

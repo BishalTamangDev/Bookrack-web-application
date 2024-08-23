@@ -20,19 +20,21 @@ if (sizeof($cartIdList) == 0) {
         $tempCart->fetch($cartId);
 
         // fetch user detail
-        $tempUser->fetch($tempCart->userId());
+        $tempUser->fetch($tempCart->getUserId());
 
         $userName = $tempUser->getFullName();
         ?>
         <tr class="order-status-completed">
             <td> <?= $serial++ ?> </td>
+            
             <td>
                 <a href="/bookrack/admin/admin-order-summary/<?= $cartId ?>" class="text-primary small">
                     <?= $cartId ?>
                 </a>
             </td>
+
             <td>
-                <a href="/bookrack/admin/admin-user-details/<?= $tempCart->userId() ?>" class="text-primary">
+                <a href="/bookrack/admin/admin-user-details/<?= $tempCart->getUserId() ?>" class="text-primary">
                     <?= $userName ?>
                 </a>
             </td>

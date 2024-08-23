@@ -38,8 +38,14 @@ if ($profileAdmin->accountStatus != "verified")
         </div>
     </main>
 
+    <!-- popup alert -->
+    <?php require_once __DIR__ . '/../sections/popup-alert.php'; ?>
+
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
+
+    <!-- popup script -->
+    <script type="text/javascript" src="/bookrack/js/popup-alert.js"> </script>
 
     <script>
         $(document).ready(function () {
@@ -55,6 +61,32 @@ if ($profileAdmin->accountStatus != "verified")
             }
 
             fetchOrder();
+
+            $(document).on('click', '#order-status-confirmed-btn', function () {
+                console.clear();
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/mark-as-order-confirmed.php",
+                    data: { cartId: "<?= $cartId ?>" },
+                    beforeSend: function () {
+                        $('#order-status-confirmed-btn').html("Confirming order...").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response) {
+                            msg = "Order confirmed";
+                            $('#order-status-confirmed-btn').html("<i class='fa-solid fa-check-double'></i> Order Confirmed");
+
+                            setTimeout(function () {
+                                fetchOrder();
+                            }, 1000);
+                        } else {
+                            msg = "Order couldn't be confirmed due to an error.";
+                            $('#order-status-confirmed-btn').html("<i class='fa fa-check'></i> Mark as Order Confirmed").prop('disabled', false);
+                        }
+                        showPopupAlert(msg);
+                    }
+                });
+            });
         });
     </script>
 </body>

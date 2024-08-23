@@ -28,6 +28,9 @@ foreach ($bookIdList as $bookId) {
         $searchCount++;
         $tempUser->fetch($tempBook->getOwnerId());
         $ownerName = $tempUser->getFullName();
+
+        // fetch cart id -> for redirection purpose
+        $cartId = $tempCart->fetchCartIdByBookId($bookId);
         ?>
         <tr class="book-tr">
             <th scope="row" class="border"> <?= $serial++ ?> </th>
@@ -44,7 +47,7 @@ foreach ($bookIdList as $bookId) {
             </td>
             <td class="border">
                 <div class="d-flex flex-row">
-                    <button class="btn btn-brand"> Mark as arrived </button>
+                    <button class="btn btn-brand" id="mark-as-arrived-btn" data-book-id="<?=$bookId?>" data-cart-id="<?=$cartId?>"> Mark as arrived </button>
                 </div>
             </td>
         </tr>

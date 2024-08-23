@@ -63,12 +63,12 @@ if ($profileAdmin->accountStatus != "verified")
 
     <script>
         $(document).ready(function () {
-            // fetch on hold-books
-            function fetchOnHoldBooks() {
+            // fetch requests
+            function fetchRequests() {
                 $.ajax({
-                    url: "/bookrack/admin/sections/fetch-on-hold-books.php",
+                    url: "/bookrack/admin/sections/fetch-requests.php",
                     beforeSend: function () {
-                        $('#arrival-table-body').html("<tr> <td colspan='5' class='border'> <div class='loading-div'> <img src='/bookrack/assets/gif/filled-fading-balls.gif'> <p> Fetching on-hold books... </p> </div> </td> </tr>");
+                        $('#arrival-table-body').html("<tr> <td colspan='5' class='border'> <div class='loading-div'> <img src='/bookrack/assets/gif/filled-fading-balls.gif'> <p> Fetching requests... </p> </div> </td> </tr>");
                     },
                     success: function (data) {
                         $('#arrival-table-body').html(data);
@@ -76,8 +76,9 @@ if ($profileAdmin->accountStatus != "verified")
                 });
             }
 
-            fetchOnHoldBooks();
+            fetchRequests();
 
+            // search
             $('#search-form').submit(function (e) {
                 e.preventDefault();
 
@@ -89,7 +90,7 @@ if ($profileAdmin->accountStatus != "verified")
 
                     $.ajax({
                         type: "POST",
-                        url: "/bookrack/admin/sections/search-arrival.php",
+                        url: "/bookrack/admin/sections/search-request.php",
                         data: { content: search_content },
                         beforeSend: function () {
                             $('#arrival-table-body').html("<tr> <td colspan='5' class='border'> <div class='loading-div'> <img src='/bookrack/assets/gif/filled-fading-balls.gif'> <p> Fetching new arrivals </p> </div> </td> </tr>");
@@ -103,9 +104,41 @@ if ($profileAdmin->accountStatus != "verified")
             });
 
             $('#clear-search').click(function () {
-                fetchOnHoldBooks();
+                fetchRequests();
                 $('#search-form').trigger('reset');
                 $('#clear-search').removeClass('d-flex').addClass('d-none');
+            });
+
+            // mark as arrived
+            $(document).on('click', '#mark-as-arrived-btn', function () {
+                var book_id = $(this).data('book-id');
+
+                var cart_id = $(this).data('cart-id');
+
+                var mark_btn = $(this);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/mark-book-as-arrived.php",
+                    data: { bookId: book_id },
+                    beforeSend: function () {
+                        mark_btn.html("Please wait...").prop('disabled', true);
+                    },
+                    success: function (response) {
+                        if (response) {
+                            mark_btn.html("Marked as arrived");
+
+                            // redirect to order summary page
+                            link = '/bookrack/admin/admin-order-summary/' + cart_id;
+
+                            setTimeout(function () {
+                                window.location.href = link;
+                            }, 2000);
+                        } else {
+                            mark_btn.html("Mark as arrived").prop('disabled', false);
+                        }
+                    }
+                });
             });
         });
     </script>

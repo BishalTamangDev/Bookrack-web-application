@@ -103,6 +103,55 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
+        } elseif ($notificationObj->type == "order-confirmation") {
+            $cartId = $notificationObj->cartId;
+            $link = "/bookrack/cart/pending";
+            ?>
+            <div class="notification" onclick="window.location.href='<?=$link?>'">
+                <div class="icon-div">
+                    <img src="/bookrack/assets/icons/notification/order-confirmed.png" alt="">
+                </div>
+
+                <div class="details">
+                    <!-- notification detail -->
+                    <div class="detail">
+                        <p class="m-0">
+                            <?= "Your order has been confirmed. "?>
+                        </p>
+                    </div>
+
+                    <!-- date -->
+                    <p class="date">
+                        <?= $date ?>
+                    </p>
+                </div>
+            </div>
+            <?php
+        } elseif ($notificationObj->type == "book-request") {
+            $bookObj->fetch($notificationObj->bookId);
+            $title = ucwords($bookObj->title);
+            $link = "/bookrack/requests";
+            ?>
+            <div class="notification" onclick="window.location.href='<?=$link?>'">
+                <div class="icon-div">
+                    <img src="/bookrack/assets/icons/notification/book-request.png" alt="">
+                </div>
+
+                <div class="details">
+                    <!-- notification detail -->
+                    <div class="detail">
+                        <p class="m-0">
+                            <?= "Your book '" . $title . "' has been requested."?>
+                        </p>
+                    </div>
+
+                    <!-- date -->
+                    <p class="date">
+                        <?= $date ?>
+                    </p>
+                </div>
+            </div>
+            <?php
         }
     ?>
     <?php

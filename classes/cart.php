@@ -42,16 +42,17 @@ class Cart
         return $this->cartId;
     }
 
-    public function userId()
+    public function getUserId()
     {
         return $this->userId;
     }
 
-    public function getFullAddress(){
-        if($this->shippingAddress['municipality'] == '') {
+    public function getFullAddress()
+    {
+        if ($this->shippingAddress['municipality'] == '') {
             return "-";
         }
-        return ucfirst($this->shippingAddress['municipality']).' - '. ucfirst($this->shippingAddress['ward']). ', '.ucfirst($this->shippingAddress['tole_village']). ', '. ucfirst($this->shippingAddress['district']);
+        return ucfirst($this->shippingAddress['municipality']) . ' - ' . ucfirst($this->shippingAddress['ward']) . ', ' . ucfirst($this->shippingAddress['tole_village']) . ', ' . ucfirst($this->shippingAddress['district']);
     }
 
     // setters
@@ -430,5 +431,97 @@ class Cart
         }
 
         return $pendingCarts;
+    }
+
+    // confirm order
+    public function confirmOrder()
+    {
+        global $database;
+
+        $currentDate = date('y-m-d h:i:s');
+
+        echo $currentDate;
+
+        $postData = [
+            'date' => [
+                'order_placed' => $this->date['order_placed'],
+                'order_confirmed' => $currentDate,
+                'order_arrived' => $this->date['order_arrived'],
+                'order_packed' => $this->date['order_packed'],
+                'order_shipped' => $this->date['order_shipped'],
+                'order_delivered' => $this->date['order_delivered'],
+                'order_completed' => $this->date['order_completed'],
+            ]
+        ];
+
+        $postRef = $database->getReference("carts/{$this->cartId}")->update($postData);
+
+        return $postRef ? true : false;
+    }
+
+    // get cart with the provided book id
+    public function getCartWithBookId($bookId)
+    {
+        global $database;
+        $cartId = 0;
+        $response = $database->getReference("carts")->orderByChild('status')->equalTo('pending')->getSnapshot()->getValue();
+        if ($response) {
+            foreach ($response as $key => $res) {
+                foreach ($res['book_list'] as $bookList) {
+                    if ($bookId == $bookList['id']) {
+                        $cartId = $key;
+                    }
+                }
+            }
+        }
+        return $cartId;
+    }
+
+    // mark book as arrived
+    public function markBookAsArrived($bookId, $currentDate)
+    {
+        global $database;
+
+        $bookList = [];
+
+        foreach ($this->bookList as $book) {
+            if ($book['id'] == $bookId) {
+                $newData = [
+                    'id' => $bookId,
+                    'price' => $book['price'],
+                    'arrived_date' => $currentDate
+                ];
+                $bookList[] = $newData;
+            } else {
+                $bookList[] = $book;
+            }
+        }
+
+        $postData = [
+            'book_list' => $bookList
+        ];
+
+        // update cart
+        $response = $database->getReference("carts/{$this->cartId}")->update($postData);
+
+        return $response ? true : false;
+    }
+
+    // fetch cart id by book id
+    public function fetchCartIdByBookId($bookId) {
+        global $database;
+
+        $cartId = 0;
+
+        $response = $database->getReference('carts')->orderByChild('status')->equalTo('pending')->getSnapshot()->getValue();
+
+        if($response) {
+            foreach($response as $key => $res) {
+                foreach($res['book_list'] as $bookList)
+                    $cartId = in_array($bookId, $bookList) ? $key : 0;
+            }
+        }
+
+        return $cartId;
     }
 }
