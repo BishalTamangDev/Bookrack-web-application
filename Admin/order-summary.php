@@ -62,8 +62,8 @@ if ($profileAdmin->accountStatus != "verified")
 
             fetchOrder();
 
+            // confirm order
             $(document).on('click', '#order-status-confirmed-btn', function () {
-                console.clear();
                 $.ajax({
                     type: "POST",
                     url: "/bookrack/admin/app/mark-as-order-confirmed.php",
@@ -82,6 +82,36 @@ if ($profileAdmin->accountStatus != "verified")
                         } else {
                             msg = "Order couldn't be confirmed due to an error.";
                             $('#order-status-confirmed-btn').html("<i class='fa fa-check'></i> Mark as Order Confirmed").prop('disabled', false);
+                        }
+                        showPopupAlert(msg);
+                    }
+                });
+            });
+
+            // mark as order arrived
+            $(document).on('click', '#order-status-arrived-btn', function () {
+                var user_id = $(this).data('user-id'); 
+                var cart_id = $(this).data('cart-id'); 
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/mark-as-order-arrived.php",
+                    data: { cartId: cart_id, userId: user_id },
+                    beforeSend: function(){
+                        $('#order-status-arrived-btn').html('Marking as arrived...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        msg = "";
+
+                        if (response) {
+                            msg = "Order marked as arrived";
+                            $('#order-status-arrived-btn').html("<i class='fa-solid fa-check-double'></i> Marked as Arrived");
+
+                            setTimeout(function () {
+                                fetchOrder();
+                            }, 1000);
+                        } else {
+                            msg = "Order couldn't be updated due to an error.";
+                            $('#order-status-arrived-btn').html("<i class='fa fa-check'></i> Mark as Order Arrived").prop('disabled', false);
                         }
                         showPopupAlert(msg);
                     }

@@ -59,22 +59,28 @@ if (sizeof($pendingCartIds) > 0) {
                 <p class="m-0"> Packed </p>
             </div>
 
-            <div class="pending-cart-status">
-                <div class="status-image-div">
-                    <img class="status-image <?= $cart->date['order_shipped'] != '' ? 'completed-status-image' : ''; ?>"
-                        src="/bookrack/assets/icons/order-shipped.png" alt="" loading="lazy">
+            <?php
+            if($cart->checkoutOption != 'click-and-collect') {
+                ?>
+                <div class="pending-cart-status">
+                    <div class="status-image-div">
+                        <img class="status-image <?= $cart->date['order_shipped'] != '' ? 'completed-status-image' : ''; ?>"
+                            src="/bookrack/assets/icons/order-shipped.png" alt="" loading="lazy">
+                    </div>
+                    <p class="m-0"> Shipped </p>
                 </div>
-                <p class="m-0"> Shipped </p>
-            </div>
-
-
-            <div class="pending-cart-status">
-                <div class="status-image-div">
-                    <img class="status-image <?= $cart->date['order_delivered'] != '' ? 'completed-status-image' : ''; ?>"
-                        src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
+                
+                
+                <div class="pending-cart-status">
+                    <div class="status-image-div">
+                        <img class="status-image <?= $cart->date['order_delivered'] != '' ? 'completed-status-image' : ''; ?>"
+                            src="/bookrack/assets/icons/order-delivered.png" alt="" loading="lazy">
+                    </div>
+                    <p class="m-0"> Delivered </p>
                 </div>
-                <p class="m-0"> Delivered </p>
-            </div>
+                <?php
+            }
+            ?>
 
             <div class="pending-cart-status">
                 <div class="status-image-div">

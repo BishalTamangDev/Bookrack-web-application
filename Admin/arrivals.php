@@ -14,7 +14,7 @@ if ($profileAdmin->accountStatus != "verified")
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- title -->
-    <title> Dashboard </title>
+    <title> Arrivals </title>
 
     <?php require_once __DIR__ . '/../includes/header.php' ?>
 

@@ -155,8 +155,10 @@ if (!$exists) {
                 <?php
             } elseif ($orderDate['confirmed'] != 0 && $orderDate['arrived'] == 0) {
                 if ($allBooksArrived) {
+                    $userId = $tempCart->getUserId();
+                    $cartTd = $tempCart->getId();
                     ?>
-                    <button class="btn btn-brand" id="order-status-arrived-btn"> <i class="fa fa-check"></i> Mark as Order Arrived
+                    <button class="btn btn-brand" id="order-status-arrived-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Arrived
                     </button>
                     <?php
                 } else {

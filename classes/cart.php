@@ -508,20 +508,45 @@ class Cart
     }
 
     // fetch cart id by book id
-    public function fetchCartIdByBookId($bookId) {
+    public function fetchCartIdByBookId($bookId)
+    {
         global $database;
 
         $cartId = 0;
 
         $response = $database->getReference('carts')->orderByChild('status')->equalTo('pending')->getSnapshot()->getValue();
 
-        if($response) {
-            foreach($response as $key => $res) {
-                foreach($res['book_list'] as $bookList)
+        if ($response) {
+            foreach ($response as $key => $res) {
+                foreach ($res['book_list'] as $bookList)
                     $cartId = in_array($bookId, $bookList) ? $key : 0;
             }
         }
 
         return $cartId;
+    }
+
+    // mark cart as arrived
+    public function cartArrived($currentDate)
+    {
+        global $database;
+
+        $postData = $this;
+
+        $postData = [
+            'date' => [
+                'order_placed' => $this->date['order_placed'],
+                'order_confirmed' => $this->date['order_confirmed'],
+                'order_arrived' => $currentDate,
+                'order_packed' => $this->date['order_packed'],
+                'order_shipped' => $this->date['order_shipped'],
+                'order_delivered' => $this->date['order_delivered'],
+                'order_completed' => $this->date['order_completed'],
+            ]
+        ];
+
+        $response = $database->getReference("carts/{$this->cartId}")->update($postData);
+
+        return $response ? true : false;
     }
 }

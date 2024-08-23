@@ -528,6 +528,7 @@ $cart->setUserId($profileId);
                     });
                 });
             } else if (current_tab == "pending") {
+                // fetch pending cart
                 $.ajax({
                     url: '/bookrack/sections/pending-cart-table.php',
                     type: "POST",

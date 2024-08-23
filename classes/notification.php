@@ -53,7 +53,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-verification-apply',
-            'date' => date('y:m:d h:i:s')
+            'date' => date('y-m-d h:i:s')
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -71,7 +71,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-verified',
-            'date' => date('y:m:d h:i:s')
+            'date' => date('y-m-d h:i:s')
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -89,7 +89,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-unverified',
-            'date' => date('y:m:d h:i:s')
+            'date' => date('y-m-d h:i:s')
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -107,7 +107,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => $bookId,
             'type' => 'new book',
-            'date' => date('y:m:d h:i:s')
+            'date' => date('y-m-d h:i:s')
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -125,7 +125,7 @@ class Notification
             'user_id' => $userId,
             'cart_id' => $cartId,
             'type' => 'cart checkout',
-            'date' => date('y:m:d h:i:s')
+            'date' => date('y-m-d h:i:s')
         ];
         $response = $database->getReference("notifications")->push($postData);
         return $response ? true : false;
@@ -156,7 +156,7 @@ class Notification
             foreach ($response as $key => $res)
                 $notificationIdList[] = $key;
 
-        return $notificationIdList;
+        return array_reverse($notificationIdList);
     }
 
     // fetch notification id for user
@@ -174,7 +174,7 @@ class Notification
                     $notificationIdList[] = $key;
         }
 
-        return $notificationIdList;
+        return array_reverse($notificationIdList);
     }
 
     // count adin notification
@@ -204,7 +204,7 @@ class Notification
     public function requestBook($ownerId, $bookId)
     {
         global $database;
-        $currentDate = date('y:m:d h:i:s');
+        $currentDate = date('y-m-d h:i:s');
         $postData = [
             'admin_id' => '',
             'book_id' => $bookId,
@@ -224,7 +224,7 @@ class Notification
     public function orderConfirmed($userId, $cartId)
     {
         global $database;
-        $currentDate = date('y:m:d h:i:s');
+        $currentDate = date('y-m-d h:i:s');
         $postData = [
             'admin_id' => '',
             'book_id' => '',
@@ -240,10 +240,10 @@ class Notification
         return $response ? true : false;
     }
 
-    // notify providers as thier book received
+    // notify providers as their book received
     public function bookReceived($bookId, $ownerId, $currentDate){
         global $database;
-        $currentDate = date('y:m:d h:i:s');
+        $currentDate = date('y-m-d h:i:s');
         $postData = [
             'admin_id' => '',
             'book_id' => $bookId,
@@ -252,6 +252,25 @@ class Notification
             'user_id' => $ownerId,
             'cart_id' => '',
             'type' => 'book-received',
+            'date' => $currentDate
+        ];
+
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // notify readers as their orders has arrived
+    public function orderArrived($cartId, $userId, $currentDate){
+        global $database;
+        $currentDate = date('y-m-d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'cart_id' => $cartId,
+            'type' => 'order-arrived',
             'date' => $currentDate
         ];
 
