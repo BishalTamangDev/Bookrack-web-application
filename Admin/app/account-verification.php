@@ -3,7 +3,7 @@ $status = false;
 
 $adminId = $_POST['adminId'] ?? 0;
 
-if($adminId == 0){
+if ($adminId == 0) {
     echo $status;
     exit;
 }

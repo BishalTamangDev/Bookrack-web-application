@@ -171,12 +171,12 @@ if (!$exists) {
                 <?php
             } elseif ($orderDate['arrived'] != 0 && $orderDate['packed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status-packed-btn"> <i class="fa fa-check"></i> Mark as Order Packed
+                <button class="btn btn-brand" id="order-status-packed-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Packed
                 </button>
                 <?php
             } elseif ($orderDate['packed'] != 0 && $orderDate['completed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status-completed-btn"> <i class="fa fa-check"></i> Mark as Order Completed
+                <button class="btn btn-brand" id="order-status-completed-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Completed
                 </button>
                 <?php
             }

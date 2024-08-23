@@ -265,9 +265,11 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        foreach ($response as $key => $res) {
-            if ($res['status'] != 'current') {
-                $list[] = $key;
+        if($response) {
+            foreach ($response as $key => $res) {
+                if ($res['status'] != 'current') {
+                    $list[] = $key;
+                }
             }
         }
 
@@ -281,9 +283,11 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        foreach ($response as $key => $res) {
-            if ($res['status'] != 'current') {
-                $list[] = $key;
+        if($response) {
+            foreach ($response as $key => $res) {
+                if ($res['status'] != 'current') {
+                    $list[] = $key;
+                }
             }
         }
 
@@ -298,9 +302,11 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        foreach ($response as $key => $res) {
-            if ($res['status'] == 'completed') {
-                $list[] = $key;
+        if($response) {
+            foreach ($response as $key => $res) {
+                if ($res['status'] == 'completed') {
+                    $list[] = $key;
+                }
             }
         }
 
@@ -315,9 +321,11 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        foreach ($response as $key => $res) {
-            if ($res['status'] == 'pending') {
-                $list[] = $key;
+        if($response) {
+            foreach ($response as $key => $res) {
+                if ($res['status'] == 'pending') {
+                    $list[] = $key;
+                }
             }
         }
 
@@ -527,7 +535,7 @@ class Cart
     }
 
     // mark cart as arrived
-    public function cartArrived($currentDate)
+    public function orderArrived($currentDate)
     {
         global $database;
 
@@ -543,6 +551,55 @@ class Cart
                 'order_delivered' => $this->date['order_delivered'],
                 'order_completed' => $this->date['order_completed'],
             ]
+        ];
+
+        $response = $database->getReference("carts/{$this->cartId}")->update($postData);
+
+        return $response ? true : false;
+    }
+
+    // mark cart as packed
+    public function orderPacked($currentDate)
+    {
+        global $database;
+
+        $postData = $this;
+
+        $postData = [
+            'date' => [
+                'order_placed' => $this->date['order_placed'],
+                'order_confirmed' => $this->date['order_confirmed'],
+                'order_arrived' => $this->date['order_arrived'],
+                'order_packed' => $currentDate,
+                'order_shipped' => $this->date['order_shipped'],
+                'order_delivered' => $this->date['order_delivered'],
+                'order_completed' => $this->date['order_completed'],
+            ]
+        ];
+
+        $response = $database->getReference("carts/{$this->cartId}")->update($postData);
+
+        return $response ? true : false;
+    }
+
+    // mark cart as completed
+    public function orderCompleted($currentDate)
+    {
+        global $database;
+
+        $postData = $this;
+
+        $postData = [
+            'date' => [
+                'order_placed' => $this->date['order_placed'],
+                'order_confirmed' => $this->date['order_confirmed'],
+                'order_arrived' => $this->date['order_arrived'],
+                'order_packed' => $this->date['order_packed'],
+                'order_shipped' => $this->date['order_shipped'],
+                'order_delivered' => $this->date['order_delivered'],
+                'order_completed' => $currentDate,
+            ],
+            'status' => 'completed'
         ];
 
         $response = $database->getReference("carts/{$this->cartId}")->update($postData);

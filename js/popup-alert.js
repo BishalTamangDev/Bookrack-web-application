@@ -1,5 +1,3 @@
-console.log("HELLO!");
-
 $('#custom-popup-alert').hide();
 
 function showPopupAlert(msg) {

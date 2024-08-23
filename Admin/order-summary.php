@@ -90,13 +90,13 @@ if ($profileAdmin->accountStatus != "verified")
 
             // mark as order arrived
             $(document).on('click', '#order-status-arrived-btn', function () {
-                var user_id = $(this).data('user-id'); 
-                var cart_id = $(this).data('cart-id'); 
+                var user_id = $(this).data('user-id');
+                var cart_id = $(this).data('cart-id');
                 $.ajax({
                     type: "POST",
                     url: "/bookrack/admin/app/mark-as-order-arrived.php",
                     data: { cartId: cart_id, userId: user_id },
-                    beforeSend: function(){
+                    beforeSend: function () {
                         $('#order-status-arrived-btn').html('Marking as arrived...').prop('disabled', true);
                     },
                     success: function (response) {
@@ -116,6 +116,68 @@ if ($profileAdmin->accountStatus != "verified")
                         showPopupAlert(msg);
                     }
                 });
+            });
+
+            // mark as order packed
+            $(document).on('click', '#order-status-packed-btn', function () {
+                console.clear();
+                var user_id = $(this).data('user-id');
+                var cart_id = $(this).data('cart-id');
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/mark-order-as-packed.php",
+                    data: { cartId: cart_id, userId: user_id },
+                    beforeSend: function () {
+                        $('#order-status-packed-btn').html('Marking as packed...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        msg = "";
+
+                        if (response) {
+                            msg = "Order marked as packed";
+                            $('#order-status-packed-btn').html("<i class='fa-solid fa-check-double'></i> Marked as Packed");
+
+                            setTimeout(function () {
+                                fetchOrder();
+                            }, 1000);
+                        } else {
+                            msg = "Order couldn't be updated due to an error.";
+                            $('#order-status-packed-btn').html("<i class='fa fa-check'></i> Mark as Order Packed").prop('disabled', false);
+                        }
+                        showPopupAlert(msg);
+                    }
+                })
+            });
+
+            // mark as order completed
+            $(document).on('click', '#order-status-completed-btn', function () {
+                console.clear();
+                var user_id = $(this).data('user-id');
+                var cart_id = $(this).data('cart-id');
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/mark-order-as-completed.php",
+                    data: { cartId: cart_id, userId: user_id },
+                    beforeSend: function () {
+                        $('#order-status-completed-btn').html('Marking order as completed...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        msg = "";
+
+                        if (response) {
+                            msg = "Order marked as completed";
+                            $('#order-status-completed-btn').html("<i class='fa-solid fa-check-double'></i> Marked as completed");
+
+                            setTimeout(function () {
+                                fetchOrder();
+                            }, 1000);
+                        } else {
+                            msg = "Order couldn't be updated due to an error.";
+                            $('#order-status-completed-btn').html("<i class='fa fa-check'></i> Mark as Order completed").prop('disabled', false);
+                        }
+                        showPopupAlert(msg);
+                    }
+                })
             });
         });
     </script>

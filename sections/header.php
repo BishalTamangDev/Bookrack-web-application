@@ -241,6 +241,9 @@ if (!isset($searchState))
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
+    <!-- notification click -->
+    <script src="/bookrack/js/notification-click.js"></script>
+
     <script>
         // menu
         const openMenu = document.getElementById("open-menu");
@@ -326,14 +329,14 @@ if (!isset($searchState))
         widthCheck();
 
         $(document).ready(function () {
-            function countUnseenNotification(){
+            function countUnseenNotification() {
                 $.ajax({
                     type: "POST",
                     url: "/bookrack/app/count-unseen-notification.php",
-                    data: {userId : '<?=$userId?>'},
+                    data: { userId: '<?= $userId ?>' },
                     success: function (data) {
-                        $('#notification-count').html(data);                        
-                        $('#notification-count-secondary').html(data);                        
+                        $('#notification-count').html(data);
+                        $('#notification-count-secondary').html(data);
                     }
                 });
             }
@@ -362,7 +365,10 @@ if (!isset($searchState))
                 });
             }
 
-            countUnseenNotification();
+            setInterval(function () {
+                countUnseenNotification();
+            }, 3000);
+
 
             $('#notification-trigger').click(function () {
                 fetchNotification('primary');

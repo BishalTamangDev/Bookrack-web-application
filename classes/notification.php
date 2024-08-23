@@ -185,19 +185,50 @@ class Notification
         return count($response);
     }
 
+    // count adin notification
+    public function countAdminUnseenNotification()
+    {
+        global $database;
+
+        $count = 0;
+
+        $response = $database->getReference("notifications")->orderByChild('whose')->equalTo('admin')->getSnapshot()->getValue();
+
+        foreach($response as $res) {
+            if ($res['status'] == 'unseen')
+                $count++;
+        }
+        return $count;
+    }
+
     // count user notification
     public function countUserNotification($userId)
     {
         global $database;
         $count = 0;
-        $list = [];
         $response = $database->getReference('notifications')->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
         if ($response) {
             foreach ($response as $key => $res)
                 if ($res['whose'] == 'user')
-                    $list[] = $key;
+                    $count++;                
         }
-        return sizeof($list);
+        return $count;
+    }
+
+    // count user notification
+    public function countUserUnseenNotification($userId)
+    {
+        global $database;
+        $count = 0;
+        $response = $database->getReference('notifications')->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
+        if ($response) {
+            foreach ($response as $key => $res)
+                if ($res['whose'] == 'user') {
+                    if($res['status'] == 'unseen')
+                        $count++;                    
+                }
+        }
+        return $count;
     }
 
     // request book to provider
@@ -235,13 +266,14 @@ class Notification
             'type' => 'order-confirmation',
             'date' => $currentDate
         ];
-        
+
         $response = $database->getReference("notifications")->push($postData);
         return $response ? true : false;
     }
 
     // notify providers as their book received
-    public function bookReceived($bookId, $ownerId, $currentDate){
+    public function bookReceived($bookId, $ownerId, $currentDate)
+    {
         global $database;
         $currentDate = date('y-m-d h:i:s');
         $postData = [
@@ -260,7 +292,8 @@ class Notification
     }
 
     // notify readers as their orders has arrived
-    public function orderArrived($cartId, $userId, $currentDate){
+    public function orderArrived($cartId, $userId, $currentDate)
+    {
         global $database;
         $currentDate = date('y-m-d h:i:s');
         $postData = [
@@ -275,6 +308,55 @@ class Notification
         ];
 
         $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // notify readers as their order is packed
+    public function orderPacked($cartId, $userId, $currentDate)
+    {
+        global $database;
+        $currentDate = date('y-m-d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'cart_id' => $cartId,
+            'type' => 'order-packed',
+            'date' => $currentDate
+        ];
+
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // notify readers as their order is completed
+    public function orderCompleted($cartId, $userId, $currentDate)
+    {
+        global $database;
+        $currentDate = date('y-m-d h:i:s');
+        $postData = [
+            'admin_id' => '',
+            'book_id' => '',
+            'status' => 'unseen',
+            'whose' => 'user',
+            'user_id' => $userId,
+            'cart_id' => $cartId,
+            'type' => 'order-completed',
+            'date' => $currentDate
+        ];
+
+        $response = $database->getReference("notifications")->push($postData);
+        return $response ? true : false;
+    }
+
+    // update notification status
+    public function unseenNotificationClick($id) {
+        global $database;
+        $postData['status'] = "seen";
+
+        $response = $database->getReference("notifications/{$id}")->update($postData);
         return $response ? true : false;
     }
 }

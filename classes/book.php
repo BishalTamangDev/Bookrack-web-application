@@ -193,7 +193,12 @@ class Book
         global $database;
         $count = 0;
 
-        $count = $database->getReference("books")->getSnapshot()->numChildren();
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+
+        foreach($response as $res) {
+            if($res['flag'] == 'on-hold') 
+                $count++;
+        }
 
         return $count;
     }
@@ -203,7 +208,12 @@ class Book
         global $database;
         $count = 0;
 
-        $count = $database->getReference("books")->getSnapshot()->numChildren();
+        $response = $database->getReference("books")->getSnapshot()->getValue();
+
+        foreach($response as $res) {
+            if($res['flag'] == 'sold-out') 
+                $count++;
+        }
 
         return $count;
     }

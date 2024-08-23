@@ -123,6 +123,7 @@
   gap: 1rem;
   cursor: pointer;
   padding: 0.6rem 1rem;
+  background-color: white;
 }
 .notification-container .notification-box .notifications .notification:hover {
   background-color: whitesmoke;

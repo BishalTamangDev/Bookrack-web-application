@@ -190,6 +190,9 @@ if (isset($_GET['admin-search-content'])) {
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/../includes/script.php'; ?>
 
+    <!-- notification click -->
+    <script src="/bookrack/js/notification-click.js"></script>
+    
     <!-- header script -->
     <script>
         $(document).ready(function () {
@@ -235,16 +238,18 @@ if (isset($_GET['admin-search-content'])) {
                 });
             }
 
-            function countUnseenNotification(){
+            function countUnseenNotification() {
                 $.ajax({
                     url: "/bookrack/admin/app/count-unseen-admin-notification.php",
                     success: function (data) {
-                        $('#notification-count').html(data);                        
+                        $('#notification-count').html(data);
                     }
                 });
             }
-            
-            countUnseenNotification();
+
+            setInterval(function () {
+                countUnseenNotification();
+            }, 3000);
 
             // notification trigger
             $(document).on('click', '#notification-trigger', function () {

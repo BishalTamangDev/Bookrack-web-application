@@ -2,7 +2,7 @@
 
 $userId = $_POST['userId'] ?? 0;
 
-if($userId == 0) {
+if ($userId == 0) {
     echo false;
     exit;
 }
@@ -31,12 +31,16 @@ if (sizeof($notificationIdList) == 0) {
         $type = $notificationObj->type;
         $date = $notificationObj->date;
 
-        if($notificationObj->type == "account-verified") {
+        // seen || unseen
+        $statusClass = $notificationObj->status == "unseen" ? "unseen-notification" : "seen-notification";
+        
+        if ($notificationObj->type == "account-verified") {
             $userObj->fetch($notificationObj->userId);
             $userName = $userObj->getFullName();
             $link = "/bookrack/profile/";
+
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/account-verified.png" alt="">
                 </div>
@@ -59,7 +63,7 @@ if (sizeof($notificationIdList) == 0) {
             $bookTitle = $bookObj->title;
             $link = "/bookrack/admin/admin-book-details/{$notificationObj->bookId}";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/new-book.png" alt="">
                 </div>
@@ -68,7 +72,7 @@ if (sizeof($notificationIdList) == 0) {
                     <div class="detail">
                         <p class="m-0">
                             <?= "$userName added a new book " ?>
-                            <span class="fw-semibold"> "<?=$bookTitle?>" </span>
+                            <span class="fw-semibold"> "<?= $bookTitle ?>" </span>
                         </p>
                     </div>
 
@@ -83,7 +87,7 @@ if (sizeof($notificationIdList) == 0) {
             $cartObj->fetch($notificationObj->cartId);
             $link = "/bookrack/admin/admin-book-requests/{$cartObj->getId()}";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/cart.png" alt="">
                 </div>
@@ -107,7 +111,7 @@ if (sizeof($notificationIdList) == 0) {
             $cartId = $notificationObj->cartId;
             $link = "/bookrack/cart/pending";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/order-confirmed.png" alt="">
                 </div>
@@ -116,7 +120,7 @@ if (sizeof($notificationIdList) == 0) {
                     <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
-                            <?= "Your order has been confirmed. "?>
+                            <?= "Your order has been confirmed. " ?>
                         </p>
                     </div>
 
@@ -132,7 +136,7 @@ if (sizeof($notificationIdList) == 0) {
             $title = ucwords($bookObj->title);
             $link = "/bookrack/requests";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/book-request.png" alt="">
                 </div>
@@ -141,7 +145,7 @@ if (sizeof($notificationIdList) == 0) {
                     <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
-                            <?= "Your book '" . $title . "' has been requested."?>
+                            <?= "Your book '" . $title . "' has been requested." ?>
                         </p>
                     </div>
 
@@ -157,7 +161,7 @@ if (sizeof($notificationIdList) == 0) {
             $title = ucwords($bookObj->title);
             $link = "/bookrack/requests";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/book-received.png" alt="">
                 </div>
@@ -166,7 +170,7 @@ if (sizeof($notificationIdList) == 0) {
                     <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
-                            <?= "Your book '" . $title . "' has been received."?>
+                            <?= "Your book '" . $title . "' has been received." ?>
                         </p>
                     </div>
 
@@ -181,7 +185,7 @@ if (sizeof($notificationIdList) == 0) {
             $cartId = $notificationObj->cartId;
             $link = "/bookrack/cart/pending";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/order-arrived.png" alt="">
                 </div>
@@ -190,7 +194,7 @@ if (sizeof($notificationIdList) == 0) {
                     <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
-                            <?= "Your order has arrived."?>
+                            <?= "Your order has arrived." ?>
                         </p>
                     </div>
 
@@ -205,7 +209,7 @@ if (sizeof($notificationIdList) == 0) {
             $cartId = $notificationObj->cartId;
             $link = "/bookrack/cart/pending";
             ?>
-            <div class="notification" onclick="window.location.href='<?=$link?>'">
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
                     <img src="/bookrack/assets/icons/notification/order-packed.png" alt="">
                 </div>
@@ -214,7 +218,31 @@ if (sizeof($notificationIdList) == 0) {
                     <!-- notification detail -->
                     <div class="detail">
                         <p class="m-0">
-                            <?= "Your order is ready."?>
+                            <?= "Your order is ready." ?>
+                        </p>
+                    </div>
+
+                    <!-- date -->
+                    <p class="date">
+                        <?= $date ?>
+                    </p>
+                </div>
+            </div>
+            <?php
+        } elseif ($notificationObj->type == "order-completed") {
+            $cartId = $notificationObj->cartId;
+            $link = "/bookrack/cart/pending";
+            ?>
+            <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
+                <div class="icon-div">
+                    <img src="/bookrack/assets/icons/notification/order-completed.png" alt="">
+                </div>
+
+                <div class="details">
+                    <!-- notification detail -->
+                    <div class="detail">
+                        <p class="m-0">
+                            <?= "Your order is completed." ?>
                         </p>
                     </div>
 

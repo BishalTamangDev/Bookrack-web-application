@@ -22,7 +22,7 @@ $cartExists = $tempCart->fetch($cartId);
 
 if($cartExists) {
     // update arrived date
-    $response = $tempCart->cartArrived($currentDate);
+    $response = $tempCart->orderArrived($currentDate);
 
     if($response) {
         // notify user :: reader for cart arrival
