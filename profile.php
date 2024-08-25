@@ -218,7 +218,7 @@ $url = "profile";
                             <!-- date of birth & gender -->
                             <div class="d-flex flex-column flex-md-row gap-3 dob-gender">
                                 <!-- date of birth -->
-                                <div class="d-flex flex-column w-100 w-md-50 dob-div">
+                                <div class="d-flex flex-column w-100 w-md-50 flex-grow-1 dob-div">
                                     <label for="edit-profile-dob" class="form-label"> Date of birth </label>
                                     <input type="date" class="p-2 form-control" name="edit-profile-dob">
                                 </div>

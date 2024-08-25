@@ -48,9 +48,9 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
         <!-- date of birth & gender -->
         <div class="d-flex flex-column flex-md-row gap-3 dob-gender">
             <!-- date of birth -->
-            <div class="d-flex flex-column w-100 w-md-50 dob-div">
+            <div class="d-flex flex-column w-100 w-md-50 flex-grow-1 dob-div">
                 <label for="edit-profile-dob" class="form-label"> Date of birth </label>
-                <input type="date" class="p-2" value="<?php if ($profileUser->getDob() != "")
+                <input type="date" class="p-2 form-control" value="<?php if ($profileUser->getDob() != "")
                     echo $profileUser->getDob(); ?>" name="edit-profile-dob" id="edit-profile-dob" disabled>
             </div>
 

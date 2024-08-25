@@ -2,10 +2,7 @@
 $url = "landing";
 
 require_once __DIR__ . '/functions/genre-array.php';
-require_once __DIR__ . '/classes/book.php';
 
-$bookObj = new Book();
-$bookIdList = $bookObj->fetchAllBookId();
 ?>
 
 <!DOCTYPE html>
@@ -50,69 +47,58 @@ $bookIdList = $bookObj->fetchAllBookId();
             </div>
         </section>
 
+
         <!-- trending books -->
         <section class="section container d-flex flex-column gap-5 trending-book-section" id="trending-book-section">
             <p class="f-reset fw-bold fs-1 title title"> Trending Books </p>
 
-            <div class="d-flex flex-row flex-wrap gap-3 trending-book-container">
-                <?php
-                if (sizeof($bookIdList) > 0) {
-                    foreach ($bookIdList as $bookId) {
-                        $bookObj->fetch($bookId);
-                        ?>
-                        <div class="book-container">
-                            <!-- book image -->
-                            <div class="book-image">
-                                <?php $bookObj->setPhotoUrl(); ?>
-                                <img src="<?= $bookObj->photoUrl ?>" alt="">
-                            </div>
+            <!-- skeleton container -->
+            <div class="container skeletion-book-main-container" id="skeletion-book-main-container">
+                <!-- skeleton 1 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
 
-                            <!-- book details -->
-                            <div class="book-details">
-                                <!-- book title -->
-                                <div class="book-title-wishlist">
-                                    <p class="book-title"> <?= ucwords($bookObj->title) ?> </p>
-                                </div>
+                <!-- skeleton 2 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
 
-                                <!-- book purpose -->
-                                <p class="book-purpose"> <?= ucwords($bookObj->purpose) ?> </p>
+                <!-- skeleton 3 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
 
-                                <!-- book description -->
-                                <div class="book-description-container">
-                                    <p class="book-description"> <?= ucfirst($bookObj->description) ?> </p>
-                                </div>
+                <!-- skeleton 4 -->
+                <div class="skeleton-book-container">
+                    <div class="image"> </div>
+                    <div class="text">
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                        <p class="skeletion-text"> </p>
+                    </div>
+                </div>
+            </div>
 
-                                <!-- book price -->
-                                <div class="book-price">
-                                    <p class="book-price">
-                                        <?php
-                                        if ($bookObj->purpose == 'renting') {
-                                            $rent = 0.20 * $bookObj->price['actual'];
-                                            echo "NPR." . number_format($rent, 2) . "/week";
-                                        } else {
-                                            echo "NPR." . number_format($bookObj->price['offer'], 2);
-                                        }
-                                        ?>
-                                    </p>
-                                </div>
-
-                                <button class="btn"
-                                    onclick="window.location.href='/bookrack/book-details/<?= $bookObj->getId() ?>'"> Show More
-                                </button>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                } else {
-                    ?>
-                    <p class="m-0 text-danger"> Book hasn't been added yet! </p>
-                    <?php
-                }
-                ?>
+            <div class="d-flex flex-row flex-wrap gap-3 trending-book-container" id="trending-book-container">
             </div>
         </section>
+
 
         <!-- application features section -->
         <section class="section container d-flex flex-column gap-5 feature-section" id="service-section">
@@ -191,11 +177,40 @@ $bookIdList = $bookObj->fetchAllBookId();
         </section>
     </main>
 
+    <!-- join modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="d-flex flex-column align-items-center gap-3 modal-content p-4 px-5">
+                <img src="/bookrack/assets/icons/user-login.png" alt="" class="w-50">
+                <p class="m-0 fs-3 fw-semibold"> Please login first to browse more books. </p>
+            </div>
+        </div>
+    </div>   
+
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
 
     <!-- jquery, bootstrap [cdn + local] -->
     <?php require_once __DIR__ . '/includes/script.php'; ?>
+
+    <!-- script -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // fetch books
+            function fetchBooks() {
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/sections/fetch-books-for-landing-page.php",
+                    success: function (data) {
+                        $('#trending-book-container').html(data);
+                        $('#skeletion-book-main-container').hide();
+                    }
+                });
+            }
+
+            fetchBooks();
+        });
+    </script>
 </body>
 
 </html>

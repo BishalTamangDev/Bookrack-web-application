@@ -3,7 +3,7 @@
 $cartId = $_POST['cartId'] ?? 0;
 $userId = $_POST['userId'] ?? 0;
 
-if ($cartId == 0 || $userId = 0) {
+if ($cartId == 0 || $userId == 0) {
     echo false;
     exit;
 }

@@ -6,6 +6,6 @@ $tempNotification = new Notification();
 
 $count = $tempNotification->countAdminUnseenNotification();
 
-echo $count;
+echo $count != 0 ? $count : "";
 
 exit;
