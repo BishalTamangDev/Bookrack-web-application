@@ -16,31 +16,31 @@ $userExists = $user->fetch($userId);
 
 if ($userExists && $userId == $_SESSION['bookrack-user-id']) {
     // get file details
-    $kycFrontFileOld = $user->getKycFront();
-    $kycBackFileOld = $user->getKycBack();
+    $documentFrontFileOld = $user->getDocumentFront();
+    $documentBackFileOld = $user->getDocumentBack();
 
     // form values
     $documentType = $_POST['document-type'];
-    $hasKycFront = (isset($_FILES['kyc-front']) && $_FILES['kyc-front']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
-    $hasKycBack = (isset($_FILES['kyc-back']) && $_FILES['kyc-back']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
+    $hasDocumentFront = (isset($_FILES['document-front']) && $_FILES['document-front']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
+    $hasDocumentBack = (isset($_FILES['document-back']) && $_FILES['document-back']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
 
     // file properties of new front document
-    $fileTmpPath1 = $_FILES['kyc-front']['tmp_name'];
-    $fileName1 = $_FILES['kyc-front']['name'];
+    $fileTmpPath1 = $_FILES['document-front']['tmp_name'];
+    $fileName1 = $_FILES['document-front']['name'];
     $fileExtension1 = pathinfo($fileName1, PATHINFO_EXTENSION);
     $newFileName1 = md5(time() . $fileName1) . '.' . $fileExtension1;
-    $filePath1 = "kyc/$newFileName1";
+    $filePath1 = "document/$newFileName1";
 
-    // birth certificate as kyc
+    // birth certificate as document
     if ($documentType == 1) {
-        // kyc front :: extract details from photo
+        // document front :: extract details from photo
         $user->setDocumentType('birth-certificate');
-        $user->setKycFront($_FILES['kyc-front']);
+        $user->setDocumentFront($_FILES['document-front']);
 
         // properties to be changed
-        $properties['kyc']['document_type'] = 'birth-certificate';
-        $properties['kyc']['front'] = $newFileName1;
-        $properties['kyc']['back'] = "";
+        $properties['document_type'] = 'birth-certificate';
+        $properties['document_front'] = $newFileName1;
+        $properties['document_back'] = "";
 
         try {
             // upload birth certificate
@@ -54,33 +54,33 @@ if ($userExists && $userId == $_SESSION['bookrack-user-id']) {
         } catch (Exception $e) {
         }
 
-        // in case photo uploaded, delete the existing kyc document
+        // in case photo uploaded, delete the existing document document
         if ($status) {
-            // delete previous front kyc
-            if ($kycFrontFileOld != "") {
-                $res = deleteFileFromStorageBucket("kyc", $kycFrontFileOld);
+            // delete previous front document
+            if ($documentFrontFileOld != "") {
+                $res = deleteFileFromStorageBucket("document", $documentFrontFileOld);
                 $status = $res ? true : false;
             }
         }
     } elseif ($documentType == 2) {
 
         // file properties of new back document
-        $fileTmpPath2 = $_FILES['kyc-back']['tmp_name'];
-        $fileName2 = $_FILES['kyc-back']['name'];
+        $fileTmpPath2 = $_FILES['document-back']['tmp_name'];
+        $fileName2 = $_FILES['document-back']['name'];
         $fileExtension2 = pathinfo($fileName2, PATHINFO_EXTENSION);
         $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
-        $filePath2 = "kyc/$newFileName2";
+        $filePath2 = "document/$newFileName2";
 
         if ($newFileName1 == $newFileName2) {
             sleep(1);
             $newFileName2 = md5(time() . $fileName2) . '.' . $fileExtension2;
-            $filePath2 = "kyc/$newFileName2";
+            $filePath2 = "document/$newFileName2";
         }
 
         // properties to be changed
-        $properties['kyc']['document_type'] = 'citizenship';
-        $properties['kyc']['front'] = $newFileName1;
-        $properties['kyc']['back'] = $newFileName2;
+        $properties['document_type'] = 'citizenship';
+        $properties['document_front'] = $newFileName1;
+        $properties['document_back'] = $newFileName2;
 
         try {
             // upload citizenship

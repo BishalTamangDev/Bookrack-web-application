@@ -68,20 +68,14 @@ $total = 0.0;
 
                         <td class="price">
                             <?php
-                            if ($bookObj->purpose == "renting") {
-                                $rent = $bookObj->price['actual'] * 0.20;
-                                $total += $rent;
-                                echo "NPR." . number_format($rent, 2) . "/week";
-                            } elseif ($bookObj->purpose == "buy/sell") {
-                                echo "NPR." . number_format($bookObj->price['offer'], 2);
-                                $total += $bookObj->price['offer'];
-                            }
+                                echo "NPR." . number_format($bookObj->priceOffer, 2);
+                                $total += $bookObj->priceOffer;
                             ?>
                         </td>
 
                         <td class="remove">
                             <i class="fa-solid fa-trash pointer current-cart-remove-icon" data-book-id="<?= $book['id'] ?>"
-                                data-price="<?= $bookObj->price['offer'] ?>"></i>
+                                data-price="<?= $bookObj->priceOffer ?>"></i>
                         </td>
                     </tr>
                     <?php

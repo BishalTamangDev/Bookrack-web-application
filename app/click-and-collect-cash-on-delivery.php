@@ -46,14 +46,17 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
     $subTotal = 0;
     foreach ($cart->bookList as $bookList) {
         $bookObj->fetch($bookList['id']);
-        $subTotal += $bookObj->price['offer'];
+        $subTotal += $bookObj->priceOffer;
         $newBook = [
             'id' => $bookList['id'],
-            'price' => $bookObj->price['offer'],
+            'price' => $bookObj->priceOffer,
             'arrived_date' => ''
         ];
         $newBookList[] = $newBook;
     }
+
+    date_default_timezone_set('Asia/Kathmandu');
+    $currentDate = date("Y:m:d H:i:s");
 
     $postData = [
         'book_list' => $newBookList,
@@ -61,7 +64,7 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
         'sub_total' => $subTotal,
         'shipping_charge' => 0,
         'date' => [
-            'order_placed' => date('Y:m:d h:i:s'),
+            'order_placed' => $currentDate,
             'order_confirmed' => '',
             'order_arrived' => '',
             'order_packed' => '',
@@ -69,12 +72,10 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
             'order_delivered' => '',
             'order_completed' => ''
         ],
-        'shipping_address' => [
-            'district' => '',
-            'municipality' => '',
-            'ward' => '',
-            'tole_village' => '',
-        ],
+        'shipping_district' => '',
+        'shipping_municipality' => '',
+        'shipping_ward' => '',
+        'shipping_tole_village' => '',
         'status' => 'pending'
     ];
 
@@ -85,10 +86,10 @@ if (isset($_POST['cart-id']) && isset($_POST['checkout-option'])) {
         $user->fetch($userId);
 
         $postData['shipping_charge'] = $shippingCharge;
-        $postData['shipping_address']['district'] = $user->getAddressDistrict();
-        $postData['shipping_address']['municipality'] = $user->getAddressMunicipality();
-        $postData['shipping_address']['ward'] = $user->getAddressWard();
-        $postData['shipping_address']['tole_village'] = $user->getAddressToleVillage();
+        $postData['shipping_district'] = $user->getAddressDistrict();
+        $postData['shipping_municipality'] = $user->getAddressMunicipality();
+        $postData['shipping_ward'] = $user->getAddressWard();
+        $postData['shipping_tole_village'] = $user->getAddressToleVillage();
     }
 
     $response = $database->getReference("carts/{$cartId}")->update($postData);

@@ -231,7 +231,7 @@ if (sizeof($notificationIdList) == 0) {
             <?php
         } elseif ($notificationObj->type == "order-completed") {
             $cartId = $notificationObj->cartId;
-            $link = "/bookrack/cart/pending";
+            $link = "/bookrack/cart/completed";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">

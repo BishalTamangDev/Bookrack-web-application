@@ -2,7 +2,7 @@
 
 $userId = $_POST['userId'] ?? 0;
 
-if($userId == 0) {
+if ($userId == 0) {
     echo "Empty!";
     exit;
 }
@@ -98,7 +98,7 @@ $userWishlist = $wishlist->fetchWishlist();
                         <div class="book-price">
                             <p class="book-price">
                                 <?php
-                                $price = $bookObj->price['offer'];
+                                $price = $bookObj->priceOffer;
                                 echo "NPR. " . number_format($price, 2);
                                 ?>
                             </p>

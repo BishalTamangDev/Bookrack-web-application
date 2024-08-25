@@ -161,7 +161,7 @@ if (!$bookExists)
 
                             <div class="right">
                                 <p class="f-reset fw-bold text-success">
-                                    <?= "NPR. " . number_format($bookObj->price['actual'], 2) ?>
+                                    <?= "NPR. " . number_format($bookObj->priceActual, 2) ?>
                                 </p>
                             </div>
                         </div>
@@ -174,7 +174,7 @@ if (!$bookExists)
 
                             <div class="right">
                                 <p class="f-reset fw-bold text-success">
-                                    <?= "NPR. " . number_format($bookObj->price['offer'], 2) ?>
+                                    <?= "NPR. " . number_format($bookObj->priceOffer, 2) ?>
                                 </p>
                             </div>
                         </div>

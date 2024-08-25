@@ -24,8 +24,9 @@ require_once __DIR__ . '/app/connection.php';
 
 // Set the default timezone to Nepal
 date_default_timezone_set("Asia/Kathmandu");
+$currentDate = date('Y-m-d h:i:s');
 
-$profilePagePattern = '/profile\/(view|password-change|kyc|update-kyc)/';
+$profilePagePattern = '/profile\/(view|password-change|document|update-document)/';
 $adminPagesPattern = '/admin\/(admin-profile|admin-book-details|admin-books|admin-dashboard|admin-index|admin-nav|admin-signin|admin-signup|admin-user-details|admin-users|admin-order|admin-order-summary|admin-arrivals)/i';
 $tab = "";
 
@@ -225,7 +226,7 @@ if (isset($_SESSION['bookrack-user-id'])) {
                 } else {
                     $bookState = "all";
                 }
-            } elseif (preg_match('/kyc/', $arr[2])) { // wishlist
+            } elseif (preg_match('/document/', $arr[2])) { // wishlist
                 $arr = explode('/', $arr[2]);
                 $tab = $arr[0];
             } elseif (preg_match('/requested-books/', $arr[2])) { // requested-books

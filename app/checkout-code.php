@@ -17,6 +17,9 @@ if (isset($_POST['checkout-btn'])) {
         $cartId = $_POST['cart-id'];
         $checkoutOption = $_POST['checkout-option'];
 
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         if ($checkoutOption == 'click-and-collect' || $checkoutOption == 'cash-on-delivery') {
             // update the current cart details
             if ($checkoutOption == 'click-and-collect') {
@@ -42,10 +45,10 @@ if (isset($_POST['checkout-btn'])) {
                 $subTotal = 0;
                 foreach ($cart->bookList as $bookList) {
                     $bookObj->fetch($bookList['id']);
-                    $subTotal += $bookObj->price['offer'];
+                    $subTotal += $bookObj->priceOffer;
                     $newBook = [
                         'id' => $bookList['id'],
-                        'price' => $bookObj->price['offer'],
+                        'price' => $bookObj->priceOffer,
                         'arrived_date' => ''
                     ];
                     $newBookList[] = $newBook;
@@ -58,7 +61,7 @@ if (isset($_POST['checkout-btn'])) {
                     'sub_total' => $subTotal,
                     'shipping_charge' => 0,
                     'date' => [
-                        'order_placed' => date('Y:m:d h:i:s'),
+                        'order_placed' => $currentDate,
                         'order_confirmed' => '',
                         'order_arrived' => '',
                         'order_packed' => '',

@@ -17,10 +17,8 @@ class Book
     public $purpose;
     public $publisher;
     public $edition;
-    public $price = [
-        "actual" => "",
-        "offer" => "",
-    ];
+    public $priceActual = "";
+    public $priceOffer = "";
 
     public $photo;
     public $photoUrl;
@@ -45,10 +43,8 @@ class Book
         $this->publisher = "";
         $this->edition = "";
 
-        $this->price = [
-            "actual" => "",
-            "offer" => "",
-        ];
+        $this->priceActual = "";
+        $this->priceOffer = "";
 
         $this->photo = "";
         $this->photoUrl = "empty";
@@ -60,7 +56,7 @@ class Book
         $this->responseAllBooks = "";
     }
 
-    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $edition, $price, $photo, $addedDate, $flag)
+    public function setBook($bookId, $ownerId, $title, $description, $language, $genre, $author, $isbn, $purpose, $publisher, $edition, $priceActual, $priceOffer, $photo, $addedDate, $flag)
     {
         $this->bookId = $bookId;
         $this->ownerId = $ownerId;
@@ -74,10 +70,8 @@ class Book
         $this->publisher = $publisher;
         $this->edition = $edition;
 
-        $this->price = [
-            "actual" => $price['actual'],
-            "offer" => $price['offer']
-        ];
+        $this->priceActual = $priceActual;
+        $this->priceOffer = $priceOffer;
 
         $this->photo = $photo;
         $this->addedDate = $addedDate;
@@ -98,12 +92,12 @@ class Book
 
     public function getActualPrice()
     {
-        return $this->price['actual'];
+        return $this->priceActual;
     }
 
     public function getOfferPrice()
     {
-        return $this->price['offer'];
+        return $this->priceOffer;
 
     }
 
@@ -130,12 +124,12 @@ class Book
 
     public function setActualPrice($actualPrice)
     {
-        $this->price["actual"] = $actualPrice;
+        $this->priceActual = $actualPrice;
     }
 
     public function setOfferPrice($offerPrice)
     {
-        $this->price["offer"] = $offerPrice;
+        $this->priceOffer = $offerPrice;
 
     }
 
@@ -154,6 +148,9 @@ class Book
     {
         global $database;
 
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'owner_id' => $this->ownerId,
             'title' => $this->title,
@@ -165,12 +162,10 @@ class Book
             'purpose' => $this->purpose,
             'publisher' => $this->publisher,
             'edition' => $this->edition,
-            'price' => [
-                'actual' => $this->price['actual'],
-                'offer' => $this->price['offer']
-            ],
+            'price_actual' => $this->priceActual,
+            'price_offer' => $this->priceOffer,
             'photo' => $this->photo,
-            'added_date' => date("Y:m:d H:i:s"),
+            'added_date' => $currentDate,
             'flag' => "verified"
         ];
         $postRef = $database->getReference("books")->push($postData);
@@ -179,7 +174,8 @@ class Book
     }
 
     // count total books
-    function countTotalBooks(){
+    function countTotalBooks()
+    {
         global $database;
         $count = 0;
 
@@ -189,30 +185,36 @@ class Book
     }
 
     // count on hold books
-    function countOnHoldBooks(){
+    function countOnHoldBooks()
+    {
         global $database;
         $count = 0;
 
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
-        foreach($response as $res) {
-            if($res['flag'] == 'on-hold') 
-                $count++;
+        if ($response) {
+            foreach ($response as $res) {
+                if ($res['flag'] == 'on-hold')
+                    $count++;
+            }
         }
 
         return $count;
     }
 
     // count on hold books
-    function countSoldOutBooks(){
+    function countSoldOutBooks()
+    {
         global $database;
         $count = 0;
 
         $response = $database->getReference("books")->getSnapshot()->getValue();
 
-        foreach($response as $res) {
-            if($res['flag'] == 'sold-out') 
-                $count++;
+        if ($response) {
+            foreach ($response as $res) {
+                if ($res['flag'] == 'sold-out')
+                    $count++;
+            }
         }
 
         return $count;
@@ -224,7 +226,7 @@ class Book
         global $database;
         $response = $database->getReference("books")->getChild($id)->getSnapshot()->getValue();
         if ($response) {
-            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['edition'], $response['price'], $response['photo'], $response['added_date'], $response['flag']);
+            $this->setBook($id, $response['owner_id'], $response['title'], $response['description'], $response['language'], $response['genre'], $response['author'], $response['isbn'], $response['purpose'], $response['publisher'], $response['edition'], $response['price_actual'], $response['price_offer'], $response['photo'], $response['added_date'], $response['flag']);
             // $this->setPhotoUrl();
             return true;
         } else {
@@ -414,6 +416,18 @@ class Book
         $postData = [
             'flag' => $flag
         ];
+        $response = $database->getReference("books/{$bookId}")->update($postData);
+        return $response ? true : false;
+    }
+
+    // sell book
+    public function sell($bookId) {
+        global $database;
+
+        $postData = [
+            'flag' => 'sold-out'
+        ];
+
         $response = $database->getReference("books/{$bookId}")->update($postData);
         return $response ? true : false;
     }

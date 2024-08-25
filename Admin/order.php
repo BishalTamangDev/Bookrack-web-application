@@ -28,7 +28,7 @@ if ($profileAdmin->accountStatus != "verified")
     <main class="main">
         <!-- cards -->
         <section class="section mt-5 pt-3 card-container">
-            <!-- total books -->
+            <!-- total orders -->
             <div class="card-v1">
                 <p class="card-v1-title"> Total Orders </p>
                 <p class="card-v1-detail" id="total-orders"> - </p>
@@ -45,7 +45,6 @@ if ($profileAdmin->accountStatus != "verified")
                 <p class="card-v1-title"> Completed </p>
                 <p class="card-v1-detail" id="completed-orders"> - </p>
             </div>
-
         </section>
 
         <!-- table to section -->

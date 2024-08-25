@@ -187,10 +187,10 @@ if (!$bookFound) {
                                 <p class="m-0 text-success fw-bold">
                                     <?php
                                     if ($selectedBook->purpose == "renting") {
-                                        $rent = 0.20 * $selectedBook->price['actual'];
+                                        $rent = 0.20 * $selectedBook->priceActual;
                                         echo "NPR." . number_format($rent, 2) . "/week";
                                     } else {
-                                        $price = $selectedBook->price['offer'];
+                                        $price = $selectedBook->priceOffer;
                                         echo "NPR." . number_format($price, 2);
                                     }
                                     ?>

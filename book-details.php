@@ -166,7 +166,7 @@ $userExists = $profileUser->fetch($profileId);
                             <div class="data">
                                 <p class="m-0 text-success fw-bold">
                                     <?php
-                                    $price = $selectedBook->price['offer'];
+                                    $price = $selectedBook->priceOffer;
                                     echo "NPR. " . number_format($price, 2);
                                     ?>
                                 </p>
@@ -317,6 +317,7 @@ $userExists = $profileUser->fetch($profileId);
             }
 
             checkWishlist();
+            
             checkCart();
 
             // toggle wishlist

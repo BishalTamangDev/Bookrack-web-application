@@ -32,15 +32,15 @@ if (!isset($_POST['userId']) || !isset($_POST['tab'])) {
         <div class="d-flex flex-column flex-md-row gap-3 flex-wrap">
             <div class="flex-grow-1 first-name-div">
                 <label for="edit-profile-first-name" class="form-label"> First name </label>
-                <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->name['first'] != "")
-                    echo ucfirst($profileUser->name['first']); ?>" name="edit-profile-first-name"
+                <input type="text" class="form-control" id="edit-profile-first-name" value="<?php if ($profileUser->nameFirst != "")
+                    echo ucfirst($profileUser->nameFirst); ?>" name="edit-profile-first-name"
                     aria-describedby="first name" disabled>
             </div>
 
             <div class="flex-grow-1 last-name-div">
                 <label for="edit-profile-last-name" class="form-label"> Last name</label>
-                <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->name['last'] != "")
-                    echo ucfirst($profileUser->name['last']); ?>" name="edit-profile-last-name"
+                <input type="text" class="form-control" id="edit-profile-last-name" value="<?php if ($profileUser->nameLast != "")
+                    echo ucfirst($profileUser->nameLast); ?>" name="edit-profile-last-name"
                     aria-describedby="last name" disabled>
             </div>
         </div>

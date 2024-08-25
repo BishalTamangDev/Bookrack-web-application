@@ -45,6 +45,10 @@ class Notification
     public function applyForAccountVerification($userId)
     {
         global $database;
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'cart_id' => '',
@@ -53,7 +57,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-verification-apply',
-            'date' => date('y-m-d h:i:s')
+            'date' => $currentDate
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -63,6 +67,10 @@ class Notification
     public function accountVerified($userId)
     {
         global $database;
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'cart_id' => '',
@@ -71,7 +79,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-verified',
-            'date' => date('y-m-d h:i:s')
+            'date' => $currentDate
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -81,6 +89,10 @@ class Notification
     public function accountUnverified($userId)
     {
         global $database;
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'cart_id' => '',
@@ -89,7 +101,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => '',
             'type' => 'account-unverified',
-            'date' => date('y-m-d h:i:s')
+            'date' => $currentDate
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -99,6 +111,10 @@ class Notification
     public function newBook($bookId, $userId)
     {
         global $database;
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'cart_id' => '',
@@ -107,7 +123,7 @@ class Notification
             'user_id' => $userId,
             'book_id' => $bookId,
             'type' => 'new book',
-            'date' => date('y-m-d h:i:s')
+            'date' => $currentDate
         ];
         $postRef = $database->getReference("notifications")->push($postData);
         return $postRef ? true : false;
@@ -117,6 +133,10 @@ class Notification
     public function cartCheckout($userId, $cartId)
     {
         global $database;
+
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'book_id' => '',
@@ -125,7 +145,7 @@ class Notification
             'user_id' => $userId,
             'cart_id' => $cartId,
             'type' => 'cart checkout',
-            'date' => date('y-m-d h:i:s')
+            'date' => $currentDate
         ];
         $response = $database->getReference("notifications")->push($postData);
         return $response ? true : false;
@@ -156,7 +176,7 @@ class Notification
             foreach ($response as $key => $res)
                 $notificationIdList[] = $key;
 
-        return array_reverse($notificationIdList);
+        return $notificationIdList;
     }
 
     // fetch notification id for user
@@ -174,7 +194,7 @@ class Notification
                     $notificationIdList[] = $key;
         }
 
-        return array_reverse($notificationIdList);
+        return $notificationIdList;
     }
 
     // count adin notification
@@ -235,7 +255,10 @@ class Notification
     public function requestBook($ownerId, $bookId)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+        
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
             'admin_id' => '',
             'book_id' => $bookId,
@@ -252,10 +275,10 @@ class Notification
     }
 
     // notify reader for order confirmation
-    public function orderConfirmed($userId, $cartId)
+    public function orderConfirmed($userId, $cartId, $currentDate)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+
         $postData = [
             'admin_id' => '',
             'book_id' => '',
@@ -275,7 +298,7 @@ class Notification
     public function bookReceived($bookId, $ownerId, $currentDate)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+
         $postData = [
             'admin_id' => '',
             'book_id' => $bookId,
@@ -295,7 +318,7 @@ class Notification
     public function orderArrived($cartId, $userId, $currentDate)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+
         $postData = [
             'admin_id' => '',
             'book_id' => '',
@@ -315,7 +338,7 @@ class Notification
     public function orderPacked($cartId, $userId, $currentDate)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+
         $postData = [
             'admin_id' => '',
             'book_id' => '',
@@ -335,7 +358,7 @@ class Notification
     public function orderCompleted($cartId, $userId, $currentDate)
     {
         global $database;
-        $currentDate = date('y-m-d h:i:s');
+        
         $postData = [
             'admin_id' => '',
             'book_id' => '',

@@ -13,7 +13,7 @@ if ($_POST['csrf_token_add_book'] !== $_SESSION['csrf_token']) {
 }
 
 $status = false;
-$message = "";
+$bookId = 0;
 
 require_once __DIR__ . '/../classes/book.php';
 
@@ -71,27 +71,28 @@ try {
     $status = true;
     if ($status) {
         $immediateKey = $book->register();
+        $bookId = $immediateKey;
         $status = $immediateKey != 0 ? true : false;
 
-        if($status) {
+        $status = true;
+
+        if ($status) {
             // add new genre to the genre list
             require_once __DIR__ . '/../classes/genre.php';
             $genreObj = new Genre();
             $genreObj->genreArray = $genreArray;
             $genreObj->newBook();
-            
+
             // notification for admin
             require_once __DIR__ . '/../classes/notification.php';
             $notificationObj = new Notification();
             $notificationObj->newBook($immediateKey, $userId);
-            
-            $message = "true";
         }
     }
 } catch (Exception $e) {
-    $message = "Error in book photo.";
+
 }
 
-echo $message;
+echo $status ? $bookId : false;
 
 exit;

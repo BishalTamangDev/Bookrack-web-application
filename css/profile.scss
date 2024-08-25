@@ -60,7 +60,7 @@
         width: 100%;
 
         .contents {
-            .tab-container{
+            .tab-container {
                 .tab {
                     display: flex;
                     flex-direction: column;
@@ -69,15 +69,15 @@
                     padding-top: 0.8rem;
                     border: 1px solid rgb(177, 177, 177);
                 }
-                
+
                 .active-tab {
                     background-color: grey;
                     border: none;
                     color: white;
                 }
-                
-                .inactive-tab{
-                    &:hover{
+
+                .inactive-tab {
+                    &:hover {
                         background-color: grey;
                         color: white;
                     }
@@ -118,9 +118,9 @@
                 }
             }
 
-            // kyc
-            .kyc-section {
-                .kyc-form {
+            // document
+            .document-section {
+                .document-form {
                     .btn {
                         width: fit-content;
                     }
@@ -140,8 +140,8 @@
             width: calc(100% - 240px);
 
             .contents {
-                .tab-container{
-                    .tab{
+                .tab-container {
+                    .tab {
                         flex-direction: row;
                         column-gap: 0.8rem;
                         padding-top: 0.4rem;

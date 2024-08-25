@@ -46,8 +46,8 @@ if (sizeof($requestIdList) == 0) {
             <th scope="row"> <?= $serial++ ?></th>
             <td> <?= $title ?> </td>
             <td class="text-success fw-semibold"> <?= "NPR. " . number_format($price, 2) ?> </td>
-            <td> <?= $tempRequest->date['requested'] ?> </td>
-            <td> <?= $tempRequest->date['submitted'] != '' ? $tempRequest->date['submitted'] : '-' ?> </td>
+            <td> <?= $tempRequest->dateRequested ?> </td>
+            <td> <?= $tempRequest->dateSubmitted != '' ? $tempRequest->dateSubmitted : '-' ?> </td>
             <td> <?= ucfirst($tempRequest->flag) ?> </td>
         </tr>
 

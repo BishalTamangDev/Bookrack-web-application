@@ -15,6 +15,14 @@ $tempNotification = new Notification();
 
 $count = $tempNotification->countUserUnseenNotification($userId);
 
-echo $count == 0 ? '' : $count; 
+if($count == '') {
+    echo '';
+} else {
+    if($count < 10) {
+        echo $count;
+    } else {
+        echo "9<sup>+</sup>";
+    }
+}
 
 exit;

@@ -37,10 +37,8 @@ $properties = [
     'publisher' => $_POST['book-publisher'],
     'language' => $_POST['book-language'],
     'edition' => $_POST['book-edition'],
-    'price' => [
-        'actual' => $_POST['book-actual-price'],
-        'offer' => $_POST['book-offer-price'],
-    ],
+    'price_actual' => $_POST['book-actual-price'],
+    'price_offer' => $_POST['book-offer-price']
 ];
 
 $response = $database->getReference("books/{$bookId}")->update($properties);

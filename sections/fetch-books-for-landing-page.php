@@ -22,7 +22,7 @@ if (sizeof($allBookList) == 0) {
             break;
         }
         ?>
-        <div class="book-container mb-3 book-element" data-price="<?= $allBookObj->price['offer'] ?>">
+        <div class="book-container mb-3 book-element" data-price="<?= $allBookObj->priceOffer ?>">
             <!-- book image -->
             <div class="book-image">
                 <?php $allBookObj->setPhotoUrl(); ?>
@@ -50,13 +50,14 @@ if (sizeof($allBookList) == 0) {
                 <div class="book-price">
                     <p class="book-price">
                         <?php
-                        $price = $allBookObj->price['offer'];
+                        $price = $allBookObj->priceOffer;
                         echo "NPR. " . number_format($price, 2);
                         ?>
                     </p>
                 </div>
 
-                <a class="btn show-more-btn" data-book-id="<?= $allBookId ?>"> Show More </a>
+                <a href="/bookrack/book-details/<?= $allBookId ?>" class="btn show-more-btn"
+                    data-book-id="<?= $allBookId ?>"> Show More </a>
             </div>
         </div>
         <?php
@@ -64,7 +65,8 @@ if (sizeof($allBookList) == 0) {
     ?>
 
     <div class="w-100 mt-2 load-more-btn-container" id="load-more-btn-container">
-        <button class="btn btn-brand" id="load-more-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"> Load More </button>
+        <button class="btn btn-brand" id="load-more-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"> Load More
+        </button>
     </div>
     <?php
 }

@@ -21,11 +21,11 @@ $authProperties = [];
 
 // first name
 if (isset($_POST['edit-profile-first-name']))
-    $properties['name']['first'] = strtolower($_POST['edit-profile-first-name']);
+    $properties['name_first'] = strtolower($_POST['edit-profile-first-name']);
 
 // last name
 if (isset($_POST['edit-profile-last-name']))
-    $properties['name']['last'] = strtolower($_POST['edit-profile-last-name']);
+    $properties['name_last'] = strtolower($_POST['edit-profile-last-name']);
 
 // display name
 if (isset($_POST['edit-profile-first-name']) && isset($_POST['edit-profile-last-name']))
@@ -45,19 +45,19 @@ if (isset($_POST['edit-profile-contact']) && $_POST['edit-profile-contact'] != "
 
 // district
 if (isset($_POST['edit-profile-district']))
-    $properties['address']['district'] = $_POST['edit-profile-district'];
+    $properties['address_district'] = $_POST['edit-profile-district'];
 
 // municipality
 if (isset($_POST['edit-profile-municipality']))
-    $properties['address']['municipality'] = strtolower($_POST['edit-profile-municipality']);
+    $properties['address_municipality'] = strtolower($_POST['edit-profile-municipality']);
 
 // ward
 if (isset($_POST['edit-profile-ward']))
-    $properties['address']['ward'] = strtolower($_POST['edit-profile-ward']);
+    $properties['address_ward'] = strtolower($_POST['edit-profile-ward']);
 
 // tole-village
 if (isset($_POST['edit-profile-tole-village']))
-$properties['address']['tole_village'] = strtolower($_POST['edit-profile-tole-village']);
+    $properties['address_tole_village'] = strtolower($_POST['edit-profile-tole-village']);
 
 if ($hasProfilePhoto) {
     global $auth;

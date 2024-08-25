@@ -131,16 +131,16 @@ $profileAdmin->fetch($adminId);
                         <!-- first name -->
                         <div class="d-flex flex-column gap-2 w-100 first-name">
                             <label for="first-name"> First name </label>
-                            <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->name['first'] != '')
-                                echo ucfirst($profileAdmin->name['first']); ?>" <?php if ($tab != "edit")
+                            <input type="text" name="first-name" class="form-control" id="first-name" value="<?php if ($profileAdmin->nameFirst != '')
+                                echo ucfirst($profileAdmin->nameFirst); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?>>
                         </div>
 
                         <!-- last name -->
                         <div class="d-flex flex-column gap-2 w-100 last-name">
                             <label for="last-name"> Last name </label>
-                            <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->name['last'] != '')
-                                echo ucfirst($profileAdmin->name['last']); ?>" <?php if ($tab != "edit")
+                            <input type="text" name="last-name" class="form-control" id="last-name" value="<?php if ($profileAdmin->nameLast != '')
+                                echo ucfirst($profileAdmin->nameLast); ?>" <?php if ($tab != "edit")
                                       echo "disabled"; ?>>
                         </div>
                     </div>
@@ -256,7 +256,7 @@ $profileAdmin->fetch($adminId);
 
                 <!-- alert for uploading documents -->
                 <?php
-                if ($profileAdmin->getKycFront() == "" || $profileAdmin->getKycBack() == "") {
+                if ($profileAdmin->getDocumentFront() == "" || $profileAdmin->getDocumentBack() == "") {
                     ?>
                     <div class="border-top border-bottom py-2 mb-3">
                         <p class="m-0 text-danger"> You haven't submitted your document. </p>
@@ -264,13 +264,13 @@ $profileAdmin->fetch($adminId);
                     <?php
 
                 } else {
-                    $profileAdmin->setKycUrl();
+                    $profileAdmin->setDocumentUrl();
                 }
                 ?>
 
                 <!-- alert to say admin to wait sometime to to get their kyc verified -->
                 <?php
-                if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "" && $profileAdmin->accountStatus != "verified") {
+                if ($profileAdmin->getDocumentFront() != "" && $profileAdmin->getDocumentBack() != "" && $profileAdmin->accountStatus != "verified") {
                     ?>
                     <div class="border-top border-bottom py-2 mb-3">
                         <p class="m-0 text-secondary"> Note: Your documents are being verified. Please wait sometime.
@@ -282,17 +282,17 @@ $profileAdmin->fetch($adminId);
 
                 <!-- uploaded documents -->
                 <?php
-                if ($profileAdmin->getKycFront() != "" && $profileAdmin->getKycBack() != "") {
+                if ($profileAdmin->getDocumentFront() != "" && $profileAdmin->getDocumentBack() != "") {
                     ?>
                     <div class="d-flex flex-column flex-lg-row gap-3 w-100 mb-3 kyc-container">
                         <div class="d-flex flex-column gap-2 front-side">
                             <label for=""> Front side </label>
-                            <img src="<?= $profileAdmin->kycUrl['front'] ?>" class="pointer" alt="" loading="lazy">
+                            <img src="<?= $profileAdmin->documentUrlFront ?>" class="pointer" alt="" loading="lazy">
                         </div>
 
                         <div class="d-flex flex-column gap-2 back-side">
                             <label for=""> Back side </label>
-                            <img src="<?= $profileAdmin->kycUrl['back'] ?>" class="pointer" alt="" loading="lazy">
+                            <img src="<?= $profileAdmin->documentUrlBack ?>" class="pointer" alt="" loading="lazy">
                         </div>
                     </div>
                     <?php

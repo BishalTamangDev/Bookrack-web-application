@@ -16,7 +16,8 @@ require_once __DIR__ . '/../../classes/notification.php';
 $tempCart = new Cart();
 $tempNotification = new Notification();
 
-$currentDate = date('y-m-d h:i:s');
+date_default_timezone_set('Asia/Kathmandu');
+$currentDate = date("Y:m:d H:i:s");
 
 $cartExists = $tempCart->fetch($cartId);
 

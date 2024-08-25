@@ -34,8 +34,8 @@ if (!$exists) {
 
     // check of all the books has arrived
     $allBooksArrived = true;
-    foreach($tempCart->bookList as $bookList) {
-        if($bookList['arrived_date'] == ''){
+    foreach ($tempCart->bookList as $bookList) {
+        if ($bookList['arrived_date'] == '') {
             $allBooksArrived = false;
         }
     }
@@ -148,6 +148,9 @@ if (!$exists) {
     <div class="d-flex flex-row flex-wrao gap-2 mt-4">
         <?php
         if ($tempCart->checkoutOption == 'click-and-collect') {
+            $userId = $tempCart->getUserId();
+            $cartTd = $tempCart->getId();
+
             if ($orderDate['placed'] != 0 && $orderDate['confirmed'] == 0) {
                 ?>
                 <button class="btn btn-brand" id="order-status-confirmed-btn"> <i class="fa fa-check"></i> Mark as Order Confirmed
@@ -155,28 +158,31 @@ if (!$exists) {
                 <?php
             } elseif ($orderDate['confirmed'] != 0 && $orderDate['arrived'] == 0) {
                 if ($allBooksArrived) {
-                    $userId = $tempCart->getUserId();
-                    $cartTd = $tempCart->getId();
                     ?>
-                    <button class="btn btn-brand" id="order-status-arrived-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Arrived
+                    <button class="btn btn-brand" id="order-status-arrived-btn" data-user-id="<?= $userId ?>"
+                        data-cart-id="<?= $cartId ?>">
+                        <i class="fa fa-check"></i> Mark as Order Arrived
                     </button>
                     <?php
                 } else {
                     ?>
-                    <button class="btn btn-danger" id="order-status-arrived-btn" data-bs-toggle="modal"
-                        data-bs-target="#order-not-arrived-modal"> <i class="fa fa-check"></i> Mark as Order Arrived </button>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#order-not-arrived-modal"> <i
+                            class="fa fa-check"></i> Mark as Order Arrived </button>
                     <?php
                 }
                 ?>
                 <?php
             } elseif ($orderDate['arrived'] != 0 && $orderDate['packed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status-packed-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Packed
+                <button class="btn btn-brand" id="order-status-packed-btn" data-user-id="<?= $userId ?>"
+                    data-cart-id="<?= $cartId ?>">
+                    <i class="fa fa-check"></i> Mark as Order Packed
                 </button>
                 <?php
             } elseif ($orderDate['packed'] != 0 && $orderDate['completed'] == 0) {
                 ?>
-                <button class="btn btn-brand" id="order-status-completed-btn" data-user-id="<?=$userId?>" data-cart-id="<?=$cartId?>"> <i class="fa fa-check"></i> Mark as Order Completed
+                <button class="btn btn-brand" id="order-status-completed-btn" data-user-id="<?= $userId ?>"
+                    data-cart-id="<?= $cartId ?>"> <i class="fa fa-check"></i> Mark as Order Completed
                 </button>
                 <?php
             }
@@ -343,7 +349,7 @@ if (!$exists) {
                     $title = ucwords($tempBook->title);
 
                     // price
-                    $price = ucwords($tempBook->price['offer']);
+                    $price = ucwords($tempBook->priceOffer);
 
                     $comission = 0.15 * $price;
 

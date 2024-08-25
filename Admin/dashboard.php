@@ -59,6 +59,18 @@ $bookIdList = $bookObj->fetchAllBookId();
                         <p class="card-v1-title"> Sold out Books </p>
                         <p class="card-v1-detail" id="sold-out-book-count"> - </p>
                     </div>
+
+                    <!-- pending -->
+                    <div class="card-v1">
+                        <p class="card-v1-title"> Pending </p>
+                        <p class="card-v1-detail" id="pending-orders"> - </p>
+                    </div>
+
+                    <!-- completed -->
+                    <div class="card-v1">
+                        <p class="card-v1-title"> Completed </p>
+                        <p class="card-v1-detail" id="completed-orders"> - </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -148,6 +160,22 @@ $bookIdList = $bookObj->fetchAllBookId();
                     url: "/bookrack/admin/app/count-sold-out-books.php",
                     success: function (data) {
                         $('#sold-out-book-count').html(data);
+                    }
+                });
+
+                // pending cart
+                $.ajax({
+                    url: "/bookrack/admin/app/count-pending-carts.php",
+                    success: function (data) {
+                        $('#pending-orders').html(data);
+                    }
+                });
+
+                // completed cart
+                $.ajax({
+                    url: "/bookrack/admin/app/count-completed-carts.php",
+                    success: function (data) {
+                        $('#completed-orders').html(data);
                     }
                 });
             }

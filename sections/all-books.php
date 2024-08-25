@@ -67,7 +67,7 @@ if (sizeof($allBookList) == 0) {
                     $finalGenreClasses .= $genreClass . ' ';
                 }
                 ?>
-                <div class="book-container mb-3 <?= $finalGenreClasses ?> book-element" data-price="<?= $allBookObj->price['offer'] ?>">
+                <div class="book-container mb-3 <?= $finalGenreClasses ?> book-element" data-price="<?= $allBookObj->priceOffer ?>">
                     <!-- book image -->
                     <div class="book-image">
                         <?php $allBookObj->setPhotoUrl(); ?>
@@ -137,7 +137,7 @@ if (sizeof($allBookList) == 0) {
                         <div class="book-price">
                             <p class="book-price">
                                 <?php
-                                $price = $allBookObj->price['offer'];
+                                $price = $allBookObj->priceOffer;
                                 echo "NPR. " . number_format($price, 2);
                                 ?>
                             </p>

@@ -7,13 +7,12 @@ class Request
     public $requestId;
     private $ownerId;
     private $bookId;
+    public $cartId;
 
     public $price;
 
-    public $date = [
-        'requested' => '',
-        'submitted' => ''
-    ];
+    public $dateRequested = "";
+    public $dateSubmitted = "";
 
     public $flag;
 
@@ -23,11 +22,10 @@ class Request
         $this->requestId = '';
         $this->ownerId = '';
         $this->bookId = '';
+        $this->cartId = '';
         $this->price = '';
-        $this->date = [
-            'requested' => '',
-            'submitted' => ''
-        ];
+        $this->dateRequested = "";
+        $this->dateSubmitted = "";
         $this->flag = '';
     }
 
@@ -38,16 +36,15 @@ class Request
     }
 
     // set
-    public function set($requestId, $ownerId, $bookId, $price, $date, $flag)
+    public function set($requestId, $ownerId, $bookId, $cartId, $price, $dateRequested, $dateSubmitted, $flag)
     {
         $this->requestId = $requestId;
         $this->ownerId = $ownerId;
+        $this->cartId = $cartId;
         $this->bookId = $bookId;
         $this->price = $price;
-        $this->date = [
-            'requested' => $date['requested'],
-            'submitted' => $date['submitted']
-        ];
+        $this->dateRequested = $dateRequested;
+        $this->dateSubmitted = $dateSubmitted;
         $this->flag = $flag;
     }
 
@@ -61,7 +58,7 @@ class Request
         $response = $database->getReference("requests/{$requestId}")->getSnapshot()->getValue();
 
         if ($response) {
-            $this->set($requestId, $response['owner_id'], $response['book_id'], $response['price'], $response['date'], $response['flag']);
+            $this->set($requestId, $response['owner_id'], $response['book_id'], $response['cart_id'], $response['price'], $response['date_requested'], $response['date_submitted'], $response['flag']);
             $status = true;
         }
 
@@ -98,17 +95,16 @@ class Request
     }
 
     // request 
-    public function request($bookId, $price, $userId, $requestedDate)
+    public function request($bookId, $cartId, $price, $userId, $requestedDate)
     {
         global $database;
         $postData = [
             'owner_id' => $userId,
             'book_id' => $bookId,
+            'cart_id' => $cartId,
             'price' => $price,
-            'date' => [
-                'requested' => $requestedDate,
-                'submitted' => ''
-            ],
+            'date_requested' => $requestedDate,
+            'date_submitted' => '',
             'flag' => 'pending'
         ];
 
@@ -164,7 +160,7 @@ class Request
 
         if ($response) {
             foreach ($response as $key => $res) {
-                $this->set($key, $res['owner_id'], $res['book_id'], $res['price'], $res['date'], $res['flag']);
+                $this->set($key, $res['owner_id'], $res['book_id'], $res['cart_id'], $res['price'], $res['date_requested'], $res['date_submitted'], $res['flag']);
             }
         }
     }
@@ -183,7 +179,7 @@ class Request
 
             $postData['flag'] = 'completed';
 
-            $postData['date']['submitted'] = $currentDate;
+            $postData['date_submitted'] = $currentDate;
 
             $response = $database->getReference("requests/{$requestId}")->update($postData);
 

@@ -48,27 +48,24 @@ if (trim($_POST['csrf_token']) != $_SESSION['csrf_token']) {
             $createdUser = $auth->createUser($userProperties);
             $uid = $createdUser->uid;
 
+            date_default_timezone_set('Asia/Kathmandu');
+            $currentDate = date("Y:m:d H:i:s");
+
             // create space in the realtime database
             $extraUserProperties = [
-                'name' => [
-                    'first' => '',
-                    'last' => ''
-                ],
+                'name_first' => '',
+                'name_last' => '',
                 'dob' => '',
                 'gender' => '',
-                'address' => [
-                    'district' => '',
-                    'municipality' => '',
-                    'ward' => '',
-                    'tole_village' => ''
-                ],
+                'address_district' => '',
+                'address_municipality' => '',
+                'address_ward' => '',
+                'address_tole_village' => '',
                 'photo' => '',
-                'kyc' => [
-                    'document_type' => '',
-                    'front' => '',
-                    'back' => '',
-                ],
-                'joined_date' => date("Y:m:d H:i:s"),
+                'document_type' => '',
+                'document_front' => '',
+                'document_back' => '',
+                'joined_date' => $currentDate,
                 'account_status' => 'pending',
                 'role' => 'user'
             ];

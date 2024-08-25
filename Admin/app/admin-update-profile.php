@@ -19,10 +19,10 @@ $admin->fetch($adminId);
 $hasProfilePhoto = (isset($_FILES['profile-picture']) && $_FILES['profile-picture']['error'] === UPLOAD_ERR_OK) ? 1 : 0;
 
 if (isset($_POST['first-name']))
-    $properties['name']['first'] = strtolower($_POST['first-name']);
+    $properties['name_first'] = strtolower($_POST['first-name']);
 
 if (isset($_POST['last-name']))
-    $properties['name']['last'] = strtolower($_POST['last-name']);
+    $properties['name_last'] = strtolower($_POST['last-name']);
 
 if (isset($_POST['first-name']) && isset($_POST['last-name'])) {
     $authProperties = [

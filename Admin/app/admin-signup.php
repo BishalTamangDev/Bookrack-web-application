@@ -38,25 +38,22 @@ try {
     $createdUser = $auth->createUser($adminProperties);
     $uid = $createdUser->uid;
 
+    date_default_timezone_set('Asia/Kathmandu');
+    $currentDate = date("Y:m:d H:i:s");
+
     // create space in the realtime database
     $extraAdminProperties = [
-        'name' => [
-            'first' => '',
-            'last' => ''
-        ],
+        'name_first' => "",
+        'name_last' => "",
         'dob' => '',
         'gender' => '',
-        'address' => [
-            'district' => '',
-            'location' => ''
-        ],
+        'address_district' => '',
+        'address_location' => '',
         'photo' => '',
-        'kyc' => [
-            'document_type' => 'citizenship',
-            'front' => '',
-            'back' => '',
-        ],
-        'joined_date' => date("Y:m:d H:i:s"),
+        'document_type' => 'citizenship',
+        'document_front' => '',
+        'document_back' => '',
+        'joined_date' => $currentDate,
         'account_status' => 'pending',
         'role' => 'admin'
     ];

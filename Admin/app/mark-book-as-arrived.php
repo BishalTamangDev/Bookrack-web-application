@@ -25,7 +25,8 @@ $ownerId = $tempBook->getOwnerId();
 // get cart with this book
 $cartId = $tempCart->getCartWithBookId($bookId);
 
-$currentDate = date('y-m-d h:i:s');
+date_default_timezone_set('Asia/Kathmandu');
+$currentDate = date("Y:m:d H:i:s");
 
 $tempCart->fetch($cartId);
 

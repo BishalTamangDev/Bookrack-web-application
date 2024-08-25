@@ -284,8 +284,8 @@ if ($task == 'edit') {
                             <label for="book-actual-price" class="m-0 form-label"> Actual price </label>
                             <input type="number" class="form-control" id="book-actual-price" name="book-actual-price"
                                 value="<?php if ($task == 'edit')
-                                    echo $book->price['actual']; ?>" aria-describedby="actual price" placeholder=""
-                                min="0" required>
+                                    echo $book->priceActual; ?>" aria-describedby="actual price" placeholder="" min="0"
+                                required>
                         </div>
 
                         <!-- offer price -->
@@ -293,7 +293,7 @@ if ($task == 'edit') {
                             <label for="book-offer-price" class="m-0 form-label"> Offer price </label>
                             <input type="number" class="form-control" id="book-offer-price" name="book-offer-price"
                                 value="<?php if ($task == 'edit')
-                                    echo $book->price['offer']; ?>" aria-describedby="offer price" min="0" required>
+                                    echo $book->priceOffer; ?>" aria-describedby="offer price" min="0" required>
                         </div>
                     </div>
                 </div>
@@ -442,17 +442,17 @@ if ($task == 'edit') {
                         success: function (response) {
                             $('#submit-btn').html("Add Now").prop('disabled', false);
                             // reset form
-                            if (response == "true") {
+                            if (response == false) {
+                                showPopupAlert(response);
+                            } else {
                                 showPopupAlert("Book added successfully.");
                                 $('#add-book-form').trigger("reset");
                                 $('#image-file-1').attr('src', '/bookrack/assets/images/blank.jpg').show();
+                                $('#genre-reset').click();
+
                                 // redirect to another page after successful book addition
-                            } else {
-                                if (response == "false") {
-                                    showPopupAlert("Book couldn't be added.");
-                                } else {
-                                    showPopupAlert(response);
-                                }
+                                link = "/bookrack/book-details/" + response;
+                                window.location.href = link;
                             }
                         },
                         error: function () {

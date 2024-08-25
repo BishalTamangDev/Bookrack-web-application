@@ -1,7 +1,5 @@
 <?php
 
-echo "fetching requests";
-
 require_once __DIR__ . '/../../classes/request.php';
 require_once __DIR__ . '/../../classes/book.php';
 require_once __DIR__ . '/../../classes/user.php';
@@ -10,11 +8,8 @@ require_once __DIR__ . '/../../classes/cart.php';
 $tempRequest = new Request();
 $tempBook = new Book();
 $tempUser = new User();
-$tempCart = new Cart();
 
 $requestList = $tempRequest->fetchAll();
-
-print_r($tempRequest);
 
 if (sizeof($requestList) == 0) {
     ?>
@@ -28,7 +23,7 @@ if (sizeof($requestList) == 0) {
         // fetch request
         $res = $tempRequest->fetch($request);
 
-        $arrived = $tempRequest->date['submitted'] != '' ? true : false;
+        $arrived = $tempRequest->dateSubmitted != '' ? true : false;
 
         // fetch book
         $bookId = $tempRequest->getBookId();
@@ -44,7 +39,7 @@ if (sizeof($requestList) == 0) {
         $ownerName = $tempUser->getFullName();
 
         // fetch cart id -> for redirection purpose
-        $cartId = $tempCart->fetchCartIdByBookId($bookId);
+        $cartId = $tempRequest->cartId;
         ?>
         
         <tr class="book-tr">
@@ -69,7 +64,7 @@ if (sizeof($requestList) == 0) {
                         <?php                         
                     } else {
                         ?>
-                        <button class="btn btn-brand" id="mark-as-arrived-btn" data-book-id="<?= $bookId ?>"> Mark as arrived </button>
+                        <button class="btn btn-brand" id="mark-as-arrived-btn" data-book-id="<?= $bookId ?>" data-cart-id="<?=$cartId?>"> Mark as arrived </button>
                         <?php
                     }
                     ?>

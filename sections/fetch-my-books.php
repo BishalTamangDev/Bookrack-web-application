@@ -56,9 +56,6 @@ if (sizeof($userBookList) == 0) {
                     </div>
                 </div>
 
-                <!-- book purpose -->
-                <p class="book-purpose"> <?= ucfirst($tempBook->purpose) ?> </p>
-
                 <!-- book description -->
                 <div class="book-description-container">
                     <p class="book-description"> <?= ucfirst($tempBook->description) ?> </p>
@@ -68,7 +65,7 @@ if (sizeof($userBookList) == 0) {
                 <div class="book-price">
                     <p class="book-price">
                         <?php
-                        $price = $tempBook->price['offer'];
+                        $price = $tempBook->priceOffer;
                         echo "NPR. " . number_format($price, 2);
                         ?>
                     </p>

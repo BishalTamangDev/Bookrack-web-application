@@ -15,26 +15,18 @@ class Admin
     public $disabled;
 
     // realtime db
-    public $name = [
-        'first' => '',
-        'last' => '',
-    ];
+    public $nameFirst = '';
+    public $nameLast = '';
     public $photo;
     private $dob;
-    private $address = [
-        'district' => '',
-        'location' => ''
-    ];
-    private $kyc = [
-        'document_type' => '',
-        'front' => '',
-        'back' => ''
-    ];
+    private $addressDistrict = '';
+    private $addressLocation = '';
+    private $documentType = '';
+    private $documentFront = '';
+    private $documentBack = '';
 
-    public $kycUrl = [
-        'front' => '',
-        'back' => ''
-    ];
+    public $documentUrlFront = "";
+    public $documentUrlBack = "";
 
     public $gender;
     public $joinedDate;
@@ -45,52 +37,40 @@ class Admin
     public function __construct()
     {
         $this->adminId = "";
-        $this->name = [
-            "first" => "",
-            "last" => ""
-        ];
+        $this->nameFirst = "";
+        $this->nameLast = "";
         $this->email = "";
         $this->emailVerified = false;
         $this->password = "";
         $this->phoneNumber = "";
         $this->dob = "";
         $this->gender = "";
-        $this->address = [
-            "district" => "",
-            "location" => "",
-        ];
+        $this->addressDistrict = "";
+        $this->addressLocation = "";
         $this->photo = "";
-        $this->kyc = [
-            "document_type" => "",
-            "front" => "",
-            "back" => ""
-        ];
+        $this->documentType = "";
+        $this->documentFront = "";
+        $this->documentBack = "";
         $this->joinedDate = "";
         $this->role = "admin";
         $this->accountStatus = "";
     }
 
-    public function setAdmin($adminId, $name, $dob, $gender, $address, $photo, $kyc, $joinedDate, $role, $accountStatus)
+    public function setAdmin($adminId, $nameFirst, $nameLast, $dob, $gender, $addressDistrict, $addressLocation, $photo, $documentType, $documentFront, $documentBack, $joinedDate, $role, $accountStatus)
     {
         if ($this->adminId == '')
             $this->adminId = $adminId;
         $this->dob = $dob;
         $this->gender = $gender;
-        $this->name = [
-            "first" => $this->name['first'] != '' ? $name['first'] : '',
-            "last" => $this->name['last'] != '' ? $name['last'] : '',
-        ];
-        $this->address = [
-            "district" => $address['district'],
-            "location" => $address['location'],
-        ];
+        $this->nameFirst != '' ? $nameFirst : '';
+        $this->nameLast != '' ? $nameLast : '';
+        $this->addressDistrict = $addressDistrict;
+        $this->addressLocation = $addressLocation;
         if ($this->photo == '')
             $this->photo = $photo;
-        $this->kyc = [
-            "document_type" => $kyc['document_type'],
-            "front" => $kyc['front'],
-            "back" => $kyc['back']
-        ];
+        $this->documentType = $documentType;
+        $this->documentFront = $documentFront;
+        $this->documentBack = $documentBack;
         $this->joinedDate = $joinedDate;
         $this->role = $role;
         if ($this->accountStatus == "")
@@ -118,7 +98,7 @@ class Admin
 
     public function getFullName()
     {
-        return ucWords($this->name['first'] . ' ' . $this->name["last"]);
+        return ucWords($this->nameFirst . ' ' . $this->nameLast);
     }
 
     public function getDob()
@@ -139,25 +119,25 @@ class Admin
     public function getFullAddress()
     {
         global $districtArray;
-        if ($this->address['district'] != '')
-            return ucWords($this->address['location'] . ', ' . $districtArray[$this->address['district']]);
+        if ($this->addressDistrict != '')
+            return ucWords($this->addressLocation) . ', ' . ucWords($this->addressDistrict);
         else
             return '-';
     }
 
-    public function getKycDocumentType()
+    public function getDocumentType()
     {
-        return $this->kyc['document_type'];
+        return $this->documentType;
     }
 
-    public function getKycFront()
+    public function getDocumentFront()
     {
-        return $this->kyc['front'];
+        return $this->documentFront;
     }
 
-    public function getKycBack()
+    public function getDocumentBack()
     {
-        return $this->kyc['back'];
+        return $this->documentBack;
     }
 
 
@@ -182,18 +162,18 @@ class Admin
         $this->phoneNumber = $phoneNumber;
     }
 
-    public function setKycDocumentType($kycDocumentType)
+    public function setDocumentType($kycDocumentType)
     {
-        $this->kyc["document_type"] = $kycDocumentType;
+        $this->documentType = $kycDocumentType;
     }
-    public function setKycFront($kycFront)
+    public function setDocumentFront($kycFront)
     {
-        $this->kyc["front"] = $kycFront;
+        $this->documentFront = $kycFront;
     }
 
-    public function setKycBack($kycBack)
+    public function setDocumentBack($kycBack)
     {
-        $this->kyc["back"] = $kycBack;
+        $this->documentBack = $kycBack;
     }
 
     // admin registration
@@ -202,28 +182,25 @@ class Admin
     {
         global $database;
 
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
+
         $postData = [
-            'name' => [
-                'first' => $this->name['first'],
-                'last' => $this->name['last'],
-            ],
+            'name_first' => $this->nameFirst,
+            'name_last' => $this->nameLast,
             'dob' => $this->dob,
             'gender' => $this->gender,
             'email' => $this->email,
             'emailVerified' => $this->emailVerified,
             'password' => $this->password,
             'phoneNumber' => $this->phoneNumber,
-            'address' => [
-                'district' => $this->address['district'],
-                'location' => $this->address['location']
-            ],
+            'address_district' => $this->addressDistrict,
+            'address_location' => $this->addressLocation,
             'photo' => $this->photo,
-            'kyc' => [
-                'document_type' => $this->kyc['document_type'],
-                'front' => $this->kyc['front'],
-                'back' => $this->kyc['back'],
-            ],
-            'joined_date' => date("Y:m:d H:i:s"),
+            'document_type' => $this->documentType,
+            'document_front' => $this->documentFront,
+            'document_back' => $this->documentBack,
+            'joined_date' => $currentDate,
             'role' => 'admin',
             'account_status' => 'pending'
         ];
@@ -248,8 +225,8 @@ class Admin
 
             if (!is_null($response)) {
                 $this->adminId = $adminId;
-                $this->name['first'] = $response['name']['first'];
-                $this->name['last'] = $response['name']['last'];
+                $this->nameFirst = $response['name_first'];
+                $this->nameLast = $response['name_last'];
                 $this->accountStatus = $response['account_status'];
                 $this->photo = $response['photo'];
                 $status = true;
@@ -273,7 +250,7 @@ class Admin
 
             // realtime db
             $response = $database->getReference("admins")->getChild($adminId)->getSnapshot()->getValue();
-            $this->setAdmin($adminId, $response['name'], $response['dob'], $response['gender'], $response['address'], $response['photo'], $response['kyc'], $response['joined_date'], $response['role'], $response['account_status']);
+            $this->setAdmin($adminId, $response['name_first'], $response['name_last'], $response['dob'], $response['gender'], $response['address_district'], $response['address_location'], $response['photo'], $response['document_type'], $response['document_front'], $response['document_back'], $response['joined_date'], $response['role'], $response['account_status']);
 
             $status = true;
         } catch (Exception $e) {
@@ -302,14 +279,14 @@ class Admin
         }
     }
 
-    public function setKycUrl()
+    public function setdocumentUrl()
     {
         global $bucket;
 
         $kycFrontFound = false;
         $kycBackFound = false;
 
-        $prefix = 'kyc/';
+        $prefix = 'document/';
         $options = [
             'prefix' => $prefix,
             'delimiter' => '/'
@@ -318,11 +295,11 @@ class Admin
         $objects = $bucket->objects($options);
 
         foreach ($objects as $object) {
-            if (!$kycFrontFound && $object->name() === $prefix . $this->kyc['front']) {
-                $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
+            if (!$kycFrontFound && $object->name() === $prefix . $this->documentFront) {
+                $this->documentUrlFront = $object->signedUrl(new DateTime('tomorrow'));
                 $kycFrontFound = true;
-            } elseif (!$kycBackFound && $object->name() === $prefix . $this->kyc['back']) {
-                $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
+            } elseif (!$kycBackFound && $object->name() === $prefix . $this->documentBack) {
+                $this->documentUrlBack = $object->signedUrl(new DateTime('tomorrow'));
                 $kycBackFound = true;
             }
 
@@ -331,34 +308,34 @@ class Admin
         }
     }
 
-    public function setKycFrontUrl()
+    public function setDocumentFrontUrl()
     {
         global $bucket;
 
-        if ($this->getKycFront() != "") {
+        if ($this->getDocumentFront() != "") {
             $prefix = 'kyc/';
-            $objectName = $prefix . $this->kyc['front'];
+            $objectName = $prefix . $this->documentFront;
             $object = $bucket->object($objectName);
 
             if ($object->exists())
-                $this->kycUrl['front'] = $object->signedUrl(new DateTime('tomorrow'));
+                $this->documentUrlFront = $object->signedUrl(new DateTime('tomorrow'));
             else
-                $this->kycUrl['front'] = null;
+                $this->documentUrlFront = null;
         }
     }
 
-    public function setKycBackUrl()
+    public function setDocumentBackUrl()
     {
-        if ($this->getKycBack() != "") {
+        if ($this->getDocumentBack() != "") {
             global $bucket;
             $prefix = 'kyc/';
-            $objectName = $prefix . $this->kyc['back'];
+            $objectName = $prefix . $this->documentBack;
             $object = $bucket->object($objectName);
 
             if ($object->exists())
-                $this->kycUrl['back'] = $object->signedUrl(new DateTime('tomorrow'));
+                $this->documentUrlBack = $object->signedUrl(new DateTime('tomorrow'));
             else
-                $this->kycUrl['back'] = null;
+                $this->documentUrlBack = null;
         }
     }
 
@@ -384,14 +361,14 @@ class Admin
     public function checkAccountVerificationEligibility()
     {
         if (
-            $this->name['first'] == '' ||
-            $this->name['last'] == '' ||
+            $this->nameFirst == '' ||
+            $this->nameLast == '' ||
             $this->dob == '' ||
             $this->gender == '' ||
             $this->photo == '' ||
-            $this->kyc["document_type"] == '' ||
-            $this->kyc["back"] == '' ||
-            $this->kyc["front"] == '' ||
+            $this->documentType == '' ||
+            $this->documentFront == '' ||
+            $this->documentBack == '' ||
             $this->accountStatus != "pending"
         ) {
             return false;

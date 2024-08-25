@@ -7,8 +7,8 @@ function deleteFileFromStorageBucket($folder, $filename)
 
     if ($folder == "users") {
         $prefix = 'users/';
-    } elseif ($folder == "kyc") {
-        $prefix = 'kyc/';
+    } elseif ($folder == "document") {
+        $prefix = 'document/';
     } else {
         $prefix = '';
     }

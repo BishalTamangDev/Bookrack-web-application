@@ -21,8 +21,8 @@ $url = "profile";
             case "edit-profile":
                 echo "Edit profile";
                 break;
-            case "kyc":
-                echo "KYC";
+            case "document":
+                echo "Document";
                 break;
             default:
                 echo "My profile";
@@ -68,7 +68,7 @@ $url = "profile";
 
                     <div class="d-flex flex-row gap-2 align-items-center profile name-status">
                         <p class="m-0 text-secondary">
-                            <?php echo $profileUser->name['first'] == "" ? $profileUser->email : $profileUser->getFullName(); ?>
+                            <?php echo $profileUser->nameFirst == "" ? $profileUser->email : $profileUser->getFullName(); ?>
                         </p>
                         <?php
                         if ($profileUser->accountStatus == "verified") {
@@ -160,11 +160,11 @@ $url = "profile";
                         <p class="m-0"> Password & Security </p>
                     </a>
 
-                    <!-- kyc -->
-                    <a href="/bookrack/profile/kyc"
-                        class="btn tab <?= $tab == 'kyc' ? 'active-tab' : 'inactive-tab' ?>">
+                    <!-- document -->
+                    <a href="/bookrack/profile/document"
+                        class="btn tab <?= $tab == 'document' ? 'active-tab' : 'inactive-tab' ?>">
                         <i class="fa-regular fa-note-sticky"></i>
-                        <p class="m-0"> MY KYC </p>
+                        <p class="m-0"> MY Document </p>
                     </a>
                 </div>
 
@@ -266,7 +266,7 @@ $url = "profile";
                                         if ($profileUser->getAddressDistrict() != "") {
                                             ?>
                                             <option value="<?= $profileUser->getAddressDistrict() ?>" selected hidden>
-                                                <?=  ucwords($profileUser->getAddressDistrict()) ?>
+                                                <?= ucwords($profileUser->getAddressDistrict()) ?>
                                             </option>
                                             <?php
                                         } else {
@@ -282,8 +282,8 @@ $url = "profile";
                                 <div class="w-100 w-md-50 municipality-div">
                                     <label for="edit-profile-municipality" class="form-label"> Municipality </label>
                                     <input type="text" class="form-control" id="edit-profile-municipality" value="<?php if ($profileUser->getAddressMunicipality() != "")
-                                        echo ucfirst($profileUser->getAddressMunicipality()); ?>" name="edit-profile-municipality"
-                                        aria-describedby="municipality" disabled>
+                                        echo ucfirst($profileUser->getAddressMunicipality()); ?>"
+                                        name="edit-profile-municipality" aria-describedby="municipality" disabled>
                                 </div>
                             </div>
 
@@ -302,8 +302,8 @@ $url = "profile";
                                 <div class="w-100 w-md-50 ">
                                     <label for="edit-profile-tole-village" class="form-label"> Tole/ Village </label>
                                     <input type="text" class="form-control" id="edit-profile-tole-village" value="<?php if ($profileUser->getAddressToleVillage() != "")
-                                        echo ucfirst($profileUser->getAddressToleVillage()); ?>" name="edit-profile-tole-village"
-                                        aria-describedby="tole-village" disabled>
+                                        echo ucfirst($profileUser->getAddressToleVillage()); ?>"
+                                        name="edit-profile-tole-village" aria-describedby="tole-village" disabled>
                                 </div>
                             </div>
 
@@ -344,11 +344,11 @@ $url = "profile";
                 }
                 ?>
 
-                <!-- kyc -->
+                <!-- document -->
                 <?php
-                if ($tab == "kyc") {
+                if ($tab == "document") {
                     ?>
-                    <div class="d-flex flex-column gap-1 kyc-section">
+                    <div class="d-flex flex-column gap-1 document-section">
                         <?php
                         if ($profileUser->accountStatus == "pending") {
                             ?>
@@ -356,7 +356,7 @@ $url = "profile";
                             <p class="m-0 text-secondary text-danger fst-italic">
                                 <?php
                                 if ($profileUser->getDocumentType() == "") {
-                                    echo " You haven't submitted your kyc document yet. Submit now in order to use our services.";
+                                    echo " You haven't submitted your document document yet. Submit now in order to use our services.";
                                 } else {
                                     echo "Your documents are on hold to be verified.";
                                 }
@@ -370,35 +370,35 @@ $url = "profile";
                         <?php
                         if ($profileUser->accountStatus == "verified") {
                             ?>
-                            <label for="" class="form-label text-dark fs-4 text-secondary"> My KYC Documents </label>
+                            <label for="" class="form-label text-dark fs-4 text-secondary"> My Documents </label>
                             <?php
                         }
                         ?>
 
-                        <!-- existing kyc documents -->
+                        <!-- existing document documents -->
                         <?php
                         if ($profileUser->accountStatus == "verified" || $profileUser->getDocumentType() != "") {
-                            $profileUser->setKycFrontUrl();
+                            $profileUser->setDocumentFrontUrl();
                             ?>
-                            <div class="d-flex flex-column gap-3 mb-4 kyc-documents">
+                            <div class="d-flex flex-column gap-3 mb-4 document-documents">
                                 <p class="m-0 fs-5"> Document type : <?= ucfirst($profileUser->getDocumentType()) ?>
                                 </p>
 
                                 <div class="d-flex flex-row gap-4 documents">
-                                    <!-- kyc front side -->
+                                    <!-- document front side -->
                                     <div class="w-25 d-flex flex-column gap-1 document">
                                         <?php
                                         if ($profileUser->getDocumentType() == "citizenship") {
-                                            $profileUser->setKycBackUrl();
+                                            $profileUser->setDocumentBackUrl();
                                             ?>
                                             <p class="m-0"> Front side </p>
                                             <?php
                                         }
                                         ?>
                                         <?php
-                                        if ($profileUser->getKycFrontUrl() != "") {
+                                        if ($profileUser->getDocumentFrontUrl() != "") {
                                             ?>
-                                            <img src="<?= $profileUser->getKycFrontUrl() ?>" alt="kyc front picture">
+                                            <img src="<?= $profileUser->getDocumentFrontUrl() ?>" alt="document front picture">
                                             <?php
                                         } else {
                                             ?>
@@ -414,13 +414,13 @@ $url = "profile";
                                     <?php
                                     if ($profileUser->getDocumentType() == "citizenship") {
                                         ?>
-                                        <!-- back kyc -->
+                                        <!-- back document -->
                                         <div class="w-25 d-flex flex-column gap-1 document">
                                             <p class="m-0"> Back side </p>
                                             <?php
-                                            if ($profileUser->getKycBackUrl() != "") {
+                                            if ($profileUser->getDocumentBackUrl() != "") {
                                                 ?>
-                                                <img src="<?= $profileUser->getKycBackUrl() ?>" alt="kyc front picture">
+                                                <img src="<?= $profileUser->getDocumentBackUrl() ?>" alt="document front picture">
                                                 <?php
                                             } else {
                                                 ?>
@@ -440,19 +440,20 @@ $url = "profile";
                         }
                         ?>
 
-                        <!-- hide this form if kyc is already verified -->
+                        <!-- hide this form if document is already verified -->
                         <?php
                         if ($profileUser->accountStatus != "verified" && $profileUser->getDocumentType() == "") {
                             ?>
-                            <form action="/bookrack/app/kyc.php" method="POST" class="d-flex flex-column gap-2 w-100 kyc-form"
-                                id="kyc-form" enctype="multipart/form-data">
+                            <form action="/bookrack/app/document.php" method="POST"
+                                class="d-flex flex-column gap-2 w-100 document-form" id="document-form"
+                                enctype="multipart/form-data">
                                 <!-- heading -->
-                                <p class="m-0 fw-bold fs-3"> KYC Form </p>
+                                <p class="m-0 fw-bold fs-3"> Document Form </p>
                                 <hr>
                                 <input type="hidden" name="csrf_token_profile" id="csrf_token_profile" value="">
                                 <input type="hidden" name="user-id" id="user-id" value="<?= $profileUser->getUserId() ?>">
 
-                                <!-- kyc file inputs -->
+                                <!-- document file inputs -->
                                 <div class="d-flex flex-column w-100 gap-3">
                                     <!-- document type -->
                                     <div class="document-type w-100">
@@ -465,22 +466,23 @@ $url = "profile";
                                     </div>
 
                                     <!-- front side -->
-                                    <div class="front-side w-100" id="kyc-front-field">
+                                    <div class="front-side w-100" id="document-front-field">
                                         <label for="" class="form-label text-secondary"> Front Side </label>
-                                        <input type="file" name="kyc-front" class="border rounded form-control" id="kyc-front"
-                                            accept="image/*" required>
+                                        <input type="file" name="document-front" class="border rounded form-control"
+                                            id="document-front" accept="image/*" required>
                                     </div>
 
-                                    <div class="back-side w-100" id="kyc-back-field">
+                                    <div class="back-side w-100" id="document-back-field">
                                         <!-- backside -->
                                         <label for="" class="form-label text-secondary"> Back Side </label>
-                                        <input type="file" name="kyc-back" class="border rounded form-control" id="kyc-back"
-                                            accept="image/*">
+                                        <input type="file" name="document-back" class="border rounded form-control"
+                                            id="document-back" accept="image/*">
                                     </div>
                                 </div>
 
-                                <button type="submit" name="upload-kyc-btn" id="upload-kyc-btn" class="btn btn-success mt-3">
-                                    Upload KYC </button>
+                                <button type="submit" name="upload-document-btn" id="upload-document-btn"
+                                    class="btn btn-success mt-3">
+                                    Upload Document </button>
                             </form>
                             <?php
                         }
@@ -551,7 +553,7 @@ $url = "profile";
     </main>
 
     <!-- popup alert -->
-    <?php include 'sections/popup-alert.php';?>
+    <?php include 'sections/popup-alert.php'; ?>
 
     <!-- footer -->
     <?php require_once __DIR__ . '/sections/footer.php'; ?>
@@ -560,7 +562,7 @@ $url = "profile";
     <?php require_once __DIR__ . '/includes/script.php'; ?>
 
     <!-- popup alert -->
-     <script src="/bookrack/js/popup-alert.js"></script>
+    <script src="/bookrack/js/popup-alert.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -695,13 +697,13 @@ $url = "profile";
                         url: '/bookrack/app/account-verification.php',
                         type: "POST",
                         data: formData,
-                        beforeSend : function () {
+                        beforeSend: function () {
                             $('#account-verification-btn').html('Please wait..').prop('disabled', true);
                         },
                         success: function (response) {
                             if (response == true) {
                                 showPopupAlert("Your account has been submitted for the verification process.");
-                                setTimeout(function(){
+                                setTimeout(function () {
                                     location.reload();
                                 }, 2000);
                             } else {
@@ -772,22 +774,22 @@ $url = "profile";
                         });
                     }
                 });
-            } else if (tab == "kyc") {
-                // kyc           
+            } else if (tab == "document") {
+                // document           
                 $('#document-type-select').on('change', function () {
                     if ($('#document-type-select').val() == 1)
-                        $('#kyc-back-field').hide();
+                        $('#document-back-field').hide();
                     else
-                        $('#kyc-back-field').show();
+                        $('#document-back-field').show();
                 });
 
-                $('#kyc-form').submit(function (e) {
+                $('#document-form').submit(function (e) {
                     e.preventDefault();
 
                     // check if empty
                     error = true;
                     if ($('#document-type-select').val() == 2) {
-                        if ($('#kyc-back').val() == "") {
+                        if ($('#document-back').val() == "") {
                             $('#custom-popup-alert').html("Please attach back side of your citizenship.").show();
                             setTimeout(function () {
                                 $('#custom-popup-alert').fadeOut();
@@ -800,24 +802,24 @@ $url = "profile";
                     }
 
                     if (!error) {
-                        var formData = new FormData($('#kyc-form')[0]);
+                        var formData = new FormData($('#document-form')[0]);
                         $.ajax({
-                            url: '/bookrack/app/kyc.php',
+                            url: '/bookrack/app/document.php',
                             type: "POST",
                             data: formData,
                             contentType: false,
                             processData: false,
                             beforeSend: function () {
-                                $('#upload-kyc-btn').html('Uploading...');
-                                $('#upload-kyc-btn').prop('disabled', true);
+                                $('#upload-document-btn').html('Uploading...');
+                                $('#upload-document-btn').prop('disabled', true);
                             },
                             success: function (data) {
-                                $('#upload-kyc-btn').html('Upload KYC');
-                                $('#upload-kyc-btn').prop('disabled', false);
+                                $('#upload-document-btn').html('Upload Document');
+                                $('#upload-document-btn').prop('disabled', false);
                                 $('#custom-popup-alert').html(data).show();
 
                                 if (data == "Document submitted successfully.") {
-                                    $('#kyc-form').trigger("reset");
+                                    $('#document-form').trigger("reset");
                                     location.reload(true);
                                 }
                                 setTimeout(function () {
@@ -825,8 +827,8 @@ $url = "profile";
                                 }, 4000);
                             },
                             error: function () {
-                                $('#upload-kyc-btn').html('Upload KYC');
-                                $('#upload-kyc-btn').prop('disabled', false);
+                                $('#upload-document-btn').html('Upload Document');
+                                $('#upload-document-btn').prop('disabled', false);
                                 $('#custom-popup-alert').html("An unexpected error occured. Please try again.").show();
                                 setTimeout(function () {
                                     $('#custom-popup-alert').fadeOut();

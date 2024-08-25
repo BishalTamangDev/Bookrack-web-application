@@ -72,6 +72,34 @@ $fullName = $selectedUser->getFullName();
                 </div>
             </div>
 
+            <?php
+            $firstName = $selectedUser->nameFirst != '' ? ucfirst($selectedUser->nameFirst) : '-';
+            $lastName = $selectedUser->nameLast != '' ? ucfirst($selectedUser->nameLast) : '-';
+            $gender = $selectedUser->gender != '' ? ucfirst($selectedUser->gender) : '';
+            
+            $dob = $selectedUser->getDob();
+            $dob = $dob != '' ? $dob : '-';
+            
+            $phoneNumber = $selectedUser->getPhoneNumber();
+            $phoneNumber = $phoneNumber != "" ? $phoneNumber : "-";
+
+            $email = $selectedUser->email;
+
+            $district = ucwords($selectedUser->getAddressDistrict());
+            $district = $district != '' ? $district : '-';
+            
+            $municiaplity = ucwords($selectedUser->getAddressMunicipality());
+            $municiaplity = $municiaplity != '' ? $municiaplity : '-';
+            
+            $ward = $selectedUser->getAddressWard();
+            $ward = $ward != '' ? $ward : '-';
+            
+            $toleVillage = ucwords($selectedUser->getAddressToleVillage());
+            $toleVillage = $toleVillage != '' ? $toleVillage : '-';
+            
+            $accountStatus = ucfirst($selectedUser->accountStatus);
+            ?>
+
             <!-- details -->
             <div class="d-flex flex-column pt-2 gap-1 details">
                 <!-- all details -->
@@ -80,12 +108,12 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0 mb-2"> First Name </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($selectedUser->name['first']) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $firstName ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Last Name </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($selectedUser->name['last']) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $lastName ?> </p>
                         </div>
                     </div>
 
@@ -93,15 +121,12 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Gender </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($selectedUser->gender) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $gender ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Date of Birth </p>
-                            <p class="m-0 fw-semibold"> <?php
-                            $dob = $selectedUser->getDob();
-                            echo $dob != '' ? $dob : "-";
-                            ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $dob ?> </p>
                         </div>
                     </div>
 
@@ -109,14 +134,12 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Email Address </p>
-                            <p class="m-0 fw-semibold"> <?= $selectedUser->email ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $email ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Phone Number </p>
-                            <p class="m-0 fw-semibold"> <?php $phoneNumber = $selectedUser->getPhoneNumber();
-                            echo $phoneNumber != "" ? $phoneNumber : "-";
-                            ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $phoneNumber ?> </p>
                         </div>
                     </div>
 
@@ -124,12 +147,12 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> District </p>
-                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressDistrict()) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $district ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Municipality </p>
-                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressMunicipality()) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $municiaplity ?> </p>
                         </div>
                     </div>
 
@@ -137,12 +160,12 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Ward </p>
-                            <p class="m-0 fw-semibold"> <?= $selectedUser->getAddressWard() ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $ward ?> </p>
                         </div>
 
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Tole/ Village </p>
-                            <p class="m-0 fw-semibold"> <?= ucwords($selectedUser->getAddressToleVillage()) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $toleVillage ?> </p>
                         </div>
                     </div>
 
@@ -150,7 +173,7 @@ $fullName = $selectedUser->getFullName();
                     <div class="d-flex flex-column flex-md-row row-gap-4 w-100">
                         <div class="w-100 w-md-50">
                             <p class="m-0  mb-2"> Account Status </p>
-                            <p class="m-0 fw-semibold"> <?= ucfirst($selectedUser->accountStatus) ?> </p>
+                            <p class="m-0 fw-semibold"> <?= $accountStatus ?> </p>
                         </div>
                     </div>
                 </div>
@@ -160,16 +183,16 @@ $fullName = $selectedUser->getFullName();
         <!-- account action -->
         <div class="d-flex flex-row gap-2 flex-wrap action mt-4">
             <?php
-            if ($selectedUser->accountStatus == 'on-hold') {
+            if ($accountStatus == 'On-hold') {
                 ?>
                 <button class="btn btn-success" id="verify-account-btn"> Verify Account </button>
                 <button class="btn btn-outline-danger" id="unverify-account-btn"> Unverify Account </button>
                 <?php
-            } elseif ($selectedUser->accountStatus == 'verified') {
+            } elseif ($accountStatus == 'Verified') {
                 ?>
                 <button class="btn btn-outline-danger" id="unverify-account-btn"> Unverify Account </button>
                 <?php
-            } elseif ($selectedUser->accountStatus == 'unverified') {
+            } elseif ($accountStatus == 'Unverified') {
                 ?>
                 <button class="btn btn-success" id="verify-account-btn"> Verify Account </button>
                 <?php

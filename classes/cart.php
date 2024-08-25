@@ -27,12 +27,11 @@ class Cart
         'order_completed' => ''
     ];
 
-    public $shippingAddress = [
-        'district' => '',
-        'municipality' => '',
-        'ward' => '',
-        'tole_village' => '',
-    ];
+    public $shippingDistrict = "";
+    public $shippingMunicipality = "";
+    public $shippingWard = "";
+    public $shippingToleVillage = "";
+
     public $checkoutOption;
     public $status;
 
@@ -49,10 +48,10 @@ class Cart
 
     public function getFullAddress()
     {
-        if ($this->shippingAddress['municipality'] == '') {
+        if ($this->shippingMunicipality == '') {
             return "-";
         }
-        return ucfirst($this->shippingAddress['municipality']) . ' - ' . ucfirst($this->shippingAddress['ward']) . ', ' . ucfirst($this->shippingAddress['tole_village']) . ', ' . ucfirst($this->shippingAddress['district']);
+        return ucfirst($this->shippingMunicipality) . ' - ' . ucfirst($this->shippingWard) . ', ' . ucfirst($this->shippingToleVillage) . ', ' . ucfirst($this->shippingDistrict);
     }
 
     // setters
@@ -104,12 +103,10 @@ class Cart
             'order_completed' => ''
         ];
 
-        $this->shippingAddress = [
-            'district' => '',
-            'municipality' => '',
-            'ward' => '',
-            'tole_village' => ''
-        ];
+        $this->shippingDistrict = "";
+        $this->shippingMunicipality = "";
+        $this->shippingWard = "";
+        $this->shippingToleVillage = "";
 
         $this->checkoutOption = '';
 
@@ -180,12 +177,10 @@ class Cart
                         'order_delivered' => '',
                         'order_completed' => ''
                     ],
-                    'shipping_address' => [
-                        'district' => '',
-                        'municipality' => '',
-                        'ward' => '',
-                        'tole_village' => ''
-                    ],
+                    'shipping_district' => '',
+                    'shipping_municipality' => '',
+                    'shipping_ward' => '',
+                    'shipping_tole_village' => '',
                     'checkout_option' => '',
                     'status' => 'current'
                 ];
@@ -207,12 +202,10 @@ class Cart
                     'order_delivered' => '',
                     'order_completed' => ''
                 ],
-                'shipping_address' => [
-                    'district' => '',
-                    'municipality' => '',
-                    'ward' => '',
-                    'tole_village' => ''
-                ],
+                'shipping_district' => '',
+                'shipping_municipality' => '',
+                'shipping_ward' => '',
+                'shipping_tole_village' => '',
                 'checkout_option' => '',
                 'status' => 'current'
             ];
@@ -265,7 +258,7 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        if($response) {
+        if ($response) {
             foreach ($response as $key => $res) {
                 if ($res['status'] != 'current') {
                     $list[] = $key;
@@ -283,7 +276,7 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        if($response) {
+        if ($response) {
             foreach ($response as $key => $res) {
                 if ($res['status'] != 'current') {
                     $list[] = $key;
@@ -302,7 +295,7 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        if($response) {
+        if ($response) {
             foreach ($response as $key => $res) {
                 if ($res['status'] == 'completed') {
                     $list[] = $key;
@@ -321,7 +314,7 @@ class Cart
         $list = [];
         $response = $database->getReference("carts")->getSnapshot()->getValue();
 
-        if($response) {
+        if ($response) {
             foreach ($response as $key => $res) {
                 if ($res['status'] == 'pending') {
                     $list[] = $key;
@@ -446,6 +439,7 @@ class Cart
     {
         global $database;
 
+        date_default_timezone_set('Asia/Kathmandu');
         $currentDate = date('y-m-d h:i:s');
 
         echo $currentDate;

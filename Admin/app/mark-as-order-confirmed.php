@@ -27,27 +27,25 @@ $status = $tempCart->confirmOrder();
 $status = true;
 
 if ($status) {
-    // notify providers
-    print_r($tempCart->bookList);
-
     foreach ($tempCart->bookList as $book) {
         $tempBook->fetch($book['id']);
 
         $ownerId = $tempBook->getOwnerId();
 
-        $price = $tempBook->price['offer'];
+        $price = $tempBook->priceOffer;
 
-        $currentDate = date('y-m-d h:i:s');
+        date_default_timezone_set('Asia/Kathmandu');
+        $currentDate = date("Y:m:d H:i:s");
 
         // request
-        $tempRequest->request($book['id'], $price, $tempCart->getUserId(), $currentDate);
+        $tempRequest->request($book['id'], $cartId, $price, $tempCart->getUserId(), $currentDate);
 
         // make notification
         $tempNotification->requestBook($ownerId, $book['id']);
     }
 
     // notify reader
-    $tempNotification->orderConfirmed($tempCart->getUserId(), $cartId);
+    $tempNotification->orderConfirmed($tempCart->getUserId(), $cartId, $currentDate);
 }
 
 echo $status ? true : false;

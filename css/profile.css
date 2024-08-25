@@ -80,7 +80,7 @@
   padding: 6px 3rem;
   background-color: var(--brand-color);
 }
-.main .article .contents .kyc-section .kyc-form .btn {
+.main .article .contents .document-section .document-form .btn {
   width: -moz-fit-content;
   width: fit-content;
 }
