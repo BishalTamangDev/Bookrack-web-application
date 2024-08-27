@@ -331,7 +331,7 @@ if (!$exists) {
                     <th scope="col" class="border"> Owner </th>
                     <th scope="col" class="border"> Price </th>
                     <th scope="col" class="border"> Return </th>
-                    <th scope="col" class="border"> Comission </th>
+                    <th scope="col" class="border"> Commission </th>
                     <th scope="col" class="border"> Arrival Date </th>
                 </tr>
             </thead>

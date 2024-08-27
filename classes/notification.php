@@ -165,36 +165,54 @@ class Notification
         return $status;
     }
 
-    // fetch notification id for admin
-    public function fetchAdminNotificationId()
-    {
+    // fetch admin notification
+    public function fetchAdminNotification(){
         global $database;
-        $notificationIdList = [];
+        $notificationList = [];
         $response = $database->getReference("notifications")->orderByChild('whose')->equalTo('admin')->getSnapshot()->getValue();
 
-        if ($response)
-            foreach ($response as $key => $res)
-                $notificationIdList[] = $key;
+        if ($response) {
+            foreach ($response as $key => $res) {
+                $res ['notification_id'] = $key;
+                $notificationList[] = $res;
+            }
+        }
 
-        return $notificationIdList;
+        // Sorting function
+        usort($notificationList, function($a, $b) {
+            // Compare the dates in descending order
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        return $notificationList;
     }
 
+
     // fetch notification id for user
-    public function fetchUserNotificationId($userId)
+    public function fetchUserNotification($userId)
     {
         global $database;
 
-        $notificationIdList = [];
+        $notificationList = [];
 
         $response = $database->getReference("notifications")->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
 
         if ($response) {
-            foreach ($response as $key => $res)
-                if ($res['whose'] == 'user')
-                    $notificationIdList[] = $key;
+            foreach ($response as $key => $res) {
+                if ($res['whose'] == 'user') {
+                    $res ['notification_id'] = $key;
+                    $notificationList[] = $res;
+                }
+            }
         }
 
-        return $notificationIdList;
+        // Sorting function
+        usort($notificationList, function($a, $b) {
+            // Compare the dates in descending order
+            return strtotime($b['date']) - strtotime($a['date']);
+        });
+
+        return $notificationList;
     }
 
     // count adin notification

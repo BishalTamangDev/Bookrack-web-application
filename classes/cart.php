@@ -600,4 +600,24 @@ class Cart
 
         return $response ? true : false;
     }
+
+    public function checkIfReady($cartId)
+    {
+        global $database;
+        $ready = true;
+
+        $response = $database->getReference("carts/{$cartId}")->getSnapshot()->getValue();
+
+        if ($response) {
+            foreach ($response['book_list'] as $book) {
+                if ($book['arrived_date'] == '') {
+                    $ready = false;
+                }
+            }
+        } else {
+            $ready = false;
+        }
+
+        return $ready;
+    }
 }

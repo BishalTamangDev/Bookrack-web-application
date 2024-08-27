@@ -127,19 +127,29 @@ if ($profileAdmin->accountStatus != "verified")
                     success: function (response) {
                         if (response) {
                             mark_btn.html("Marked as arrived");
-
-                            // redirect to order summary page
-                            link = '/bookrack/admin/admin-order-summary/' + cart_id;
-
-                            setTimeout(function () {
-                                window.location.href = link;
-                            }, 2000);
+                            redirectToOrderSummary(cart_id);
                         } else {
                             mark_btn.html("Mark as arrived").prop('disabled', false);
                         }
                     }
                 });
             });
+
+            function redirectToOrderSummary(cart_id) {
+                // redirect to order summary page
+                $.ajax({
+                    type: "POST",
+                    url: "/bookrack/admin/app/check-if-cart-is-ready.php",
+                    data: { cartId: cart_id },
+                    success: function (response) {
+                        if (response) {
+                            // redirect to order summary page
+                            link = '/bookrack/admin/admin-order-summary/' + cart_id;
+                            window.location.href = link;
+                        }
+                    }
+                });
+            }
         });
     </script>
 </body>

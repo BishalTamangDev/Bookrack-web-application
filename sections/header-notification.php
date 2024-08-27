@@ -17,25 +17,25 @@ $bookObj = new Book();
 $cartObj = new Cart();
 $notificationObj = new Notification();
 
-$notificationIdList = $notificationObj->fetchUserNotificationId($userId);
+$notificationList = $notificationObj->fetchUserNotification($userId);
 
-if (sizeof($notificationIdList) == 0) {
+if (sizeof($notificationList) == 0) {
     ?>
     <div class="p-3 empty-notification">
         <p class="m-0"> Empty! </p>
     </div>
     <?php
 } else {
-    foreach ($notificationIdList as $notificationId) {
-        $notificationObj->fetch($notificationId);
-        $type = $notificationObj->type;
-        $date = $notificationObj->date;
+    foreach ($notificationList as $notification) {
+        $notificationId = $notification['notification_id'];
+        $type = $notification['type'];
+        $date = $notification['date'];
 
         // seen || unseen
-        $statusClass = $notificationObj->status == "unseen" ? "unseen-notification" : "seen-notification";
+        $statusClass = $notification['status'] == "unseen" ? "unseen-notification" : "seen-notification";
         
-        if ($notificationObj->type == "account-verified") {
-            $userObj->fetch($notificationObj->userId);
+        if ($notification['type'] == "account-verified") {
+            $userObj->fetch($notification['user_id']);
             $userName = $userObj->getFullName();
             $link = "/bookrack/profile/";
 
@@ -56,12 +56,12 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "new book") {
-            $userObj->fetch($notificationObj->userId);
+        } elseif ($type == "new book") {
+            $userObj->fetch($notification['user_id']);
             $userName = $userObj->getFullName();
-            $bookObj->fetch($notificationObj->bookId);
+            $bookObj->fetch($notification['book_id']);
             $bookTitle = $bookObj->title;
-            $link = "/bookrack/admin/admin-book-details/{$notificationObj->bookId}";
+            $link = "/bookrack/admin/admin-book-details/{$notification['book_id']}";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
                 <div class="icon-div">
@@ -82,9 +82,9 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "cart checkout") {
-            $userObj->fetch($notificationObj->userId);
-            $cartObj->fetch($notificationObj->cartId);
+        } elseif ($type == "cart checkout") {
+            $userObj->fetch($notification['user_id']);
+            $cartObj->fetch($notification['cart_id']);
             $link = "/bookrack/admin/admin-book-requests/{$cartObj->getId()}";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
@@ -107,8 +107,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "order-confirmation") {
-            $cartId = $notificationObj->cartId;
+        } elseif ($type == "order-confirmation") {
+            $cartId = $notification['cart_id'];
             $link = "/bookrack/cart/pending";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
@@ -131,8 +131,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "book-request") {
-            $bookObj->fetch($notificationObj->bookId);
+        } elseif ($type == "book-request") {
+            $bookObj->fetch($notification['book_id']);
             $title = ucwords($bookObj->title);
             $link = "/bookrack/requests";
             ?>
@@ -156,8 +156,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "book-received") {
-            $bookObj->fetch($notificationObj->bookId);
+        } elseif ($type == "book-received") {
+            $bookObj->fetch($notification['book_id']);
             $title = ucwords($bookObj->title);
             $link = "/bookrack/requests";
             ?>
@@ -181,8 +181,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "order-arrived") {
-            $cartId = $notificationObj->cartId;
+        } elseif ($type == "order-arrived") {
+            $cartId = $notification['cart_id'];
             $link = "/bookrack/cart/pending";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
@@ -205,8 +205,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "order-packed") {
-            $cartId = $notificationObj->cartId;
+        } elseif ($type == "order-packed") {
+            $cartId = $notification['cart_id'];
             $link = "/bookrack/cart/pending";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
@@ -229,8 +229,8 @@ if (sizeof($notificationIdList) == 0) {
                 </div>
             </div>
             <?php
-        } elseif ($notificationObj->type == "order-completed") {
-            $cartId = $notificationObj->cartId;
+        } elseif ($type == "order-completed") {
+            $cartId = $notification['cart_id'];
             $link = "/bookrack/cart/completed";
             ?>
             <div class="notification <?= $statusClass ?>" onclick="window.location.href='<?= $link ?>'" data-notification-id="<?=$notificationId?>">
