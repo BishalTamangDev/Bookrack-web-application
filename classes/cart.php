@@ -528,6 +528,32 @@ class Cart
         return $cartId;
     }
 
+    // fetch completed cart of user
+    public function fetchCompletedCartOfUser($userId) {
+        global $database;
+
+        $cartList = [];
+        
+        $response =  $database->getReference("carts")->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
+        
+        if($response) {
+            foreach($response as $key => $res) {
+                if($res['status'] == 'completed') {
+                    $res ['cart_id'] = $key; 
+                    $cartList[] = $res;
+                }
+            }
+        }
+
+        // Sorting function
+        usort($cartList, function($a, $b) {
+            // Compare the dates in descending order
+            return strtotime($b['date']['order_placed']) - strtotime($a['date']['order_placed']);
+        });
+
+        return $cartList;
+    }
+
     // mark cart as arrived
     public function orderArrived($currentDate)
     {

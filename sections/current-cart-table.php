@@ -68,8 +68,8 @@ $total = 0.0;
 
                         <td class="price">
                             <?php
-                                echo "NPR." . number_format($bookObj->priceOffer, 2);
-                                $total += $bookObj->priceOffer;
+                            echo "NPR." . number_format($bookObj->priceOffer, 2);
+                            $total += $bookObj->priceOffer;
                             ?>
                         </td>
 
@@ -83,7 +83,8 @@ $total = 0.0;
             } else {
                 ?>
                 <tr>
-                    <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your cart is empty!
+                    <td rowspan="2" colspan="8" class="text-danger pt-4" style="text-align:center"> Your current cart is
+                        empty!
                     </td>
                 </tr>
                 <?php

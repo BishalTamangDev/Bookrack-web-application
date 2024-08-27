@@ -25,6 +25,10 @@ if (sizeof($pendingCartIds) > 0) {
     foreach ($pendingCartIds as $pendingCartId) {
         $cart->fetch($pendingCartId);
         ?>
+        <div class="d-flex flex-row bg-light fit-content p-2">
+            <p class="mb-0"> Order ID : <?= $pendingCartId ?> </p>
+        </div>
+
         <!-- status details -->
         <div class="d-flex flex-row flex-wrap mt-3 gap-5 mb-2 pending-cart-status-div">
             <div class="pending-cart-status">
@@ -60,7 +64,7 @@ if (sizeof($pendingCartIds) > 0) {
             </div>
 
             <?php
-            if($cart->checkoutOption != 'click-and-collect') {
+            if ($cart->checkoutOption != 'click-and-collect') {
                 ?>
                 <div class="pending-cart-status">
                     <div class="status-image-div">
@@ -69,8 +73,8 @@ if (sizeof($pendingCartIds) > 0) {
                     </div>
                     <p class="m-0"> Shipped </p>
                 </div>
-                
-                
+
+
                 <div class="pending-cart-status">
                     <div class="status-image-div">
                         <img class="status-image <?= $cart->date['order_delivered'] != '' ? 'completed-status-image' : ''; ?>"
@@ -94,6 +98,7 @@ if (sizeof($pendingCartIds) > 0) {
         <!-- pending cart section -->
         <section class="d-flex flex-column-reverse flex-lg-row justify-content-between mb-3 pending-cart-section"
             id="pending-cart-section">
+
             <!-- cart details -->
             <div class="rounded p-1 cart-detail">
                 <table class="table cart-table">

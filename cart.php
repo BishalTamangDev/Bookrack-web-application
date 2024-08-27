@@ -349,26 +349,6 @@ $cart->setUserId($profileId);
             <?php
         } elseif ($tab == "completed") {
             ?>
-            <!-- skeleton cart -->
-            <div class="cart-loading-container">
-                <div class="loading-table">
-                    <div class="loading-heading">
-                        <p class=""> </p>
-                        <p class=""> </p>
-                        <p class=""> </p>
-                        <p class=""> </p>
-                    </div>
-
-                    <div class="loading-content">
-                        <p class=""> </p>
-                        <p class=""> </p>
-                        <p class=""> </p>
-                        <p class=""> </p>
-                    </div>
-                </div>
-                <div class="loading-checkout"> </div>
-            </div>
-
             <!-- completed cart -->
             <section class="d-flex flex-column-reverse flex-lg-row justify-content-between completed-cart-section"
                 id="completed-cart-section">
@@ -377,67 +357,32 @@ $cart->setUserId($profileId);
                         <thead>
                             <tr>
                                 <th scope="col">S.N.</th>
-                                <th scope="col">Book</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Purpose</th>
-                                <th scope="col">Price</th>
+                                <th scope="col">Cart ID</th>
+                                <th scope="col">Books</th>
+                                <th scope="col">Initiatiated Date</th>
+                                <th scope="col">Completed Date</th>
                             </tr>
                         </thead>
-                        <tbody>
+
+                        <tbody id="completed-cart-body">
+                            <tr class="d-none">
+                                <td> 1. </td>
+                                <td> 123456 </td>
+                                <td> Book 1, Book 2, Book 3 </td>
+                                <td> 0000-00-00 00:00:00 </td>
+                                <td> 0000-00-00 00:00:00 </td>
+                            </tr>
+
                             <tr>
-                                <th scope="row">1</th>
-                                <td>
-                                    <div class="book-image">
-                                        <img src="/bookrack/assets/images/book-1.jpg" alt="book photo" loading="lazy">
+                                <td colspan="7">
+                                    <div class="d-flex flex-row gap-2 table-loading-gif-container">
+                                        <img src="/bookrack/assets/gif/filled-fading-balls.gif" alt="" style="width: 20px;">
+                                        <p class="m-0 text-secondary"> Fetching completed carts... </p>
                                     </div>
                                 </td>
-                                <td class="title cursor"> The Black Universe </td>
-                                <td> Rent </td>
-                                <td class="price"> NRs. 140 </td>
-                                <td class="action"> <i class="fa fa-multiply fs-4"></i> </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <div class="d-flex flex-column rounded p-3 gap-3 checkout">
-                    <div class="heading">
-                        <p class="m-0"> ORDER SUMMARY </p>
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 checkout-detail-div">
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="m-0"> Checkout Type </p>
-                            <p class="m-0"> Cash on Delivery </p>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="m-0"> Shipping address </p>
-                            <p class="m-0"> Bansbari, Kathmandu </p>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between checkout-detail">
-                            <p class="m-0"> Arrival day </p>
-                            <p class="m-0"> 4 days </p>
-                        </div>
-                        <hr>
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 checkout-detail-div">
-                        <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="m-0"> Subtotal </p>
-                            <p class="m-0"> NRs. 150 </p>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="m-0"> Shipping </p>
-                            <p class="m-0"> NRs. 75 </p>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between  checkout-detail">
-                            <p class="m-0"> Total </p>
-                            <p class="m-0"> NRs. 225 </p>
-                        </div>
-                    </div>
                 </div>
             </section>
             <?php
@@ -538,6 +483,20 @@ $cart->setUserId($profileId);
                         $('#pending-cart-section').replaceWith(data);
                     }
                 });
+            } else if (current_tab == 'completed') {
+                // fetch completed cart table
+                function fetchCompletedCart() {
+                    $.ajax({
+                        type: "POST",
+                        url: "/bookrack/sections/completed-cart-table.php",
+                        data: { userId: '<?= $profileId ?>' },
+                        success: function (data) {
+                            $('#completed-cart-body').html(data);
+                        }
+                    });
+                }
+
+                fetchCompletedCart();
             }
 
             // checkout option
@@ -590,7 +549,6 @@ $cart->setUserId($profileId);
                     // redirect ro mobile wallet
                 }
             });
-
         });
     </script>
 </body>
