@@ -216,14 +216,6 @@ class Notification
     }
 
     // count adin notification
-    public function countAdminNotification()
-    {
-        global $database;
-        $response = $database->getReference("notifications")->orderByChild('whose')->equalTo('admin')->getSnapshot()->getValue();
-        return count($response);
-    }
-
-    // count adin notification
     public function countAdminUnseenNotification()
     {
         global $database;
@@ -235,20 +227,6 @@ class Notification
         foreach($response as $res) {
             if ($res['status'] == 'unseen')
                 $count++;
-        }
-        return $count;
-    }
-
-    // count user notification
-    public function countUserNotification($userId)
-    {
-        global $database;
-        $count = 0;
-        $response = $database->getReference('notifications')->orderByChild('user_id')->equalTo($userId)->getSnapshot()->getValue();
-        if ($response) {
-            foreach ($response as $key => $res)
-                if ($res['whose'] == 'user')
-                    $count++;                
         }
         return $count;
     }
