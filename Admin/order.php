@@ -26,8 +26,13 @@ if ($profileAdmin->accountStatus != "verified")
     <?php require_once __DIR__ . '/nav.php'; ?>
 
     <main class="main">
+        <div class="d-flex flex-row mt-5 pt-3 gap-3 heading">
+            <p class="f-reset fs-3 fw-bold"> Orders </p>
+            <button class="d-none btn btn-danger fit-content" id="clear-search"> Clear Search </button>
+        </div>
+
         <!-- cards -->
-        <section class="section mt-5 pt-3 card-container">
+        <section class="section mt-4 card-container">
             <!-- total orders -->
             <div class="card-v1">
                 <p class="card-v1-title"> Total Orders </p>
@@ -48,7 +53,7 @@ if ($profileAdmin->accountStatus != "verified")
         </section>
 
         <!-- table to section -->
-        <div class="section table-top-section">
+        <div class="d-none section table-top-section">
             <!-- filter -->
             <div class="filter-div flex-wrap">
                 <select class="form-select" aria-label="select" id="flag-select">
@@ -66,7 +71,7 @@ if ($profileAdmin->accountStatus != "verified")
             </div>
         </div>
 
-        <div class="table-container">
+        <div class="mt-4 table-container">
             <!-- book table -->
             <div class="table-container">
                 <table class="table table-striped book-table">
@@ -138,7 +143,7 @@ if ($profileAdmin->accountStatus != "verified")
             }
 
             // count total orders except current
-            function countCarts(){
+            function countCarts() {
                 // all cart :: except current
                 $.ajax({
                     url: "/bookrack/admin/app/count-all-carts.php",
@@ -163,7 +168,38 @@ if ($profileAdmin->accountStatus != "verified")
                     }
                 });
             }
-            
+
+            // search
+            $('#search-form').submit(function (e) {
+                e.preventDefault();
+
+                var search_content = $('#admin-search-content').val();
+
+                search_content = $.trim(search_content).toLowerCase();
+
+                if (search_content != '') {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/bookrack/admin/sections/search-order.php",
+                        data: { content: search_content },
+                        beforeSend: function () {
+                            $('#order-table-body').html("<tr> <td colspan = '7'> <div class='d-flex flex-row gap-2 table-loading-gif-container'> <img src='/bookrack/assets/gif/filled-fading-balls.gif' style='width: 20px;'> <p class='m-0 text-secondary'> Searching orders... </p> </div> </td> </tr>");
+                        },
+                        success: function (data) {
+                            $('#order-table-body').html(data);
+                            $('#clear-search').addClass('d-flex').removeClass('d-none');
+                        }
+                    });
+                }
+            });
+
+            $('#clear-search').click(function () {
+                fetchOrders();
+                $('#search-form').trigger('reset');
+                $('#clear-search').removeClass('d-flex').addClass('d-none');
+            });
+
             countCarts();
 
             fetchOrders();

@@ -95,7 +95,7 @@ if (isset($_GET['admin-search-content'])) {
             <!-- search form -->
             <div class="d-flex flex-row gap-2 search-form-container">
                 <?php
-                $eligiblePageList = ["users", "books", "arrivals"];
+                $eligiblePageList = ["users", "books", "arrivals", "order-summary"];
                 $visibilityClass = !in_array($page, $eligiblePageList) ? 'd-none' : '';
                 ?>
                 <form class="<?= $visibilityClass ?> d-flex flex-row search-form" id="search-form">
@@ -248,7 +248,7 @@ if (isset($_GET['admin-search-content'])) {
             }
 
             setInterval(function () {
-                countUnseenNotification();
+                // countUnseenNotification();
             }, 3000);
 
             // notification trigger
