@@ -248,7 +248,7 @@ if (isset($_GET['admin-search-content'])) {
             }
 
             setInterval(function () {
-                // countUnseenNotification();
+                countUnseenNotification();
             }, 3000);
 
             // notification trigger

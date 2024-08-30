@@ -62,13 +62,13 @@ $bookIdList = $bookObj->fetchAllBookId();
 
                     <!-- pending -->
                     <div class="card-v1">
-                        <p class="card-v1-title"> Pending </p>
+                        <p class="card-v1-title"> Pending Orders </p>
                         <p class="card-v1-detail" id="pending-orders"> - </p>
                     </div>
 
                     <!-- completed -->
                     <div class="card-v1">
-                        <p class="card-v1-title"> Completed </p>
+                        <p class="card-v1-title"> Completed Orders </p>
                         <p class="card-v1-detail" id="completed-orders"> - </p>
                     </div>
                 </div>
