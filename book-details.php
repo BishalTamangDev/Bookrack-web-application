@@ -64,9 +64,21 @@ $userExists = $profileUser->fetch($profileId);
                         <div class="d-flex flex-row justify-content-between description-deading-availability">
                             <p class="p f-reset fw-bold fs-4 text-secondary"> Description </p>
 
-                            <div class="d-flex flex-row align-items-center bg-success px-3 availability-div">
-                                <p class="f-reset text-light"> Available for Buy/Sell </p>
-                            </div>
+                            <?php
+                            if ($selectedBook->flag == 'on-hold' || $selectedBook->flag == 'sold-out') {
+                                ?>
+                                <div class="d-flex flex-row align-items-center bg-danger px-3 availability-div">
+                                    <p class="f-reset text-light"> Not Available for Buy/Sell </p>
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="d-flex flex-row align-items-center bg-success px-3 availability-div">
+                                    <p class="f-reset text-light"> Available for Buy/Sell </p>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
 
                         <!-- description container -->
@@ -212,7 +224,7 @@ $userExists = $profileUser->fetch($profileId);
                             require_once __DIR__ . '/classes/cart.php';
                             $cart = new Cart();
 
-                            if ($selectedBook->flag == 'on-hold') {
+                            if ($selectedBook->flag == 'on-hold' || $selectedBook->flag == 'sold-out') {
                                 ?>
                                 <a class="btn btn-danger"><i class="fa fa-shopping-cart"></i> Not available for now to add to cart
                                     :/ </a>
@@ -317,7 +329,7 @@ $userExists = $profileUser->fetch($profileId);
             }
 
             checkWishlist();
-            
+
             checkCart();
 
             // toggle wishlist
