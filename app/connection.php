@@ -9,7 +9,7 @@ use Kreait\Firebase\Factory;
 
 // google servive connection & realtime database connection
 
-$factory = (new Factory)->withServiceAccount('google-service-account.json')->withDatabaseUri('https://bookrack-b7541-default-rtdb.firebaseio.com/');
+$factory = (new Factory)->withServiceAccount('google-service-account.json')->withDatabaseUri('https://bookrack-ddec2-default-rtdb.firebaseio.com/');
 
 // initializing the realtime database
 global $database;
